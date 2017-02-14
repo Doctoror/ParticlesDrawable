@@ -27,8 +27,8 @@ public final class DemoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_demo);
-        findViewById(android.R.id.content).setBackgroundDrawable(mDrawable);
+        setContentView(R.layout.activity_demo);
+        findViewById(R.id.view).setBackgroundDrawable(mDrawable);
     }
 
     @Override
