@@ -1,0 +1,32 @@
+#Android Studio files
+*.iml
+.gradle
+gradle.properties
+gradle
+gradlew*
+.idea
+.DS_Store
+build
+keystore
+*.keystore
+
+#built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+proguard
+bin
+gen
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+/captures
+.externalNativeBuild
