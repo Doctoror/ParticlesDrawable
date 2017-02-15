@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.doctoror.particlesview.demo.DemoActivity">
+    tools:context="com.doctoror.particlesdrawable.demo.DemoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:gravity="center"
             android:text="ParticlesView, customized:"/>
 
-        <com.doctoror.particlesview.ParticlesView
+        <com.doctoror.particlesdrawable.ParticlesView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/black"

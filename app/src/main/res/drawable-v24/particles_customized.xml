@@ -3,7 +3,7 @@
 "Element drawable must be declared", but it works fine when
 compiling and running -->
 <drawable
-    class="com.doctoror.particlesview.ParticlesDrawable"
+    class="com.doctoror.particlesdrawable.ParticlesDrawable"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:minDotRadius="1dp"
     app:maxDotRadius="3dp"

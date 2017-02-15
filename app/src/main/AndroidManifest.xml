@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" package="com.doctoror.particlesview.demo">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.doctoror.particlesdrawable.demo">
 
     <application
         android:allowBackup="false"
@@ -10,7 +11,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".DemoActivity">
+        <activity android:name="com.doctoror.particlesdrawable.demo.DemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

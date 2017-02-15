@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.doctoror.particlesview.demo"
+        applicationId "com.doctoror.particlesdrawable.demo"
         minSdkVersion 9
         targetSdkVersion 25
         versionCode 1
