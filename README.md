@@ -34,13 +34,10 @@ protected void onStop() {
 ```
 
 ##Customization
-`ParticlesDrawable` as well as `ParticlesView`, contains setters for various customzations. `ParticlesView` can also be customized from an `xml`. Here is a list of all attributes, set with default values
+`ParticlesDrawable` as well as `ParticlesView`, contains setters for various customzations. They both can also be customized from an `xml`. Here is a list of all attributes, set with default values
 
 ```xml
 <com.doctoror.particlesview.ParticlesView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black"
     app:minDotRadius="1dp"
     app:maxDotRadius="3dp"
     app:lineThickness="1dp"
@@ -51,6 +48,25 @@ protected void onStop() {
     app:frameDelayMillis="10"
     app:stepMultiplier="1"/>
 ```
+
+Since API 24, you may also customize the Drawable in `xml`. For example, create
+`drawable-v24/particles_120dots.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Some versions of Android Studio may show false warning,
+"Element drawable must be declared", but it works fine when
+compiling and running -->
+<drawable
+    class="com.doctoror.particlesview.ParticlesDrawable"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:numDots="120"/>
+```
+And inflate, like
+```java
+mDrawable = (ParticlesDrawable) ContextCompat
+        .getDrawable(this, R.drawable.particles_120dots);
+```
+
 
 ##License
 ```
