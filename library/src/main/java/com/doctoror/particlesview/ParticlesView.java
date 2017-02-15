@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.os.Build;
-import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
@@ -65,44 +64,13 @@ public class ParticlesView extends View {
             setLayerType(LAYER_TYPE_HARDWARE, mDrawable.getPaint());
         }
         if (attrs != null) {
-            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ParticlesView);
-            final int count = a.getIndexCount();
-            float minDotRadius = ParticlesDrawable.DEFAULT_MIN_DOT_RADIUS;
-            float maxDotRadius = ParticlesDrawable.DEFAULT_MAX_DOT_RADIUS;
-            for (int i = 0; i < count; i++) {
-                final int attr = a.getIndex(i);
-                if (attr == R.styleable.ParticlesView_minDotRadius) {
-                    minDotRadius = a.getDimension(attr, ParticlesDrawable.DEFAULT_MIN_DOT_RADIUS);
-
-                } else if (attr == R.styleable.ParticlesView_maxDotRadius) {
-                    maxDotRadius = a.getDimension(attr, ParticlesDrawable.DEFAULT_MAX_DOT_RADIUS);
-
-                } else if (attr == R.styleable.ParticlesView_lineThickness) {
-                    setLineThickness(
-                            a.getDimension(attr, ParticlesDrawable.DEFAULT_LINE_THICKNESS));
-
-                } else if (attr == R.styleable.ParticlesView_lineDistance) {
-                    setLineDistance(a.getDimension(attr, ParticlesDrawable.DEFAULT_LINE_DISTANCE));
-
-                } else if (attr == R.styleable.ParticlesView_numDots) {
-                    setNumDots(a.getInteger(attr, ParticlesDrawable.DEFAULT_DOT_NUMBER));
-
-                } else if (attr == R.styleable.ParticlesView_dotColor) {
-                    setDotColor(a.getColor(attr, ParticlesDrawable.DEFAULT_DOT_COLOR));
-
-                } else if (attr == R.styleable.ParticlesView_lineColor) {
-                    setLineColor(a.getColor(attr, ParticlesDrawable.DEFAULT_LINE_COLOR));
-
-                } else if (attr == R.styleable.ParticlesView_frameDelayMillis) {
-                    setFrameDelay(a.getInteger(attr, ParticlesDrawable.DEFAULT_DELAY));
-
-                } else if (attr == R.styleable.ParticlesView_stepMultiplier) {
-                    setStepMultiplier(a.getFloat(attr, ParticlesDrawable.DEFAULT_STEP_MULTIPLIER));
-
-                }
+            final TypedArray a = context
+                    .obtainStyledAttributes(attrs, R.styleable.ParticlesDrawable);
+            try {
+                mDrawable.handleAttrs(a);
+            } finally {
+                a.recycle();
             }
-            setDotRadiusRange(minDotRadius, maxDotRadius);
-            a.recycle();
         }
     }
 

@@ -15,7 +15,11 @@
  */
 package com.doctoror.particlesview;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -28,8 +32,11 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.util.TypedValue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -50,29 +57,29 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
 
     private static final float STEP_PER_MS = 0.05f;
 
-    static final int DEFAULT_DOT_NUMBER = 60;
+    private static final int DEFAULT_DOT_NUMBER = 60;
 
-    static final float DEFAULT_MAX_DOT_RADIUS = TypedValue.applyDimension(
+    private static final float DEFAULT_MAX_DOT_RADIUS = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 3f, Resources.getSystem().getDisplayMetrics());
 
-    static final float DEFAULT_MIN_DOT_RADIUS = TypedValue.applyDimension(
+    private static final float DEFAULT_MIN_DOT_RADIUS = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().getDisplayMetrics());
 
-    static final float DEFAULT_LINE_THICKNESS = TypedValue.applyDimension(
+    private static final float DEFAULT_LINE_THICKNESS = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 1, Resources.getSystem().getDisplayMetrics());
 
     @ColorInt
-    static final int DEFAULT_DOT_COLOR = Color.WHITE;
+    private static final int DEFAULT_DOT_COLOR = Color.WHITE;
 
     @ColorInt
-    static final int DEFAULT_LINE_COLOR = Color.WHITE;
+    private static final int DEFAULT_LINE_COLOR = Color.WHITE;
 
-    static final float DEFAULT_LINE_DISTANCE = TypedValue.applyDimension(
+    private static final float DEFAULT_LINE_DISTANCE = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 86, Resources.getSystem().getDisplayMetrics());
 
-    static final float DEFAULT_STEP_MULTIPLIER = 1f;
+    private static final float DEFAULT_STEP_MULTIPLIER = 1f;
 
-    static final int DEFAULT_DELAY = 10;
+    private static final int DEFAULT_DELAY = 10;
 
     private final List<ParticleDot> mPoints = new ArrayList<>(DEFAULT_DOT_NUMBER);
 
@@ -107,6 +114,59 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
 
     // The alpha value of this Drawable
     private int mAlpha = 255;
+
+    @Override
+    public void inflate(@NonNull final Resources r,
+            @NonNull final XmlPullParser parser,
+            @NonNull final AttributeSet attrs,
+            @Nullable final Resources.Theme theme) throws XmlPullParserException, IOException {
+        super.inflate(r, parser, attrs, theme);
+        final TypedArray a = r.obtainAttributes(attrs, R.styleable.ParticlesDrawable);
+        try {
+            handleAttrs(a);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    void handleAttrs(@NonNull final TypedArray a) {
+        final int count = a.getIndexCount();
+        float minDotRadius = ParticlesDrawable.DEFAULT_MIN_DOT_RADIUS;
+        float maxDotRadius = ParticlesDrawable.DEFAULT_MAX_DOT_RADIUS;
+        for (int i = 0; i < count; i++) {
+            final int attr = a.getIndex(i);
+            if (attr == R.styleable.ParticlesDrawable_minDotRadius) {
+                minDotRadius = a.getDimension(attr, ParticlesDrawable.DEFAULT_MIN_DOT_RADIUS);
+
+            } else if (attr == R.styleable.ParticlesDrawable_maxDotRadius) {
+                maxDotRadius = a.getDimension(attr, ParticlesDrawable.DEFAULT_MAX_DOT_RADIUS);
+
+            } else if (attr == R.styleable.ParticlesDrawable_lineThickness) {
+                setLineThickness(
+                        a.getDimension(attr, ParticlesDrawable.DEFAULT_LINE_THICKNESS));
+
+            } else if (attr == R.styleable.ParticlesDrawable_lineDistance) {
+                setLineDistance(a.getDimension(attr, ParticlesDrawable.DEFAULT_LINE_DISTANCE));
+
+            } else if (attr == R.styleable.ParticlesDrawable_numDots) {
+                setNumDots(a.getInteger(attr, ParticlesDrawable.DEFAULT_DOT_NUMBER));
+
+            } else if (attr == R.styleable.ParticlesDrawable_dotColor) {
+                setDotColor(a.getColor(attr, ParticlesDrawable.DEFAULT_DOT_COLOR));
+
+            } else if (attr == R.styleable.ParticlesDrawable_lineColor) {
+                setLineColor(a.getColor(attr, ParticlesDrawable.DEFAULT_LINE_COLOR));
+
+            } else if (attr == R.styleable.ParticlesDrawable_frameDelayMillis) {
+                setFrameDelay(a.getInteger(attr, ParticlesDrawable.DEFAULT_DELAY));
+
+            } else if (attr == R.styleable.ParticlesDrawable_stepMultiplier) {
+                setStepMultiplier(a.getFloat(attr, ParticlesDrawable.DEFAULT_STEP_MULTIPLIER));
+
+            }
+        }
+        setDotRadiusRange(minDotRadius, maxDotRadius);
+    }
 
     @NonNull
     public Paint getPaint() {
