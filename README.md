@@ -1,4 +1,4 @@
-# ParticlesView
+# ParticlesDrawable
 Android Particles Drawable and View
 
 ##Screenshots
@@ -37,7 +37,7 @@ protected void onStop() {
 `ParticlesDrawable` as well as `ParticlesView`, contains setters for various customzations. They both can also be customized from an `xml`. Here is a list of all attributes, set with default values
 
 ```xml
-<com.doctoror.particlesview.ParticlesView
+<com.doctoror.particlesdrawable.ParticlesView
     app:minDotRadius="1dp"
     app:maxDotRadius="3dp"
     app:lineThickness="1dp"
@@ -57,7 +57,7 @@ Since API 24, you may also customize the Drawable in `xml`. For example, create
 "Element drawable must be declared", but it works fine when
 compiling and running -->
 <drawable
-    class="com.doctoror.particlesview.ParticlesDrawable"
+    class="com.doctoror.particlesdrawable.ParticlesDrawable"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:numDots="120"/>
 ```
