@@ -29,14 +29,13 @@ public final class DemoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demo);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mDrawable = (ParticlesDrawable) ContextCompat
                     .getDrawable(this, R.drawable.particles_customized);
         } else {
             mDrawable = new ParticlesDrawable();
         }
-        findViewById(R.id.view).setBackgroundDrawable(mDrawable);
+        findViewById(android.R.id.content).setBackgroundDrawable(mDrawable);
     }
 
     @Override
