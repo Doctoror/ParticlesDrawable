@@ -1,7 +1,7 @@
 # ParticlesDrawable
 Android Particles Drawable and View
 
-##Screenshots
+## Screenshots
 ![screenshot](/screenshots/default.gif?raw=true)
 
 ![screenshot](/screenshots/Demo.png?raw=true)
@@ -33,7 +33,7 @@ protected void onStop() {
 }
 ```
 
-##Customization
+## Customization
 `ParticlesDrawable` as well as `ParticlesView`, contains setters for various customzations. They both can also be customized from an `xml`. Here is a list of all attributes, set with default values
 
 ```xml
@@ -68,7 +68,7 @@ mDrawable = (ParticlesDrawable) ContextCompat
 ```
 
 
-##License
+## License
 ```
 Copyright 2017 Yaroslav Mytkalyk
 
