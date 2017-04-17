@@ -1,5 +1,17 @@
 # ParticlesDrawable
-Android Particles Drawable and View
+Android Particles Drawable and View.
+
+Min API level 9.
+
+# Add to your project
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.doctoror.particlesdrawable/library/badge.png?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.doctoror.particlesdrawable/library)
+
+```groovy
+dependencies {
+    compile 'com.github.doctoror.particlesdrawable:library:[version]'
+}
+```
 
 ## Screenshots
 ![screenshot](/screenshots/default.gif?raw=true)
