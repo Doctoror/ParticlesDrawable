@@ -25,16 +25,42 @@ import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewParent;
 
 /**
- * The Particles View
+ * The Particles View.
+ *
+ * Automatically starts on {@link #onAttachedToWindow()} or when visibility is set to
+ * {@link #VISIBLE}. Automatically stops on {@link #onDetachedFromWindow()} or when visbility set
+ * to {@link #INVISIBLE} or {@link #GONE}.
+ *
+ * You may also use {@link #start()} and {@link #stop()} on your behalf. Note when you call {@link
+ * #stop()} explicitly, the animation will not automatically restart when you trigger visibility or
+ * when this View gets attached to window.
+ *
+ * The View cannot tell whether your hosting {@link android.app.Activity} or
+ * {@link android.app.Fragment} is started or stopped. It can only tell when it's being destroyed
+ * ({@link #onDetachedFromWindow()} will be called) so this is where it stops animations
+ * automatically. Thus, It is recommended to call {@link #stop()} when the hosting component gets
+ * onStop() call and call {@link #start()} when the hosting component gets onStart() call.
  */
 public class ParticlesView extends View {
 
     // We don't use this Drawable as background so that the user might be able to set it's own
     private final ParticlesDrawable mDrawable = new ParticlesDrawable();
+
+    /**
+     * Whether explicitly stopped by user. This means it will not start automatically on visibility
+     * change or when attached to window.
+     */
+    @VisibleForTesting
+    boolean mExplicitlyStopped;
+
+    private boolean mAttachedToWindow;
+    private boolean mEmulateOnAttachToWindow;
 
     public ParticlesView(final Context context) {
         super(context);
@@ -172,15 +198,93 @@ public class ParticlesView extends View {
     }
 
     @Override
+    protected void onVisibilityChanged(@NonNull final View changedView, final int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        if (visibility != View.VISIBLE) {
+            stopInternal();
+        } else {
+            startInternal();
+        }
+    }
+
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mDrawable.start();
-        postInvalidateDelayed(mDrawable.getFrameDelay());
+        mAttachedToWindow = true;
+        startInternal();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        mAttachedToWindow = false;
+        stopInternal();
+    }
+
+    /**
+     * Start animating. This will clear the explicit control flag if set by {@link #stop()}.
+     * Note that if this View's visibility is not {@link #VISIBLE} or it's not attached to window,
+     * this will not start animating until the state changes to meet the requirements above.
+     */
+    public void start() {
+        mExplicitlyStopped = false;
+        startInternal();
+    }
+
+    /**
+     * Explicilty stop animating. This will stop animating and no animations will start
+     * automatically until you call {@link #start()}.
+     */
+    public void stop() {
+        mExplicitlyStopped = true;
+        stopInternal();
+    }
+
+    @VisibleForTesting
+    void startInternal() {
+        if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
+            mDrawable.start();
+            postInvalidateDelayed(mDrawable.getFrameDelay());
+        }
+    }
+
+    @VisibleForTesting
+    void stopInternal() {
         mDrawable.stop();
+    }
+
+    @VisibleForTesting
+    boolean isRunning() {
+        return mDrawable.isRunning();
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    void setEmulateOnAttachToWindow(final boolean emulateOnAttachToWindow) {
+        mEmulateOnAttachToWindow = emulateOnAttachToWindow;
+    }
+
+    @SuppressWarnings("SimplifiableIfStatement")
+    private boolean isAttachedToWindowCompat() {
+        if (mEmulateOnAttachToWindow) {
+            return mAttachedToWindow;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return isAttachedToWindow();
+        }
+        return mAttachedToWindow;
+    }
+
+    private boolean isVisibleWithAllParents(@NonNull final View view) {
+        if (view.getVisibility() != VISIBLE) {
+            return false;
+        }
+
+        final ViewParent parent = view.getParent();
+        if (parent instanceof View) {
+            return isVisibleWithAllParents((View) parent);
+        }
+
+        return true;
     }
 }

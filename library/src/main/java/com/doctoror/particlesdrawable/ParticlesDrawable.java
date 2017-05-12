@@ -232,14 +232,18 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
 
     @Override
     public void start() {
-        mAnimating = true;
-        gotoNextFrameAndSchedule();
+        if (!mAnimating) {
+            mAnimating = true;
+            gotoNextFrameAndSchedule();
+        }
     }
 
     @Override
     public void stop() {
-        mAnimating = false;
-        unscheduleSelf(this);
+        if (mAnimating) {
+            mAnimating = false;
+            unscheduleSelf(this);
+        }
     }
 
     @Override
