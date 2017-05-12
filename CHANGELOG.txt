@@ -1,0 +1,11 @@
+v 1.0.1
+
+ParticlesDrawable:
+- Fixed IllegalArgumentException when set bounds resulted in width, height or both set to zero
+- Added makeBrandNewFrame() method which resets all positions and makes a random new frame. Is useful if you are using ParticlesDrawable as static, not animating backgounrd.
+- Added unit tests
+
+ParticlesView:
+- Now will not animate if visibility of this View or one of it's parents is not set to VISIBLE
+- Added start() and stop() methods which allows you to control animations.
+- Added unit tests
