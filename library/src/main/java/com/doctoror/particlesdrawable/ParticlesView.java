@@ -222,6 +222,14 @@ public class ParticlesView extends View {
     }
 
     /**
+     * Resets and makes new random frame. This is useful for re-generating new fancy static
+     * backgrounds when not using animations.
+     */
+    public void makeBrandNewFrame() {
+        mDrawable.makeBrandNewFrame();
+    }
+
+    /**
      * Start animating. This will clear the explicit control flag if set by {@link #stop()}.
      * Note that if this View's visibility is not {@link #VISIBLE} or it's not attached to window,
      * this will not start animating until the state changes to meet the requirements above.
