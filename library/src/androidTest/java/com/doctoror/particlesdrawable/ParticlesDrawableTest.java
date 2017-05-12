@@ -28,6 +28,7 @@ public final class ParticlesDrawableTest {
     @Test
     public void testIsRunningWhenStarted() {
         final ParticlesDrawable d = new ParticlesDrawable();
+        d.setBounds(0, 0, 10, 10);
         d.start();
         try {
             assertTrue(d.isRunning());
@@ -39,9 +40,50 @@ public final class ParticlesDrawableTest {
     @Test
     public void testIsStopedWhenStopped() {
         final ParticlesDrawable d = new ParticlesDrawable();
+        d.setBounds(0, 0, 10, 10);
         d.start();
         d.stop();
         assertFalse(d.isRunning());
+    }
+
+    @Test
+    public void testSetBoundsWhenRunning() {
+        final ParticlesDrawable d = new ParticlesDrawable();
+        d.start();
+        d.setBounds(0, 0, 10, 10);
+        d.stop();
+    }
+
+    @Test
+    public void testWithZeroBounds() {
+        final ParticlesDrawable d = new ParticlesDrawable();
+        d.setBounds(0, 0, 0, 0);
+        d.start();
+        assertTrue(d.isRunning());
+        d.stop();
+        assertFalse(d.isRunning());
+    }
+
+    @Test
+    public void testMakeBrandNewFrameWithZeroBounds() {
+        final ParticlesDrawable d = new ParticlesDrawable();
+        d.makeBrandNewFrame();
+    }
+
+    @Test
+    public void testMakeBrandNewFrame() {
+        final ParticlesDrawable d = new ParticlesDrawable();
+        d.setBounds(0, 0, 10, 10);
+        d.makeBrandNewFrame();
+    }
+
+    @Test
+    public void testMakeBrandNewFrameWhenRunning() {
+        final ParticlesDrawable d = new ParticlesDrawable();
+        d.setBounds(0, 0, 10, 10);
+        d.start();
+        d.makeBrandNewFrame();
+        d.stop();
     }
 
 }

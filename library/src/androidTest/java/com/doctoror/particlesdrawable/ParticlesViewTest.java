@@ -143,4 +143,17 @@ public final class ParticlesViewTest {
             v.stopInternal();
         }
     }
+
+    @Test
+    public void testMakeBrandNewFrameWhenRunning() {
+        final ParticlesView v = newAttachedAndVisibleParticlesView();
+        v.makeBrandNewFrame();
+    }
+
+    @Test
+    public void testMakeBrandNewFrameWhenStopped() {
+        final ParticlesView v = newAttachedAndVisibleParticlesView();
+        v.startInternal();
+        v.makeBrandNewFrame();
+    }
 }
