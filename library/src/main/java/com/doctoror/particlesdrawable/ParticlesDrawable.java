@@ -269,6 +269,19 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
     }
 
     /**
+     * Resets and makes new random frame. This is useful for re-generating new fancy static
+     * backgrounds when not using animations.
+     */
+    public void makeBrandNewFrame() {
+        final int numDots = mNumDots;
+        setNumDots(0);
+        setNumDots(numDots);
+        if (getWidth() != 0 && getHeight() != 0) {
+            initPoints();
+        }
+    }
+
+    /**
      * Set a delay per frame in milliseconds.
      *
      * @param delay delay between frames
@@ -390,13 +403,19 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
     @Override
     public void setBounds(final int left, final int top, final int right, final int bottom) {
         super.setBounds(left, top, right, bottom);
-        if (!mPointsInited) {
-            mPointsInited = true;
-            initPoints();
+        if (right - left > 0 && bottom - top > 0) {
+            if (!mPointsInited) {
+                mPointsInited = true;
+                initPoints();
+            }
         }
     }
 
     private void initPoints() {
+        if (getWidth() == 0 || getHeight() == 0) {
+            throw new IllegalStateException("Cannot init points if width or height is 0");
+        }
+        mPoints.clear();
         for (int i = 0; i < mNumDots; i++) {
             mPoints.add(makeNewPoint(i % 2 == 0));
         }
@@ -404,6 +423,10 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
 
     @NonNull
     private ParticleDot makeNewPoint(final boolean onScreen) {
+        if (getWidth() == 0 || getHeight() == 0) {
+            throw new IllegalStateException("Cannot make new point if width or height is 0");
+        }
+
         final ParticleDot point = new ParticleDot();
         if (onScreen) {
             applyFreshPointOnScreen(point);
@@ -439,11 +462,17 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
      * @param p {@link ParticleDot} to apply new values to
      */
     private void applyFreshPointOnScreen(@NonNull final ParticleDot p) {
+        final int w = getWidth();
+        final int h = getHeight();
+        if (w == 0 || h == 0) {
+            throw new IllegalStateException("Cannot apply points if width or height is 0");
+        }
+
         final double direction = Math.toRadians(mRandom.nextInt(360));
         p.dCos = (float) Math.cos(direction);
         p.dSin = (float) Math.sin(direction);
-        p.x = (float) mRandom.nextInt(getWidth());
-        p.y = (float) mRandom.nextInt(getHeight());
+        p.x = (float) mRandom.nextInt(w);
+        p.y = (float) mRandom.nextInt(h);
         p.stepMultiplier = newRandomIndividualDotStepMultiplier();
         p.radius = newRandomIndividualDotRadius();
     }
@@ -476,6 +505,9 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
     private void applyFreshPointOffScreen(@NonNull final ParticleDot p) {
         final int w = getWidth();
         final int h = getHeight();
+        if (w == 0 || h == 0) {
+            throw new IllegalStateException("Cannot apply points if width or height is 0");
+        }
 
         p.x = (float) mRandom.nextInt(w);
         p.y = (float) mRandom.nextInt(h);
