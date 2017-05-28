@@ -16,6 +16,7 @@
 package com.doctoror.particlesdrawable;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public final class ParticlesDrawableTest {
@@ -84,6 +85,14 @@ public final class ParticlesDrawableTest {
         d.start();
         d.makeBrandNewFrame();
         d.stop();
+    }
+
+    @Test
+    public void testDotRadiusRangeThatRoundsUpToTheSameInt() throws Throwable {
+        final ParticlesDrawable d = new ParticlesDrawable();
+        d.setBounds(0, 0, 10, 10);
+        d.setDotRadiusRange(0.5f, 0.6f);
+        d.makeBrandNewFrame();
     }
 
 }

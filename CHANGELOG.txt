@@ -1,3 +1,9 @@
+v 1.0.2
+
+ParticlesDrawable:
+- Fixed "java.lang.IllegalArgumentException: n must be positive" when radius range values round up to the same int
+
+
 v 1.0.1
 
 ParticlesDrawable:

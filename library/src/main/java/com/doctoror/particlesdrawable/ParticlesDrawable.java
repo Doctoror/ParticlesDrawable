@@ -494,7 +494,7 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
      */
     private float newRandomIndividualDotRadius() {
         return mMinDotRadius == mMaxDotRadius ? mMinDotRadius : mMinDotRadius
-                + (mRandom.nextInt((int) (mMaxDotRadius - mMinDotRadius) * 100)) / 100f;
+                + (mRandom.nextInt((int) ((mMaxDotRadius - mMinDotRadius) * 100f))) / 100f;
     }
 
     /**
