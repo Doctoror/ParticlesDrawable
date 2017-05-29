@@ -17,45 +17,45 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.doctoror.particleswallpaper.presentation.preference.ColorPreferenceNoPreview
+        android:key="@string/pref_key_color"
+        android:title="@string/Color"
+        android:defaultValue="@android:color/white"
+        android:persistent="false"/>
+
     <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
         android:key="@string/pref_key_num_dots"
         android:title="@string/Number_of_dots"
-        android:defaultValue="59"
         android:persistent="false"
         app:max="119"/>
 
     <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
         android:key="@string/pref_key_dot_scale"
         android:title="@string/Dot_scale"
-        android:defaultValue="1"
         android:persistent="false"
         app:max="70"/>
 
     <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
         android:key="@string/pref_key_line_scale"
         android:title="@string/Line_scale"
-        android:defaultValue="1"
         android:persistent="false"
         app:max="70"/>
 
     <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
         android:key="@string/pref_key_line_distance"
         android:title="@string/Line_distance"
-        android:defaultValue="1"
         android:persistent="false"
         app:max="100"/>
 
     <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
         android:key="@string/pref_key_step_multiplier"
         android:title="@string/Speed_factor"
-        android:defaultValue="10"
         android:persistent="false"
         app:max="40"/>
 
     <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
         android:key="@string/pref_key_frame_delay"
         android:title="@string/Frame_rate"
-        android:defaultValue="20"
         android:persistent="false"
         app:max="80"/>
 

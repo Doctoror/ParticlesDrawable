@@ -25,5 +25,6 @@
     <string name="Line_distance">Line distance</string>
     <string name="Speed_factor">Speed factor</string>
     <string name="Frame_rate">Frame rate</string>
+    <string name="Color">Color</string>
 
 </resources>

@@ -15,6 +15,8 @@
  */
 package com.doctoror.particleswallpaper.data.prefs;
 
+import android.graphics.Color;
+
 import ds.gendalf.PrefsConfig;
 
 /**
@@ -30,4 +32,6 @@ public interface PrefsConfigPrefs {
     float dotScale = 0f;
     float lineScale = 0f;
     float lineDistance = 0f;
+
+    int color = Color.WHITE;
 }

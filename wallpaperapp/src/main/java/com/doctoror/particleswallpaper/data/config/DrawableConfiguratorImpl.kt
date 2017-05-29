@@ -27,10 +27,15 @@ class DrawableConfiguratorImpl : DrawableConfigurator {
 
     override fun configure(drawable: ParticlesDrawable, settings: SettingsRepository) {
         drawable.setNumDots(settings.getNumDots())
-        drawable.setStepMultiplier(settings.getStepMultiplier())
-
-        drawable.setFrameDelay(settings.getFrameDelay())
         val radiusRange = DotRadiusMapper.transform(settings.getDotScale())
         drawable.setDotRadiusRange(radiusRange.first, radiusRange.second)
+        drawable.setLineThickness(settings.getLineScale())
+        drawable.setLineDistance(settings.getLineDistance())
+
+        drawable.setStepMultiplier(settings.getStepMultiplier())
+        drawable.setFrameDelay(settings.getFrameDelay())
+
+        drawable.setLineColor(settings.getColor())
+        drawable.setDotColor(settings.getColor())
     }
 }

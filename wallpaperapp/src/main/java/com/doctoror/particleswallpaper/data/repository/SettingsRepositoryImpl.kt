@@ -75,4 +75,10 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
     override fun setLineDistance(lineDistance: Float) {
         prefs.lineDistance = lineDistance
     }
+
+    override fun getColor() = prefs.color
+
+    override fun setColor(color: Int) {
+        prefs.color = color
+    }
 }

@@ -37,4 +37,7 @@ interface SettingsRepository {
 
     fun getLineDistance() : Float
     fun setLineDistance(lineDistance : Float)
+
+    fun getColor() : Int
+    fun setColor(color : Int)
 }

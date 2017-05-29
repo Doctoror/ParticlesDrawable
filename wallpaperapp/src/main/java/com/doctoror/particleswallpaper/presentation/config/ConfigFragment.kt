@@ -23,6 +23,7 @@ import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
+import com.rarepebble.colorpicker.ColorPreference
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
@@ -55,6 +56,10 @@ class ConfigFragment : android.preference.PreferenceFragment() {
         findPreference(getString(R.string.pref_key_line_distance)) as SeekBarPreference
     }
 
+    private val prefColor: ColorPreference by lazy {
+        findPreference(getString(R.string.pref_key_color)) as ColorPreference
+    }
+
     private val settings: SettingsRepository by lazy {
         SettingsRepositoryFactory.provideSettingsRepository(activity)
     }
@@ -77,6 +82,7 @@ class ConfigFragment : android.preference.PreferenceFragment() {
         prefLineDistance.progress = ConfigMapper.toSeekbarLineDistance(settings.getLineDistance())
         prefStepMultiplier.progress = ConfigMapper.toSeekbarStepMultiplier(settings.getStepMultiplier())
         prefFrameDelay.progress = ConfigMapper.toSeekbarFrameRate(settings.getFrameDelay())
+        prefColor.color = settings.getColor()
     }
 
     fun initPrefs() {
@@ -134,6 +140,15 @@ class ConfigFragment : android.preference.PreferenceFragment() {
                 val value = ConfigMapper.toFrameDelay(v)
                 particlesDrawable.setFrameDelay(value)
                 settings.setFrameDelay(value)
+            }
+            true
+        })
+
+        prefColor.setOnPreferenceChangeListener({ p, v ->
+            if (v is Int) {
+                particlesDrawable.setDotColor(v)
+                particlesDrawable.setLineColor(v)
+                settings.setColor(v)
             }
             true
         })
