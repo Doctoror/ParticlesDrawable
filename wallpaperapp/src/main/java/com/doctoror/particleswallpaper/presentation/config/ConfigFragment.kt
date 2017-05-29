@@ -46,6 +46,10 @@ class ConfigFragment : android.preference.PreferenceFragment() {
         findPreference(getString(R.string.pref_key_dot_scale)) as SeekBarPreference
     }
 
+    private val prefLineScale: SeekBarPreference by lazy {
+        findPreference(getString(R.string.pref_key_line_scale)) as SeekBarPreference
+    }
+
     private val settings: SettingsRepository by lazy {
         SettingsRepositoryFactory.provideSettingsRepository(activity)
     }
@@ -86,6 +90,16 @@ class ConfigFragment : android.preference.PreferenceFragment() {
                 particlesDrawable.setDotRadiusRange(radiusRange.first, radiusRange.second)
                 particlesDrawable.makeBrandNewFrame()
                 settings.setDotScale(value)
+            }
+            true
+        })
+
+        prefLineScale.setOnPreferenceChangeListener({ p, v ->
+            if (v is Int) {
+                val value = ConfigMapper.toLineScale(v)
+                particlesDrawable.setLineThickness(value)
+                particlesDrawable.makeBrandNewFrame()
+                settings.setLineScale(value)
             }
             true
         })

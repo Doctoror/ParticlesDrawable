@@ -32,7 +32,7 @@
         app:max="70"/>
 
     <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
-        android:key="@string/pref_key_dot_scale"
+        android:key="@string/pref_key_line_scale"
         android:title="@string/Line_scale"
         android:defaultValue="1"
         android:persistent="false"

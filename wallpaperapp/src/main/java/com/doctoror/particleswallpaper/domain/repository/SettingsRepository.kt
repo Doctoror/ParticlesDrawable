@@ -31,4 +31,7 @@ interface SettingsRepository {
 
     fun getDotScale() : Float
     fun setDotScale(dotScale : Float)
+
+    fun getLineScale() : Float
+    fun setLineScale(lineScale : Float)
 }

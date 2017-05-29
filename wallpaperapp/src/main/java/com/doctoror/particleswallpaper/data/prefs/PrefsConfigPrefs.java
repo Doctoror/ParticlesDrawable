@@ -27,5 +27,6 @@ public interface PrefsConfigPrefs {
     int frameDelay = 10;
     float stepMultiplier = 1f;
 
-    float dotScale = 1f;
+    float dotScale = 0f;
+    float lineScale = 0f;
 }

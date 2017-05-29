@@ -16,6 +16,8 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.Context
+import android.content.res.Resources
+import android.util.TypedValue
 import com.doctoror.particleswallpaper.data.prefs.Prefs
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 
@@ -44,9 +46,23 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
         prefs.stepMultiplier = stepMultiplier;
     }
 
-    override fun getDotScale() = prefs.dotScale;
+    override fun getDotScale(): Float {
+        val scale = prefs.dotScale
+        return if (scale != 0f) scale
+        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().displayMetrics)
+    }
 
     override fun setDotScale(dotScale: Float) {
         prefs.dotScale = dotScale
+    }
+
+    override fun getLineScale(): Float {
+        val scale = prefs.lineScale
+        return if (scale != 0f) scale
+        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().displayMetrics)
+    }
+
+    override fun setLineScale(lineScale: Float) {
+        prefs.lineScale = lineScale
     }
 }
