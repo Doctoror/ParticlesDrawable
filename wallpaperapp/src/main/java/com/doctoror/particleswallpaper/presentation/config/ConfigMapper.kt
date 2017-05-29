@@ -37,6 +37,9 @@ class ConfigMapper {
         @JvmStatic fun toLineScale(seekbarValue : Int) = seekbarValue / 5f + 1f
         @JvmStatic fun toSeekbarLineScale(value : Float) = ((value - 1f) * 5f).toInt()
 
+        @JvmStatic fun toLineDistance(seekbarValue : Int) = seekbarValue * 3f
+        @JvmStatic fun toSeekbarLineDistance(value : Float) = (value / 3f).toInt()
+
         /**
          * The seek bar represents frame rate as percentage.
          * Converts the seek bar value between 0 and 30 to percent and then the percentage to a

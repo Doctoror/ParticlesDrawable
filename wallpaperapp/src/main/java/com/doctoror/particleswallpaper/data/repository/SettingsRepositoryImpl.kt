@@ -65,4 +65,14 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
     override fun setLineScale(lineScale: Float) {
         prefs.lineScale = lineScale
     }
+
+    override fun getLineDistance(): Float {
+        val value = prefs.lineDistance
+        return if (value != 0f) value
+        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 86f, Resources.getSystem().displayMetrics)
+    }
+
+    override fun setLineDistance(lineDistance: Float) {
+        prefs.lineDistance = lineDistance
+    }
 }

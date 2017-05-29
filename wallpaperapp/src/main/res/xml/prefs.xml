@@ -39,6 +39,13 @@
         app:max="70"/>
 
     <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
+        android:key="@string/pref_key_line_distance"
+        android:title="@string/Line_distance"
+        android:defaultValue="1"
+        android:persistent="false"
+        app:max="100"/>
+
+    <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
         android:key="@string/pref_key_step_multiplier"
         android:title="@string/Speed_factor"
         android:defaultValue="10"

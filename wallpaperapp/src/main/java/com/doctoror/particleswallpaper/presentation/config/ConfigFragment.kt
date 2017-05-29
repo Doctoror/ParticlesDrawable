@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.config
 
+import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.data.config.DrawableConfiguratorFactory
 import com.doctoror.particleswallpaper.data.mapper.DotRadiusMapper
@@ -28,7 +29,7 @@ import com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
  */
 class ConfigFragment : android.preference.PreferenceFragment() {
 
-    private val particlesDrawable = com.doctoror.particlesdrawable.ParticlesDrawable()
+    private val particlesDrawable = ParticlesDrawable()
 
     private val prefNumDots: SeekBarPreference by lazy {
         findPreference(getString(R.string.pref_key_num_dots)) as SeekBarPreference
@@ -50,6 +51,10 @@ class ConfigFragment : android.preference.PreferenceFragment() {
         findPreference(getString(R.string.pref_key_line_scale)) as SeekBarPreference
     }
 
+    private val prefLineDistance: SeekBarPreference by lazy {
+        findPreference(getString(R.string.pref_key_line_distance)) as SeekBarPreference
+    }
+
     private val settings: SettingsRepository by lazy {
         SettingsRepositoryFactory.provideSettingsRepository(activity)
     }
@@ -68,6 +73,8 @@ class ConfigFragment : android.preference.PreferenceFragment() {
     fun bindPrefs() {
         prefNumDots.progress = ConfigMapper.toSeekbarNumDots(settings.getNumDots())
         prefDotScale.progress = ConfigMapper.toSeekbarDotScale(settings.getDotScale())
+        prefLineScale.progress = ConfigMapper.toSeekbarLineScale(settings.getLineScale())
+        prefLineDistance.progress = ConfigMapper.toSeekbarLineDistance(settings.getLineDistance())
         prefStepMultiplier.progress = ConfigMapper.toSeekbarStepMultiplier(settings.getStepMultiplier())
         prefFrameDelay.progress = ConfigMapper.toSeekbarFrameRate(settings.getFrameDelay())
     }
@@ -100,6 +107,15 @@ class ConfigFragment : android.preference.PreferenceFragment() {
                 particlesDrawable.setLineThickness(value)
                 particlesDrawable.makeBrandNewFrame()
                 settings.setLineScale(value)
+            }
+            true
+        })
+
+        prefLineDistance.setOnPreferenceChangeListener({ p, v ->
+            if (v is Int) {
+                val value = ConfigMapper.toLineDistance(v)
+                particlesDrawable.setLineDistance(value)
+                settings.setLineDistance(value)
             }
             true
         })

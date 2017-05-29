@@ -22,6 +22,7 @@
     <string name="Number_of_dots">Number of dots</string>
     <string name="Dot_scale">Dot scale</string>
     <string name="Line_scale">Line scale</string>
+    <string name="Line_distance">Line distance</string>
     <string name="Speed_factor">Speed factor</string>
     <string name="Frame_rate">Frame rate</string>
 

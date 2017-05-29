@@ -34,4 +34,7 @@ interface SettingsRepository {
 
     fun getLineScale() : Float
     fun setLineScale(lineScale : Float)
+
+    fun getLineDistance() : Float
+    fun setLineDistance(lineDistance : Float)
 }
