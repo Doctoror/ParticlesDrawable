@@ -34,6 +34,7 @@ class ConfigFragment(val ch: OnActivityResultCallbackHostImpl = OnActivityResult
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.prefs)
         handlePreKitKat()
+        handlePostLollipop()
         setBackgroundImagePreferenceHost(this)
     }
 
@@ -48,6 +49,15 @@ class ConfigFragment(val ch: OnActivityResultCallbackHostImpl = OnActivityResult
             if (p != null) {
                 p.isEnabled = false
                 p.summary = getText(R.string.Supported_on_KitKat_and_later)
+            }
+        }
+    }
+
+    private fun handlePostLollipop() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val p = findPreference(getString(R.string.pref_key_preview))
+            if (p != null) {
+               preferenceScreen?.removePreference(p)
             }
         }
     }

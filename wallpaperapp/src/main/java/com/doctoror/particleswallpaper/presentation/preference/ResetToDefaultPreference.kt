@@ -34,5 +34,4 @@ class ResetToDefaultPreference @JvmOverloads constructor
                 SettingsRepositoryFactory.provideDefault())
                 .useCase().subscribe()
     }
-
 }

@@ -79,7 +79,7 @@ class ConfigActivity : Activity() {
             R.id.actionPreview -> {
                 SetWallpaperUseCase(this, requestCodeSetWallpaper).useCase().subscribe({
                     v ->
-                    if (v) finish() else Toast.makeText(this, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
+                    if (!v) Toast.makeText(this, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
                 })
             }
         }

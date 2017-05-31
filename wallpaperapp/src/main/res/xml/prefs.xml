@@ -17,6 +17,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.doctoror.particleswallpaper.presentation.preference.PreviewPreference
+        android:key="@string/pref_key_preview"
+        android:title="@string/Preview"/>
+
     <com.doctoror.particleswallpaper.presentation.preference.ResetToDefaultPreference
         android:key="@string/pref_key_reset_to_defaults"
         android:title="@string/Reset_to_defaults"/>

@@ -16,6 +16,7 @@
 -->
 <resources>
 
+    <string translatable="false" name="pref_key_preview">pref_key_preview</string>
     <string translatable="false" name="pref_key_reset_to_defaults">pref_key_reset_to_defaults</string>
     <string translatable="false" name="pref_key_num_dots">pref_key_num_dots</string>
     <string translatable="false" name="pref_key_color">pref_key_color</string>
