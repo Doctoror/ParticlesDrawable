@@ -28,6 +28,7 @@ import io.reactivex.subjects.BehaviorSubject
 class SettingsRepositoryImpl(context: Context) : SettingsRepository {
 
     val colorSubject = BehaviorSubject.create<Int>()!!
+    val backgroundUriSubject = BehaviorSubject.create<String>()!!
     val numDotsSubject = BehaviorSubject.create<Int>()!!
     val frameDelaySubject = BehaviorSubject.create<Int>()!!
     val stepMultiplierSubject = BehaviorSubject.create<Float>()!!
@@ -39,6 +40,8 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
 
     init {
         colorSubject.onNext(prefs.color)
+        backgroundUriSubject.onNext(prefs.backgroundUri)
+
         numDotsSubject.onNext(prefs.numDots)
         frameDelaySubject.onNext(prefs.frameDelay)
         stepMultiplierSubject.onNext(prefs.stepMultiplier)
@@ -103,5 +106,12 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
     override fun setColor(color: Int) {
         prefs.color = color
         colorSubject.onNext(color)
+    }
+
+    override fun getBackgroundUri() = backgroundUriSubject
+
+    override fun setBackgroundUri(uri: String) {
+        prefs.backgroundUri = uri
+        backgroundUriSubject.onNext(uri)
     }
 }

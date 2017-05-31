@@ -17,11 +17,44 @@ package com.doctoror.particleswallpaper.presentation.config
 
 import android.app.Activity
 import android.os.Bundle
+import android.widget.ImageView
+import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
+import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.squareup.picasso.Picasso
+import io.reactivex.disposables.Disposable
 
 class ConfigActivity : Activity() {
 
+    private val settings: SettingsRepository by lazy {
+        SettingsRepositoryFactory.provideSettingsRepository(this)
+    }
+
+    private var bgDisposable: Disposable? = null;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.doctoror.particleswallpaper.R.layout.activity_config)
+        setContentView(R.layout.activity_config)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        bgDisposable = settings.getBackgroundUri().subscribe({v -> applyBackground(v)})
+    }
+
+    override fun onStop() {
+        super.onStop()
+        bgDisposable?.dispose()
+    }
+
+    private fun applyBackground(uri: String) {
+        val bg = findViewById(R.id.bg) as ImageView
+        if (uri == "") {
+            bg.setImageDrawable(null)
+        } else {
+            Picasso.with(this)
+                    .load(uri)
+                    .into(bg)
+        }
     }
 }

@@ -15,9 +15,11 @@
  */
 package com.doctoror.particleswallpaper.data.engine
 
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.service.wallpaper.WallpaperService
@@ -27,6 +29,9 @@ import com.doctoror.particleswallpaper.data.config.DrawableConfiguratorFactory
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
+import io.reactivex.disposables.Disposable
 
 /**
  * Created by Yaroslav Mytkalyk on 18.04.17.
@@ -47,6 +52,8 @@ class WallpaperServiceImpl : WallpaperService() {
             SettingsRepositoryFactory.provideSettingsRepository(this@WallpaperServiceImpl)
         }
 
+        private var mBackgroundDisposable : Disposable? = null
+
         private val DEFAULT_DELAY = 10
 
         private val mPaint = Paint()
@@ -59,6 +66,8 @@ class WallpaperServiceImpl : WallpaperService() {
         private var mWidth = 0f
         private var mHeight = 0f
 
+        private var mBackground: Bitmap? = null
+
         init {
             mPaint.style = Paint.Style.FILL
             mPaint.color = Color.BLACK
@@ -67,11 +76,25 @@ class WallpaperServiceImpl : WallpaperService() {
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
             mConfigurator.subscribe(mDrawable, mSettings)
+            mBackgroundDisposable = mSettings.getBackgroundUri().subscribe({u -> handleBackground(u)})
         }
 
         override fun onDestroy() {
             super.onDestroy()
             mConfigurator.dispose()
+            mBackgroundDisposable?.dispose()
+        }
+
+        private fun handleBackground(uri: String) {
+            if (uri == "") {
+                mBackground = null
+            } else if (mWidth != 0f && mHeight != 0f) {
+                Picasso.with(this@WallpaperServiceImpl)
+                        .load(uri)
+                        .resize(mWidth.toInt(), mHeight.toInt())
+                        .centerCrop()
+                        .into(mImageLoadTarget)
+            }
         }
 
         override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int,
@@ -80,6 +103,7 @@ class WallpaperServiceImpl : WallpaperService() {
             mDrawable.setBounds(0, 0, width, height)
             mWidth = width.toFloat()
             mHeight = height.toFloat()
+            handleBackground(mSettings.getBackgroundUri().blockingFirst())
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
@@ -107,7 +131,7 @@ class WallpaperServiceImpl : WallpaperService() {
             try {
                 canvas = holder.lockCanvas()
                 if (canvas != null) {
-                    canvas.drawRect(0f, 0f, mWidth, mHeight, mPaint)
+                    drawBackground(canvas)
                     mDrawable.draw(canvas)
                     mDrawable.run()
                 }
@@ -122,6 +146,30 @@ class WallpaperServiceImpl : WallpaperService() {
             }
         }
 
+        private fun drawBackground(c: Canvas) {
+            val background = mBackground
+            if (background == null) {
+                c.drawRect(0f, 0f, mWidth, mHeight, mPaint)
+            } else {
+                c.drawBitmap(background, 0f, 0f, mPaint)
+            }
+        }
+
         private val mDrawRunnable = Runnable { this.draw() }
+
+        private val mImageLoadTarget = object: Target {
+
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                // Unhandled
+            }
+
+            override fun onBitmapFailed(errorDrawable: Drawable?) {
+                mBackground = null
+            }
+
+            override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+               mBackground = bitmap
+            }
+        }
     }
 }

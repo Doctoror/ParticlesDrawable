@@ -17,10 +17,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo">
+    <style name="BaseAppTheme" parent="android:Theme.Holo.NoActionBar.Fullscreen">
     </style>
 
-    <style name="AppTheme.BlackBackground">
+    <style name="AppTheme" parent="BaseAppTheme">
         <item name="android:windowBackground">@android:color/black</item>
     </style>
 

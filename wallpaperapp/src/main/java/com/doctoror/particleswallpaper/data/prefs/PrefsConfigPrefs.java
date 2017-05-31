@@ -34,4 +34,5 @@ public interface PrefsConfigPrefs {
     float lineDistance = 0f;
 
     int color = Color.WHITE;
+    String backgroundUri = "";
 }

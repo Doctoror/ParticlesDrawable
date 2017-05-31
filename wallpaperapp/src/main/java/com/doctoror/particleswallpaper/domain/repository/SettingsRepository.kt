@@ -22,24 +22,27 @@ import io.reactivex.Observable
  */
 interface SettingsRepository {
 
-    fun getNumDots() : Observable<Int>
-    fun setNumDots(numDots : Int)
+    fun getNumDots(): Observable<Int>
+    fun setNumDots(numDots: Int)
 
-    fun getFrameDelay() : Observable<Int>
-    fun setFrameDelay(frameDelay : Int)
+    fun getFrameDelay(): Observable<Int>
+    fun setFrameDelay(frameDelay: Int)
 
-    fun getStepMultiplier() : Observable<Float>
-    fun setStepMultiplier(stepMultiplier : Float)
+    fun getStepMultiplier(): Observable<Float>
+    fun setStepMultiplier(stepMultiplier: Float)
 
-    fun getDotScale() : Observable<Float>
-    fun setDotScale(dotScale : Float)
+    fun getDotScale(): Observable<Float>
+    fun setDotScale(dotScale: Float)
 
-    fun getLineScale() : Observable<Float>
-    fun setLineScale(lineScale : Float)
+    fun getLineScale(): Observable<Float>
+    fun setLineScale(lineScale: Float)
 
-    fun getLineDistance() : Observable<Float>
-    fun setLineDistance(lineDistance : Float)
+    fun getLineDistance(): Observable<Float>
+    fun setLineDistance(lineDistance: Float)
 
-    fun getColor() : Observable<Int>
-    fun setColor(color : Int)
+    fun getColor(): Observable<Int>
+    fun setColor(color: Int)
+
+    fun getBackgroundUri(): Observable<String>
+    fun setBackgroundUri(uri: String)
 }

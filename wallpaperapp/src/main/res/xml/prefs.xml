@@ -24,6 +24,10 @@
             android:key="@string/pref_key_color"
             android:title="@string/Color"/>
 
+        <com.doctoror.particleswallpaper.presentation.preference.BackgroundImagePreference
+            android:key="@string/pref_key_background_image"
+            android:title="@string/Background_image"/>
+
         <com.doctoror.particleswallpaper.presentation.preference.NumDotsPreference
             android:key="@string/pref_key_num_dots"
             android:title="@string/Number_of_dots"/>
