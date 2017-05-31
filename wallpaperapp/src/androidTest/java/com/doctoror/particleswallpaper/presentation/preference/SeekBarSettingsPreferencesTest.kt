@@ -26,6 +26,26 @@ class SeekBarSettingsPreferencesTest {
         assertEquals(p.frameDelaySeekbarMin, p.transformToRealValue(p.max))
     }
 
+    @Test
+    fun testLineDistancePreference() {
+        testMapper(LineDistancePreference::class.java)
+    }
+
+    @Test
+    fun testLineScalePreference() {
+        testMapper(LineScalePreference::class.java)
+    }
+
+    @Test
+    fun testNumDotsPreference() {
+        testMapper(NumDotsPreference::class.java)
+    }
+
+    @Test
+    fun testSpeedFactorPreference() {
+        testMapper(SpeedFactorPreference::class.java)
+    }
+
     private fun <T, A> testMapper(pClass: Class<T>)
             where T : SeekBarPreference, T : MapperSeekbarPreference<A> {
         testMapperMinValue(pClass)
