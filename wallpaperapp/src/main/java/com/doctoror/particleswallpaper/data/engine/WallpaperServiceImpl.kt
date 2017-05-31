@@ -15,8 +15,6 @@
  */
 package com.doctoror.particleswallpaper.data.engine
 
-import com.doctoror.particlesdrawable.ParticlesDrawable
-
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -24,6 +22,7 @@ import android.os.Handler
 import android.os.Looper
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
+import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.data.config.DrawableConfiguratorFactory
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
@@ -40,11 +39,11 @@ class WallpaperServiceImpl : WallpaperService() {
 
     private inner class EngineImpl internal constructor() : Engine() {
 
-        private val mConfigurator : DrawableConfigurator by lazy {
+        private val mConfigurator: DrawableConfigurator by lazy {
             DrawableConfiguratorFactory.provideDrawableConfigurator()
         }
 
-        private val mSettings : SettingsRepository by lazy {
+        private val mSettings: SettingsRepository by lazy {
             SettingsRepositoryFactory.provideSettingsRepository(this@WallpaperServiceImpl)
         }
 
@@ -63,6 +62,16 @@ class WallpaperServiceImpl : WallpaperService() {
         init {
             mPaint.style = Paint.Style.FILL
             mPaint.color = Color.BLACK
+        }
+
+        override fun onCreate(surfaceHolder: SurfaceHolder?) {
+            super.onCreate(surfaceHolder)
+            mConfigurator.subscribe(mDrawable, mSettings)
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            mConfigurator.dispose()
         }
 
         override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int,
@@ -84,8 +93,6 @@ class WallpaperServiceImpl : WallpaperService() {
             super.onVisibilityChanged(visible)
             mVisible = visible
             if (visible) {
-                mConfigurator.subscribe(mDrawable, mSettings)
-                mDrawable.makeBrandNewFrame()
                 mDrawable.start()
                 mHandler.post(mDrawRunnable)
             } else {
