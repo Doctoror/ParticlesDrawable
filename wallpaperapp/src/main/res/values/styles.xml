@@ -17,7 +17,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="BaseAppTheme" parent="android:Theme.Holo.NoActionBar.Fullscreen">
+    <style name="BaseAppTheme" parent="android:Theme.Holo.NoActionBar">
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme">

@@ -25,7 +25,7 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
  */
 class NumDotsPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : SeekBarPreference(context, attrs), MapperSeekbarPreference<Int> {
+    : SeekBarPreference(context, attrs, defStyle), MapperSeekbarPreference<Int> {
 
     val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
 

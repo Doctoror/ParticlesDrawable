@@ -25,7 +25,7 @@ import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbac
 @RequiresApi(Build.VERSION_CODES.KITKAT)
 class BackgroundImagePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(context, attrs, defStyle) {
+    : Preference(context, attrs) {
 
     val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
 

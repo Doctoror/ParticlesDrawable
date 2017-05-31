@@ -26,7 +26,7 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
  */
 class DotScalePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : SeekBarPreference(context, attrs), SettingsPreference, MapperSeekbarPreference<Float> {
+    : SeekBarPreference(context, attrs, defStyle), SettingsPreference, MapperSeekbarPreference<Float> {
 
     val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
 
