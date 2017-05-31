@@ -16,10 +16,13 @@
 package com.doctoror.particleswallpaper.presentation.preference
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
@@ -33,21 +36,44 @@ class ColorPreferenceImpl @JvmOverloads constructor
 
     val defaults: SettingsRepository = SettingsRepositoryFactory.provideDefault()
 
+    var disposable: Disposable? = null
+
+    private val changeAction = Consumer<Int> { t ->
+        if (t != null) {
+            color = t
+        }
+    }
+
     init {
         isPersistent = false
-        setDefaultValue(settings.getColor().blockingFirst())
         setOnPreferenceChangeListener({ _, v ->
             val color = v as? Int ?: defaults.getColor().blockingFirst()
             settings.setColor(color)
             true
         })
+
+        subscribe()
+    }
+
+    private fun subscribe() {
+        disposable = settings.getColor().subscribe(changeAction)
+    }
+
+    private fun unsubscribe() {
+        disposable?.dispose()
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        super.onRestoreInstanceState(state)
+        subscribe()
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        unsubscribe()
+        return super.onSaveInstanceState()
     }
 
     override fun getPersistedInt(defaultReturnValue: Int): Int {
         return settings.getColor().blockingFirst()
-    }
-
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
-        color = settings.getColor().blockingFirst()
     }
 }

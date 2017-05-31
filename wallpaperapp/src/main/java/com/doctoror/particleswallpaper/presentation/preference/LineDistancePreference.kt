@@ -16,9 +16,12 @@
 package com.doctoror.particleswallpaper.presentation.preference
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
@@ -29,10 +32,17 @@ class LineDistancePreference @JvmOverloads constructor
 
     val settings: MutableSettingsRepository = SettingsRepositoryFactory.provideMutable(context)
 
+    var disposable: Disposable? = null
+
+    private val changeAction = Consumer<Float> { t ->
+        if (t != null) {
+            progress = transformToProgress(t)
+        }
+    }
+
     init {
         max = 100
         isPersistent = false
-        setDefaultValue(transformToProgress(settings.getLineDistance().blockingFirst()))
         setOnPreferenceChangeListener({ _, v ->
             if (v is Int) {
                 val value = transformToRealValue(v)
@@ -40,10 +50,26 @@ class LineDistancePreference @JvmOverloads constructor
             }
             true
         })
+
+        subscribe()
     }
 
-    override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
-        progress = transformToProgress(settings.getLineDistance().blockingFirst())
+    private fun subscribe() {
+        disposable = settings.getLineDistance().subscribe(changeAction)
+    }
+
+    private fun unsubscribe() {
+        disposable?.dispose()
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        super.onRestoreInstanceState(state)
+        subscribe()
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        unsubscribe()
+        return super.onSaveInstanceState()
     }
 
     override fun transformToRealValue(progress: Int) = progress.toFloat() * 3f

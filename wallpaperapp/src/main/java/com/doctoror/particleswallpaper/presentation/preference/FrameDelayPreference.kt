@@ -16,9 +16,12 @@
 package com.doctoror.particleswallpaper.presentation.preference
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
@@ -31,10 +34,17 @@ class FrameDelayPreference @JvmOverloads constructor
 
     val frameDelaySeekbarMin = 10
 
+    var disposable: Disposable? = null
+
+    private val changeAction = Consumer<Int> { t ->
+        if (t != null) {
+            progress = transformToProgress(t)
+        }
+    }
+
     init {
         max = 80
         isPersistent = false
-        setDefaultValue(transformToProgress(settings.getFrameDelay().blockingFirst()))
         setOnPreferenceChangeListener({ _, v ->
             if (v is Int) {
                 val value = transformToRealValue(v)
@@ -42,10 +52,25 @@ class FrameDelayPreference @JvmOverloads constructor
             }
             true
         })
+        subscribe()
     }
 
-    override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
-        progress = transformToProgress(settings.getFrameDelay().blockingFirst())
+    private fun subscribe() {
+        disposable = settings.getFrameDelay().subscribe(changeAction)
+    }
+
+    private fun unsubscribe() {
+        disposable?.dispose()
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        super.onRestoreInstanceState(state)
+        subscribe()
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        unsubscribe()
+        return super.onSaveInstanceState()
     }
 
     /**
