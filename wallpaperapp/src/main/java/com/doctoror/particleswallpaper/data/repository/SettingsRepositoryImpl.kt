@@ -20,7 +20,6 @@ import android.content.res.Resources
 import android.util.TypedValue
 import com.doctoror.particleswallpaper.data.prefs.Prefs
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 
 /**
