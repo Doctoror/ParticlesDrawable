@@ -14,6 +14,7 @@ import android.util.AttributeSet
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
@@ -27,7 +28,11 @@ class BackgroundImagePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : Preference(context, attrs) {
 
-    val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
+    val settings: MutableSettingsRepository
+            = SettingsRepositoryFactory.provideMutable(context)
+
+    val defaults: SettingsRepository
+            = SettingsRepositoryFactory.provideDefault()
 
     val requestCodePick = 1
 
@@ -65,7 +70,7 @@ class BackgroundImagePreference @JvmOverloads constructor
     }
 
     private fun clearBackground() {
-        settings.setBackgroundUri("")
+        defaults.getBackgroundUri().subscribe({u -> settings.setBackgroundUri(u)})
     }
 
     private fun pickDocument() {

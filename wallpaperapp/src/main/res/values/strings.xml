@@ -39,5 +39,10 @@
     <string name="Cancel">Cancel</string>
 
     <string name="Supported_on_KitKat_and_later">Supported on KitKat and later</string>
+    <string name="Reset_to_defaults">Reset to defaults</string>
+    <string name="Are_you_sure_you_want_to_reset_all_settings_to_default_values">Are you sure you
+        want to reset all settings to default values?
+    </string>
+    <string name="Reset">Reset</string>
 
 </resources>

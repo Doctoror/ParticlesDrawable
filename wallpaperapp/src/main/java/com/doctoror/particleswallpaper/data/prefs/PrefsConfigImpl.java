@@ -23,15 +23,15 @@ import ds.gendalf.PrefsConfig;
  * Created by Yaroslav Mytkalyk on 28.05.17.
  */
 @PrefsConfig("Prefs")
-public interface PrefsConfigPrefs {
+public interface PrefsConfigImpl {
 
-    int numDots = 60;
-    int frameDelay = 10;
-    float stepMultiplier = 1f;
+    int numDots = -1;
+    int frameDelay = -1;
+    float stepMultiplier = -1f;
 
-    float dotScale = 0f;
-    float lineScale = 0f;
-    float lineDistance = 0f;
+    float dotScale = -1f;
+    float lineScale = -1f;
+    float lineDistance = -1f;
 
     int color = Color.WHITE;
     String backgroundUri = "";

@@ -16,16 +16,16 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.Context
-import android.content.res.Resources
-import android.util.TypedValue
 import com.doctoror.particleswallpaper.data.prefs.Prefs
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
  */
-class SettingsRepositoryImpl(context: Context) : SettingsRepository {
+class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
+
+    val defaults = SettingsRepositoryDefault()
 
     val colorSubject = BehaviorSubject.create<Int>()!!
     val backgroundUriSubject = BehaviorSubject.create<String>()!!
@@ -42,21 +42,29 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
         colorSubject.onNext(prefs.color)
         backgroundUriSubject.onNext(prefs.backgroundUri)
 
-        numDotsSubject.onNext(prefs.numDots)
-        frameDelaySubject.onNext(prefs.frameDelay)
-        stepMultiplierSubject.onNext(prefs.stepMultiplier)
+        val numDots = prefs.numDots
+        numDotsSubject.onNext(if (numDots != -1) numDots
+        else defaults.getNumDots().blockingFirst())
+
+        val frameDelay = prefs.frameDelay
+        frameDelaySubject.onNext(if (frameDelay != -1) frameDelay
+        else defaults.getFrameDelay().blockingFirst())
+
+        val stepMultiplier = prefs.stepMultiplier
+        stepMultiplierSubject.onNext(if (stepMultiplier != -1f) stepMultiplier
+        else defaults.getStepMultiplier().blockingFirst())
 
         val scale = prefs.dotScale
-        dotScaleSubject.onNext(if (scale != 0f) scale
-        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().displayMetrics))
+        dotScaleSubject.onNext(if (scale != 1f) scale
+        else defaults.getDotScale().blockingFirst())
 
         val lineScale = prefs.lineScale
-        lineScaleSubject.onNext(if (lineScale != 0f) lineScale
-        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().displayMetrics))
+        lineScaleSubject.onNext(if (lineScale != 1f) lineScale
+        else defaults.getLineScale().blockingFirst())
 
         val lineDistance = prefs.lineDistance
-        lineDistanceSubject.onNext(if (lineDistance != 0f) lineDistance
-        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 86f, Resources.getSystem().displayMetrics))
+        lineDistanceSubject.onNext(if (lineDistance != 1f) lineDistance
+        else defaults.getLineDistance().blockingFirst())
     }
 
     override fun getNumDots() = numDotsSubject

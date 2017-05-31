@@ -17,8 +17,8 @@ package com.doctoror.particleswallpaper.presentation.preference
 
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.data.prefs.PrefsConfigPrefs
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 
 /**
@@ -26,15 +26,18 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
  */
 class ColorPreferenceImpl @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : ColorPreferenceNoPreview(context, attrs), SettingsPreference {
+    : ColorPreferenceNoPreview(context, attrs) {
 
-    val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
+    val settings: MutableSettingsRepository
+            = SettingsRepositoryFactory.provideMutable(context)
+
+    val defaults: SettingsRepository = SettingsRepositoryFactory.provideDefault()
 
     init {
         isPersistent = false
         setDefaultValue(settings.getColor().blockingFirst())
         setOnPreferenceChangeListener({ _, v ->
-            val color = v as? Int ?: PrefsConfigPrefs.color
+            val color = v as? Int ?: defaults.getColor().blockingFirst()
             settings.setColor(color)
             true
         })
@@ -46,9 +49,5 @@ class ColorPreferenceImpl @JvmOverloads constructor
 
     override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         color = settings.getColor().blockingFirst()
-    }
-
-    override fun setDefaultValue() {
-        color = PrefsConfigPrefs.color
     }
 }

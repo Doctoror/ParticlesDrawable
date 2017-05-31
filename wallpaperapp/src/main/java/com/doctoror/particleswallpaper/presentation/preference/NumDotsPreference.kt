@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.presentation.preference
 import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
@@ -27,7 +27,7 @@ class NumDotsPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle), MapperSeekbarPreference<Int> {
 
-    val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
+    val settings: MutableSettingsRepository = SettingsRepositoryFactory.provideMutable(context)
 
     init {
         isPersistent = false

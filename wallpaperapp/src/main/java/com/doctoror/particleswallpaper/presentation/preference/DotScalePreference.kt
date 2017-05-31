@@ -17,18 +17,18 @@ package com.doctoror.particleswallpaper.presentation.preference
 
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.data.prefs.PrefsConfigPrefs
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
  */
 class DotScalePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : SeekBarPreference(context, attrs, defStyle), SettingsPreference, MapperSeekbarPreference<Float> {
+    : SeekBarPreference(context, attrs, defStyle), MapperSeekbarPreference<Float> {
 
-    val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
+    val settings: MutableSettingsRepository
+            = SettingsRepositoryFactory.provideMutable(context)
 
     init {
         max = 70
@@ -45,10 +45,6 @@ class DotScalePreference @JvmOverloads constructor
 
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
         progress = transformToProgress(settings.getDotScale().blockingFirst())
-    }
-
-    override fun setDefaultValue() {
-        progress = transformToProgress(PrefsConfigPrefs.dotScale)
     }
 
     override fun transformToRealValue(progress: Int) = progress.toFloat() / 5f + 0.5f

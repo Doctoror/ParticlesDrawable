@@ -17,18 +17,17 @@ package com.doctoror.particleswallpaper.presentation.preference
 
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.data.prefs.PrefsConfigPrefs
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
  */
 class FrameDelayPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : SeekBarPreference(context, attrs, defStyle), SettingsPreference, MapperSeekbarPreference<Int> {
+    : SeekBarPreference(context, attrs, defStyle), MapperSeekbarPreference<Int> {
 
-    val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
+    val settings: MutableSettingsRepository = SettingsRepositoryFactory.provideMutable(context)
 
     val frameDelaySeekbarMin = 10
 
@@ -48,11 +47,6 @@ class FrameDelayPreference @JvmOverloads constructor
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
         progress = transformToProgress(settings.getFrameDelay().blockingFirst())
     }
-
-    override fun setDefaultValue() {
-        progress = transformToProgress(PrefsConfigPrefs.frameDelay)
-    }
-
 
     /**
      * The seek bar represents frame rate as percentage.

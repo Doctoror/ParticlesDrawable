@@ -49,7 +49,7 @@ class WallpaperServiceImpl : WallpaperService() {
         }
 
         private val mSettings: SettingsRepository by lazy {
-            SettingsRepositoryFactory.provideSettingsRepository(this@WallpaperServiceImpl)
+            SettingsRepositoryFactory.provide(this@WallpaperServiceImpl)
         }
 
         private var mBackgroundDisposable : Disposable? = null

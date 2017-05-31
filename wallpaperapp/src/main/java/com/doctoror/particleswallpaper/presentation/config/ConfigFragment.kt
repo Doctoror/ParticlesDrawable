@@ -19,7 +19,6 @@ import android.app.Fragment
 import android.content.Intent
 import android.os.Build
 import android.preference.PreferenceFragment
-import android.text.TextUtils
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.data.config.DrawableConfiguratorFactory
@@ -42,7 +41,7 @@ class ConfigFragment(val ch: OnActivityResultCallbackHostImpl = OnActivityResult
     private var bgDisposable: Disposable? = null;
 
     private val settings: SettingsRepository by lazy {
-        SettingsRepositoryFactory.provideSettingsRepository(activity)
+        SettingsRepositoryFactory.provide(activity)
     }
 
     private val configurator: DrawableConfigurator by lazy {

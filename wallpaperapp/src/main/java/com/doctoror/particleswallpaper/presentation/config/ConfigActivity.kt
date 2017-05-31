@@ -27,7 +27,7 @@ import io.reactivex.disposables.Disposable
 class ConfigActivity : Activity() {
 
     private val settings: SettingsRepository by lazy {
-        SettingsRepositoryFactory.provideSettingsRepository(this)
+        SettingsRepositoryFactory.provide(this)
     }
 
     private var bgDisposable: Disposable? = null;

@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.presentation.preference
 import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
@@ -27,7 +27,7 @@ class SpeedFactorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle), MapperSeekbarPreference<Float> {
 
-    val settings: SettingsRepository = SettingsRepositoryFactory.provideSettingsRepository(context)
+    val settings: MutableSettingsRepository = SettingsRepositoryFactory.provideMutable(context)
 
     init {
         isPersistent = false
@@ -47,5 +47,5 @@ class SpeedFactorPreference @JvmOverloads constructor
     }
 
     override fun transformToRealValue(progress: Int) = progress.toFloat() / 10f + 0.1f
-    override fun transformToProgress(value : Float) = ((value - 0.1f) * 10f).toInt()
+    override fun transformToProgress(value: Float) = ((value - 0.1f) * 10f).toInt()
 }

@@ -16,20 +16,33 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.Context
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
  */
 class SettingsRepositoryFactory {
-    companion object {
-        @JvmStatic var value : SettingsRepository? = null
 
-        @JvmStatic fun provideSettingsRepository(context : Context) : SettingsRepository {
-            if (value == null) {
-                value = SettingsRepositoryImpl(context.applicationContext!!)
+    companion object {
+        @JvmStatic private var settingsRepository: MutableSettingsRepository? = null
+        @JvmStatic private var settingsRepositoryDefault: SettingsRepository? = null
+
+        @JvmStatic fun provideMutable(context: Context): MutableSettingsRepository {
+            if (settingsRepository == null) {
+                settingsRepository = SettingsRepositoryImpl(context.applicationContext!!)
             }
-            return value!!
+            return settingsRepository!!
+        }
+
+        @JvmStatic fun provide(context: Context): SettingsRepository
+                = provideMutable(context)
+
+        @JvmStatic fun provideDefault(): SettingsRepository {
+            if (settingsRepositoryDefault == null) {
+                settingsRepositoryDefault = SettingsRepositoryDefault()
+            }
+            return settingsRepositoryDefault!!
         }
     }
 }
