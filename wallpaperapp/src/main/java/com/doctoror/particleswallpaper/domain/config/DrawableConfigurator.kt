@@ -22,5 +22,6 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
  * Created by Yaroslav Mytkalyk on 29.05.17.
  */
 interface DrawableConfigurator {
-    fun configure(drawable: ParticlesDrawable, settings : SettingsRepository)
+    fun subscribe(drawable: ParticlesDrawable, settings : SettingsRepository)
+    fun dispose()
 }

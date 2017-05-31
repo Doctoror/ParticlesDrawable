@@ -9,7 +9,7 @@ import com.rarepebble.colorpicker.ColorPreference
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
  */
-class ColorPreferenceNoPreview @JvmOverloads constructor
+open class ColorPreferenceNoPreview @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : ColorPreference(context, attrs) {
 

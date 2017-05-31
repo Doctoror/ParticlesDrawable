@@ -84,7 +84,7 @@ class WallpaperServiceImpl : WallpaperService() {
             super.onVisibilityChanged(visible)
             mVisible = visible
             if (visible) {
-                mConfigurator.configure(mDrawable, mSettings)
+                mConfigurator.subscribe(mDrawable, mSettings)
                 mDrawable.makeBrandNewFrame()
                 mDrawable.start()
                 mHandler.post(mDrawRunnable)

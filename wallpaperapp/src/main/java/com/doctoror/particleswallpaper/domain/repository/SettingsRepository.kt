@@ -15,29 +15,31 @@
  */
 package com.doctoror.particleswallpaper.domain.repository
 
+import io.reactivex.Observable
+
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
  */
 interface SettingsRepository {
 
-    fun getNumDots() : Int
+    fun getNumDots() : Observable<Int>
     fun setNumDots(numDots : Int)
 
-    fun getFrameDelay() : Int
+    fun getFrameDelay() : Observable<Int>
     fun setFrameDelay(frameDelay : Int)
 
-    fun getStepMultiplier() : Float
+    fun getStepMultiplier() : Observable<Float>
     fun setStepMultiplier(stepMultiplier : Float)
 
-    fun getDotScale() : Float
+    fun getDotScale() : Observable<Float>
     fun setDotScale(dotScale : Float)
 
-    fun getLineScale() : Float
+    fun getLineScale() : Observable<Float>
     fun setLineScale(lineScale : Float)
 
-    fun getLineDistance() : Float
+    fun getLineDistance() : Observable<Float>
     fun setLineDistance(lineDistance : Float)
 
-    fun getColor() : Int
+    fun getColor() : Observable<Int>
     fun setColor(color : Int)
 }

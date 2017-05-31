@@ -36,15 +36,27 @@ android {
         from "build/tmp/kotlin-classes/debug"
         into "build/intermediates/classes/debug"
     }
+
+    afterEvaluate {
+        compileDebugUnitTestSources.dependsOn copyTestClasses
+        compileReleaseUnitTestSources.dependsOn copyTestClasses
+        compileDebugAndroidTestSources.dependsOn copySdkClasses
+    }
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+
+    androidTestCompile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    androidTestCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    androidTestCompile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     compile project (':library')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     compile 'com.rarepebble:colorpicker:2.2.0'
 

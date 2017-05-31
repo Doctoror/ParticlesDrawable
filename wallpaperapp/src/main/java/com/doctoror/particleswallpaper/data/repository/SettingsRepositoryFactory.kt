@@ -23,7 +23,13 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
  */
 class SettingsRepositoryFactory {
     companion object {
-        @JvmStatic fun provideSettingsRepository(context : Context) : SettingsRepository
-                = SettingsRepositoryImpl(context)
+        @JvmStatic var value : SettingsRepository? = null
+
+        @JvmStatic fun provideSettingsRepository(context : Context) : SettingsRepository {
+            if (value == null) {
+                value = SettingsRepositoryImpl(context.applicationContext!!)
+            }
+            return value!!
+        }
     }
 }

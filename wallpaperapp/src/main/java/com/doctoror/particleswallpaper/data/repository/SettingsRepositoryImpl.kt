@@ -20,65 +20,89 @@ import android.content.res.Resources
 import android.util.TypedValue
 import com.doctoror.particleswallpaper.data.prefs.Prefs
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
  */
 class SettingsRepositoryImpl(context: Context) : SettingsRepository {
 
+    val colorSubject = BehaviorSubject.create<Int>()!!
+    val numDotsSubject = BehaviorSubject.create<Int>()!!
+    val frameDelaySubject = BehaviorSubject.create<Int>()!!
+    val stepMultiplierSubject = BehaviorSubject.create<Float>()!!
+    val dotScaleSubject = BehaviorSubject.create<Float>()!!
+    val lineScaleSubject = BehaviorSubject.create<Float>()!!
+    val lineDistanceSubject = BehaviorSubject.create<Float>()!!
+
     val prefs = Prefs.with(context)!!
 
-    override fun getNumDots() = prefs.numDots
+    init {
+        colorSubject.onNext(prefs.color)
+        numDotsSubject.onNext(prefs.numDots)
+        frameDelaySubject.onNext(prefs.frameDelay)
+        stepMultiplierSubject.onNext(prefs.stepMultiplier)
+
+        val scale = prefs.dotScale
+        dotScaleSubject.onNext(if (scale != 0f) scale
+        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().displayMetrics))
+
+        val lineScale = prefs.lineScale
+        lineScaleSubject.onNext(if (lineScale != 0f) lineScale
+        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().displayMetrics))
+
+        val lineDistance = prefs.lineDistance
+        lineDistanceSubject.onNext(if (lineDistance != 0f) lineDistance
+        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 86f, Resources.getSystem().displayMetrics))
+    }
+
+    override fun getNumDots() = numDotsSubject
 
     override fun setNumDots(numDots: Int) {
         prefs.numDots = numDots
+        numDotsSubject.onNext(numDots)
     }
 
-    override fun getFrameDelay() = prefs.frameDelay;
+    override fun getFrameDelay() = frameDelaySubject
 
     override fun setFrameDelay(frameDelay: Int) {
         prefs.frameDelay = frameDelay;
+        frameDelaySubject.onNext(frameDelay)
     }
 
-    override fun getStepMultiplier() = prefs.stepMultiplier;
+    override fun getStepMultiplier() = stepMultiplierSubject
 
     override fun setStepMultiplier(stepMultiplier: Float) {
         prefs.stepMultiplier = stepMultiplier;
+        stepMultiplierSubject.onNext(stepMultiplier)
     }
 
-    override fun getDotScale(): Float {
-        val scale = prefs.dotScale
-        return if (scale != 0f) scale
-        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().displayMetrics)
-    }
+    override fun getDotScale() = dotScaleSubject
 
     override fun setDotScale(dotScale: Float) {
         prefs.dotScale = dotScale
+        dotScaleSubject.onNext(dotScale)
     }
 
-    override fun getLineScale(): Float {
-        val scale = prefs.lineScale
-        return if (scale != 0f) scale
-        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().displayMetrics)
-    }
+    override fun getLineScale() = lineScaleSubject
 
     override fun setLineScale(lineScale: Float) {
         prefs.lineScale = lineScale
+        lineScaleSubject.onNext(lineScale)
     }
 
-    override fun getLineDistance(): Float {
-        val value = prefs.lineDistance
-        return if (value != 0f) value
-        else TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 86f, Resources.getSystem().displayMetrics)
-    }
+    override fun getLineDistance() = lineDistanceSubject
 
     override fun setLineDistance(lineDistance: Float) {
         prefs.lineDistance = lineDistance
+        lineDistanceSubject.onNext(lineDistance)
     }
 
-    override fun getColor() = prefs.color
+    override fun getColor() = colorSubject
 
     override fun setColor(color: Int) {
         prefs.color = color
+        colorSubject.onNext(color)
     }
 }

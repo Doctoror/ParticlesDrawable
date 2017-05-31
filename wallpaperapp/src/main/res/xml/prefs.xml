@@ -17,46 +17,32 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.doctoror.particleswallpaper.presentation.preference.ColorPreferenceNoPreview
+    <com.doctoror.particleswallpaper.presentation.preference.ColorPreferenceImpl
         android:key="@string/pref_key_color"
-        android:title="@string/Color"
-        android:defaultValue="@android:color/white"
-        android:persistent="false"/>
+        android:title="@string/Color"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
+    <com.doctoror.particleswallpaper.presentation.preference.NumDotsPreference
         android:key="@string/pref_key_num_dots"
-        android:title="@string/Number_of_dots"
-        android:persistent="false"
-        app:max="119"/>
+        android:title="@string/Number_of_dots"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
+    <com.doctoror.particleswallpaper.presentation.preference.DotScalePreference
         android:key="@string/pref_key_dot_scale"
-        android:title="@string/Dot_scale"
-        android:persistent="false"
-        app:max="70"/>
+        android:title="@string/Dot_scale"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
+    <com.doctoror.particleswallpaper.presentation.preference.LineScalePreference
         android:key="@string/pref_key_line_scale"
-        android:title="@string/Line_scale"
-        android:persistent="false"
-        app:max="70"/>
+        android:title="@string/Line_scale"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
+    <com.doctoror.particleswallpaper.presentation.preference.LineDistancePreference
         android:key="@string/pref_key_line_distance"
-        android:title="@string/Line_distance"
-        android:persistent="false"
-        app:max="100"/>
+        android:title="@string/Line_distance"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
+    <com.doctoror.particleswallpaper.presentation.preference.SpeedFactorPreference
         android:key="@string/pref_key_step_multiplier"
-        android:title="@string/Speed_factor"
-        android:persistent="false"
-        app:max="40"/>
+        android:title="@string/Speed_factor"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
+    <com.doctoror.particleswallpaper.presentation.preference.FrameDelayPreference
         android:key="@string/pref_key_frame_delay"
-        android:title="@string/Frame_rate"
-        android:persistent="false"
-        app:max="80"/>
+        android:title="@string/Frame_rate"/>
 
 </PreferenceScreen>

@@ -19,23 +19,57 @@ import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.data.mapper.DotRadiusMapper
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
+ *
+ * Not thread safe!
  */
 class DrawableConfiguratorImpl : DrawableConfigurator {
 
-    override fun configure(drawable: ParticlesDrawable, settings: SettingsRepository) {
-        drawable.setNumDots(settings.getNumDots())
-        val radiusRange = DotRadiusMapper.transform(settings.getDotScale())
-        drawable.setDotRadiusRange(radiusRange.first, radiusRange.second)
-        drawable.setLineThickness(settings.getLineScale())
-        drawable.setLineDistance(settings.getLineDistance())
+    var disposables : CompositeDisposable? = null
 
-        drawable.setStepMultiplier(settings.getStepMultiplier())
-        drawable.setFrameDelay(settings.getFrameDelay())
+    override fun subscribe(drawable: ParticlesDrawable, settings: SettingsRepository) {
+        disposables?.dispose()
+        disposables = CompositeDisposable()
 
-        drawable.setLineColor(settings.getColor())
-        drawable.setDotColor(settings.getColor())
+        disposables!!.add(settings.getColor().subscribe({ c ->
+            drawable.setDotColor(c)
+            drawable.setLineColor(c)
+        }))
+
+        disposables!!.add(settings.getNumDots().subscribe({ v ->
+            drawable.setNumDots(v)
+            drawable.makeBrandNewFrame()
+        }))
+
+        disposables!!.add(settings.getDotScale().subscribe({ v ->
+            val radiusRange = DotRadiusMapper.transform(v)
+            drawable.setDotRadiusRange(radiusRange.first, radiusRange.second)
+            drawable.makeBrandNewFrame()
+        }))
+
+        disposables!!.add(settings.getLineScale().subscribe({ v ->
+            drawable.setLineThickness(v)
+            drawable.makeBrandNewFrame()
+        }))
+
+        disposables!!.add(settings.getLineDistance().subscribe({ v ->
+            drawable.setLineDistance(v)
+        }))
+
+        disposables!!.add(settings.getStepMultiplier().subscribe({ v ->
+            drawable.setStepMultiplier(v)
+        }))
+
+        disposables!!.add(settings.getFrameDelay().subscribe({ v ->
+            drawable.setFrameDelay(v)
+        }))
+    }
+
+    override fun dispose() {
+        disposables?.dispose()
+        disposables = null
     }
 }

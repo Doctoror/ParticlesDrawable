@@ -30,7 +30,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 /**
  * [SeekBar] [Preference]
  */
-class SeekBarPreference @JvmOverloads constructor
+open class SeekBarPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : Preference(context, attrs, defStyle), OnSeekBarChangeListener {
 
