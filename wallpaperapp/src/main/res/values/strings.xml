@@ -19,6 +19,10 @@
     <string name="app_name">ParticlesWallpaper</string>
     <string name="Wallpaper_description">Particles Wallpaper</string>
 
+    <string name="Appearance">Appearance</string>
+    <string name="Scale">Scale</string>
+    <string name="Performance">Performance</string>
+
     <string name="Number_of_dots">Number of dots</string>
     <string name="Dot_scale">Dot scale</string>
     <string name="Line_scale">Line scale</string>

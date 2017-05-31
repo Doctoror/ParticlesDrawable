@@ -20,4 +20,8 @@
     <style name="AppTheme" parent="android:Theme.Holo">
     </style>
 
+    <style name="AppTheme.BlackBackground">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
 </resources>
