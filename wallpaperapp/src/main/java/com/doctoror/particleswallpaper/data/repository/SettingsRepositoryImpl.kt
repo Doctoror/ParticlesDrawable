@@ -55,15 +55,15 @@ class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
         else defaults.getStepMultiplier().blockingFirst())
 
         val scale = prefs.dotScale
-        dotScaleSubject.onNext(if (scale != 1f) scale
+        dotScaleSubject.onNext(if (scale != -1f) scale
         else defaults.getDotScale().blockingFirst())
 
         val lineScale = prefs.lineScale
-        lineScaleSubject.onNext(if (lineScale != 1f) lineScale
+        lineScaleSubject.onNext(if (lineScale != -1f) lineScale
         else defaults.getLineScale().blockingFirst())
 
         val lineDistance = prefs.lineDistance
-        lineDistanceSubject.onNext(if (lineDistance != 1f) lineDistance
+        lineDistanceSubject.onNext(if (lineDistance != -1f) lineDistance
         else defaults.getLineDistance().blockingFirst())
     }
 

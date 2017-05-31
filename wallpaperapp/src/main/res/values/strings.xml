@@ -43,6 +43,9 @@
     <string name="Are_you_sure_you_want_to_reset_all_settings_to_default_values">Are you sure you
         want to reset all settings to default values?
     </string>
+
     <string name="Reset">Reset</string>
+    <string name="Preview">Preview</string>
+    <string name="Failed_to_start_preview">Failed to start_preview</string>
 
 </resources>
