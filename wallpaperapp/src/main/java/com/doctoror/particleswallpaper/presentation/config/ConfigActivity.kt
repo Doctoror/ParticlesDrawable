@@ -18,9 +18,11 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.annotation.TargetApi
 import android.app.ActionBar
 import android.app.Activity
-import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -36,8 +38,11 @@ import com.doctoror.particleswallpaper.domain.interactor.SetWallpaperUseCase
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.compat.ViewCompat
 import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
 
 class ConfigActivity : Activity() {
 
@@ -88,7 +93,11 @@ class ConfigActivity : Activity() {
 
     override fun onStart() {
         super.onStart()
-        bgDisposable = settings.getBackgroundUri().subscribe({ v -> applyBackground(v) })
+        bgDisposable = Observable.combineLatest(
+                settings.getBackgroundUri(),
+                settings.getBackgroundColor(),
+                BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1!!, t2!!) })
+                .subscribe({ result: Pair<String, Int> -> applyBackground(result) })
         configurator.subscribe(particlesDrawable, settings)
         particlesDrawable.start()
     }
@@ -100,15 +109,33 @@ class ConfigActivity : Activity() {
         configurator.dispose()
     }
 
-    private fun applyBackground(uri: String) {
+    private fun applyBackground(result: Pair<String, Int>) {
+        applyBackground(result.first, result.second)
+    }
+
+    private fun applyBackground(uri: String, @ColorInt color: Int) {
         val bg = findViewById(R.id.bg) as ImageView
         if (uri == "") {
-            bg.setImageDrawable(null)
+            onNoBackgroundImage(bg, color)
         } else {
             Picasso.with(this)
                     .load(uri)
-                    .into(bg)
+                    .into(bg, object : Callback {
+                        override fun onSuccess() {
+                            ViewCompat.setBackground(bg, null)
+                        }
+
+                        override fun onError() {
+                            onNoBackgroundImage(bg, color)
+                        }
+                    })
         }
+    }
+
+    private fun onNoBackgroundImage(bg: ImageView, @ColorInt color: Int) {
+        bg.setImageDrawable(null)
+        ViewCompat.setBackground(bg,
+                (if (color == Color.BLACK) null else ColorDrawable(color)))
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

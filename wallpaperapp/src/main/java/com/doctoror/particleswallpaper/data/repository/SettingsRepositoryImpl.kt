@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.Context
+import android.support.annotation.ColorInt
 import com.doctoror.particleswallpaper.data.prefs.Prefs
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import io.reactivex.subjects.BehaviorSubject
@@ -28,6 +29,7 @@ class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
     val defaults = SettingsRepositoryDefault()
 
     val colorSubject = BehaviorSubject.create<Int>()!!
+    val backgroundColorSubject = BehaviorSubject.create<Int>()!!
     val backgroundUriSubject = BehaviorSubject.create<String>()!!
     val numDotsSubject = BehaviorSubject.create<Int>()!!
     val frameDelaySubject = BehaviorSubject.create<Int>()!!
@@ -40,6 +42,7 @@ class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
 
     init {
         colorSubject.onNext(prefs.color)
+        backgroundColorSubject.onNext(prefs.backgroundColor)
         backgroundUriSubject.onNext(prefs.backgroundUri)
 
         val numDots = prefs.numDots
@@ -115,6 +118,13 @@ class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
         prefs.color = color
         colorSubject.onNext(color)
     }
+
+    override fun setBackgroundColor(@ColorInt color: Int) {
+        prefs.backgroundColor = color
+        backgroundColorSubject.onNext(color)
+    }
+
+    override fun getBackgroundColor() = backgroundColorSubject
 
     override fun getBackgroundUri() = backgroundUriSubject
 

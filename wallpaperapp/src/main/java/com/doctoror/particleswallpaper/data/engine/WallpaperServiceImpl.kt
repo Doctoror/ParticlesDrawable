@@ -52,7 +52,8 @@ class WallpaperServiceImpl : WallpaperService() {
             SettingsRepositoryFactory.provide(this@WallpaperServiceImpl)
         }
 
-        private var mBackgroundDisposable : Disposable? = null
+        private var mBackgroundDisposable: Disposable? = null
+        private var mBackgroundColorDisposable: Disposable? = null
 
         private val DEFAULT_DELAY = 10
 
@@ -76,13 +77,15 @@ class WallpaperServiceImpl : WallpaperService() {
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
             mConfigurator.subscribe(mDrawable, mSettings)
-            mBackgroundDisposable = mSettings.getBackgroundUri().subscribe({u -> handleBackground(u)})
+            mBackgroundDisposable = mSettings.getBackgroundUri().subscribe({ u -> handleBackground(u) })
+            mBackgroundColorDisposable = mSettings.getBackgroundColor().subscribe({ c -> mPaint.color = c })
         }
 
         override fun onDestroy() {
             super.onDestroy()
             mConfigurator.dispose()
             mBackgroundDisposable?.dispose()
+            mBackgroundColorDisposable?.dispose()
         }
 
         private fun handleBackground(uri: String) {
@@ -157,7 +160,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private val mDrawRunnable = Runnable { this.draw() }
 
-        private val mImageLoadTarget = object: Target {
+        private val mImageLoadTarget = object : Target {
 
             override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
                 // Unhandled
@@ -168,7 +171,7 @@ class WallpaperServiceImpl : WallpaperService() {
             }
 
             override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-               mBackground = bitmap
+                mBackground = bitmap
             }
         }
     }

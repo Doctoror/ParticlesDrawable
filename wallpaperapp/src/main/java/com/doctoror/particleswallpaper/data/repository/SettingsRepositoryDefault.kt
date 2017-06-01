@@ -44,4 +44,6 @@ class SettingsRepositoryDefault : SettingsRepository {
     override fun getColor() = Observable.just(Color.WHITE)!!
 
     override fun getBackgroundUri() = Observable.just("")!!
+
+    override fun getBackgroundColor() = Observable.just(Color.BLACK)!!
 }

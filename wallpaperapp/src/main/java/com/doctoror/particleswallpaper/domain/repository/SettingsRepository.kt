@@ -30,4 +30,5 @@ interface SettingsRepository {
     fun getLineDistance(): Observable<Float>
     fun getColor(): Observable<Int>
     fun getBackgroundUri(): Observable<String>
+    fun getBackgroundColor(): Observable<Int>
 }

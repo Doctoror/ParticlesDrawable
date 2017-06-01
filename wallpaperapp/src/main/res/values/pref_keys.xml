@@ -20,6 +20,7 @@
     <string translatable="false" name="pref_key_reset_to_defaults">pref_key_reset_to_defaults</string>
     <string translatable="false" name="pref_key_num_dots">pref_key_num_dots</string>
     <string translatable="false" name="pref_key_color">pref_key_color</string>
+    <string translatable="false" name="pref_key_background_color">pref_background_color</string>
     <string translatable="false" name="pref_key_background_image">pref_background_image</string>
     <string translatable="false" name="pref_key_frame_delay">pref_key_frame_delay</string>
     <string translatable="false" name="pref_key_step_multiplier">pref_key_step_multiplier</string>

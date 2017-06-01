@@ -26,7 +26,7 @@ class ViewCompat private constructor() {
 
     companion object {
 
-        @JvmStatic fun setBackground(view: View, drawable: Drawable) {
+        @JvmStatic fun setBackground(view: View, drawable: Drawable?) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 view.background = drawable
             } else {
