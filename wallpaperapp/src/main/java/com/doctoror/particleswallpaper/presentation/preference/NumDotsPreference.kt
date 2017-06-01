@@ -15,8 +15,10 @@
  */
 package com.doctoror.particleswallpaper.presentation.preference
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
-import android.os.Parcelable
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
@@ -29,7 +31,9 @@ import javax.inject.Inject
  */
 class NumDotsPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : SeekBarPreference(context, attrs, defStyle), MapperSeekbarPreference<Int> {
+    : SeekBarPreference(context, attrs, defStyle),
+        MapperSeekbarPreference<Int>,
+        LifecycleObserver {
 
     @Inject lateinit var settings: MutableSettingsRepository
     var disposable: Disposable? = null
@@ -51,25 +55,16 @@ class NumDotsPreference @JvmOverloads constructor
             }
             true
         })
-        subscribe()
     }
 
-    private fun subscribe() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun subscribe() {
         disposable = settings.getNumDots().subscribe(changeAction)
     }
 
-    private fun unsubscribe() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun unsubscribe() {
         disposable?.dispose()
-    }
-
-    override fun onRestoreInstanceState(state: Parcelable) {
-        super.onRestoreInstanceState(state)
-        subscribe()
-    }
-
-    override fun onSaveInstanceState(): Parcelable {
-        unsubscribe()
-        return super.onSaveInstanceState()
     }
 
     override fun transformToRealValue(progress: Int) = progress + 1

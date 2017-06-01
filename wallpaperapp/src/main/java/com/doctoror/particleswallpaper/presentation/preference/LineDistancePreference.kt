@@ -15,6 +15,8 @@
  */
 package com.doctoror.particleswallpaper.presentation.preference
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
@@ -52,15 +54,15 @@ class LineDistancePreference @JvmOverloads constructor
             }
             true
         })
-
-        subscribe()
     }
 
-    private fun subscribe() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun subscribe() {
         disposable = settings.getLineDistance().subscribe(changeAction)
     }
 
-    private fun unsubscribe() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun unsubscribe() {
         disposable?.dispose()
     }
 

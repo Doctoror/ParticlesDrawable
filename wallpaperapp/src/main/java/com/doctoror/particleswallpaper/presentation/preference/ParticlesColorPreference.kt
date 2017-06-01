@@ -15,8 +15,10 @@
  */
 package com.doctoror.particleswallpaper.presentation.preference
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
-import android.os.Parcelable
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
@@ -32,7 +34,8 @@ import javax.inject.Named
  */
 class ParticlesColorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : ColorPreferenceNoPreview(context, attrs) {
+    : ColorPreferenceNoPreview(context, attrs),
+        LifecycleObserver {
 
     @Inject lateinit var settings: MutableSettingsRepository
     @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
@@ -53,26 +56,16 @@ class ParticlesColorPreference @JvmOverloads constructor
             settings.setColor(color)
             true
         })
-
-        subscribe()
     }
 
-    private fun subscribe() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun subscribe() {
         disposable = settings.getColor().subscribe(changeAction)
     }
 
-    private fun unsubscribe() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun unsubscribe() {
         disposable?.dispose()
-    }
-
-    override fun onRestoreInstanceState(state: Parcelable) {
-        super.onRestoreInstanceState(state)
-        subscribe()
-    }
-
-    override fun onSaveInstanceState(): Parcelable {
-        unsubscribe()
-        return super.onSaveInstanceState()
     }
 
     override fun getPersistedInt(defaultReturnValue: Int): Int {

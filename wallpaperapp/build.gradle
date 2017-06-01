@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.doctoror.particleswallpaper"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0.0"
@@ -51,6 +51,7 @@ android {
 dependencies {
     ext.daggerVersion = '2.11'
     ext.gendalfVersion = '1.3.1'
+    ext.lifecycleVersion = '1.0.0-alpha1'
 
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
@@ -75,6 +76,11 @@ dependencies {
     compile "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    compile "android.arch.lifecycle:runtime:$lifecycleVersion"
+    compile "android.arch.lifecycle:extensions:$lifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycleVersion"
+    kapt "android.arch.lifecycle:compiler:$lifecycleVersion"
 }
 
 repositories {
