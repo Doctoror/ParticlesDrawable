@@ -39,11 +39,7 @@
         android:orientation="vertical"
         android:background="@color/translucentBackground">
 
-        <fragment
-            class="com.doctoror.particleswallpaper.presentation.config.ConfigFragment"
-            android:tag="ConfigFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <include layout="@layout/activity_config_fragment"/>
 
     </LinearLayout>
 

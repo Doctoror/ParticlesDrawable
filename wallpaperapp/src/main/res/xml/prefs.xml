@@ -38,7 +38,9 @@
 
         <com.doctoror.particleswallpaper.presentation.preference.BackgroundImagePreference
             android:key="@string/pref_key_background_image"
-            android:title="@string/Background_image"/>
+            android:title="@string/Background_image"
+            android:summary="@string/Supported_on_KitKat_and_later"
+            android:enabled="false"/>
 
         <com.doctoror.particleswallpaper.presentation.preference.NumDotsPreference
             android:key="@string/pref_key_num_dots"

@@ -12,7 +12,20 @@
 
         <activity
             android:name=".presentation.config.ConfigActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:enabled="@bool/useLegacyConfigActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".presentation.config.ConfigActivityLollipop"
+            android:launchMode="singleInstance"
+            android:enabled="@bool/useLollipopConfigActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

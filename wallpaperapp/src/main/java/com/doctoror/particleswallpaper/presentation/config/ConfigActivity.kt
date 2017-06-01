@@ -15,38 +15,26 @@
  */
 package com.doctoror.particleswallpaper.presentation.config
 
-import android.annotation.TargetApi
-import android.app.ActionBar
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.support.annotation.ColorInt
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
-import android.widget.Toolbar
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.data.config.DrawableConfiguratorFactory
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
-import com.doctoror.particleswallpaper.domain.interactor.SetWallpaperUseCase
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.compat.ViewCompat
-import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 
-class ConfigActivity : Activity() {
-
-    private val requestCodeSetWallpaper = 1;
+open class ConfigActivity : Activity() {
 
     private val particlesDrawable = ParticlesDrawable()
 
@@ -64,31 +52,6 @@ class ConfigActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_config)
         ViewCompat.setBackground(findViewById(R.id.drawableContainer), particlesDrawable)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ConfigActivityLollipop.onCreate(this)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.activity_config, menu)
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-
-            R.id.actionPreview -> {
-                SetWallpaperUseCase(this, requestCodeSetWallpaper).useCase().subscribe({
-                    v ->
-                    if (!v) Toast.makeText(this, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
-                })
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onStart() {
@@ -136,20 +99,5 @@ class ConfigActivity : Activity() {
         bg.setImageDrawable(null)
         ViewCompat.setBackground(bg,
                 (if (color == Color.BLACK) null else ColorDrawable(color)))
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private class ConfigActivityLollipop {
-        companion object {
-            @JvmStatic fun onCreate(a: ConfigActivity) {
-                val root = a.findViewById(R.id.toolbarContainer) as ViewGroup
-                val toolbar = Toolbar(a)
-                root.addView(toolbar, 0,
-                        ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                ThemeUtils.getDimension(a.theme, android.R.attr.actionBarSize).toInt()))
-                a.setActionBar(toolbar)
-                a.actionBar?.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
-            }
-        }
     }
 }

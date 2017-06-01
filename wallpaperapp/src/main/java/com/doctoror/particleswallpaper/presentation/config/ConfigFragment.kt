@@ -17,7 +17,6 @@ package com.doctoror.particleswallpaper.presentation.config
 
 import android.app.Fragment
 import android.content.Intent
-import android.os.Build
 import android.preference.PreferenceFragment
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
@@ -27,39 +26,18 @@ import com.doctoror.particleswallpaper.presentation.preference.BackgroundImagePr
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
  */
-class ConfigFragment(val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())
+open class ConfigFragment(val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())
     : PreferenceFragment(), OnActivityResultCallbackHost by ch {
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.prefs)
-        handlePreKitKat()
-        handlePostLollipop()
         setBackgroundImagePreferenceHost(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         setBackgroundImagePreferenceHost(null)
-    }
-
-    private fun handlePreKitKat() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            val p = findPreference(getString(R.string.pref_key_background_image))
-            if (p != null) {
-                p.isEnabled = false
-                p.summary = getText(R.string.Supported_on_KitKat_and_later)
-            }
-        }
-    }
-
-    private fun handlePostLollipop() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val p = findPreference(getString(R.string.pref_key_preview))
-            if (p != null) {
-               preferenceScreen?.removePreference(p)
-            }
-        }
     }
 
     private fun setBackgroundImagePreferenceHost(host: Fragment?) {
