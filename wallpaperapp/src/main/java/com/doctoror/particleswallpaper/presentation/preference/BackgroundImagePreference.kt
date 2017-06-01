@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2017 Yaroslav Mytkalyk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.doctoror.particleswallpaper.presentation.preference
 
 import android.annotation.TargetApi
@@ -7,6 +22,7 @@ import android.app.Fragment
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.preference.Preference
 import android.support.annotation.RequiresApi
@@ -64,13 +80,18 @@ class BackgroundImagePreference @JvmOverloads constructor
         AlertDialog.Builder(context)
                 .setTitle(title)
                 .setPositiveButton(R.string.Pick, { _, _ -> pickDocument() })
-                .setNegativeButton(R.string.Clear, { _, _ -> clearBackground() })
-                .setNeutralButton(R.string.Cancel, null)
+                .setNeutralButton(R.string.Clear, { _, _ -> clearBackground() })
+                .setNegativeButton(R.string.Cancel, null)
                 .show()
     }
 
     private fun clearBackground() {
-        defaults.getBackgroundUri().subscribe({ u -> settings.setBackgroundUri(u) })
+        val uri = settings.getBackgroundUri().blockingFirst()
+        if (uri != "") {
+            context.contentResolver?.releasePersistableUriPermission(Uri.parse(uri),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        defaults.getBackgroundUri().take(1).subscribe({ u -> settings.setBackgroundUri(u) })
     }
 
     private fun pickDocument() {
