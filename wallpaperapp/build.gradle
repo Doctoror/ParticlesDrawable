@@ -27,6 +27,10 @@ android {
         }
     }
 
+    lintOptions {
+        checkAllWarnings true
+    }
+
     task copyTestClasses(type: Copy) {
         from "build/tmp/kotlin-classes/debugUnitTest"
         into "build/intermediates/classes/debug"
@@ -37,14 +41,17 @@ android {
         into "build/intermediates/classes/debug"
     }
 
-    afterEvaluate {
-        compileDebugUnitTestSources.dependsOn copyTestClasses
-        compileReleaseUnitTestSources.dependsOn copyTestClasses
-        compileDebugAndroidTestSources.dependsOn copySdkClasses
-    }
+//    afterEvaluate {
+//        compileDebugUnitTestSources.dependsOn copyTestClasses
+//        compileReleaseUnitTestSources.dependsOn copyTestClasses
+//        compileDebugAndroidTestSources.dependsOn copySdkClasses
+//    }
 }
 
 dependencies {
+    ext.daggerVersion = '2.11'
+    ext.gendalfVersion = '1.3.1'
+
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
 
@@ -54,16 +61,20 @@ dependencies {
 
     compile project (':library')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    
+
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     compile 'com.rarepebble:colorpicker:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    annotationProcessor 'ds.gendalf:compiler:1.3.1'
-    compile 'ds.gendalf:gendalf:1.3.1'
-    kapt 'ds.gendalf:compiler:1.3.1'
+    compile "ds.gendalf:gendalf:$gendalfVersion"
+    annotationProcessor "ds.gendalf:compiler:$gendalfVersion"
+    kapt "ds.gendalf:compiler:$gendalfVersion"
+
+    compile "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
 
 repositories {

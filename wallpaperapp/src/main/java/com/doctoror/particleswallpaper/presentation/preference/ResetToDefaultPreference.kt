@@ -20,8 +20,13 @@ import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.interactor.ResetToDefaultsUseCase
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
@@ -30,7 +35,11 @@ class ResetToDefaultPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : Preference(context, attrs) {
 
+    @Inject lateinit var settings: MutableSettingsRepository
+    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
+
     init {
+        Injector.configComponent.inject(this)
         isPersistent = false
     }
 
@@ -45,8 +54,6 @@ class ResetToDefaultPreference @JvmOverloads constructor
     }
 
     private fun onResetClick() {
-        ResetToDefaultsUseCase(SettingsRepositoryFactory.provideMutable(context),
-                SettingsRepositoryFactory.provideDefault())
-                .useCase().subscribe()
+        ResetToDefaultsUseCase(settings, defaults).useCase().subscribe()
     }
 }

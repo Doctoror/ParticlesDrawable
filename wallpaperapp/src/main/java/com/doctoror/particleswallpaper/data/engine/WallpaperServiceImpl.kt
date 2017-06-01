@@ -25,13 +25,13 @@ import android.os.Looper
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesDrawable
-import com.doctoror.particleswallpaper.data.config.DrawableConfiguratorFactory
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 18.04.17.
@@ -42,15 +42,10 @@ class WallpaperServiceImpl : WallpaperService() {
         return EngineImpl()
     }
 
-    private inner class EngineImpl internal constructor() : Engine() {
+    inner class EngineImpl internal constructor() : Engine() {
 
-        private val mConfigurator: DrawableConfigurator by lazy {
-            DrawableConfiguratorFactory.provideDrawableConfigurator()
-        }
-
-        private val mSettings: SettingsRepository by lazy {
-            SettingsRepositoryFactory.provide(this@WallpaperServiceImpl)
-        }
+        @Inject lateinit var mConfigurator: DrawableConfigurator
+        @Inject lateinit var mSettings: SettingsRepository
 
         private var mBackgroundDisposable: Disposable? = null
         private var mBackgroundColorDisposable: Disposable? = null
@@ -70,6 +65,7 @@ class WallpaperServiceImpl : WallpaperService() {
         private var mBackground: Bitmap? = null
 
         init {
+            Injector.configComponent.inject(this)
             mPaint.style = Paint.Style.FILL
             mPaint.color = Color.BLACK
         }

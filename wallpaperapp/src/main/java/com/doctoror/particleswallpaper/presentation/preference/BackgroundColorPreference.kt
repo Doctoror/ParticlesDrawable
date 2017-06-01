@@ -20,11 +20,14 @@ import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
@@ -33,10 +36,8 @@ class BackgroundColorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : ColorPreferenceNoPreview(context, attrs) {
 
-    val settings: MutableSettingsRepository
-            = SettingsRepositoryFactory.provideMutable(context)
-
-    val defaults: SettingsRepository = SettingsRepositoryFactory.provideDefault()
+    @Inject lateinit var settings: MutableSettingsRepository
+    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
 
     var disposable: Disposable? = null
 
@@ -47,6 +48,7 @@ class BackgroundColorPreference @JvmOverloads constructor
     }
 
     init {
+        Injector.configComponent.inject(this)
         isPersistent = false
         setOnPreferenceChangeListener({ _, v ->
             val color = v as? Int ?: defaults.getBackgroundColor().blockingFirst()
@@ -71,6 +73,7 @@ class BackgroundColorPreference @JvmOverloads constructor
         }
     }
 
+    // TODO NOT CALLED
     private fun subscribe() {
         disposable = settings.getBackgroundColor().subscribe(changeAction)
     }

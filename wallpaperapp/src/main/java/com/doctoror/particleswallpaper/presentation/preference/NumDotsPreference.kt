@@ -18,10 +18,11 @@ package com.doctoror.particleswallpaper.presentation.preference
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.presentation.di.Injector
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
@@ -30,7 +31,7 @@ class NumDotsPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle), MapperSeekbarPreference<Int> {
 
-    val settings: MutableSettingsRepository = SettingsRepositoryFactory.provideMutable(context)
+    @Inject lateinit var settings: MutableSettingsRepository
     var disposable: Disposable? = null
 
     private val changeAction = Consumer<Int> { t ->
@@ -40,6 +41,7 @@ class NumDotsPreference @JvmOverloads constructor
     }
 
     init {
+        Injector.configComponent.inject(this)
         isPersistent = false
         max = 119
         setOnPreferenceChangeListener({ _, v ->

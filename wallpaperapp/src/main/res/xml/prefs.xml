@@ -28,7 +28,7 @@
     <PreferenceCategory
         android:title="@string/Appearance">
 
-        <com.doctoror.particleswallpaper.presentation.preference.ColorPreferenceImpl
+        <com.doctoror.particleswallpaper.presentation.preference.ParticlesColorPreference
             android:key="@string/pref_key_color"
             android:title="@string/Color"/>
 

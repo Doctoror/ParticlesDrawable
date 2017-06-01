@@ -29,11 +29,14 @@ import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
+import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
@@ -44,11 +47,8 @@ class BackgroundImagePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : Preference(context, attrs) {
 
-    val settings: MutableSettingsRepository
-            = SettingsRepositoryFactory.provideMutable(context)
-
-    val defaults: SettingsRepository
-            = SettingsRepositoryFactory.provideDefault()
+    @Inject lateinit var settings: MutableSettingsRepository
+    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
 
     val requestCodePick = 1
 
@@ -67,16 +67,12 @@ class BackgroundImagePreference @JvmOverloads constructor
         }
 
     init {
+        Injector.configComponent.inject(this)
         isPersistent = false
-        setDefaultValue(settings.getBackgroundUri().blockingFirst())
-        setOnPreferenceClickListener {
-            _ ->
-            onPrefClicked()
-            true
-        }
     }
 
-    private fun onPrefClicked() {
+    override fun onClick() {
+        super.onClick()
         AlertDialog.Builder(context)
                 .setTitle(title)
                 .setPositiveButton(R.string.Pick, { _, _ -> pickDocument() })

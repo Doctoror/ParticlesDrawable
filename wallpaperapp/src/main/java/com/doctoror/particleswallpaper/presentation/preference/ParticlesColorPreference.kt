@@ -18,23 +18,24 @@ package com.doctoror.particleswallpaper.presentation.preference
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
  */
-class ColorPreferenceImpl @JvmOverloads constructor
+class ParticlesColorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : ColorPreferenceNoPreview(context, attrs) {
 
-    val settings: MutableSettingsRepository
-            = SettingsRepositoryFactory.provideMutable(context)
-
-    val defaults: SettingsRepository = SettingsRepositoryFactory.provideDefault()
+    @Inject lateinit var settings: MutableSettingsRepository
+    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
 
     var disposable: Disposable? = null
 
@@ -45,6 +46,7 @@ class ColorPreferenceImpl @JvmOverloads constructor
     }
 
     init {
+        Injector.configComponent.inject(this)
         isPersistent = false
         setOnPreferenceChangeListener({ _, v ->
             val color = v as? Int ?: defaults.getColor().blockingFirst()

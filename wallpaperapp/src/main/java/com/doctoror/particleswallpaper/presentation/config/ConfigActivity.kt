@@ -23,33 +23,29 @@ import android.support.annotation.ColorInt
 import android.widget.ImageView
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.data.config.DrawableConfiguratorFactory
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryFactory
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.compat.ViewCompat
+import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
+import javax.inject.Inject
 
 open class ConfigActivity : Activity() {
 
     private val particlesDrawable = ParticlesDrawable()
 
-    private val settings: SettingsRepository by lazy {
-        SettingsRepositoryFactory.provide(this)
-    }
-
-    private val configurator: DrawableConfigurator by lazy {
-        DrawableConfiguratorFactory.provideDrawableConfigurator()
-    }
+    @Inject lateinit var configurator: DrawableConfigurator
+    @Inject lateinit var settings: SettingsRepository
 
     private var bgDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Injector.configComponent.inject(this)
         setContentView(R.layout.activity_config)
         ViewCompat.setBackground(findViewById(R.id.drawableContainer), particlesDrawable)
     }
