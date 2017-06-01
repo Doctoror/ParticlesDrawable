@@ -3,21 +3,27 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
 
     defaultConfig {
         applicationId "com.doctoror.particleswallpaper"
-        minSdkVersion 14
-        targetSdkVersion 25
+
+        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+
         versionCode 1
         versionName "1.0.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     buildTypes {
@@ -49,38 +55,35 @@ android {
 }
 
 dependencies {
-    ext.daggerVersion = '2.11'
-    ext.gendalfVersion = '1.3.1'
-    ext.lifecycleVersion = '1.0.0-alpha1'
+    def d = rootProject.ext.wallpaperappDependencies
+    def td = rootProject.ext.wallpaperappTestDependencies
 
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile td.testRunner
+    androidTestCompile td.testRules
 
-    androidTestCompile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    androidTestCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    androidTestCompile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    androidTestCompile td.kotlin
+    androidTestCompile td.kotlinTest
+    androidTestCompile td.kotlinReflect
 
     compile project (':library')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile d.kotlin
+    compile d.rxJava
 
-    compile 'com.rarepebble:colorpicker:2.2.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile d.colorPicker
+    compile d.picasso
 
-    compile "ds.gendalf:gendalf:$gendalfVersion"
-    annotationProcessor "ds.gendalf:compiler:$gendalfVersion"
-    kapt "ds.gendalf:compiler:$gendalfVersion"
+    compile d.gendalf
+    annotationProcessor d.gendalfCompiler
+    kapt d.gendalfCompiler
 
-    compile "com.google.dagger:dagger:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile d.dagger
+    annotationProcessor d.daggerCompiler
+    kapt d.daggerCompiler
 
-    compile "android.arch.lifecycle:runtime:$lifecycleVersion"
-    compile "android.arch.lifecycle:extensions:$lifecycleVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$lifecycleVersion"
-    kapt "android.arch.lifecycle:compiler:$lifecycleVersion"
+    compile d.lifecycle
+    annotationProcessor d.lifecycleCompiler
+    kapt d.lifecycleCompiler
 }
 
 repositories {

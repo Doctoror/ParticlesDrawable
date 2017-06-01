@@ -1,12 +1,17 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
 
     defaultConfig {
+
         minSdkVersion 9
         targetSdkVersion 25
+
         versionCode 3
         versionName "1.0.2"
 
@@ -31,13 +36,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-annotations:25.3.1'
+    def d = rootProject.ext.libraryDependencies
+    def td = rootProject.ext.libraryTestDependencies
 
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile td.testRunner
+    androidTestCompile td.testRules
 
-    javadocDeps 'com.android.support:support-annotations:25.3.1'
+    javadocDeps d.annotations
+
+    compile d.annotations
 }
 
 apply from: './gradle-mvn-push.gradle'
