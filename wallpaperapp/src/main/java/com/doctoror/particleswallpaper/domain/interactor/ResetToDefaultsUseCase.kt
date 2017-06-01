@@ -14,6 +14,7 @@ class ResetToDefaultsUseCase(val settings: MutableSettingsRepository,
 
     private fun reset() {
         settings.setColor(defaults.getColor().blockingFirst())
+        settings.setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
         settings.setBackgroundUri(defaults.getBackgroundUri().blockingFirst())
         settings.setNumDots(defaults.getNumDots().blockingFirst())
 
