@@ -70,11 +70,12 @@ class BackgroundImagePreference @JvmOverloads constructor
     }
 
     private fun clearBackground() {
-        defaults.getBackgroundUri().subscribe({u -> settings.setBackgroundUri(u)})
+        defaults.getBackgroundUri().subscribe({ u -> settings.setBackgroundUri(u) })
     }
 
     private fun pickDocument() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
         intent.type = "image/*"
         try {
             host?.startActivityForResult(intent, requestCodePick)
@@ -89,6 +90,8 @@ class BackgroundImagePreference @JvmOverloads constructor
             if (requestCode == requestCodePick && resultCode == Activity.RESULT_OK && data != null) {
                 val uri = data.data
                 if (uri != null) {
+                    context.contentResolver?.takePersistableUriPermission(uri,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     settings.setBackgroundUri(uri.toString())
                 }
             }
