@@ -31,39 +31,41 @@ class DrawableConfiguratorImpl : DrawableConfigurator {
     var disposables : CompositeDisposable? = null
 
     override fun subscribe(drawable: ParticlesDrawable, settings: SettingsRepository) {
-        disposables?.dispose()
-        disposables = CompositeDisposable()
+        val d = CompositeDisposable()
 
-        disposables!!.add(settings.getColor().subscribe({ c ->
+        disposables?.dispose()
+        disposables = d
+
+        d.add(settings.getColor().subscribe({ c ->
             drawable.setDotColor(c)
             drawable.setLineColor(c)
         }))
 
-        disposables!!.add(settings.getNumDots().subscribe({ v ->
+        d.add(settings.getNumDots().subscribe({ v ->
             drawable.setNumDots(v)
             drawable.makeBrandNewFrame()
         }))
 
-        disposables!!.add(settings.getDotScale().subscribe({ v ->
+        d.add(settings.getDotScale().subscribe({ v ->
             val radiusRange = DotRadiusMapper.transform(v)
             drawable.setDotRadiusRange(radiusRange.first, radiusRange.second)
             drawable.makeBrandNewFrame()
         }))
 
-        disposables!!.add(settings.getLineScale().subscribe({ v ->
+        d.add(settings.getLineScale().subscribe({ v ->
             drawable.setLineThickness(v)
             drawable.makeBrandNewFrame()
         }))
 
-        disposables!!.add(settings.getLineDistance().subscribe({ v ->
+        d.add(settings.getLineDistance().subscribe({ v ->
             drawable.setLineDistance(v)
         }))
 
-        disposables!!.add(settings.getStepMultiplier().subscribe({ v ->
+        d.add(settings.getStepMultiplier().subscribe({ v ->
             drawable.setStepMultiplier(v)
         }))
 
-        disposables!!.add(settings.getFrameDelay().subscribe({ v ->
+        d.add(settings.getFrameDelay().subscribe({ v ->
             drawable.setFrameDelay(v)
         }))
     }
