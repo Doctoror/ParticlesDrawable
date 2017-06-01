@@ -22,6 +22,7 @@ import ds.gendalf.PrefsConfig;
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
  */
+@SuppressWarnings("unused")
 @PrefsConfig("Prefs")
 public interface PrefsConfigImpl {
 

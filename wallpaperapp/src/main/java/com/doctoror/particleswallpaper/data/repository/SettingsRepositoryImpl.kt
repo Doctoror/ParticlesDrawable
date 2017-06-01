@@ -80,14 +80,14 @@ class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
     override fun getFrameDelay() = frameDelaySubject
 
     override fun setFrameDelay(frameDelay: Int) {
-        prefs.frameDelay = frameDelay;
+        prefs.frameDelay = frameDelay
         frameDelaySubject.onNext(frameDelay)
     }
 
     override fun getStepMultiplier() = stepMultiplierSubject
 
     override fun setStepMultiplier(stepMultiplier: Float) {
-        prefs.stepMultiplier = stepMultiplier;
+        prefs.stepMultiplier = stepMultiplier
         stepMultiplierSubject.onNext(stepMultiplier)
     }
 

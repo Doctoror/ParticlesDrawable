@@ -21,7 +21,7 @@ import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class ConfigActivityLollipop : ConfigActivity() {
 
-    private val requestCodeSetWallpaper = 1;
+    private val requestCodeSetWallpaper = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

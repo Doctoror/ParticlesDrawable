@@ -15,8 +15,6 @@
  */
 package com.doctoror.particleswallpaper.presentation.preference
 
-import com.doctoror.particleswallpaper.R
-
 import android.content.Context
 import android.content.res.TypedArray
 import android.os.Parcel
@@ -26,6 +24,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import com.doctoror.particleswallpaper.R
 
 /**
  * [SeekBar] [Preference]
@@ -169,8 +168,8 @@ open class SeekBarPreference @JvmOverloads constructor
 
     private class SavedState : BaseSavedState {
 
-        internal var mProgress: Int = 0
-        internal var mMax: Int = 0
+        var mProgress = 0
+        var mMax = 0
 
         constructor(superState: Parcelable) : super(superState)
 
@@ -187,7 +186,7 @@ open class SeekBarPreference @JvmOverloads constructor
 
         companion object {
             @Suppress("unused")
-            @JvmStatic
+            @JvmField
             val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
                 override fun createFromParcel(p: Parcel): SavedState {
                     return SavedState(p)

@@ -21,10 +21,10 @@ package com.doctoror.particleswallpaper.data.mapper
 class DotRadiusMapper private constructor() {
 
     companion object {
-        @JvmStatic val minDotRadius = 1f;
-        @JvmStatic val maxDotRadius = 3f;
+        const val minDotRadius = 1f
+        const val maxDotRadius = 3f
 
-        @JvmStatic fun transform(dotScale: Float): Pair<Float, Float>
+        fun transform(dotScale: Float): Pair<Float, Float>
                 = Pair(minDotRadius * dotScale, maxDotRadius * dotScale)
     }
 

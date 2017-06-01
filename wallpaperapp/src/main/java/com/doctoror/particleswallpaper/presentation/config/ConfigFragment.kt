@@ -29,7 +29,8 @@ import io.reactivex.functions.Consumer
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
  */
-open class ConfigFragment(val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())
+open class ConfigFragment @JvmOverloads
+constructor(val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())
     : LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
@@ -37,14 +38,14 @@ open class ConfigFragment(val ch: OnActivityResultCallbackHostImpl = OnActivityR
         addPreferencesFromResource(R.xml.prefs)
         setBackgroundImagePreferenceHost(this)
         forEachLifecycleObserver(preferenceScreen,
-                Consumer<LifecycleObserver> {o -> lifecycle.addObserver(o)})
+                Consumer<LifecycleObserver> { o -> lifecycle.addObserver(o) })
     }
 
     override fun onDestroy() {
         super.onDestroy()
         setBackgroundImagePreferenceHost(null)
         forEachLifecycleObserver(preferenceScreen,
-                Consumer<LifecycleObserver> {o -> lifecycle.removeObserver(o)})
+                Consumer<LifecycleObserver> { o -> lifecycle.removeObserver(o) })
     }
 
     private fun setBackgroundImagePreferenceHost(host: Fragment?) {
@@ -60,7 +61,7 @@ open class ConfigFragment(val ch: OnActivityResultCallbackHostImpl = OnActivityR
     }
 
     private fun forEachLifecycleObserver(g: PreferenceGroup, c: Consumer<LifecycleObserver>) {
-        for (i in 0 .. g.preferenceCount - 1) {
+        for (i in 0..g.preferenceCount - 1) {
             val p = g.getPreference(i)
             if (p is LifecycleObserver) {
                 c.accept(p)
