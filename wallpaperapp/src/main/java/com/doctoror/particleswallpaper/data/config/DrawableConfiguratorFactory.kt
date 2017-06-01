@@ -21,8 +21,12 @@ import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
  * Created by Yaroslav Mytkalyk on 29.05.17.
  */
 class DrawableConfiguratorFactory private constructor() {
+
+    init {
+        throw UnsupportedOperationException()
+    }
+
     companion object {
-        @JvmStatic fun provideDrawableConfigurator() : DrawableConfigurator
-                = DrawableConfiguratorImpl()
+        fun provideDrawableConfigurator() : DrawableConfigurator = DrawableConfiguratorImpl()
     }
 }

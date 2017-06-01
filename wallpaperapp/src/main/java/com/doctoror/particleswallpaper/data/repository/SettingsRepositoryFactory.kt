@@ -24,21 +24,24 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
  */
 class SettingsRepositoryFactory private constructor() {
 
-    companion object {
-        @JvmStatic private var settingsRepository: MutableSettingsRepository? = null
-        @JvmStatic private var settingsRepositoryDefault: SettingsRepository? = null
+    init {
+        throw UnsupportedOperationException()
+    }
 
-        @JvmStatic fun provideMutable(context: Context): MutableSettingsRepository {
+    companion object {
+        private var settingsRepository: MutableSettingsRepository? = null
+        private var settingsRepositoryDefault: SettingsRepository? = null
+
+        fun provideMutable(context: Context): MutableSettingsRepository {
             if (settingsRepository == null) {
                 settingsRepository = SettingsRepositoryImpl(context.applicationContext!!)
             }
             return settingsRepository!!
         }
 
-        @JvmStatic fun provide(context: Context): SettingsRepository
-                = provideMutable(context)
+        fun provide(context: Context): SettingsRepository = provideMutable(context)
 
-        @JvmStatic fun provideDefault(): SettingsRepository {
+        fun provideDefault(): SettingsRepository {
             if (settingsRepositoryDefault == null) {
                 settingsRepositoryDefault = SettingsRepositoryDefault()
             }
