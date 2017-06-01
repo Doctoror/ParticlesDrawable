@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.data.mapper
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
  */
-class DotRadiusMapper {
+class DotRadiusMapper private constructor() {
 
     companion object {
         @JvmStatic val minDotRadius = 1f;

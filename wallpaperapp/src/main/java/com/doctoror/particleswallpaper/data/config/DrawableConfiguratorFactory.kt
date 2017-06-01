@@ -20,7 +20,7 @@ import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
  */
-class DrawableConfiguratorFactory {
+class DrawableConfiguratorFactory private constructor() {
     companion object {
         @JvmStatic fun provideDrawableConfigurator() : DrawableConfigurator
                 = DrawableConfiguratorImpl()

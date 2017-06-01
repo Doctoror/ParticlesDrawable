@@ -22,7 +22,7 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
  */
-class SettingsRepositoryFactory {
+class SettingsRepositoryFactory private constructor() {
 
     companion object {
         @JvmStatic private var settingsRepository: MutableSettingsRepository? = null
