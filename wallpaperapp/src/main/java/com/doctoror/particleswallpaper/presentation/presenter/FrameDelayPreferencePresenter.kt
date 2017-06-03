@@ -25,43 +25,59 @@ import javax.inject.Inject
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
-class DotScalePreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView> {
+class FrameDelayPreferencePresenter @Inject constructor(val settings: MutableSettingsRepository)
+    : Presenter<SeekBarPreferenceView> {
 
-    private lateinit var view: SeekBarPreferenceView
+    lateinit var view: SeekBarPreferenceView
+
+    val frameDelaySeekbarMin = 10
 
     var disposable: Disposable? = null
 
-    private val changeAction = Consumer<Float> { t ->
+    private val changeAction = Consumer<Int> { t ->
         if (t != null) {
             view.setProgressInt(transformToProgress(t))
         }
     }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
-        view.setMaxInt(70)
+        view.setMaxInt(80)
         this.view = view
     }
 
     fun onPreferenceChange(v: Int?) {
         if (v != null) {
             val value = transformToRealValue(v)
-            settings.setDotScale(value)
+            settings.setFrameDelay(value)
         }
     }
 
     override fun onStart() {
-        disposable = settings.getDotScale().subscribe(changeAction)
+        disposable = settings.getFrameDelay().subscribe(changeAction)
     }
 
     override fun onStop() {
         disposable?.dispose()
     }
 
+    /**
+     * The seek bar represents frame rate as percentage.
+     * Converts the seek bar value between 0 and 30 to percent and then the percentage to a
+     * frame delay, where
+     * 10 ms = 100%
+     * 40 ms = 0%
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToRealValue(progress: Int) = progress.toFloat() / 5f + 0.5f
+    fun transformToRealValue(progress: Int) = (frameDelaySeekbarMin.toFloat()
+            + view.getMaxInt().toFloat() * (1f - progress.toFloat() / view.getMaxInt().toFloat())).toInt()
 
+    /**
+     * Converts frame delay to seek bar frame rate.
+     * @see transformToRealValue
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToProgress(value: Float) = ((value - 0.5f) * 5f).toInt()
-
+    fun transformToProgress(value: Int): Int {
+        val percent = (value.toFloat() - frameDelaySeekbarMin.toFloat()) / view.getMaxInt().toFloat()
+        return ((1f - percent) * view.getMaxInt().toFloat()).toInt()
+    }
 }

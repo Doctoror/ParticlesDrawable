@@ -18,8 +18,9 @@ package com.doctoror.particleswallpaper.presentation.view
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
-interface DotScalePreferenceView : MvpView {
+interface SeekBarPreferenceView : MvpView {
 
+    fun getMaxInt(): Int
     fun setMaxInt(max: Int)
     fun setProgressInt(progress: Int)
 }

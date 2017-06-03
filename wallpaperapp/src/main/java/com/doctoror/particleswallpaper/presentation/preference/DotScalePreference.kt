@@ -22,7 +22,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.presenter.DotScalePreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.DotScalePreferenceView
+import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import javax.inject.Inject
 
 /**
@@ -30,7 +30,7 @@ import javax.inject.Inject
  */
 class DotScalePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : SeekBarPreference(context, attrs, defStyle), LifecycleObserver, DotScalePreferenceView {
+    : SeekBarPreference(context, attrs, defStyle), LifecycleObserver, SeekBarPreferenceView {
 
     @Inject lateinit var presenter: DotScalePreferencePresenter
 
@@ -61,4 +61,6 @@ class DotScalePreference @JvmOverloads constructor
     override fun setProgressInt(progress: Int) {
         this.progress = progress
     }
+
+    override fun getMaxInt() = max;
 }
