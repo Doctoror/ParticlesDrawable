@@ -39,7 +39,7 @@ class DotScalePreference @JvmOverloads constructor
         isPersistent = false
         presenter.onTakeView(this)
         setOnPreferenceChangeListener({ _, v ->
-            presenter.onPreferenceChange(v as Int)
+            presenter.onPreferenceChange(v as Int?)
             true
         })
     }
