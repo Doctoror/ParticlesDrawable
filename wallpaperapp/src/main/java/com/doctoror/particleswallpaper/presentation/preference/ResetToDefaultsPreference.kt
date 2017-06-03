@@ -20,40 +20,37 @@ import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.interactor.ResetToDefaultsUseCase
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.presenter.ResetToDefaultsPreferencePresenter
+import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
  */
-class ResetToDefaultPreference @JvmOverloads constructor
+class ResetToDefaultsPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(context, attrs) {
+    : Preference(context, attrs),
+        ResetToDefaultsPreferenceView {
 
-    @Inject lateinit var settings: MutableSettingsRepository
-    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
+    @Inject lateinit var presenter: ResetToDefaultsPreferencePresenter
 
     init {
         Injector.configComponent.inject(this)
         isPersistent = false
+        presenter.onTakeView(this)
     }
 
     override fun onClick() {
-        super.onClick()
+        presenter.onClick()
+    }
+
+    override fun showWarningDialog() {
         AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(R.string.Are_you_sure_you_want_to_reset_all_settings_to_default_values)
-                .setPositiveButton(R.string.Reset, { _, _ -> onResetClick() })
+                .setPositiveButton(R.string.Reset, { _, _ -> presenter.onResetClick() })
                 .setNegativeButton(R.string.Cancel, null)
                 .show()
-    }
-
-    private fun onResetClick() {
-        ResetToDefaultsUseCase(settings, defaults).useCase().subscribe()
     }
 }

@@ -21,7 +21,7 @@
         android:key="@string/pref_key_preview"
         android:title="@string/Preview"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.ResetToDefaultPreference
+    <com.doctoror.particleswallpaper.presentation.preference.ResetToDefaultsPreference
         android:key="@string/pref_key_reset_to_defaults"
         android:title="@string/Reset_to_defaults"/>
 

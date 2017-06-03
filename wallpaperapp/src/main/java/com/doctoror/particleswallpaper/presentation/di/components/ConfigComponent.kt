@@ -29,6 +29,6 @@ interface ConfigComponent {
     fun inject(p: LineScalePreference)
     fun inject(p: NumDotsPreference)
     fun inject(p: ParticlesColorPreference)
-    fun inject(p: ResetToDefaultPreference)
+    fun inject(p: ResetToDefaultsPreference)
     fun inject(p: SpeedFactorPreference)
 }
