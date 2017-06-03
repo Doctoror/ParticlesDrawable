@@ -15,8 +15,10 @@
  */
 package com.doctoror.particleswallpaper.presentation.preference
 
-import android.content.Context
-import android.support.test.InstrumentationRegistry
+import com.doctoror.particleswallpaper.data.repository.StubMutableSettingsRepository
+import com.doctoror.particleswallpaper.presentation.presenter.*
+import com.doctoror.particleswallpaper.presentation.view.FakeSeekBarPreferenceView
+import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -27,65 +29,57 @@ class SeekBarSettingsPreferencesTest {
 
     @Test
     fun testDotScalePreference() {
-        testMapper(DotScalePreference::class.java)
+        testMapper(DotScalePreferencePresenter(StubMutableSettingsRepository()))
     }
 
     @Test
     fun testFrameDelayPreference() {
-        testMapper(FrameDelayPreference::class.java)
+        val p = FrameDelayPreferencePresenter(StubMutableSettingsRepository())
+        p.onTakeView(FakeSeekBarPreferenceView())
+        testMapper(p)
     }
 
     @Test
     fun testFrameDelayPreferenceMinValue() {
-        val p = newInstance(FrameDelayPreference::class.java)
-        assertEquals(p.frameDelaySeekbarMin, p.transformToRealValue(p.max))
+        val p = FrameDelayPreferencePresenter(StubMutableSettingsRepository())
+        p.onTakeView(FakeSeekBarPreferenceView())
+        assertEquals(p.frameDelaySeekbarMin, p.transformToRealValue(p.getSeekbarMax()))
     }
 
     @Test
     fun testLineDistancePreference() {
-        testMapper(LineDistancePreference::class.java)
+        testMapper(LineDistancePreferencePresenter(StubMutableSettingsRepository()))
     }
 
     @Test
     fun testLineScalePreference() {
-        testMapper(LineScalePreference::class.java)
+        testMapper(LineScalePreferencePresenter(StubMutableSettingsRepository()))
     }
 
     @Test
     fun testNumDotsPreference() {
-        testMapper(NumDotsPreference::class.java)
+        testMapper(NumDotsPreferencePresenter(StubMutableSettingsRepository()))
     }
 
     @Test
-    fun testSpeedFactorPreference() {
-        testMapper(SpeedFactorPreference::class.java)
+    fun testSpeedFactorPreferencePresenter() {
+        testMapper(SpeedFactorPreferencePresenter(StubMutableSettingsRepository()))
     }
 
-    private fun <T, A> testMapper(pClass: Class<T>)
-            where T : SeekBarPreference, T : MapperSeekbarPreference<A> {
-        testMapperMinValue(pClass)
-        testMapperMaxValue(pClass)
+    private fun <T> testMapper(p: MapperSeekBarPresenter<T>) {
+        testMapperMinValue(p)
+        testMapperMaxValue(p)
     }
 
-    private fun <T, A> testMapperMinValue(pClass: Class<T>)
-            where T : SeekBarPreference, T : MapperSeekbarPreference<A> {
-        val p = newInstance(pClass)
+    private fun <T> testMapperMinValue(p: MapperSeekBarPresenter<T>) {
         val seekBarValue = 0
         val frameDelay = p.transformToRealValue(seekBarValue)
         assertEquals(seekBarValue, p.transformToProgress(frameDelay))
     }
 
-    private fun <T, A> testMapperMaxValue(pClass: Class<T>)
-            where T : SeekBarPreference, T : MapperSeekbarPreference<A> {
-        val p = newInstance(pClass)
-        val seekBarValue = p.max
+    private fun <T> testMapperMaxValue(p: MapperSeekBarPresenter<T>) {
+        val seekBarValue = p.getSeekbarMax()
         val frameDelay = p.transformToRealValue(seekBarValue)
         assertEquals(seekBarValue, p.transformToProgress(frameDelay))
     }
-
-    fun <T, A> newInstance(pClass: Class<T>): T where T : SeekBarPreference, T : MapperSeekbarPreference<A> {
-        val constructor = pClass.getConstructor(Context::class.java)
-        return constructor.newInstance(InstrumentationRegistry.getTargetContext())
-    }
-
 }

@@ -20,12 +20,9 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.presenter.NumDotsPreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 /**

@@ -26,10 +26,12 @@ import javax.inject.Inject
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
 class NumDotsPreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView> {
+        val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
+        MapperSeekBarPresenter<Int> {
 
     private lateinit var view: SeekBarPreferenceView
 
+    val seekBarMaxValue = 119
     var disposable: Disposable? = null
 
     private val changeAction = Consumer<Int> { t ->
@@ -39,7 +41,7 @@ class NumDotsPreferencePresenter @Inject constructor(
     }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
-        view.setMaxInt(119)
+        view.setMaxInt(seekBarMaxValue)
         this.view = view
     }
 
@@ -59,9 +61,12 @@ class NumDotsPreferencePresenter @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToRealValue(progress: Int) = progress + 1
+    override fun getSeekbarMax() = seekBarMaxValue
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToProgress(value: Int) = value - 1
+    override fun transformToRealValue(progress: Int) = progress + 1
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    override fun transformToProgress(value: Int) = value - 1
 
 }

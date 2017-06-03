@@ -26,9 +26,12 @@ import javax.inject.Inject
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
 class LineScalePreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView> {
+        val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
+        MapperSeekBarPresenter<Float> {
 
     private lateinit var view: SeekBarPreferenceView
+
+    private val seekBarMaxValue = 70
 
     var disposable: Disposable? = null
 
@@ -39,7 +42,7 @@ class LineScalePreferencePresenter @Inject constructor(
     }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
-        view.setMaxInt(70)
+        view.setMaxInt(seekBarMaxValue)
         this.view = view
     }
 
@@ -59,9 +62,12 @@ class LineScalePreferencePresenter @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToRealValue(progress: Int) = progress.toFloat() / 5f + 1f
+    override fun getSeekbarMax() = seekBarMaxValue
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToProgress(value: Float) = ((value - 1f) * 5f).toInt()
+    override fun transformToRealValue(progress: Int) = progress.toFloat() / 5f + 1f
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    override fun transformToProgress(value: Float) = ((value - 1f) * 5f).toInt()
 
 }

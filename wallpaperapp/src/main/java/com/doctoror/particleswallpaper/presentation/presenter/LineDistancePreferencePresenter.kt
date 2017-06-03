@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import io.reactivex.disposables.Disposable
@@ -25,10 +26,11 @@ import javax.inject.Inject
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
 class LineDistancePreferencePresenter @Inject constructor(val settings: MutableSettingsRepository)
-    : Presenter<SeekBarPreferenceView> {
+    : Presenter<SeekBarPreferenceView>, MapperSeekBarPresenter<Float> {
 
     private lateinit var view: SeekBarPreferenceView
 
+    val seekBarMaxValue = 100
     var disposable: Disposable? = null
 
     private val changeAction = Consumer<Float> { t ->
@@ -38,7 +40,7 @@ class LineDistancePreferencePresenter @Inject constructor(val settings: MutableS
     }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
-        view.setMaxInt(100)
+        view.setMaxInt(seekBarMaxValue)
         this.view = view
     }
 
@@ -57,6 +59,12 @@ class LineDistancePreferencePresenter @Inject constructor(val settings: MutableS
         }
     }
 
-    fun transformToRealValue(progress: Int) = progress.toFloat() * 3f
-    fun transformToProgress(value: Float) = (value / 3f).toInt()
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    override fun getSeekbarMax() = seekBarMaxValue
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    override fun transformToRealValue(progress: Int) = progress.toFloat() * 3f
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    override fun transformToProgress(value: Float) = (value / 3f).toInt()
 }

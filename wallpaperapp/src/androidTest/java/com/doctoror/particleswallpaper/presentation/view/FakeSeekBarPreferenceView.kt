@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
-
-import android.support.annotation.VisibleForTesting
+package com.doctoror.particleswallpaper.presentation.view
 
 /**
- * Created by Yaroslav Mytkalyk on 30.05.17.
+ * Created by Yaroslav Mytkalyk on 03.06.17.
  */
-interface MapperSeekbarPreference<T> {
+class FakeSeekBarPreferenceView : SeekBarPreferenceView {
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToRealValue(progress: Int): T
+    private var max: Int = 0
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToProgress(value : T) : Int
+    override fun getMaxInt() = max
+
+    override fun setMaxInt(max: Int) {
+        this.max = max
+    }
+
+    override fun setProgressInt(progress: Int) {
+        // Stub
+    }
 }

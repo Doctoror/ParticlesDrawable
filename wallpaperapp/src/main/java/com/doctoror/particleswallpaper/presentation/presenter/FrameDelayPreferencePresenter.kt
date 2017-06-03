@@ -26,11 +26,12 @@ import javax.inject.Inject
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
 class FrameDelayPreferencePresenter @Inject constructor(val settings: MutableSettingsRepository)
-    : Presenter<SeekBarPreferenceView> {
+    : Presenter<SeekBarPreferenceView>, MapperSeekBarPresenter<Int> {
 
     lateinit var view: SeekBarPreferenceView
 
     val frameDelaySeekbarMin = 10
+    val frameDelaySeekbarMax = 80
 
     var disposable: Disposable? = null
 
@@ -41,7 +42,7 @@ class FrameDelayPreferencePresenter @Inject constructor(val settings: MutableSet
     }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
-        view.setMaxInt(80)
+        view.setMaxInt(frameDelaySeekbarMax)
         this.view = view
     }
 
@@ -60,6 +61,9 @@ class FrameDelayPreferencePresenter @Inject constructor(val settings: MutableSet
         disposable?.dispose()
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    override fun getSeekbarMax() = frameDelaySeekbarMax
+
     /**
      * The seek bar represents frame rate as percentage.
      * Converts the seek bar value between 0 and 30 to percent and then the percentage to a
@@ -68,7 +72,7 @@ class FrameDelayPreferencePresenter @Inject constructor(val settings: MutableSet
      * 40 ms = 0%
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToRealValue(progress: Int) = (frameDelaySeekbarMin.toFloat()
+    override fun transformToRealValue(progress: Int) = (frameDelaySeekbarMin.toFloat()
             + view.getMaxInt().toFloat() * (1f - progress.toFloat() / view.getMaxInt().toFloat())).toInt()
 
     /**
@@ -76,7 +80,7 @@ class FrameDelayPreferencePresenter @Inject constructor(val settings: MutableSet
      * @see transformToRealValue
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToProgress(value: Int): Int {
+    override fun transformToProgress(value: Int): Int {
         val percent = (value.toFloat() - frameDelaySeekbarMin.toFloat()) / view.getMaxInt().toFloat()
         return ((1f - percent) * view.getMaxInt().toFloat()).toInt()
     }
