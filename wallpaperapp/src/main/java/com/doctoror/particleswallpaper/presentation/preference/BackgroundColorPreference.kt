@@ -22,68 +22,66 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
+import com.doctoror.particleswallpaper.presentation.presenter.BackgroundColorPreferencePresenter
+import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
  */
 class BackgroundColorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : ColorPreferenceNoPreview(context, attrs), LifecycleObserver {
+    : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, LifecycleObserver {
 
-    @Inject lateinit var settings: MutableSettingsRepository
-    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
+    @Inject lateinit var presenter: BackgroundColorPreferencePresenter
 
-    var disposable: Disposable? = null
-
-    private val changeAction = Consumer<Int> { t ->
-        if (t != null) {
-            color = t
-        }
-    }
+    private var value: Int? = null
 
     init {
         Injector.configComponent.inject(this)
         isPersistent = false
+        presenter.view = this
+
         setOnPreferenceChangeListener({ _, v ->
-            val color = v as? Int ?: defaults.getBackgroundColor().blockingFirst()
-            settings.setBackgroundColor(color)
-            settings.setBackgroundUri("")
+            presenter.onPreferenceChange(v as Int?)
             true
         })
     }
 
     override fun onClick() {
-        if (settings.getBackgroundUri().blockingFirst() == "") {
-            super.onClick()
-        } else {
-            AlertDialog.Builder(context)
-                    .setTitle(title)
-                    .setMessage(R.string.This_will_replace_background_image)
-                    .setPositiveButton(R.string.Continue, { _, _ -> super.onClick() })
-                    .setNegativeButton(R.string.Cancel, null)
-                    .show()
-        }
+        presenter.onClick()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun subscribe() {
-        disposable = settings.getBackgroundColor().subscribe(changeAction)
+    fun onStart() {
+        presenter.onStart()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun unsubscribe() {
-        disposable?.dispose()
+    fun onStop() {
+        presenter.onStop()
     }
 
     override fun getPersistedInt(defaultReturnValue: Int): Int {
-        return settings.getBackgroundColor().blockingFirst()
+        return this.value ?: defaultReturnValue
+    }
+
+    override fun setColor(color: Int) {
+        super.setColor(color)
+        value = color
+    }
+
+    override fun showPreferenceDialog() {
+        super.onClick()
+    }
+
+    override fun showWarningDialog() {
+        AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(R.string.This_will_replace_background_image)
+                .setPositiveButton(R.string.Continue, { _, _ -> showPreferenceDialog() })
+                .setNegativeButton(R.string.Cancel, null)
+                .show()
     }
 }
