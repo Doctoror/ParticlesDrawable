@@ -7,6 +7,7 @@ import com.doctoror.particleswallpaper.presentation.di.modules.AppModule
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.preference.*
 import com.doctoror.particleswallpaper.presentation.presenter.BackgroundColorPreferencePresenter
+import com.doctoror.particleswallpaper.presentation.presenter.BackgroundImagePreferencePresenter
 import dagger.Component
 import javax.inject.Singleton
 
@@ -34,5 +35,6 @@ interface ConfigComponent {
     fun inject(p: SpeedFactorPreference)
 
     fun inject(p: BackgroundColorPreferencePresenter)
+    fun inject(p: BackgroundImagePreferencePresenter)
 
 }

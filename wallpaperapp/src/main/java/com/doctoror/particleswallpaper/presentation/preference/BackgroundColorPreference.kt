@@ -39,8 +39,9 @@ class BackgroundColorPreference @JvmOverloads constructor
     private var value: Int? = null
 
     init {
-        Injector.configComponent.inject(this)
         isPersistent = false
+
+        Injector.configComponent.inject(this)
         presenter.view = this
 
         setOnPreferenceChangeListener({ _, v ->

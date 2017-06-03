@@ -15,7 +15,6 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
-import android.content.Context
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
@@ -29,7 +28,6 @@ import javax.inject.Named
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
 class BackgroundColorPreferencePresenter @Inject constructor(
-        val context: Context,
         val settings: MutableSettingsRepository,
         @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository) : Presenter {
 
@@ -44,7 +42,7 @@ class BackgroundColorPreferencePresenter @Inject constructor(
     }
 
     fun onPreferenceChange(v: Int?) {
-        val color = v as? Int ?: defaults.getBackgroundColor().blockingFirst()
+        val color = v ?: defaults.getBackgroundColor().blockingFirst()
         settings.setBackgroundColor(color)
         settings.setBackgroundUri("")
     }
