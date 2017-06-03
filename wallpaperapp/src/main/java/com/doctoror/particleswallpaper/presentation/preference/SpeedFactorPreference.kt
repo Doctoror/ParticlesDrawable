@@ -20,10 +20,9 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
+import com.doctoror.particleswallpaper.presentation.presenter.SpeedFactorPreferencePresenter
+import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import javax.inject.Inject
 
 /**
@@ -32,42 +31,38 @@ import javax.inject.Inject
 class SpeedFactorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle),
-        MapperSeekbarPreference<Float>,
+        SeekBarPreferenceView,
         LifecycleObserver {
 
-    @Inject lateinit var settings: MutableSettingsRepository
-
-    var disposable: Disposable? = null
-
-    private val changeAction = Consumer<Float> { t ->
-        if (t != null) {
-            progress = transformToProgress(t)
-        }
-    }
+    @Inject lateinit var presenter: SpeedFactorPreferencePresenter
 
     init {
         Injector.configComponent.inject(this)
         isPersistent = false
-        max = 40
+        presenter.onTakeView(this)
         setOnPreferenceChangeListener({ _, v ->
-            if (v is Int) {
-                val value = transformToRealValue(v)
-                settings.setStepMultiplier(value)
-            }
+            presenter.onPreferenceChange(v as Int?)
             true
         })
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun subscribe() {
-        disposable = settings.getStepMultiplier().subscribe(changeAction)
+    fun onStart() {
+        presenter.onStart()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun unsubscribe() {
-        disposable?.dispose()
+    fun onStop() {
+        presenter.onStop()
     }
 
-    override fun transformToRealValue(progress: Int) = progress.toFloat() / 10f + 0.1f
-    override fun transformToProgress(value: Float) = ((value - 0.1f) * 10f).toInt()
+    override fun setMaxInt(max: Int) {
+        this.max = max
+    }
+
+    override fun setProgressInt(progress: Int) {
+        this.progress = progress
+    }
+
+    override fun getMaxInt() = max
 }
