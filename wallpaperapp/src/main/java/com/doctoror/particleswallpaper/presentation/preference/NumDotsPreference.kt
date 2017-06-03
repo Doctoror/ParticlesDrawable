@@ -22,6 +22,8 @@ import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.presenter.NumDotsPreferencePresenter
+import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
@@ -32,41 +34,38 @@ import javax.inject.Inject
 class NumDotsPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle),
-        MapperSeekbarPreference<Int>,
+        SeekBarPreferenceView,
         LifecycleObserver {
 
-    @Inject lateinit var settings: MutableSettingsRepository
-    var disposable: Disposable? = null
-
-    private val changeAction = Consumer<Int> { t ->
-        if (t != null) {
-            progress = transformToProgress(t)
-        }
-    }
+    @Inject lateinit var presenter: NumDotsPreferencePresenter
 
     init {
         Injector.configComponent.inject(this)
         isPersistent = false
-        max = 119
+        presenter.onTakeView(this)
         setOnPreferenceChangeListener({ _, v ->
-            if (v is Int) {
-                val value = transformToRealValue(v)
-                settings.setNumDots(value)
-            }
+            presenter.onPreferenceChange(v as Int?)
             true
         })
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun subscribe() {
-        disposable = settings.getNumDots().subscribe(changeAction)
+    fun onStart() {
+        presenter.onStart()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun unsubscribe() {
-        disposable?.dispose()
+    fun onStop() {
+        presenter.onStop()
     }
 
-    override fun transformToRealValue(progress: Int) = progress + 1
-    override fun transformToProgress(value: Int) = value - 1
+    override fun setMaxInt(max: Int) {
+        this.max = max
+    }
+
+    override fun setProgressInt(progress: Int) {
+        this.progress = progress
+    }
+
+    override fun getMaxInt() = max;
 }
