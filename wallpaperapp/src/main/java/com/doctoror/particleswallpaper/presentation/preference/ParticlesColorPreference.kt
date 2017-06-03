@@ -20,14 +20,10 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
+import com.doctoror.particleswallpaper.presentation.presenter.ParticlesColorPreferencePresenter
+import com.doctoror.particleswallpaper.presentation.view.ParticlesColorPreferenceView
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
@@ -35,40 +31,49 @@ import javax.inject.Named
 class ParticlesColorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : ColorPreferenceNoPreview(context, attrs),
+        ParticlesColorPreferenceView,
         LifecycleObserver {
 
-    @Inject lateinit var settings: MutableSettingsRepository
-    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
+    @Inject lateinit var presenter: ParticlesColorPreferencePresenter
 
-    var disposable: Disposable? = null
-
-    private val changeAction = Consumer<Int> { t ->
-        if (t != null) {
-            color = t
-        }
-    }
+    private var value: Int? = null
 
     init {
         Injector.configComponent.inject(this)
         isPersistent = false
+
+        presenter.onTakeView(this)
+
         setOnPreferenceChangeListener({ _, v ->
-            val color = v as? Int ?: defaults.getColor().blockingFirst()
-            settings.setColor(color)
+            presenter.onPreferenceChange(v as Int?)
             true
         })
     }
 
+    override fun onClick() {
+        presenter.onClick()
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun subscribe() {
-        disposable = settings.getColor().subscribe(changeAction)
+    fun onStart() {
+        presenter.onStart()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun unsubscribe() {
-        disposable?.dispose()
+    fun onStop() {
+        presenter.onStop()
     }
 
     override fun getPersistedInt(defaultReturnValue: Int): Int {
-        return settings.getColor().blockingFirst()
+        return this.value ?: defaultReturnValue
+    }
+
+    override fun setColor(color: Int) {
+        super.setColor(color)
+        value = color
+    }
+
+    override fun showPreferenceDialog() {
+        super.onClick()
     }
 }
