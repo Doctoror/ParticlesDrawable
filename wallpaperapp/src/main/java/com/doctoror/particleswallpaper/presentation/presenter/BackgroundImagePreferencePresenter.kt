@@ -43,9 +43,10 @@ import javax.inject.Named
 class BackgroundImagePreferencePresenter @Inject constructor(
         val context: Context,
         val settings: MutableSettingsRepository,
-        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository): Presenter {
+        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)
+    : Presenter<BackgroundImagePreferenceView> {
 
-    lateinit var view: BackgroundImagePreferenceView
+    private lateinit var view: BackgroundImagePreferenceView
 
     val requestCodePick = 1
 
@@ -62,6 +63,10 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                 field = f
             }
         }
+
+    override fun onTakeView(view: BackgroundImagePreferenceView) {
+        this.view = view
+    }
 
     override fun onStart() {
         // Stub

@@ -15,10 +15,14 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import com.doctoror.particleswallpaper.presentation.view.MvpView
+
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
-interface Presenter {
+interface Presenter<in T : MvpView> {
+
+    fun onTakeView(view: T)
 
     fun onStart()
     fun onStop()

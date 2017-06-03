@@ -49,7 +49,7 @@ class BackgroundImagePreference @JvmOverloads constructor
     init {
         Injector.configComponent.inject(this)
         isPersistent = false
-        presenter.view = this
+        presenter.onTakeView(this)
     }
 
     override fun onClick() {

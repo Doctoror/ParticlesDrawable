@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.presentation.view
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
-interface BackgroundColorPreferenceView {
+interface BackgroundColorPreferenceView : MvpView {
 
     fun setColor(color: Int)
     fun showPreferenceDialog()

@@ -18,8 +18,4 @@ package com.doctoror.particleswallpaper.presentation.view
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
-interface BackgroundImagePreferenceView : MvpView {
-
-    fun showActionDialog()
-
-}
+interface MvpView

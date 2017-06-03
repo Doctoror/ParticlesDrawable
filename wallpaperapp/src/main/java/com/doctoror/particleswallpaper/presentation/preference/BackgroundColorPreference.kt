@@ -42,7 +42,7 @@ class BackgroundColorPreference @JvmOverloads constructor
         isPersistent = false
 
         Injector.configComponent.inject(this)
-        presenter.view = this
+        presenter.onTakeView(this)
 
         setOnPreferenceChangeListener({ _, v ->
             presenter.onPreferenceChange(v as Int?)

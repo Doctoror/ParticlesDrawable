@@ -15,56 +15,53 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
-import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView
+import com.doctoror.particleswallpaper.presentation.view.DotScalePreferenceView
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
-class BackgroundColorPreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository,
-        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)
-    : Presenter<BackgroundColorPreferenceView> {
+class DotScalePreferencePresenter @Inject constructor(
+        val settings: MutableSettingsRepository) : Presenter<DotScalePreferenceView> {
 
-    private lateinit var view: BackgroundColorPreferenceView
+    private lateinit var view: DotScalePreferenceView
 
     var disposable: Disposable? = null
 
-    private val changeAction = Consumer<Int> { t ->
+    private val changeAction = Consumer<Float> { t ->
         if (t != null) {
-            view.setColor(t)
+            view.setProgressInt(transformToProgress(t))
         }
     }
 
-    override fun onTakeView(view: BackgroundColorPreferenceView) {
-        this.view = view;
+    override fun onTakeView(view: DotScalePreferenceView) {
+        view.setMaxInt(70)
+        this.view = view
     }
 
     fun onPreferenceChange(v: Int?) {
-        val color = v ?: defaults.getBackgroundColor().blockingFirst()
-        settings.setBackgroundColor(color)
-        settings.setBackgroundUri("")
-    }
-
-    fun onClick() {
-        if (settings.getBackgroundUri().blockingFirst() == "") {
-            view.showPreferenceDialog()
-        } else {
-            view.showWarningDialog()
+        if (v != null) {
+            val value = transformToRealValue(v)
+            settings.setDotScale(value)
         }
     }
 
     override fun onStart() {
-        disposable = settings.getBackgroundColor().subscribe(changeAction)
+        disposable = settings.getDotScale().subscribe(changeAction)
     }
 
     override fun onStop() {
         disposable?.dispose()
     }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    fun transformToRealValue(progress: Int) = progress.toFloat() / 5f + 0.5f
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    fun transformToProgress(value: Float) = ((value - 0.5f) * 5f).toInt()
+
 }
