@@ -20,10 +20,9 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
+import com.doctoror.particleswallpaper.presentation.presenter.LineScalePreferencePresenter
+import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import javax.inject.Inject
 
 /**
@@ -32,42 +31,38 @@ import javax.inject.Inject
 class LineScalePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle),
-        MapperSeekbarPreference<Float>,
+        SeekBarPreferenceView,
         LifecycleObserver {
 
-    @Inject lateinit var settings: MutableSettingsRepository
-
-    var disposable: Disposable? = null
-
-    private val changeAction = Consumer<Float> { t ->
-        if (t != null) {
-            progress = transformToProgress(t)
-        }
-    }
+    @Inject lateinit var presenter: LineScalePreferencePresenter
 
     init {
         Injector.configComponent.inject(this)
-        max = 70
         isPersistent = false
+        presenter.onTakeView(this)
         setOnPreferenceChangeListener({ _, v ->
-            if (v is Int) {
-                val value = transformToRealValue(v)
-                settings.setLineScale(value)
-            }
+            presenter.onPreferenceChange(v as Int?)
             true
         })
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun subscribe() {
-        disposable = settings.getLineScale().subscribe(changeAction)
+    fun onStart() {
+        presenter.onStart()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun unsubscribe() {
-        disposable?.dispose()
+    fun onStop() {
+        presenter.onStop()
     }
 
-    override fun transformToRealValue(progress: Int) = progress.toFloat() / 5f + 1f
-    override fun transformToProgress(value: Float) = ((value - 1f) * 5f).toInt()
+    override fun setMaxInt(max: Int) {
+        this.max = max
+    }
+
+    override fun setProgressInt(progress: Int) {
+        this.progress = progress
+    }
+
+    override fun getMaxInt() = max;
 }
