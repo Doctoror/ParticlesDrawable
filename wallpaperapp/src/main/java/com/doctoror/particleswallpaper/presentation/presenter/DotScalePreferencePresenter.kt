@@ -31,8 +31,8 @@ class DotScalePreferencePresenter @Inject constructor(
 
     private lateinit var view: SeekBarPreferenceView
 
-    val seekBarMaxValue = 70
-    var disposable: Disposable? = null
+    private val seekBarMaxValue = 70
+    private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Float> { t ->
         if (t != null) {

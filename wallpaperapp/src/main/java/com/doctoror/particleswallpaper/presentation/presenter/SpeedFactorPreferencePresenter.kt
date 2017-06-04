@@ -31,8 +31,8 @@ class SpeedFactorPreferencePresenter @Inject constructor(
 
     private lateinit var view: SeekBarPreferenceView
 
-    val seekBarMaxValue = 40
-    var disposable: Disposable? = null
+    private val seekBarMaxValue = 40
+    private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Float> { t ->
         if (t != null) {

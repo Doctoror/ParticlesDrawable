@@ -18,7 +18,6 @@ package com.doctoror.particleswallpaper.presentation.preference
 import com.doctoror.particleswallpaper.data.repository.StubMutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.presenter.*
 import com.doctoror.particleswallpaper.presentation.view.FakeSeekBarPreferenceView
-import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import org.junit.Test
 import kotlin.test.assertEquals
 

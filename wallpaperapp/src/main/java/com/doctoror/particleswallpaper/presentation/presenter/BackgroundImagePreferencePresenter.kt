@@ -48,7 +48,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
     private lateinit var view: BackgroundImagePreferenceView
 
-    val requestCodePick = 1
+    private val requestCodePick = 1
 
     var host: Fragment? = null
         set(f) {

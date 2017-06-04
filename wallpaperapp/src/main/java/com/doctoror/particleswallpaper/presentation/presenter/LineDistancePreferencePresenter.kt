@@ -30,8 +30,8 @@ class LineDistancePreferencePresenter @Inject constructor(val settings: MutableS
 
     private lateinit var view: SeekBarPreferenceView
 
-    val seekBarMaxValue = 100
-    var disposable: Disposable? = null
+    private val seekBarMaxValue = 100
+    private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Float> { t ->
         if (t != null) {

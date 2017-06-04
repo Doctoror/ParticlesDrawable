@@ -33,7 +33,7 @@ class LineScalePreferencePresenter @Inject constructor(
 
     private val seekBarMaxValue = 70
 
-    var disposable: Disposable? = null
+    private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Float> { t ->
         if (t != null) {

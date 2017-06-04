@@ -64,5 +64,5 @@ class NumDotsPreference @JvmOverloads constructor
         this.progress = progress
     }
 
-    override fun getMaxInt() = max;
+    override fun getMaxInt() = max
 }

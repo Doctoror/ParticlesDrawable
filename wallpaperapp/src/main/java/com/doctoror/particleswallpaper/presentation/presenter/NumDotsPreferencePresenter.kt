@@ -31,8 +31,8 @@ class NumDotsPreferencePresenter @Inject constructor(
 
     private lateinit var view: SeekBarPreferenceView
 
-    val seekBarMaxValue = 119
-    var disposable: Disposable? = null
+    private val seekBarMaxValue = 119
+    private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Int> { t ->
         if (t != null) {

@@ -34,7 +34,7 @@ class ParticlesColorPreferencePresenter @Inject constructor(
 
     private lateinit var view: ParticlesColorPreferenceView
 
-    var disposable: Disposable? = null
+    private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Int> { t ->
         if (t != null) {

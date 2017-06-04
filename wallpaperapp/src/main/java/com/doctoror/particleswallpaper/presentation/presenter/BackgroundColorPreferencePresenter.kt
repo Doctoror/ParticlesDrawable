@@ -34,7 +34,7 @@ class BackgroundColorPreferencePresenter @Inject constructor(
 
     private lateinit var view: BackgroundColorPreferenceView
 
-    var disposable: Disposable? = null
+    private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Int> { t ->
         if (t != null) {
@@ -43,7 +43,7 @@ class BackgroundColorPreferencePresenter @Inject constructor(
     }
 
     override fun onTakeView(view: BackgroundColorPreferenceView) {
-        this.view = view;
+        this.view = view
     }
 
     fun onPreferenceChange(v: Int?) {
