@@ -63,6 +63,7 @@ dependencies {
 
     androidTestCompile td.kotlin
     androidTestCompile td.kotlinTest
+    androidTestCompile td.kotlinReflect
 
     androidTestCompile td.mockitoAndroid
 

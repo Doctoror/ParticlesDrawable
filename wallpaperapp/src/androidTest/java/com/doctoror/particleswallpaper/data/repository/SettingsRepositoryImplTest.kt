@@ -25,6 +25,7 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
+import kotlin.reflect.KFunction
 
 class SettingsRepositoryImplTest {
 
@@ -68,129 +69,221 @@ class SettingsRepositoryImplTest {
         testObserver.assertValue(value)
     }
 
-    private fun <T> assertObservableHasValueWithCount(o: Observable<T>, value: T, count: Int) {
-        val testObserver = assertObservableHasValueCount(o, count)
-        testObserver.assertValue(value)
+    private fun <T> testPreferenceAccessor(accessor: KFunction<Observable<T>>) {
+        assertObservableHasValueCount(accessor.call(), 1)
+    }
+
+    private fun <T> testPreferenceMutator(
+            accessor: KFunction<Observable<T>>,
+            mutator: KFunction<Unit>,
+            testValue: T) {
+        mutator.call(testValue)
+        assertObservableHasValue(accessor.call(), testValue)
+    }
+
+    private fun <T> testPreferenceNotifiesChanges(
+            accessor: KFunction<Observable<T>>,
+            mutator: KFunction<Unit>,
+            testValue: T) {
+        val observer = TestObserver.create<T>()
+        accessor.call().subscribe(observer)
+
+        assertObserverHasValueCount(observer, 1)
+
+        mutator.call(testValue)
+
+        assertObserverHasValueCount(observer, 2)
+        observer.assertValueAt(1, { v -> v == testValue })
     }
 
     @Test
     fun testGetParticlesColor() {
-        assertObservableHasValueCount(settings.getColor(), 1)
+        testPreferenceAccessor(settings::getColor)
     }
 
     @Test
     fun testSetParticlesColor() {
-        val value = 0xff000000.toInt()
-        settings.setColor(value)
-        assertObservableHasValue(settings.getColor(), value)
+        testPreferenceMutator(
+                settings::getColor,
+                settings::setColor,
+                0xff000000.toInt())
     }
 
     @Test
-    fun testSetParticlesColorMonitorsChanges() {
-        val value = 0xfa000000.toInt()
-        val observer = TestObserver.create<Int>()
-        settings.getColor().subscribe(observer)
-        assertObserverHasValueCount(observer, 1)
-
-        settings.setColor(value)
-
-        assertObserverHasValueCount(observer, 2)
+    fun testParticlesColorNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getColor,
+                settings::setColor,
+                0xff000001.toInt()
+        )
     }
 
     @Test
     fun testGetBackgroundColor() {
-        assertObservableHasValueCount(settings.getBackgroundColor(), 1)
+        testPreferenceAccessor(settings::getBackgroundColor)
     }
 
     @Test
     fun testSetBackgroundColor() {
-        val value = 0xff0000ff.toInt()
-        settings.setBackgroundColor(value)
-        assertObservableHasValue(settings.getBackgroundColor(), value)
+        testPreferenceMutator(
+                settings::getBackgroundColor,
+                settings::setBackgroundColor,
+                0xff000002.toInt())
+    }
+
+    @Test
+    fun testBackgroundColorNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getBackgroundColor,
+                settings::setBackgroundColor,
+                0xff000003.toInt()
+        )
     }
 
     @Test
     fun testGetBackgroundUri() {
-        assertObservableHasValueCount(settings.getBackgroundUri(), 1)
+        testPreferenceAccessor(settings::getBackgroundUri)
     }
 
     @Test
     fun testSetBackgroundUri() {
-        val value = "Someshit"
-        settings.setBackgroundUri(value)
-        assertObservableHasValue(settings.getBackgroundUri(), value)
+        testPreferenceMutator(
+                settings::getBackgroundUri,
+                settings::setBackgroundUri,
+                "uri://a")
+    }
+
+    @Test
+    fun testBackgroundUriNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getBackgroundUri,
+                settings::setBackgroundUri,
+                "uri://b")
     }
 
     @Test
     fun testGetNumDots() {
-        assertObservableHasValueCount(settings.getNumDots(), 1)
+        testPreferenceAccessor(settings::getNumDots)
     }
 
     @Test
     fun testSetNumDots() {
-        val value = 22
-        settings.setNumDots(value)
-        assertObservableHasValue(settings.getNumDots(), value)
+        testPreferenceMutator(
+                settings::getNumDots,
+                settings::setNumDots,
+                1)
+    }
+
+    @Test
+    fun testNumDotsNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getNumDots,
+                settings::setNumDots,
+                2)
     }
 
     @Test
     fun testGetFrameDelay() {
-        assertObservableHasValueCount(settings.getFrameDelay(), 1)
+        testPreferenceAccessor(settings::getFrameDelay)
     }
 
     @Test
     fun testSetFrameDelay() {
-        val value = 18
-        settings.setFrameDelay(value)
-        assertObservableHasValue(settings.getFrameDelay(), value)
+        testPreferenceMutator(
+                settings::getFrameDelay,
+                settings::setFrameDelay,
+                3)
+    }
+
+    @Test
+    fun testFrameDelayNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getFrameDelay,
+                settings::setFrameDelay,
+                4)
     }
 
     @Test
     fun testGetStepMultiplier() {
-        assertObservableHasValueCount(settings.getStepMultiplier(), 1)
+        testPreferenceAccessor(settings::getStepMultiplier)
     }
 
     @Test
     fun testSetStepMultiplier() {
-        val value = 2.6f
-        settings.setStepMultiplier(value)
-        assertObservableHasValue(settings.getStepMultiplier(), value)
+        testPreferenceMutator(
+                settings::getStepMultiplier,
+                settings::setStepMultiplier,
+                0.1f)
+    }
+
+    @Test
+    fun testStepMultiplierNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getStepMultiplier,
+                settings::setStepMultiplier,
+                0.2f)
     }
 
     @Test
     fun testGetDotScale() {
-        assertObservableHasValueCount(settings.getDotScale(), 1)
+        testPreferenceAccessor(settings::getDotScale)
     }
 
     @Test
     fun testSetDotScale() {
-        val value = 2.7f
-        settings.setDotScale(value)
-        assertObservableHasValue(settings.getDotScale(), value)
+        testPreferenceMutator(
+                settings::getDotScale,
+                settings::setDotScale,
+                0.3f)
+    }
+
+    @Test
+    fun testDotScaleNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getDotScale,
+                settings::setDotScale,
+                0.4f)
     }
 
     @Test
     fun testGetLineScale() {
-        assertObservableHasValueCount(settings.getLineScale(), 1)
+        testPreferenceAccessor(settings::getLineScale)
     }
 
     @Test
     fun testSetLineScale() {
-        val value = 2.7f
-        settings.setLineScale(value)
-        assertObservableHasValue(settings.getLineScale(), value)
+        testPreferenceMutator(
+                settings::getLineScale,
+                settings::setLineScale,
+                0.5f)
+    }
+
+    @Test
+    fun testLineScaleNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getLineScale,
+                settings::setLineScale,
+                0.6f)
     }
 
     @Test
     fun testGetLineDistance() {
-        assertObservableHasValueCount(settings.getLineDistance(), 1)
+        testPreferenceAccessor(settings::getLineDistance)
     }
 
     @Test
     fun testSetLineDistance() {
-        val value = 2.7f
-        settings.setLineDistance(value)
-        assertObservableHasValue(settings.getLineDistance(), value)
+        testPreferenceMutator(
+                settings::getLineDistance,
+                settings::setLineDistance,
+                0.7f)
     }
 
+    @Test
+    fun testLineDistanceNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+                settings::getLineDistance,
+                settings::setLineDistance,
+                0.8f)
+    }
 }
