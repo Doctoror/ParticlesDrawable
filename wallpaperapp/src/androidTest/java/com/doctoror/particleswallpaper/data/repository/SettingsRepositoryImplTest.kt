@@ -48,129 +48,149 @@ class SettingsRepositoryImplTest {
         InstrumentationRegistry.getContext().deleteSharedPreferences(fakePrefsName)
     }
 
-    private fun <T> assertObservableHasSingleValue(o: Observable<T>): TestObserver<T> {
+    private fun <T> assertObserverHasValueCount(o: TestObserver<T>, count: Int) {
+        o.assertNoErrors()
+        o.assertNotComplete()
+        o.assertSubscribed()
+        o.assertValueCount(count)
+    }
+
+    private fun <T> assertObservableHasValueCount(o: Observable<T>, valueCount: Int): TestObserver<T> {
         val observer = TestObserver.create<T>()
         o.subscribe(observer)
-
-        observer.assertNoErrors()
-        observer.assertNotComplete()
-        observer.assertSubscribed()
-        observer.assertValueCount(1)
+        assertObserverHasValueCount(observer, valueCount)
 
         return observer
     }
 
-    private fun <T> assertObservableHasSingleValue(o: Observable<T>, value: T) {
-        val testObserver = assertObservableHasSingleValue(o)
+    private fun <T> assertObservableHasValue(o: Observable<T>, value: T) {
+        val testObserver = assertObservableHasValueCount(o, 1)
+        testObserver.assertValue(value)
+    }
+
+    private fun <T> assertObservableHasValueWithCount(o: Observable<T>, value: T, count: Int) {
+        val testObserver = assertObservableHasValueCount(o, count)
         testObserver.assertValue(value)
     }
 
     @Test
     fun testGetParticlesColor() {
-        assertObservableHasSingleValue(settings.getColor())
+        assertObservableHasValueCount(settings.getColor(), 1)
     }
 
     @Test
     fun testSetParticlesColor() {
         val value = 0xff000000.toInt()
         settings.setColor(value)
-        assertObservableHasSingleValue(settings.getColor(), value)
+        assertObservableHasValue(settings.getColor(), value)
+    }
+
+    @Test
+    fun testSetParticlesColorMonitorsChanges() {
+        val value = 0xfa000000.toInt()
+        val observer = TestObserver.create<Int>()
+        settings.getColor().subscribe(observer)
+        assertObserverHasValueCount(observer, 1)
+
+        settings.setColor(value)
+
+        assertObserverHasValueCount(observer, 2)
     }
 
     @Test
     fun testGetBackgroundColor() {
-        assertObservableHasSingleValue(settings.getBackgroundColor())
+        assertObservableHasValueCount(settings.getBackgroundColor(), 1)
     }
 
     @Test
     fun testSetBackgroundColor() {
         val value = 0xff0000ff.toInt()
         settings.setBackgroundColor(value)
-        assertObservableHasSingleValue(settings.getBackgroundColor(), value)
+        assertObservableHasValue(settings.getBackgroundColor(), value)
     }
 
     @Test
     fun testGetBackgroundUri() {
-        assertObservableHasSingleValue(settings.getBackgroundUri())
+        assertObservableHasValueCount(settings.getBackgroundUri(), 1)
     }
 
     @Test
     fun testSetBackgroundUri() {
         val value = "Someshit"
         settings.setBackgroundUri(value)
-        assertObservableHasSingleValue(settings.getBackgroundUri(), value)
+        assertObservableHasValue(settings.getBackgroundUri(), value)
     }
 
     @Test
     fun testGetNumDots() {
-        assertObservableHasSingleValue(settings.getNumDots())
+        assertObservableHasValueCount(settings.getNumDots(), 1)
     }
 
     @Test
     fun testSetNumDots() {
         val value = 22
         settings.setNumDots(value)
-        assertObservableHasSingleValue(settings.getNumDots(), value)
+        assertObservableHasValue(settings.getNumDots(), value)
     }
 
     @Test
     fun testGetFrameDelay() {
-        assertObservableHasSingleValue(settings.getFrameDelay())
+        assertObservableHasValueCount(settings.getFrameDelay(), 1)
     }
 
     @Test
     fun testSetFrameDelay() {
         val value = 18
         settings.setFrameDelay(value)
-        assertObservableHasSingleValue(settings.getFrameDelay(), value)
+        assertObservableHasValue(settings.getFrameDelay(), value)
     }
 
     @Test
     fun testGetStepMultiplier() {
-        assertObservableHasSingleValue(settings.getStepMultiplier())
+        assertObservableHasValueCount(settings.getStepMultiplier(), 1)
     }
 
     @Test
     fun testSetStepMultiplier() {
         val value = 2.6f
         settings.setStepMultiplier(value)
-        assertObservableHasSingleValue(settings.getStepMultiplier(), value)
+        assertObservableHasValue(settings.getStepMultiplier(), value)
     }
 
     @Test
     fun testGetDotScale() {
-        assertObservableHasSingleValue(settings.getDotScale())
+        assertObservableHasValueCount(settings.getDotScale(), 1)
     }
 
     @Test
     fun testSetDotScale() {
         val value = 2.7f
         settings.setDotScale(value)
-        assertObservableHasSingleValue(settings.getDotScale(), value)
+        assertObservableHasValue(settings.getDotScale(), value)
     }
 
     @Test
     fun testGetLineScale() {
-        assertObservableHasSingleValue(settings.getLineScale())
+        assertObservableHasValueCount(settings.getLineScale(), 1)
     }
 
     @Test
     fun testSetLineScale() {
         val value = 2.7f
         settings.setLineScale(value)
-        assertObservableHasSingleValue(settings.getLineScale(), value)
+        assertObservableHasValue(settings.getLineScale(), value)
     }
 
     @Test
     fun testGetLineDistance() {
-        assertObservableHasSingleValue(settings.getLineDistance())
+        assertObservableHasValueCount(settings.getLineDistance(), 1)
     }
 
     @Test
     fun testSetLineDistance() {
         val value = 2.7f
         settings.setLineDistance(value)
-        assertObservableHasSingleValue(settings.getLineDistance(), value)
+        assertObservableHasValue(settings.getLineDistance(), value)
     }
 
 }
