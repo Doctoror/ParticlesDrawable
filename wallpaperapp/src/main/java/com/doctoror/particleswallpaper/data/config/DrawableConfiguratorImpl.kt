@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.data.config
 
+import android.support.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.data.mapper.DotRadiusMapper
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
@@ -28,6 +29,7 @@ import io.reactivex.disposables.CompositeDisposable
  */
 class DrawableConfiguratorImpl : DrawableConfigurator {
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var disposables : CompositeDisposable? = null
 
     override fun subscribe(drawable: ParticlesDrawable, settings: SettingsRepository) {

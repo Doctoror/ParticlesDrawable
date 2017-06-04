@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.data.repository
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import io.reactivex.Observable
 
-class StubMutableSettingsRepository : MutableSettingsRepository {
+class AndroidTestStubMutableSettingsRepository : MutableSettingsRepository {
     
     override fun setNumDots(numDots: Int) {
         // Stub
