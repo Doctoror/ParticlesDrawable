@@ -18,6 +18,8 @@ android {
         versionCode 1
         versionName "1.0.0"
 
+        resConfigs "en"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,10 +28,38 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    signingConfigs {
+
+        release {
+            storeFile file("../keystore/doctoror.keystore")
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            signingConfig signingConfigs.release
+
+            if (project.hasProperty('keyAlias')) {
+                android.signingConfigs.release.keyAlias = keyAlias
+            }
+
+            if (project.hasProperty('storePassword')) {
+                android.signingConfigs.release.storePassword = storePassword
+            }
+
+            if (project.hasProperty('keyPassword')) {
+                android.signingConfigs.release.keyPassword = keyPassword
+            }
+
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile 'proguard-lifecycle.pro'
+            proguardFile 'proguard-picasso.pro'
+            proguardFile 'proguard-rx-java.pro'
+            proguardFile 'proguard-rules.pro'
         }
     }
 
