@@ -100,7 +100,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
     }
 
-    val onActivityResultCallback = object : OnActivityResultCallback {
+    val onActivityResultCallback = object : OnActivityResultCallback() {
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             if (requestCode == requestCodePick && resultCode == Activity.RESULT_OK && data != null) {
