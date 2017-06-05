@@ -25,6 +25,7 @@ interface ConfigComponent {
     fun inject(p: BackgroundImagePreference)
     fun inject(p: DotScalePreference)
     fun inject(p: FrameDelayPreference)
+    fun inject(p: LicensePreference)
     fun inject(p: LineDistancePreference)
     fun inject(p: LineScalePreference)
     fun inject(p: NumDotsPreference)

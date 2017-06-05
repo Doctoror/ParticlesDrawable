@@ -22,6 +22,7 @@
     <string name="Appearance">Appearance</string>
     <string name="Scale">Scale</string>
     <string name="Performance">Performance</string>
+    <string name="Legal">Legal</string>
 
     <string name="Particles_color">Particles color</string>
     <string name="Background_image">Background image</string>
@@ -51,5 +52,7 @@
 
     <string name="This_will_replace_background_image">This will replace background image</string>
     <string name="Continue">Continue</string>
+
+    <string name="Open_source_licenses">Open source licenses</string>
 
 </resources>

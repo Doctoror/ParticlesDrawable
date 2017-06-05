@@ -27,5 +27,6 @@
     <string translatable="false" name="pref_key_dot_scale">pref_key_dot_scale</string>
     <string translatable="false" name="pref_key_line_scale">pref_key_line_scale</string>
     <string translatable="false" name="pref_key_line_distance">pref_key_line_distance</string>
+    <string translatable="false" name="pref_key_licenses">pref_key_licenses</string>
 
 </resources>

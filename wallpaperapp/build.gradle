@@ -110,6 +110,10 @@ dependencies {
     compile d.colorPicker
     compile d.picasso
 
+    compile (d.licencesDialog) {
+        exclude (group: 'com.android.support')
+    }
+
     compile d.gendalf
     annotationProcessor d.gendalfCompiler
     kapt d.gendalfCompiler
