@@ -73,7 +73,7 @@ open class ConfigActivity : Activity() {
     }
 
     private fun applyBackground(uri: String, @ColorInt color: Int) {
-        val bg = findViewById(R.id.bg) as ImageView
+        val bg: ImageView = findViewById(R.id.bg)
         if (uri == "") {
             onNoBackgroundImage(bg, color)
         } else {

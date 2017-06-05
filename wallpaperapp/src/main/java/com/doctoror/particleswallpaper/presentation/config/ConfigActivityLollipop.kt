@@ -25,7 +25,7 @@ class ConfigActivityLollipop : ConfigActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val root = findViewById(R.id.toolbarContainer) as ViewGroup
+        val root: ViewGroup = findViewById(R.id.toolbarContainer)
         val toolbar = Toolbar(this)
         root.addView(toolbar, 0,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

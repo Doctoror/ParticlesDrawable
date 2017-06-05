@@ -31,7 +31,7 @@ open class ColorPreferenceNoPreview @JvmOverloads constructor
     override fun onBindView(view: View?) {
         super.onBindView(view)
         if (view != null) {
-            val widgetFrameView = view.findViewById(android.R.id.widget_frame) as ViewGroup
+            val widgetFrameView: ViewGroup = view.findViewById(android.R.id.widget_frame)
             widgetFrameView.visibility = View.GONE
             widgetFrameView.removeAllViews()
         }
