@@ -21,6 +21,7 @@ package com.doctoror.particleswallpaper.presentation.base
 class OnActivityResultCallbackHostImpl : OnActivityResultCallbackHost {
 
     var callbacks = listOf<OnActivityResultCallback>()
+        private set
 
     override fun registerCallback(callback: OnActivityResultCallback) {
         if (!callbacks.contains(callback)) {
