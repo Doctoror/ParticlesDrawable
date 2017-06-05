@@ -98,22 +98,22 @@ class SettingsRepositoryImplTest {
 
     @Test
     fun testGetParticlesColor() {
-        testPreferenceAccessor(settings::getColor)
+        testPreferenceAccessor(settings::getParticlesColor)
     }
 
     @Test
     fun testSetParticlesColor() {
         testPreferenceMutator(
-                settings::getColor,
-                settings::setColor,
+                settings::getParticlesColor,
+                settings::setParticlesColor,
                 0xff000000.toInt())
     }
 
     @Test
     fun testParticlesColorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::getColor,
-                settings::setColor,
+                settings::getParticlesColor,
+                settings::setParticlesColor,
                 0xff000001.toInt()
         )
     }

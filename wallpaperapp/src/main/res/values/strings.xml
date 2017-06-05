@@ -23,7 +23,7 @@
     <string name="Scale">Scale</string>
     <string name="Performance">Performance</string>
 
-    <string name="Color">Color</string>
+    <string name="Particles_color">Particles color</string>
     <string name="Background_image">Background image</string>
     <string name="Background_color">Background color</string>
     <string name="Failed_to_open_image_picker">Failed to open image picker</string>

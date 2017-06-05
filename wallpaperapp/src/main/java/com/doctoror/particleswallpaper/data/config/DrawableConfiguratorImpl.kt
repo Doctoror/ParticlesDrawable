@@ -38,7 +38,7 @@ class DrawableConfiguratorImpl : DrawableConfigurator {
         disposables?.dispose()
         disposables = d
 
-        d.add(settings.getColor().subscribe({ c ->
+        d.add(settings.getParticlesColor().subscribe({ c ->
             drawable.setDotColor(c)
             drawable.setLineColor(c)
         }))

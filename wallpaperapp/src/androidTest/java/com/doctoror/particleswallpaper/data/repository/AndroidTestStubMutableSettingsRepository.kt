@@ -44,7 +44,7 @@ class AndroidTestStubMutableSettingsRepository : MutableSettingsRepository {
         // Stub
     }
 
-    override fun setColor(color: Int) {
+    override fun setParticlesColor(color: Int) {
         // Stub
     }
 
@@ -80,7 +80,7 @@ class AndroidTestStubMutableSettingsRepository : MutableSettingsRepository {
         return Observable.just(1f)
     }
 
-    override fun getColor(): Observable<Int> {
+    override fun getParticlesColor(): Observable<Int> {
         return Observable.just(1)
     }
 

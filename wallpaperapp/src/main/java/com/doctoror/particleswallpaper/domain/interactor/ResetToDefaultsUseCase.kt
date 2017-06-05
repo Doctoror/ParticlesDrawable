@@ -13,7 +13,7 @@ class ResetToDefaultsUseCase(val settings: MutableSettingsRepository,
     override fun useCase() = Observable.fromCallable({ -> reset()})!!
 
     private fun reset() {
-        settings.setColor(defaults.getColor().blockingFirst())
+        settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())
         settings.setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
         settings.setBackgroundUri(defaults.getBackgroundUri().blockingFirst())
         settings.setNumDots(defaults.getNumDots().blockingFirst())

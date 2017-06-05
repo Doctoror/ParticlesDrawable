@@ -30,7 +30,7 @@
 
         <com.doctoror.particleswallpaper.presentation.preference.ParticlesColorPreference
             android:key="@string/pref_key_color"
-            android:title="@string/Color"/>
+            android:title="@string/Particles_color"/>
 
         <com.doctoror.particleswallpaper.presentation.preference.BackgroundColorPreference
             android:key="@string/pref_key_background_color"

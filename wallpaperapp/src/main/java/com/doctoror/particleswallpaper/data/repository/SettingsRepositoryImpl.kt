@@ -41,7 +41,7 @@ class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
     val prefs = Prefs.with(context)!!
 
     init {
-        colorSubject.onNext(prefs.color)
+        colorSubject.onNext(prefs.particlesColor)
         backgroundColorSubject.onNext(prefs.backgroundColor)
         backgroundUriSubject.onNext(prefs.backgroundUri)
 
@@ -112,10 +112,10 @@ class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
         lineDistanceSubject.onNext(lineDistance)
     }
 
-    override fun getColor() = colorSubject
+    override fun getParticlesColor() = colorSubject
 
-    override fun setColor(color: Int) {
-        prefs.color = color
+    override fun setParticlesColor(color: Int) {
+        prefs.particlesColor = color
         colorSubject.onNext(color)
     }
 

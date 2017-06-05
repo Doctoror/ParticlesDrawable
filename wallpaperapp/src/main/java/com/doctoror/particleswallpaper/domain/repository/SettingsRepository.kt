@@ -28,7 +28,7 @@ interface SettingsRepository {
     fun getDotScale(): Observable<Float>
     fun getLineScale(): Observable<Float>
     fun getLineDistance(): Observable<Float>
-    fun getColor(): Observable<Int>
+    fun getParticlesColor(): Observable<Int>
     fun getBackgroundUri(): Observable<String>
     fun getBackgroundColor(): Observable<Int>
 }

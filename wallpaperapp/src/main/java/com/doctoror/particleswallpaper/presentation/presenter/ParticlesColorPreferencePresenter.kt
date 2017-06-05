@@ -47,8 +47,8 @@ class ParticlesColorPreferencePresenter @Inject constructor(
     }
 
     fun onPreferenceChange(v: Int?) {
-        val color = v ?: defaults.getColor().blockingFirst()
-        settings.setColor(color)
+        val color = v ?: defaults.getParticlesColor().blockingFirst()
+        settings.setParticlesColor(color)
     }
 
     fun onClick() {
@@ -56,7 +56,7 @@ class ParticlesColorPreferencePresenter @Inject constructor(
     }
 
     override fun onStart() {
-        disposable = settings.getColor().subscribe(changeAction)
+        disposable = settings.getParticlesColor().subscribe(changeAction)
     }
 
     override fun onStop() {

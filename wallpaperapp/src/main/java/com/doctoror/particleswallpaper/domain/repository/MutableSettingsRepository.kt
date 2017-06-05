@@ -13,7 +13,7 @@ interface MutableSettingsRepository: SettingsRepository {
     fun setDotScale(dotScale: Float)
     fun setLineScale(lineScale: Float)
     fun setLineDistance(lineDistance: Float)
-    fun setColor(@ColorInt color: Int)
+    fun setParticlesColor(@ColorInt color: Int)
     fun setBackgroundUri(uri: String)
     fun setBackgroundColor(@ColorInt color: Int)
 }

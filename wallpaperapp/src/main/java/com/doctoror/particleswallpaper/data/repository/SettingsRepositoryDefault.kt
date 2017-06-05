@@ -41,7 +41,7 @@ class SettingsRepositoryDefault : SettingsRepository {
     override fun getLineDistance() = Observable.just(
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 86f, Resources.getSystem().displayMetrics))!!
 
-    override fun getColor() = Observable.just(Color.WHITE)!!
+    override fun getParticlesColor() = Observable.just(Color.WHITE)!!
 
     override fun getBackgroundUri() = Observable.just("")!!
 
