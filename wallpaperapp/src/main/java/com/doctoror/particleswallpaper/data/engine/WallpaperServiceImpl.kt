@@ -22,6 +22,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesDrawable
@@ -47,10 +48,11 @@ class WallpaperServiceImpl : WallpaperService() {
         @Inject lateinit var mConfigurator: DrawableConfigurator
         @Inject lateinit var mSettings: SettingsRepository
 
+        private var mFrameDelayDisposable: Disposable? = null
         private var mBackgroundDisposable: Disposable? = null
         private var mBackgroundColorDisposable: Disposable? = null
 
-        private val DEFAULT_DELAY = 10
+        private val DEFAULT_DELAY = 10L
 
         private val mPaint = Paint()
 
@@ -63,6 +65,7 @@ class WallpaperServiceImpl : WallpaperService() {
         private var mHeight = 0f
 
         private var mBackground: Bitmap? = null
+        private var mDelay = DEFAULT_DELAY
 
         init {
             Injector.configComponent.inject(this)
@@ -73,6 +76,8 @@ class WallpaperServiceImpl : WallpaperService() {
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
             mConfigurator.subscribe(mDrawable, mSettings)
+
+            mFrameDelayDisposable = mSettings.getFrameDelay().subscribe({d -> mDelay = d.toLong()})
             mBackgroundDisposable = mSettings.getBackgroundUri().subscribe({ u -> handleBackground(u) })
             mBackgroundColorDisposable = mSettings.getBackgroundColor().subscribe({ c -> mPaint.color = c })
         }
@@ -80,6 +85,7 @@ class WallpaperServiceImpl : WallpaperService() {
         override fun onDestroy() {
             super.onDestroy()
             mConfigurator.dispose()
+            mFrameDelayDisposable?.dispose()
             mBackgroundDisposable?.dispose()
             mBackgroundColorDisposable?.dispose()
         }
@@ -125,6 +131,7 @@ class WallpaperServiceImpl : WallpaperService() {
         }
 
         private fun draw() {
+            val startTime = SystemClock.uptimeMillis()
             val holder = surfaceHolder
             var canvas: Canvas? = null
             try {
@@ -141,7 +148,8 @@ class WallpaperServiceImpl : WallpaperService() {
             }
             mHandler.removeCallbacks(mDrawRunnable)
             if (mVisible) {
-                mHandler.postDelayed(mDrawRunnable, DEFAULT_DELAY.toLong())
+                mHandler.postDelayed(mDrawRunnable,
+                        Math.max(mDelay - (SystemClock.uptimeMillis() - startTime), 0))
             }
         }
 
