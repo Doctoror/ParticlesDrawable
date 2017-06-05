@@ -53,6 +53,7 @@ class WallpaperServiceImpl : WallpaperService() {
         private var mBackgroundColorDisposable: Disposable? = null
 
         private val DEFAULT_DELAY = 10L
+        private val MIN_DELAY = 5L
 
         private val mPaint = Paint()
 
@@ -68,13 +69,13 @@ class WallpaperServiceImpl : WallpaperService() {
         private var mDelay = DEFAULT_DELAY
 
         init {
-            Injector.configComponent.inject(this)
             mPaint.style = Paint.Style.FILL
             mPaint.color = Color.BLACK
         }
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
+            Injector.configComponent.inject(this)
             mConfigurator.subscribe(mDrawable, mSettings)
 
             mFrameDelayDisposable = mSettings.getFrameDelay().subscribe({d -> mDelay = d.toLong()})
@@ -149,7 +150,7 @@ class WallpaperServiceImpl : WallpaperService() {
             mHandler.removeCallbacks(mDrawRunnable)
             if (mVisible) {
                 mHandler.postDelayed(mDrawRunnable,
-                        Math.max(mDelay - (SystemClock.uptimeMillis() - startTime), 0))
+                        Math.max(mDelay - (SystemClock.uptimeMillis() - startTime), MIN_DELAY))
             }
         }
 
