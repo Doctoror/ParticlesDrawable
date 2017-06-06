@@ -29,7 +29,7 @@
     <string name="Background_color">Background color</string>
     <string name="Failed_to_open_image_picker">Failed to open image picker</string>
 
-    <string name="Number_of_dots">Number of dots</string>
+    <string name="Density">Density</string>
     <string name="Dot_scale">Dot scale</string>
     <string name="Line_scale">Line scale</string>
     <string name="Line_distance">Line distance</string>
@@ -54,5 +54,15 @@
     <string name="Continue">Continue</string>
 
     <string name="Open_source_licenses">Open source licenses</string>
+    <string name="Close">Close</string>
+
+    <string name="Performance_tips">Performance tips</string>
+    <string name="performance_tips"><![CDATA[
+        Settings that affect performance significally are “Density” and “Frame rate”.
+        High density means more draw time and high frame rate means more redraws per second.
+        Speed factor does not affect performance, however, if you lower the “Speed factor”, you can
+        also lower the “Frame rate” without noticeable smoothness degrade. Also, setting a
+        background image may lower the draw performance.
+    ]]></string>
 
 </resources>

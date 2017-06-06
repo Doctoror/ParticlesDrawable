@@ -21,6 +21,10 @@
         android:key="@string/pref_key_preview"
         android:title="@string/Preview"/>
 
+    <com.doctoror.particleswallpaper.presentation.preference.PerformanceTipsPreference
+        android:key="@string/pref_key_performance_tips"
+        android:title="@string/Performance_tips"/>
+
     <com.doctoror.particleswallpaper.presentation.preference.ResetToDefaultsPreference
         android:key="@string/pref_key_reset_to_defaults"
         android:title="@string/Reset_to_defaults"/>
@@ -44,7 +48,7 @@
 
         <com.doctoror.particleswallpaper.presentation.preference.NumDotsPreference
             android:key="@string/pref_key_num_dots"
-            android:title="@string/Number_of_dots"/>
+            android:title="@string/Density"/>
 
     </PreferenceCategory>
 
