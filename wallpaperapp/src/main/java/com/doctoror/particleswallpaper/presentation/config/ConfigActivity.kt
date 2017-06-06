@@ -62,7 +62,7 @@ open class ConfigActivity : Activity() {
     }
 
     private fun initAdView() {
-        val adView: AdView = findViewById(R.id.adView)
+        val adView: AdView = findViewById(R.id.adView) as AdView
         adView.loadAd(AdRequest.Builder()
                 .addTestDevice("1644CF0C8CE728912DC93B6C340AB453")
                 .build())
@@ -91,7 +91,7 @@ open class ConfigActivity : Activity() {
     }
 
     private fun applyBackground(uri: String, @ColorInt color: Int) {
-        val bg: ImageView = findViewById(R.id.bg)
+        val bg: ImageView = findViewById(R.id.bg) as ImageView
         if (uri == "") {
             onNoBackgroundImage(bg, color)
         } else {

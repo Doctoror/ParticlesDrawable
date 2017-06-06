@@ -55,7 +55,7 @@ open class SeekBarPreference @JvmOverloads constructor
 
     override fun onBindView(view: View) {
         super.onBindView(view)
-        val seekBar: SeekBar = view.findViewById(R.id.seekbar)
+        val seekBar: SeekBar = view.findViewById(R.id.seekbar) as SeekBar
         seekBar.setOnSeekBarChangeListener(this)
         seekBar.max = mMax
         seekBar.progress = mProgress
