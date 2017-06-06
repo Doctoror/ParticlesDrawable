@@ -58,11 +58,16 @@
 
     <string name="Performance_tips">Performance tips</string>
     <string name="performance_tips"><![CDATA[
+        Settings apply on-the-fly, no need to set wallpaper again after changing settings.\n\n
+
         Settings that affect performance significally are “Density” and “Frame rate”.
         High density means more draw time and high frame rate means more redraws per second.
+        If you experience lags, try to reduce “Density”.\n\n
+
         Speed factor does not affect performance, however, if you lower the “Speed factor”, you can
-        also lower the “Frame rate” without noticeable smoothness degrade. Also, setting a
-        background image may lower the draw performance.
+        also lower the “Frame rate” without noticeable smoothness degrade.\n\n
+
+        Also, setting a background image may lower the draw performance.
     ]]></string>
 
 </resources>
