@@ -39,7 +39,13 @@
         android:orientation="vertical"
         android:background="@color/translucentBackground">
 
-        <include layout="@layout/activity_config_fragment"/>
+        <include
+            layout="@layout/activity_config_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <include layout="@layout/ad_banner"/>
 
     </LinearLayout>
 

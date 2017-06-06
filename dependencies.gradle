@@ -26,6 +26,7 @@ ext {
     lifecycleVersion = '1.0.0-alpha1'
 
     licencesDialogVersion = '1.8.2'
+    gmsVersion = '10.2.4'
 
     //Testing
     jUnitVersion = '4.12'
@@ -48,7 +49,8 @@ ext {
             lifecycleCompiler : "android.arch.lifecycle:compiler:$lifecycleVersion",
             lifecycle         : "android.arch.lifecycle:runtime:$lifecycleVersion",
 
-            licencesDialog    : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion"
+            licencesDialog    : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion",
+            ads               : "com.google.android.gms:play-services-ads:$gmsVersion"
     ]
 
     wallpaperappTestDependencies = [

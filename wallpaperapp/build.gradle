@@ -36,7 +36,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField 'String', 'AD_APP_ID', rootProject.ext.adAppId
+            resValue 'string', 'AD_BANNER_ID', '"ca-app-pub-3940256099942544/6300978111"'
+        }
+
         release {
+            buildConfigField 'String', 'AD_APP_ID', rootProject.ext.adAppId
+            resValue 'string', 'AD_BANNER_ID', rootProject.ext.adBannerId
+
             debuggable false
             signingConfig signingConfigs.release
 
@@ -56,6 +64,7 @@ android {
             shrinkResources true
 
             proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile 'proguard-ads.pro'
             proguardFile 'proguard-lifecycle.pro'
             proguardFile 'proguard-picasso.pro'
             proguardFile 'proguard-rx-java.pro'
@@ -109,6 +118,10 @@ dependencies {
 
     compile d.colorPicker
     compile d.picasso
+
+    compile (d.ads) {
+        exclude (group: 'com.android.support')
+    }
 
     compile (d.licencesDialog) {
         exclude (group: 'com.android.support')

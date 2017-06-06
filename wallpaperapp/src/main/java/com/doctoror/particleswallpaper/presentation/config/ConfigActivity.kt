@@ -23,10 +23,13 @@ import android.support.annotation.ColorInt
 import android.widget.ImageView
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.compat.ViewCompat
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
@@ -40,14 +43,29 @@ open class ConfigActivity : Activity() {
 
     @Inject lateinit var configurator: DrawableConfigurator
     @Inject lateinit var settings: SettingsRepository
+    @Inject lateinit var adProvider: AdsProvider
 
     private var bgDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Injector.configComponent.inject(this)
+        adProvider.initialize()
+
         setContentView(R.layout.activity_config)
+        setBackground()
+        initAdView()
+    }
+
+    private fun setBackground() {
         ViewCompat.setBackground(findViewById(R.id.drawableContainer), particlesDrawable)
+    }
+
+    private fun initAdView() {
+        val adView: AdView = findViewById(R.id.adView)
+        adView.loadAd(AdRequest.Builder()
+                .addTestDevice("1644CF0C8CE728912DC93B6C340AB453")
+                .build())
     }
 
     override fun onStart() {
