@@ -72,6 +72,8 @@
             android:fadingEdge="horizontal"
             android:singleLine="true"
             android:textIsSelectable="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
