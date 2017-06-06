@@ -64,7 +64,7 @@ open class ConfigActivity : Activity() {
     private fun initAdView() {
         val adView: AdView = findViewById(R.id.adView) as AdView
         adView.loadAd(AdRequest.Builder()
-                //.addTestDevice("1644CF0C8CE728912DC93B6C340AB453")
+                .addTestDevice("1644CF0C8CE728912DC93B6C340AB453")
                 .build())
     }
 

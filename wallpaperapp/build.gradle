@@ -31,7 +31,7 @@ android {
     signingConfigs {
 
         release {
-            storeFile file("../keystore/doctoror.keystore")
+            storeFile file("../keystore/upload.jks")
         }
     }
 
