@@ -174,7 +174,7 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
     }
 
     void resetLastFrameTime() {
-        mLastFrameTime = 0;
+        mLastFrameTime = 0L;
     }
 
     @Override
@@ -242,6 +242,7 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
     public void stop() {
         if (mAnimating) {
             mAnimating = false;
+            resetLastFrameTime();
             unscheduleSelf(this);
         }
     }
@@ -256,7 +257,7 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
         if (mAnimating) {
             gotoNextFrameAndSchedule();
         } else {
-            mLastFrameTime = 0;
+            resetLastFrameTime();
         }
     }
 
@@ -273,11 +274,20 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
      * backgrounds when not using animations.
      */
     public void makeBrandNewFrame() {
-        final int numDots = mNumDots;
-        setNumDots(0);
-        setNumDots(numDots);
         if (getWidth() != 0 && getHeight() != 0) {
+            resetLastFrameTime();
             initPoints();
+        }
+    }
+
+    /**
+     * Resets and makes new random frame where all points are out of screen bounds and will be
+     * moving into the screen once animation starts.
+     */
+    public void makeBrandNewFrameWithPointsOffscreen() {
+        if (getWidth() != 0 && getHeight() != 0) {
+            resetLastFrameTime();
+            initPointsOffScreen();
         }
     }
 
@@ -418,6 +428,16 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
         mPoints.clear();
         for (int i = 0; i < mNumDots; i++) {
             mPoints.add(makeNewPoint(i % 2 == 0));
+        }
+    }
+
+    private void initPointsOffScreen() {
+        if (getWidth() == 0 || getHeight() == 0) {
+            throw new IllegalStateException("Cannot init points if width or height is 0");
+        }
+        mPoints.clear();
+        for (int i = 0; i < mNumDots; i++) {
+            mPoints.add(makeNewPoint(false));
         }
     }
 
