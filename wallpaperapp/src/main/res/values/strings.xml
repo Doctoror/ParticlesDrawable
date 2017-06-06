@@ -16,8 +16,8 @@
 -->
 <resources>
 
-    <string name="app_name">Particles Wallpaper</string>
-    <string name="Wallpaper_description">Particles Wallpaper</string>
+    <string name="app_name">Particles Live Wallpaper</string>
+    <string name="Wallpaper_description">Particles Live Wallpaper</string>
 
     <string name="Appearance">Appearance</string>
     <string name="Scale">Scale</string>
