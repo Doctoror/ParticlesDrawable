@@ -123,6 +123,7 @@ class WallpaperServiceImpl : WallpaperService() {
             super.onVisibilityChanged(visible)
             mVisible = visible
             if (visible) {
+                mDrawable.makeBrandNewFrame()
                 mDrawable.start()
                 mHandler.post(mDrawRunnable)
             } else {
