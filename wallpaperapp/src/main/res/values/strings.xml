@@ -61,7 +61,9 @@
         Settings apply on-the-fly, no need to set wallpaper again after changing settings.\n\n
 
         Settings that affect performance significally are “Density” and “Frame rate”.
-        High density means more draw time and high frame rate means more redraws per second.
+        High density increases draw time while high frame rate means more smoothness but more CPU
+        load and less battery life while wallpaper is visible.\n\n
+
         If you experience lags, try to reduce “Density”.\n\n
 
         Speed factor does not affect performance, however, if you lower the “Speed factor”, you can
