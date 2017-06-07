@@ -55,7 +55,6 @@ class LineDistancePreferencePresenter @Inject constructor(val settings: MutableS
     fun onPreferenceChange(v: Int?) {
         if (v != null) {
             val value = transformToRealValue(v)
-            println("CHANGE: $value")
             settings.setLineDistance(value)
         }
     }
