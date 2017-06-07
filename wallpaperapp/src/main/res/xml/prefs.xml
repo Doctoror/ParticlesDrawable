@@ -62,11 +62,11 @@
 
         <com.doctoror.particleswallpaper.presentation.preference.LineScalePreference
             android:key="@string/pref_key_line_scale"
-            android:title="@string/Line_scale"/>
+            android:title="@string/Line_thickness"/>
 
         <com.doctoror.particleswallpaper.presentation.preference.LineDistancePreference
             android:key="@string/pref_key_line_distance"
-            android:title="@string/Line_distance"/>
+            android:title="@string/Line_length"/>
 
     </PreferenceCategory>
 
