@@ -18,6 +18,10 @@ ext {
     //Testing
     testRunnerVersion = '0.5'
 
+    demoDependencies = [
+            appcompat      : "com.android.support:appcompat-v7:$supportVersion"
+    ]
+
     libraryDependencies = [
             annotations    : "com.android.support:support-annotations:$supportVersion"
     ]
