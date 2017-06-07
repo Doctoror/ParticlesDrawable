@@ -14,9 +14,7 @@ dependencies {
 ```
 
 ## Screenshots
-![screenshot](/screenshots/default.gif?raw=true)
-
-![screenshot](/screenshots/Demo.png?raw=true)
+![screenshot](/screenshots/home.gif?raw=true)
 
 # Usage
 You may use a `ParticlesDrawable`, which implements `Animatable`, or a `ParticlesView` (which is a `View`, of course).
