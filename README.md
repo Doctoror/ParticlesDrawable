@@ -13,6 +13,11 @@ dependencies {
 }
 ```
 
+## Demo
+[Particles Live Wallpaper](https://github.com/Doctoror/ParticlesWallpaper) has a great configuration screen which allows you to quickly see through what can you do with the library:
+
+[![Video](https://github.com/Doctoror/ParticlesWallpaper/raw/master/screenshots/video.png)](https://www.youtube.com/watch?v=Q7qvmCMUN20)
+
 ## Screenshots
 ![screenshot](/screenshots/home.gif?raw=true)
 
