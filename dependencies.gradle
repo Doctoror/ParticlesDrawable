@@ -8,60 +8,15 @@ allprojects {
 ext {
     //Android
     androidBuildToolsVersion = "25.0.3"
-    androidMinSdkVersion = 14
+    androidMinSdkVersion = 9
     androidTargetSdkVersion = 25
     androidCompileSdkVersion = 25
 
     //Libraries
-    kotlin_version = rootProject.ext.kotlin_version
-    rxJavaVersion = '2.1.0'
-
-    daggerVersion = '2.11'
-    gendalfVersion = '1.3.1'
-
-    colorPickerVersion = '2.2.0'
-    picassoVersion = '2.5.2'
-
     supportVersion = '25.3.1'
-    lifecycleVersion = '1.0.0-alpha1'
-
-    licencesDialogVersion = '1.8.2'
-    gmsVersion = '10.2.4'
 
     //Testing
-    jUnitVersion = '4.12'
     testRunnerVersion = '0.5'
-    mockitoVersion = '2.8.9'
-
-    wallpaperappDependencies = [
-            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
-            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-
-            daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
-            dagger            : "com.google.dagger:dagger:${daggerVersion}",
-
-            gendalfCompiler   : "ds.gendalf:compiler:$gendalfVersion",
-            gendalf           : "ds.gendalf:gendalf:$gendalfVersion",
-
-            colorPicker       : "com.rarepebble:colorpicker:$colorPickerVersion",
-            picasso           : "com.squareup.picasso:picasso:$picassoVersion",
-
-            lifecycleCompiler : "android.arch.lifecycle:compiler:$lifecycleVersion",
-            lifecycle         : "android.arch.lifecycle:runtime:$lifecycleVersion",
-
-            licencesDialog    : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion",
-            ads               : "com.google.android.gms:play-services-ads:$gmsVersion"
-    ]
-
-    wallpaperappTestDependencies = [
-            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
-            kotlinTest     : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
-            kotlinReflect  : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
-            testRunner     : "com.android.support.test:runner:$testRunnerVersion",
-            testRules      : "com.android.support.test:rules:$testRunnerVersion",
-            junit          : "junit:junit:$jUnitVersion",
-            mockitoAndroid : "org.mockito:mockito-android:$mockitoVersion"
-    ]
 
     libraryDependencies = [
             annotations    : "com.android.support:support-annotations:$supportVersion"
