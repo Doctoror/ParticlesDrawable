@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright 2017 Yaroslav Mytkalyk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<resources>
+
+    <string name="app_name">Частички (живые обои)</string>
+    <string name="Wallpaper_description">Частички (живые обои)</string>
+
+    <string name="Appearance">Вид</string>
+    <string name="Scale">Размер</string>
+    <string name="Performance">Производительность</string>
+    <string name="Legal">Лицензии</string>
+
+    <string name="Particles_color">Цвет частичек</string>
+    <string name="Background_image">Фоновое изображение</string>
+    <string name="Background_color">Цвет фона</string>
+    <string name="Failed_to_open_image_picker">Не удалось открыть выбор изображений</string>
+
+    <string name="Density">Плотность</string>
+    <string name="Dot_scale">Размер частичек</string>
+    <string name="Line_thickness">Толщина линий</string>
+    <string name="Line_length">Длина линий</string>
+    <string name="Speed_factor">Скорость</string>
+    <string name="Frame_rate">Частота кадров</string>
+
+    <string name="Pick">Выбрать</string>
+    <string name="Clear">Убрать</string>
+    <string name="Cancel">Отмена</string>
+
+    <string name="Supported_on_KitKat_and_later">Поддерживается на KitKat и новее</string>
+    <string name="Reset_to_defaults">Сброс до настроек по умолчанию</string>
+    <string name="Are_you_sure_you_want_to_reset_all_settings_to_default_values">Сбросить все
+        настройки по умолчанию?
+    </string>
+
+    <string name="Reset">Сбросить</string>
+    <string name="Preview">Предпросмотр</string>
+    <string name="Failed_to_start_preview">Не удалось запустить предпросмотр</string>
+
+    <string name="This_will_replace_background_image">Это заменит фоновое изображение</string>
+    <string name="Continue">Продолжить</string>
+
+    <string name="Open_source_licenses">Лицензии свободного ПО</string>
+    <string name="Close">Закрыть</string>
+
+    <string name="Performance_tips">Подсказки</string>
+    <string name="performance_tips"><![CDATA[
+        Настройки применяются на ходу, вам не нужно устанавливать обои снова после смены
+        настроек.\n\nНастройки,
+
+        которые влияют на производительность, это «плотность» и «частота кадров».
+        Высокая плотность увеличивает время прорисовки, а частота кадров увеличивает плавность, но в
+        то же время увеличивает нагрузку на процессор и батарею во время того, как видно
+        обои.\n\nЕсли
+
+        у вас плохая плавность анимации, попробуйте уменьшить «плотность» и убедитесь, что
+        «частота кадров» соответствует выбранной скорости.\n\n«Скорость»
+
+        не влияет на производительность, но, если вы уменьшите «скорость», вы так же можете
+        уменьшить частоту кадров, и от этого плавность не пострадает.\n\nТак
+
+        же, фоновое изображение может уменьшать производительность.
+    ]]></string>
+
+</resources>

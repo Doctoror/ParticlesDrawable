@@ -18,7 +18,7 @@ android {
         versionCode 2
         versionName "1.0.1"
 
-        resConfigs "en"
+        resConfigs "en", "ru", "uk"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

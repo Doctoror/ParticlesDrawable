@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright 2017 Yaroslav Mytkalyk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<resources>
+
+    <string name="app_name">Частинки (живі шпалери)</string>
+    <string name="Wallpaper_description">Частинки (живі шпалери)</string>
+
+    <string name="Appearance">Вигляд</string>
+    <string name="Scale">Розмір</string>
+    <string name="Performance">Продуктивність</string>
+    <string name="Legal">Ліцензії</string>
+
+    <string name="Particles_color">Колір частинок</string>
+    <string name="Background_image">Фонове зображення</string>
+    <string name="Background_color">Колір фона</string>
+    <string name="Failed_to_open_image_picker">Не вдалось відкрити вибір зображень</string>
+
+    <string name="Density">Густина</string>
+    <string name="Dot_scale">Розмір частинок</string>
+    <string name="Line_thickness">Товщина ліній</string>
+    <string name="Line_length">Довжина ліній</string>
+    <string name="Speed_factor">Швидкість</string>
+    <string name="Frame_rate">Частота кадрів</string>
+
+    <string name="Pick">Вибрати</string>
+    <string name="Clear">Усунути</string>
+    <string name="Cancel">Відміна</string>
+
+    <string name="Supported_on_KitKat_and_later">Підтримується на KitKat і новіших</string>
+    <string name="Reset_to_defaults">Скинути до налаштувань по замовчуванню</string>
+    <string name="Are_you_sure_you_want_to_reset_all_settings_to_default_values">Скинути всі
+        налаштування по замовчуванню?
+    </string>
+
+    <string name="Reset">Скинути</string>
+    <string name="Preview">Попередній перегляд</string>
+    <string name="Failed_to_start_preview">Не вдалось запустити попередній перегляд</string>
+
+    <string name="This_will_replace_background_image">Ця дія замінить фонове зображення</string>
+    <string name="Continue">Продовжити</string>
+
+    <string name="Open_source_licenses">Ліцензії вільного ПЗ</string>
+    <string name="Close">Закрити</string>
+
+    <string name="Performance_tips">Підказки</string>
+    <string name="performance_tips"><![CDATA[
+        Налаштування присвоюються одразу, не потрібно встановлювати шпалери знову після зміни
+        налаштувань.\n\nНалаштування,
+
+        які значно впливають на продкутивність, це «густина» і «частота кадрів». Висока густина
+        збільшує час промальовування. Висока частота кадрів дає більшу плавність, але використовує
+        більше процесорного часу і зменшує життя батареї, поки анімації видимі.\n\nЯкщо
+
+        у вас неплавна анімація, спробуйте зменшити «густину», та переконайтесь, що «частота кадрів»
+        не занадто низька для вибраної швидкості.\n\n«Швидкість»
+
+        не впливає на продкутивність, однак, якщо ви зменшите «швидкість», ви також можете зменшити
+        «частоту кадрів» не завдавши шкоди плавності анімації.\n\nВстановлення
+
+        фонового зображення може зменшити продкутивність.
+    ]]></string>
+
+</resources>

@@ -48,7 +48,7 @@
 
     <string name="Reset">Reset</string>
     <string name="Preview">Preview</string>
-    <string name="Failed_to_start_preview">Failed to start_preview</string>
+    <string name="Failed_to_start_preview">Failed to start preview</string>
 
     <string name="This_will_replace_background_image">This will replace background image</string>
     <string name="Continue">Continue</string>
@@ -58,13 +58,15 @@
 
     <string name="Performance_tips">Performance tips</string>
     <string name="performance_tips"><![CDATA[
-        Settings apply on-the-fly, no need to set wallpaper again after changing settings.\n\nSettings
+        Settings apply on-the-fly, no need to set wallpaper again after changing
+        settings.\n\nSettings
 
         that affect performance significally are “Density” and “Frame rate”.
         High density increases draw time while high frame rate means more smoothness but more CPU
         load and less battery life while wallpaper is visible.\n\nIf
 
-        you experience lags, try to reduce “Density”.\n\n“Speed factor”
+        you experience lags, try to reduce “Density”, and make sure the “Frame rate” is
+        high enough for selected “Speed factor”.\n\n“Speed factor”
 
         does not affect performance, however, if you lower the “Speed factor”, you can
         also lower the “Frame rate” without noticeable smoothness degrade.\n\nAlso,
