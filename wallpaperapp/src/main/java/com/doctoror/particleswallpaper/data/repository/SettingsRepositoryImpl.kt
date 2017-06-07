@@ -26,7 +26,7 @@ import io.reactivex.subjects.BehaviorSubject
  */
 class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
 
-    val defaults = SettingsRepositoryDefault()
+    val defaults = SettingsRepositoryDefault(context.resources)
 
     val colorSubject = BehaviorSubject.create<Int>()!!
     val backgroundColorSubject = BehaviorSubject.create<Int>()!!

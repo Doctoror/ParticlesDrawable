@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="default_density">65</integer>
+    <dimen name="default_dot_scale">1.4dp</dimen>
+    <dimen name="default_line_scale">1.4dp</dimen>
+    <dimen name="default_line_distance">110dp</dimen>
+
+</resources>

@@ -1,6 +1,7 @@
 package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
+import android.content.res.Resources
 import com.doctoror.particleswallpaper.data.config.DrawableConfiguratorImpl
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryImpl
@@ -22,8 +23,8 @@ class ConfigModule {
         const val DEFAULT = "default"
     }
 
-    @Named(DEFAULT) @Singleton @Provides fun provideDefaultSettings():
-            SettingsRepository = SettingsRepositoryDefault()
+    @Named(DEFAULT) @Singleton @Provides fun provideDefaultSettings(res: Resources):
+            SettingsRepository = SettingsRepositoryDefault(res)
 
     @Singleton @Provides fun provideMutableSettings(context: Context):
             MutableSettingsRepository = SettingsRepositoryImpl(context)
