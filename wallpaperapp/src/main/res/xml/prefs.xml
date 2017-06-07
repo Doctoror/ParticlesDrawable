@@ -38,7 +38,8 @@
 
         <com.doctoror.particleswallpaper.presentation.preference.BackgroundColorPreference
             android:key="@string/pref_key_background_color"
-            android:title="@string/Background_color"/>
+            android:title="@string/Background_color"
+            app:colorpicker_showAlpha="false"/>
 
         <com.doctoror.particleswallpaper.presentation.preference.BackgroundImagePreference
             android:key="@string/pref_key_background_image"
