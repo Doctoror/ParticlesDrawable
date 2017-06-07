@@ -1,0 +1,38 @@
+apply plugin: 'com.android.application'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        applicationId "com.doctoror.particlesdrawable.demo"
+
+        minSdkVersion 9
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        versionCode 4
+        versionName "1.0.3"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            debuggable true
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def d = rootProject.ext.demoDependencies
+
+    compile project(":library")
+
+    compile d.appcompat
+}
