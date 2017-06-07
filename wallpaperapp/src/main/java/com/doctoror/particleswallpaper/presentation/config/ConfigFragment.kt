@@ -18,7 +18,11 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.app.Fragment
 import android.arch.lifecycle.LifecycleObserver
 import android.content.Intent
+import android.os.Bundle
 import android.preference.PreferenceGroup
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.base.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
@@ -39,6 +43,10 @@ constructor(val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackH
         setBackgroundImagePreferenceHost(this)
         forEachLifecycleObserver(preferenceScreen,
                 Consumer<LifecycleObserver> { o -> lifecycle.addObserver(o) })
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater!!.inflate(R.layout.fragment_preference, container, false)
     }
 
     override fun onDestroy() {

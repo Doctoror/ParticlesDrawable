@@ -12,7 +12,6 @@ import android.widget.Toast
 import android.widget.Toolbar
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.interactor.SetWallpaperUseCase
-import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
@@ -26,10 +25,8 @@ class ConfigActivityLollipop : ConfigActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val root: ViewGroup = findViewById(R.id.toolbarContainer) as ViewGroup
-        val toolbar = Toolbar(this)
-        root.addView(toolbar, 0,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ThemeUtils.getDimension(theme, android.R.attr.actionBarSize).toInt()))
+        val toolbar = layoutInflater.inflate(R.layout.activity_config_toolbar, root, false) as Toolbar
+        root.addView(toolbar, 0)
         setActionBar(toolbar)
         actionBar?.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
     }

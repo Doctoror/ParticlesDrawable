@@ -36,8 +36,7 @@
         android:id="@+id/toolbarContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/translucentBackground">
+        android:orientation="vertical">
 
         <include
             layout="@layout/activity_config_fragment"

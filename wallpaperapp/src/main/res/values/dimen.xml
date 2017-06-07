@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="preference_list_margin_top">10dp</dimen>
+    <dimen name="preference_list_width">300dp</dimen>
+
+</resources>
