@@ -1,3 +1,14 @@
+v 1.0.4
+ParticlesDrawable:
+- Improved drawing time complexity from N*N to N*N/2
+- Fixed lines were getting drawn twice
+- Dot alpha is now pre-calculated once dot color or drawable alpha is changed, and not every time the dot is getting drawn
+
+v 1.0.3
+ParticlesDrawable:
+- Fixed "last frame time" not being reset when stopped resulting in offscreen dots once resumed.
+- Added "makeBrandNewFrameWithPointsOffscreen" method that will place all dots offscreen so that when started, all points will float onto screen
+
 v 1.0.2
 
 ParticlesDrawable:
