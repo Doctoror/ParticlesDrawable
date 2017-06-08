@@ -109,11 +109,15 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
     private float mStepMultiplier = DEFAULT_STEP_MULTIPLIER;
 
     private long mLastFrameTime;
+    private long mLastDrawDuration;
 
     private boolean mAnimating;
 
     // The alpha value of this Drawable
     private int mAlpha = 255;
+
+    @ColorInt
+    private int mDotColorResolvedAlpha = resolveDotColorWithDrawableAlpha(mDotColor, mAlpha);
 
     @Override
     public void inflate(@NonNull final Resources r,
@@ -173,46 +177,48 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
         return mPaint;
     }
 
-    void resetLastFrameTime() {
+    public void resetLastFrameTime() {
         mLastFrameTime = 0L;
     }
 
     @Override
     public void draw(@NonNull final Canvas canvas) {
+        final long startTime = SystemClock.uptimeMillis();
         if (mNumDots > 0) {
             final int pointsSize = mPoints.size();
             for (int i = 0; i < pointsSize; i++) {
                 final ParticleDot p1 = mPoints.get(i);
                 // Draw connection lines for eligible points
-                for (int c = 0; c < pointsSize; c++) {
-                    if (c != i) {
-                        final ParticleDot p2 = mPoints.get(c);
-                        final float distance = distance(p1.x, p1.y, p2.x, p2.y);
-                        if (distance < mLineDistance) {
-                            drawLine(canvas, p1, p2, distance);
-                        }
+                for (int c = i + 1; c < pointsSize; c++) {
+                    final ParticleDot p2 = mPoints.get(c);
+                    final float distance = distance(p1.x, p1.y, p2.x, p2.y);
+                    if (distance < mLineDistance) {
+                        drawLine(canvas, p1, p2, distance);
                     }
                 }
-            }
-
-            // The dots are drawn above the lines
-            // As an optimization, we can exclude point radius when drawing a line and then move point
-            // drawing to the loop above
-            for (int i = 0; i < pointsSize; i++) {
-                final ParticleDot p1 = mPoints.get(i);
                 drawDot(canvas, p1);
             }
         }
+        mLastDrawDuration = SystemClock.uptimeMillis() - startTime;
     }
 
     private void gotoNextFrameAndSchedule() {
         nextFrame();
-        scheduleSelf(this, SystemClock.uptimeMillis() + mDelay);
+        scheduleSelf(this,
+                SystemClock.uptimeMillis() + Math.max(mDelay - mLastDrawDuration, 5L));
     }
 
     @Override
     public void setAlpha(final int alpha) {
         mAlpha = alpha;
+        mDotColorResolvedAlpha = resolveDotColorWithDrawableAlpha(mDotColor, alpha);
+    }
+
+    private static int resolveDotColorWithDrawableAlpha(
+            @ColorInt final int dotColor,
+            final int drawableAlpha) {
+        final int alpha = Color.alpha(dotColor) * drawableAlpha / 255;
+        return (dotColor & 0x00FFFFFF) | (alpha << 24);
     }
 
     @Override
@@ -398,6 +404,7 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
      */
     public void setDotColor(@ColorInt final int dotColor) {
         mDotColor = dotColor;
+        mDotColorResolvedAlpha = resolveDotColorWithDrawableAlpha(dotColor, mAlpha);
     }
 
     /**
@@ -611,8 +618,7 @@ public class ParticlesDrawable extends Drawable implements Animatable, Runnable 
      */
     private void drawDot(@NonNull final Canvas canvas,
             @NonNull final ParticleDot p) {
-        final int alpha = Color.alpha(mDotColor) * mAlpha / 255;
-        mPaint.setColor((mDotColor & 0x00FFFFFF) | (alpha << 24));
+        mPaint.setColor(mDotColorResolvedAlpha);
         canvas.drawCircle(p.x, p.y, p.radius, mPaint);
     }
 
