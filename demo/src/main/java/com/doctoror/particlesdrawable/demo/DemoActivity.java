@@ -35,6 +35,7 @@ public final class DemoActivity extends AppCompatActivity {
         } else {
             mDrawable = new ParticlesDrawable();
         }
+        mDrawable.setStepMultiplier(0.7f);
         findViewById(android.R.id.content).setBackgroundDrawable(mDrawable);
     }
 
