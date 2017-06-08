@@ -13,13 +13,13 @@ dependencies {
 }
 ```
 
-## Demo
+## Configuration Demo
 [Particles Live Wallpaper](https://github.com/Doctoror/ParticlesWallpaper) has a great configuration screen which allows you to quickly see through what can you do with the library:
 
 [![Video](https://github.com/Doctoror/ParticlesWallpaper/raw/master/screenshots/video.png)](https://www.youtube.com/watch?v=Q7qvmCMUN20)
 
 ## Screenshots
-![screenshot](/screenshots/home.gif?raw=true)
+![screenshot](/screenshots/demo.gif?raw=true)
 
 # Usage
 You may use a `ParticlesDrawable`, which implements `Animatable`, or a `ParticlesView` (which is a `View`, of course).
