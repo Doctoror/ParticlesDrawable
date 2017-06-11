@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <declare-styleable name="ParticlesDrawable">
+    <declare-styleable name="ParticlesView">
         <attr name="minDotRadius" format="dimension"/>
         <attr name="maxDotRadius" format="dimension"/>
         <attr name="lineThickness" format="dimension"/>

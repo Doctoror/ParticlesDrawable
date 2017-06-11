@@ -16,7 +16,9 @@ ext {
     supportVersion = '25.3.1'
 
     //Testing
+    jUnitVersion = '4.12'
     testRunnerVersion = '0.5'
+    mockitoVersion = '2.8.9'
 
     demoDependencies = [
             appcompat      : "com.android.support:appcompat-v7:$supportVersion"
@@ -28,6 +30,8 @@ ext {
 
     libraryTestDependencies = [
             testRunner     : "com.android.support.test:runner:$testRunnerVersion",
-            testRules      : "com.android.support.test:rules:$testRunnerVersion"
+            testRules      : "com.android.support.test:rules:$testRunnerVersion",
+            junit          : "junit:junit:$jUnitVersion",
+            mockitoAndroid : "org.mockito:mockito-android:$mockitoVersion"
     ]
 }

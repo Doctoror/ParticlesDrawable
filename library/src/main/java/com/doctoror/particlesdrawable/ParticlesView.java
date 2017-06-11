@@ -19,6 +19,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
@@ -47,10 +48,11 @@ import android.view.ViewParent;
  * automatically. Thus, It is recommended to call {@link #stop()} when the hosting component gets
  * onStop() call and call {@link #start()} when the hosting component gets onStart() call.
  */
-public class ParticlesView extends View {
+public class ParticlesView extends View
+        implements IParticlesView, SceneScheduler, ParticlesSceneConfiguration {
 
-    // We don't use this Drawable as background so that the user might be able to set it's own
-    private final ParticlesDrawable mDrawable = new ParticlesDrawable();
+    private final SceneController mController = new SceneController(this, this);
+    private final CanvasParticlesView mCanvasParticlesView = new CanvasParticlesView();
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -87,114 +89,210 @@ public class ParticlesView extends View {
 
     private void init(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            setLayerType(LAYER_TYPE_HARDWARE, mDrawable.getPaint());
+            setLayerType(LAYER_TYPE_HARDWARE, mCanvasParticlesView.getPaint());
         }
         if (attrs != null) {
             final TypedArray a = context
-                    .obtainStyledAttributes(attrs, R.styleable.ParticlesDrawable);
+                    .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
             try {
-                mDrawable.handleAttrs(a);
+                mController.handleAttrs(a);
             } finally {
                 a.recycle();
             }
         }
     }
 
+    @NonNull
+    public Paint getPaint() {
+        return mCanvasParticlesView.getPaint();
+    }
+
+    public void resetLastFrameTime() {
+        mController.resetLastFrameTime();
+    }
+
     /**
-     * Set a delay per frame in milliseconds.
-     *
-     * @param delay delay between frames
-     * @throws IllegalArgumentException if delay is a negative number
+     * Resets and makes new random frame. This is useful for re-generating new fancy static
+     * backgrounds when not using animations.
      */
+    public void makeBrandNewFrame() {
+        mController.makeBrandNewFrame();
+    }
+
+    /**
+     * Resets and makes new random frame where all points are out of screen bounds and will be
+     * moving into the screen once animation starts.
+     */
+    public void makeBrandNewFrameWithPointsOffscreen() {
+        mController.makeBrandNewFrameWithPointsOffscreen();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        mDrawable.setFrameDelay(delay);
+        mController.setFrameDelay(delay);
     }
 
     /**
-     * Sets step multiplier. Use this to control speed.
-     *
-     * @param stepMultiplier step multiplier
+     * {@inheritDoc}
      */
+    @Override
+    public int getFrameDelay() {
+        return mController.getFrameDelay();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        mDrawable.setStepMultiplier(stepMultiplier);
+        mController.setStepMultiplier(stepMultiplier);
     }
 
     /**
-     * Set dot radius range
-     *
-     * @param minRadius smallest dot radius
-     * @param maxRadius largest dot radius
+     * {@inheritDoc}
      */
-    public void setDotRadiusRange(
-            @FloatRange(from = 0.5f) final float minRadius,
-            @FloatRange(from = 0.5f) final float maxRadius) {
-        mDrawable.setDotRadiusRange(minRadius, maxRadius);
+    @Override
+    public float getStepMultiplier() {
+        return mController.getStepMultiplier();
     }
 
     /**
-     * Set a line thickness
-     *
-     * @param lineThickness line thickness
+     * {@inheritDoc}
+     */
+    public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
+            @FloatRange(from = 0.5f) final float maxRadius) {
+        mController.setDotRadiusRange(minRadius, maxRadius);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public float getMinDotRadius() {
+        return mController.getMinDotRadius();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public float getMaxDotRadius() {
+        return mController.getMaxDotRadius();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        mDrawable.setLineThickness(lineThickness);
+        mController.setLineThickness(lineThickness);
     }
 
     /**
-     * Set the maximum distance when the connection line is still drawn between points
-     *
-     * @param lineDistance maximum distance for connection lines
+     * {@inheritDoc}
+     */
+    @Override
+    public float getLineThickness() {
+        return mController.getLineThickness();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        mDrawable.setLineDistance(lineDistance);
+        mController.setLineDistance(lineDistance);
     }
 
     /**
-     * Set number of points to draw
-     *
-     * @param newNum the number of points
-     * @throws IllegalArgumentException if number of points is negative
+     * {@inheritDoc}
+     */
+    @Override
+    public float getLineDistance() {
+        return mController.getLineDistance();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        mDrawable.setNumDots(newNum);
+        mController.setNumDots(newNum);
     }
 
     /**
-     * Set the dot color
-     *
-     * @param dotColor dot color to use
+     * {@inheritDoc}
+     */
+    @Override
+    public int getNumDots() {
+        return mController.getNumDots();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        mDrawable.setDotColor(dotColor);
+        mController.setDotColor(dotColor);
     }
 
     /**
-     * Set the line color. Note that the color alpha is ignored and will be calculated depending on
-     * distance between points
-     *
-     * @param lineColor line color to use
+     * {@inheritDoc}
+     */
+    @Override
+    public int getDotColor() {
+        return mController.getDotColor();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public void setLineColor(@ColorInt final int lineColor) {
-        mDrawable.setLineColor(lineColor);
+        mController.setLineColor(lineColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getLineColor() {
+        return mController.getLineColor();
     }
 
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mDrawable.setBounds(0, 0, w, h);
+        mController.setBounds(0, 0, w, h);
     }
 
     @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
-        mDrawable.draw(canvas);
+        mCanvasParticlesView.setCanvas(canvas);
+        mController.draw();
+        mController.run();
+        mCanvasParticlesView.setCanvas(null);
+    }
 
-        if (mDrawable.isRunning() && isEnabled()) {
-            mDrawable.run();
-            postInvalidateDelayed(mDrawable.getFrameDelay());
-        } else {
-            mDrawable.resetLastFrameTime();
-        }
+    @Override
+    public void drawLine(final float startX, final float startY, final float stopX,
+            final float stopY, final float strokeWidth, @ColorInt final int color) {
+        mCanvasParticlesView.drawLine(startX, startY, stopX, stopY, strokeWidth, color);
+    }
+
+    @Override
+    public void fillCircle(final float cx, final float cy, final float radius,
+            @ColorInt final int color) {
+        mCanvasParticlesView.fillCircle(cx, cy, radius, color);
+    }
+
+    @Override
+    public void scheduleNextFrame(final long delay) {
+        postInvalidateDelayed(delay);
+    }
+
+    @Override
+    public void unscheduleNextFrame() {
+
     }
 
     @Override
@@ -222,14 +320,6 @@ public class ParticlesView extends View {
     }
 
     /**
-     * Resets and makes new random frame. This is useful for re-generating new fancy static
-     * backgrounds when not using animations.
-     */
-    public void makeBrandNewFrame() {
-        mDrawable.makeBrandNewFrame();
-    }
-
-    /**
      * Start animating. This will clear the explicit control flag if set by {@link #stop()}.
      * Note that if this View's visibility is not {@link #VISIBLE} or it's not attached to window,
      * this will not start animating until the state changes to meet the requirements above.
@@ -251,19 +341,18 @@ public class ParticlesView extends View {
     @VisibleForTesting
     void startInternal() {
         if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
-            mDrawable.start();
-            postInvalidateDelayed(mDrawable.getFrameDelay());
+            mController.start();
         }
     }
 
     @VisibleForTesting
     void stopInternal() {
-        mDrawable.stop();
+        mController.stop();
     }
 
     @VisibleForTesting
     boolean isRunning() {
-        return mDrawable.isRunning();
+        return mController.isRunning();
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)

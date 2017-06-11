@@ -41,6 +41,7 @@ dependencies {
 
     androidTestCompile td.testRunner
     androidTestCompile td.testRules
+    androidTestCompile td.mockitoAndroid
 
     javadocDeps d.annotations
 
