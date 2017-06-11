@@ -1,3 +1,9 @@
+v 1.0.5
+- Refactored
+- Added more tests
+- ParticlesDrawable and ParticlesView now implement ParticlesSceneConfiguration to make sure all configuration getters and setters are exposed.
+- ParticlesView now uses SceneController instead of ParticlesDrawable for implementation
+
 v 1.0.4
 ParticlesDrawable:
 - Improved drawing time complexity from N*N to N*N/2
@@ -10,13 +16,10 @@ ParticlesDrawable:
 - Added "makeBrandNewFrameWithPointsOffscreen" method that will place all dots offscreen so that when started, all points will float onto screen
 
 v 1.0.2
-
 ParticlesDrawable:
 - Fixed "java.lang.IllegalArgumentException: n must be positive" when radius range values round up to the same int
 
-
 v 1.0.1
-
 ParticlesDrawable:
 - Fixed IllegalArgumentException when set bounds resulted in width, height or both set to zero
 - Added makeBrandNewFrame() method which resets all positions and makes a random new frame. Is useful if you are using ParticlesDrawable as static, not animating backgounrd.
