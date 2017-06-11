@@ -22,7 +22,7 @@ import android.annotation.SuppressLint;
 import static org.junit.Assert.*;
 
 /**
- * Created by Yaroslav Mytkalyk on 11.06.17.
+ * {@link ParticlesScene} test
  */
 public final class ParticlesSceneTest {
 

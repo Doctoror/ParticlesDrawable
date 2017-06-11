@@ -29,7 +29,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Yaroslav Mytkalyk on 12.05.17.
+ * {@link ParticlesView} test
  */
 public final class ParticlesViewTest {
 

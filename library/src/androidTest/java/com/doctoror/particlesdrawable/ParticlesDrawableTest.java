@@ -26,6 +26,9 @@ import android.util.TypedValue;
 
 import static org.junit.Assert.*;
 
+/**
+ * {@link ParticlesDrawable} test
+ */
 public final class ParticlesDrawableTest {
 
     @Test

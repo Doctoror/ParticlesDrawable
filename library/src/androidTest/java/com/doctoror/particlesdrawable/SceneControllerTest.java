@@ -22,6 +22,9 @@ import android.support.annotation.NonNull;
 
 import static org.junit.Assert.*;
 
+/**
+ * {@link SceneController} test
+ */
 public final class SceneControllerTest {
 
     @NonNull
