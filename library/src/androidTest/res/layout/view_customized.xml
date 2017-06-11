@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.doctoror.particlesdrawable.ParticlesView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:minDotRadius="2dp"
+    app:maxDotRadius="3dp"
+    app:lineThickness="4dp"
+    app:lineDistance="5dp"
+    app:numDots="6"
+    app:dotColor="#fffff0"
+    app:lineColor="#fffff1"
+    app:frameDelayMillis="7"
+    app:stepMultiplier="1.1"/>

@@ -1,7 +1,5 @@
 package com.doctoror.particlesdrawable;
 
-import org.xmlpull.v1.XmlPullParserException;
-
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.SystemClock;
@@ -12,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -66,8 +63,7 @@ final class SceneController implements Runnable, ParticlesSceneConfiguration {
         return mViewScheduler;
     }
 
-    void inflate(@NonNull final Resources r,
-            @NonNull final AttributeSet attrs) throws XmlPullParserException, IOException {
+    void inflate(@NonNull final Resources r, @NonNull final AttributeSet attrs) {
         final TypedArray a = r.obtainAttributes(attrs, R.styleable.ParticlesView);
         try {
             handleAttrs(a);

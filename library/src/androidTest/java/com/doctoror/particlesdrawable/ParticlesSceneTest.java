@@ -85,15 +85,15 @@ public final class ParticlesSceneTest {
     @Test
     public void testAddTwoPoints() {
         final ParticlesScene scene = new ParticlesScene();
-        
+
         final Particle p1 = new Particle();
         final Particle p2 = new Particle();
-        
+
         scene.addPoint(p1);
         scene.addPoint(p2);
-        
+
         assertFalse(scene.getMutablePoints().isEmpty());
-        
+
         assertTrue(scene.getMutablePoints().contains(p1));
         assertTrue(scene.getMutablePoints().contains(p2));
     }
@@ -112,7 +112,7 @@ public final class ParticlesSceneTest {
 
         scene.addPoint(p1);
         scene.addPoint(p2);
-        
+
         scene.removeFirstPoint();
 
         assertFalse(scene.getMutablePoints().contains(p1));
@@ -132,7 +132,7 @@ public final class ParticlesSceneTest {
 
         scene.addPoint(p1);
         scene.addPoint(p2);
-        
+
         scene.clearPoints();
         assertTrue(scene.getMutablePoints().isEmpty());
     }
@@ -145,7 +145,9 @@ public final class ParticlesSceneTest {
 
     @Test
     public void testSetFrameDelay() {
-        new ParticlesScene().setFrameDelay(1);
+        final ParticlesScene s = new ParticlesScene();
+        s.setFrameDelay(1);
+        assertEquals(1, s.getFrameDelay());
     }
 
     @SuppressLint("Range")
@@ -162,7 +164,9 @@ public final class ParticlesSceneTest {
 
     @Test
     public void testSetStepMultiplier() {
-        new ParticlesScene().setStepMultiplier(0f);
+        final ParticlesScene s = new ParticlesScene();
+        s.setStepMultiplier(0f);
+        assertEquals(0, s.getStepMultiplier(), Config.ASSERT_DELTA);
     }
 
     @SuppressLint("Range")
@@ -201,9 +205,18 @@ public final class ParticlesSceneTest {
         new ParticlesScene().setDotRadiusRange(Float.NaN, Float.NaN);
     }
 
+    @SuppressLint("Range")
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetDotRadiusRangeMaxLessThanMin() {
+        new ParticlesScene().setDotRadiusRange(0.7f, 0.6f);
+    }
+
     @Test
     public void testSetDotRadiusRange() {
-        new ParticlesScene().setDotRadiusRange(0.5f, 0.5f);
+        final ParticlesScene s = new ParticlesScene();
+        s.setDotRadiusRange(0.5f, 0.6f);
+        assertEquals(0.5, s.getMinDotRadius(), Config.ASSERT_DELTA);
+        assertEquals(0.6, s.getMaxDotRadius(), Config.ASSERT_DELTA);
     }
 
     @SuppressLint("Range")
@@ -220,7 +233,9 @@ public final class ParticlesSceneTest {
 
     @Test
     public void testSetLineThickness() {
-        new ParticlesScene().setLineThickness(1f);
+        final ParticlesScene s = new ParticlesScene();
+        s.setLineThickness(1f);
+        assertEquals(1, s.getLineThickness(), Config.ASSERT_DELTA);
     }
 
     @SuppressLint("Range")
@@ -237,7 +252,9 @@ public final class ParticlesSceneTest {
 
     @Test
     public void testSetLineDistance() {
-        new ParticlesScene().setLineDistance(0f);
+        final ParticlesScene s = new ParticlesScene();
+        s.setLineDistance(0f);
+        assertEquals(0, s.getLineDistance(), Config.ASSERT_DELTA);
     }
 
     @SuppressLint("Range")
@@ -248,6 +265,15 @@ public final class ParticlesSceneTest {
 
     @Test
     public void testSetNumDots() {
-        new ParticlesScene().setNumDots(0);
+        final ParticlesScene s = new ParticlesScene();
+        s.setNumDots(0);
+        assertEquals(0, s.getNumDots());
+    }
+
+    @Test
+    public void testSetLineColor() {
+        final ParticlesScene s = new ParticlesScene();
+        s.setLineColor(2);
+        assertEquals(2, s.getLineColor());
     }
 }

@@ -33,6 +33,13 @@ android {
     configurations {
         javadocDeps
     }
+
+    sourceSets {
+        androidTest {
+            java.srcDirs = ['src/androidTest/java']
+            res.srcDirs = ['src/androidTest/res']
+        }
+    }
 }
 
 dependencies {

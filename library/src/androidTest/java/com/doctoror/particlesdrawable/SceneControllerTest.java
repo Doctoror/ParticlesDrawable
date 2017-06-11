@@ -102,4 +102,61 @@ public final class SceneControllerTest {
         c.setDotRadiusRange(0.5f, 0.6f);
         c.makeBrandNewFrame();
     }
+
+    @Test
+    public void testSetFrameDelay() {
+        final SceneController s = newSceneController();
+        s.setFrameDelay(1);
+        assertEquals(1, s.getFrameDelay());
+    }
+
+    @Test
+    public void testSetStepMultiplier() {
+        final SceneController s = newSceneController();
+        s.setStepMultiplier(0f);
+        assertEquals(0, s.getStepMultiplier(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testSetDotRadiusRange() {
+        final SceneController s = newSceneController();
+        s.setDotRadiusRange(0.5f, 0.6f);
+        assertEquals(0.5, s.getMinDotRadius(), Config.ASSERT_DELTA);
+        assertEquals(0.6, s.getMaxDotRadius(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testSetLineThickness() {
+        final SceneController s = newSceneController();
+        s.setLineThickness(1f);
+        assertEquals(1, s.getLineThickness(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testSetLineDistance() {
+        final SceneController s = newSceneController();
+        s.setLineDistance(0f);
+        assertEquals(0, s.getLineDistance(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testSetNumDots() {
+        final SceneController s = newSceneController();
+        s.setNumDots(0);
+        assertEquals(0, s.getNumDots());
+    }
+
+    @Test
+    public void testSetLineColor() {
+        final SceneController s = newSceneController();
+        s.setLineColor(2);
+        assertEquals(2, s.getLineColor());
+    }
+
+    @Test
+    public void testSetDotColor() {
+        final SceneController s = newSceneController();
+        s.setDotColor(3);
+        assertEquals(3, s.getDotColor());
+    }
 }

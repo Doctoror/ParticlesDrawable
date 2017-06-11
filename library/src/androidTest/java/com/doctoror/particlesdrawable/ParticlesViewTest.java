@@ -17,10 +17,14 @@ package com.doctoror.particlesdrawable;
 
 import org.junit.Test;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -155,5 +159,122 @@ public final class ParticlesViewTest {
         final ParticlesView v = newAttachedAndVisibleParticlesView();
         v.startInternal();
         v.makeBrandNewFrame();
+    }
+
+    @Test
+    public void testSetFrameDelay() {
+        final ParticlesView s = newParticlesView();
+        s.setFrameDelay(1);
+        assertEquals(1, s.getFrameDelay());
+    }
+
+    @Test
+    public void testSetStepMultiplier() {
+        final ParticlesView s = newParticlesView();
+        s.setStepMultiplier(0f);
+        assertEquals(0, s.getStepMultiplier(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testSetDotRadiusRange() {
+        final ParticlesView s = newParticlesView();
+        s.setDotRadiusRange(0.5f, 0.6f);
+        assertEquals(0.5, s.getMinDotRadius(), Config.ASSERT_DELTA);
+        assertEquals(0.6, s.getMaxDotRadius(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testSetLineThickness() {
+        final ParticlesView s = newParticlesView();
+        s.setLineThickness(1f);
+        assertEquals(1, s.getLineThickness(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testSetLineDistance() {
+        final ParticlesView s = newParticlesView();
+        s.setLineDistance(0f);
+        assertEquals(0, s.getLineDistance(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testSetNumDots() {
+        final ParticlesView s = newParticlesView();
+        s.setNumDots(0);
+        assertEquals(0, s.getNumDots());
+    }
+
+    @Test
+    public void testSetLineColor() {
+        final ParticlesView s = newParticlesView();
+        s.setLineColor(2);
+        assertEquals(2, s.getLineColor());
+    }
+
+    @Test
+    public void testSetDotColor() {
+        final ParticlesView s = newParticlesView();
+        s.setDotColor(3);
+        assertEquals(3, s.getDotColor());
+    }
+
+    @NonNull
+    private ParticlesView inflateCustomizedView() {
+        return (ParticlesView) LayoutInflater.from(InstrumentationRegistry.getContext()).inflate(
+                com.doctoror.particlesdrawable.test.R.layout.view_customized, null);
+    }
+
+    private float dp(final float value) {
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, value, Resources.getSystem().getDisplayMetrics());
+    }
+
+    @Test
+    public void testDotRadiusRangeFromAttributes() {
+        final ParticlesView v = inflateCustomizedView();
+        assertEquals(dp(2), v.getMinDotRadius(), Config.ASSERT_DELTA);
+        assertEquals(dp(3), v.getMaxDotRadius(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testLineThicknessFromAttributes() {
+        final ParticlesView v = inflateCustomizedView();
+        assertEquals(dp(4), v.getLineThickness(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testLineDistanceFromAttributes() {
+        final ParticlesView v = inflateCustomizedView();
+        assertEquals(dp(5), v.getLineDistance(), Config.ASSERT_DELTA);
+    }
+
+    @Test
+    public void testNumDotsFromAttributes() {
+        final ParticlesView v = inflateCustomizedView();
+        assertEquals(6, v.getNumDots());
+    }
+
+    @Test
+    public void testDotColorFromAttributes() {
+        final ParticlesView v = inflateCustomizedView();
+        assertEquals(0xfffffff0, v.getDotColor());
+    }
+
+    @Test
+    public void testLineColorFromAttributes() {
+        final ParticlesView v = inflateCustomizedView();
+        assertEquals(0xfffffff1, v.getLineColor());
+    }
+
+    @Test
+    public void testFrameDelayFromAttributes() {
+        final ParticlesView v = inflateCustomizedView();
+        assertEquals(7, v.getFrameDelay());
+    }
+
+    @Test
+    public void testStepMultiplierFromAttributes() {
+        final ParticlesView v = inflateCustomizedView();
+        assertEquals(1.1, v.getStepMultiplier(), Config.ASSERT_DELTA);
     }
 }
