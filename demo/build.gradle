@@ -12,10 +12,8 @@ android {
         minSdkVersion 9
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
 
-        versionCode 6
-        versionName "1.0.5"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
     }
     buildTypes {
         debug {
