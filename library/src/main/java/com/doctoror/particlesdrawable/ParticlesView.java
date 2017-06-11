@@ -24,6 +24,7 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -48,6 +49,7 @@ import android.view.ViewParent;
  * automatically. Thus, It is recommended to call {@link #stop()} when the hosting component gets
  * onStop() call and call {@link #start()} when the hosting component gets onStart() call.
  */
+@Keep
 public class ParticlesView extends View
         implements IParticlesView, SceneScheduler, ParticlesSceneConfiguration {
 
@@ -103,10 +105,12 @@ public class ParticlesView extends View
     }
 
     @NonNull
+    @Keep
     public Paint getPaint() {
         return mCanvasParticlesView.getPaint();
     }
 
+    @Keep
     public void resetLastFrameTime() {
         mController.resetLastFrameTime();
     }
@@ -115,6 +119,7 @@ public class ParticlesView extends View
      * Resets and makes new random frame. This is useful for re-generating new fancy static
      * backgrounds when not using animations.
      */
+    @Keep
     public void makeBrandNewFrame() {
         mController.makeBrandNewFrame();
     }
@@ -123,6 +128,7 @@ public class ParticlesView extends View
      * Resets and makes new random frame where all points are out of screen bounds and will be
      * moving into the screen once animation starts.
      */
+    @Keep
     public void makeBrandNewFrameWithPointsOffscreen() {
         mController.makeBrandNewFrameWithPointsOffscreen();
     }
@@ -324,6 +330,7 @@ public class ParticlesView extends View
      * Note that if this View's visibility is not {@link #VISIBLE} or it's not attached to window,
      * this will not start animating until the state changes to meet the requirements above.
      */
+    @Keep
     public void start() {
         mExplicitlyStopped = false;
         startInternal();
@@ -333,6 +340,7 @@ public class ParticlesView extends View
      * Explicilty stop animating. This will stop animating and no animations will start
      * automatically until you call {@link #start()}.
      */
+    @Keep
     public void stop() {
         mExplicitlyStopped = true;
         stopInternal();

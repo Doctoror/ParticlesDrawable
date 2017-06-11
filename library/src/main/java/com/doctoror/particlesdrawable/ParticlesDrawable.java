@@ -29,6 +29,7 @@ import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -38,6 +39,7 @@ import java.io.IOException;
 /**
  * The Particles Drawable
  */
+@Keep
 public class ParticlesDrawable extends Drawable
         implements Animatable, IParticlesView, SceneScheduler, ParticlesSceneConfiguration {
 
@@ -54,10 +56,12 @@ public class ParticlesDrawable extends Drawable
     }
 
     @NonNull
+    @Keep
     public Paint getPaint() {
         return mCanvasParticlesView.getPaint();
     }
 
+    @Keep
     public void resetLastFrameTime() {
         mController.resetLastFrameTime();
     }
@@ -66,6 +70,7 @@ public class ParticlesDrawable extends Drawable
      * Resets and makes new random frame. This is useful for re-generating new fancy static
      * backgrounds when not using animations.
      */
+    @Keep
     public void makeBrandNewFrame() {
         mController.makeBrandNewFrame();
     }
@@ -74,6 +79,7 @@ public class ParticlesDrawable extends Drawable
      * Resets and makes new random frame where all points are out of screen bounds and will be
      * moving into the screen once animation starts.
      */
+    @Keep
     public void makeBrandNewFrameWithPointsOffscreen() {
         mController.makeBrandNewFrameWithPointsOffscreen();
     }
@@ -188,6 +194,7 @@ public class ParticlesDrawable extends Drawable
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
             @FloatRange(from = 0.5f) final float maxRadius) {
         mController.setDotRadiusRange(minRadius, maxRadius);
@@ -212,6 +219,7 @@ public class ParticlesDrawable extends Drawable
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
         mController.setLineThickness(lineThickness);
     }
@@ -227,6 +235,7 @@ public class ParticlesDrawable extends Drawable
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
         mController.setLineDistance(lineDistance);
     }
@@ -272,6 +281,7 @@ public class ParticlesDrawable extends Drawable
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setLineColor(@ColorInt final int lineColor) {
         mController.setLineColor(lineColor);
     }
