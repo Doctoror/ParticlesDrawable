@@ -301,6 +301,14 @@ public class ParticlesView extends View
 
     }
 
+    /**
+     * Use this if you want to manually set to next frame, while animations are stopped.
+     */
+    @Keep
+    public void nextFrame() {
+        mController.nextFrame();
+    }
+
     @Override
     protected void onVisibilityChanged(@NonNull final View changedView, final int visibility) {
         super.onVisibilityChanged(changedView, visibility);

@@ -67,6 +67,14 @@ public class ParticlesDrawable extends Drawable
     }
 
     /**
+     * Use this if you want to manually set to next frame, while animations are stopped.
+     */
+    @Keep
+    public void nextFrame() {
+        mController.nextFrame();
+    }
+
+    /**
      * Resets and makes new random frame. This is useful for re-generating new fancy static
      * backgrounds when not using animations.
      */

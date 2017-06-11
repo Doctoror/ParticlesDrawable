@@ -417,7 +417,7 @@ final class SceneController implements Runnable, ParticlesSceneConfiguration {
     /**
      * Calculates values for the next frame
      */
-    private void nextFrame() {
+    void nextFrame() {
         final ParticlesScene model = getScene();
         final float step = mLastFrameTime == 0 ? 1f
                 : (SystemClock.uptimeMillis() - mLastFrameTime) * STEP_PER_MS;
