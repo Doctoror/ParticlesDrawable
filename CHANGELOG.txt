@@ -1,3 +1,6 @@
+v 1.0.6
+- Exposed nextFrame() method for using in when animating manually.
+
 v 1.0.5
 - Refactored
 - Added more tests
