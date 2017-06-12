@@ -1,7 +1,13 @@
 # ParticlesDrawable
-Android Particles Drawable and View.
+Draws random flying particles in space forming constellations.
 
 Min API level 9.
+
+Contains:
+- `ParticlesDrawable`, which is an `Animatable` `Drawable`.
+- `ParticlesView`, which is a `View`.
+
+Both have the same public methods for customization and may be inflated using the same customization xml attributes.
 
 # Add to your project
 
@@ -13,18 +19,11 @@ dependencies {
 }
 ```
 
-## Configuration Demo
-[Particle Constellations Live Wallpaper](https://github.com/Doctoror/ParticleConstellationsLiveWallpaper) has a great configuration screen which allows you to quickly see through what can you do with the library:
-
-[![Video](https://github.com/Doctoror/ParticlesWallpaper/raw/master/screenshots/video.png)](https://www.youtube.com/watch?v=Q7qvmCMUN20)
-
 ## Screenshots
 ![screenshot](/screenshots/demo.gif?raw=true)
 
 # Usage
-You may use a `ParticlesDrawable`, which implements `Animatable`, or a `ParticlesView` (which is a `View`, of course).
-
-`ParticlesDrawable` example
+`ParticlesDrawable` usage example
 ```java
 private final ParticlesDrawable mDrawable = new ParticlesDrawable();
 
@@ -49,7 +48,7 @@ protected void onStop() {
 ```
 
 ## Customization
-`ParticlesDrawable` as well as `ParticlesView`, contains setters for various customzations. They both can also be customized from an `xml`. Here is a list of all attributes, set with default values
+Here is a list of all attributes, set with default values
 
 ```xml
 <com.doctoror.particlesdrawable.ParticlesView
@@ -81,6 +80,11 @@ And inflate, like
 mDrawable = (ParticlesDrawable) ContextCompat
         .getDrawable(this, R.drawable.particles_120dots);
 ```
+
+## Configuration Demo
+[Particle Constellations Live Wallpaper](https://github.com/Doctoror/ParticleConstellationsLiveWallpaper) has a great configuration screen which allows you to quickly see through what can you do with the library:
+
+[![Video](https://github.com/Doctoror/ParticlesWallpaper/raw/master/screenshots/video.png)](https://www.youtube.com/watch?v=Q7qvmCMUN20)
 
 
 ## License
