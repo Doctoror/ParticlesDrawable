@@ -62,6 +62,7 @@ Here is a list of all attributes, set with default values
     app:frameDelayMillis="10"
     app:stepMultiplier="1"/>
 ```
+The conventional getters and setters are also available.
 
 Since API 24, you may also customize the Drawable in `xml`. For example, create
 `drawable-v24/particles_120dots.xml`
