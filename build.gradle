@@ -15,8 +15,8 @@ buildscript {
 
 allprojects {
     ext {
-        androidVersionCode = 7
-        androidVersionName = "1.0.6"
+        androidVersionCode = 8
+        androidVersionName = "1.0.7"
 
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
