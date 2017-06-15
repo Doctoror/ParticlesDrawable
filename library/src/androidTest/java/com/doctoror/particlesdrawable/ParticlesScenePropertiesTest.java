@@ -22,29 +22,29 @@ import android.annotation.SuppressLint;
 import static org.junit.Assert.*;
 
 /**
- * {@link ParticlesScene} test
+ * {@link ParticlesSceneProperties} test
  */
-public final class ParticlesSceneTest {
+public final class ParticlesScenePropertiesTest {
 
     @Test
     public void testResolveDotColorWithDrawableAlphaOpaque() {
         final int dotColor = 0xaa000000;
         assertEquals(dotColor,
-                ParticlesScene.resolveDotColorWithDrawableAlpha(dotColor, 255));
+                ParticlesSceneProperties.resolveDotColorWithDrawableAlpha(dotColor, 255));
     }
 
     @Test
     public void testResolveDotColorWithDrawableAlphaTransparent() {
         final int dotColor = 0xaa000000;
         assertEquals(0,
-                ParticlesScene.resolveDotColorWithDrawableAlpha(dotColor, 0));
+                ParticlesSceneProperties.resolveDotColorWithDrawableAlpha(dotColor, 0));
     }
 
     @Test
     public void testDotColorResolvedAlpha() {
         final int dotColor = 0xaa000000;
 
-        final ParticlesScene scene = new ParticlesScene();
+        final ParticlesSceneProperties scene = new ParticlesSceneProperties();
         scene.setDotColor(dotColor);
 
         assertEquals(dotColor, scene.getDotColorResolvedAlpha());
@@ -55,11 +55,12 @@ public final class ParticlesSceneTest {
         final int dotColor = 0xaa000000;
         final int drawableAlpha = 20;
 
-        final ParticlesScene scene = new ParticlesScene();
+        final ParticlesSceneProperties scene = new ParticlesSceneProperties();
         scene.setDotColor(dotColor);
         scene.setAlpha(drawableAlpha);
 
-        assertEquals(ParticlesScene.resolveDotColorWithDrawableAlpha(dotColor, drawableAlpha),
+        assertEquals(
+                ParticlesSceneProperties.resolveDotColorWithDrawableAlpha(dotColor, drawableAlpha),
                 scene.getDotColorResolvedAlpha());
     }
 
@@ -68,23 +69,24 @@ public final class ParticlesSceneTest {
         final int dotColor = 0xaa000000;
         final int drawableAlpha = 20;
 
-        final ParticlesScene scene = new ParticlesScene();
+        final ParticlesSceneProperties scene = new ParticlesSceneProperties();
         scene.setAlpha(drawableAlpha);
         scene.setDotColor(dotColor);
 
-        assertEquals(ParticlesScene.resolveDotColorWithDrawableAlpha(dotColor, drawableAlpha),
+        assertEquals(
+                ParticlesSceneProperties.resolveDotColorWithDrawableAlpha(dotColor, drawableAlpha),
                 scene.getDotColorResolvedAlpha());
     }
 
     @Test
     public void testPointsEmptyByDefault() {
-        final ParticlesScene scene = new ParticlesScene();
+        final ParticlesSceneProperties scene = new ParticlesSceneProperties();
         assertTrue(scene.getMutablePoints().isEmpty());
     }
 
     @Test
     public void testAddTwoPoints() {
-        final ParticlesScene scene = new ParticlesScene();
+        final ParticlesSceneProperties scene = new ParticlesSceneProperties();
 
         final Particle p1 = new Particle();
         final Particle p2 = new Particle();
@@ -100,12 +102,12 @@ public final class ParticlesSceneTest {
 
     @Test
     public void testRemoveFirstPointWhenEmpty() {
-        new ParticlesScene().removeFirstPoint();
+        new ParticlesSceneProperties().removeFirstPoint();
     }
 
     @Test
     public void testRemoveFirstPointWithTwoPoints() {
-        final ParticlesScene scene = new ParticlesScene();
+        final ParticlesSceneProperties scene = new ParticlesSceneProperties();
 
         final Particle p1 = new Particle();
         final Particle p2 = new Particle();
@@ -125,7 +127,7 @@ public final class ParticlesSceneTest {
 
     @Test
     public void testClearPointsWithTwoPoints() {
-        final ParticlesScene scene = new ParticlesScene();
+        final ParticlesSceneProperties scene = new ParticlesSceneProperties();
 
         final Particle p1 = new Particle();
         final Particle p2 = new Particle();
@@ -140,12 +142,12 @@ public final class ParticlesSceneTest {
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetFrameDelayNegative() {
-        new ParticlesScene().setFrameDelay(-1);
+        new ParticlesSceneProperties().setFrameDelay(-1);
     }
 
     @Test
     public void testSetFrameDelay() {
-        final ParticlesScene s = new ParticlesScene();
+        final ParticlesSceneProperties s = new ParticlesSceneProperties();
         s.setFrameDelay(1);
         assertEquals(1, s.getFrameDelay());
     }
@@ -153,18 +155,18 @@ public final class ParticlesSceneTest {
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testStepMultiplierNegative() {
-        new ParticlesScene().setStepMultiplier(-0.01f);
+        new ParticlesSceneProperties().setStepMultiplier(-0.01f);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testStepMultiplierNAN() {
-        new ParticlesScene().setStepMultiplier(Float.NaN);
+        new ParticlesSceneProperties().setStepMultiplier(Float.NaN);
     }
 
     @Test
     public void testSetStepMultiplier() {
-        final ParticlesScene s = new ParticlesScene();
+        final ParticlesSceneProperties s = new ParticlesSceneProperties();
         s.setStepMultiplier(0f);
         assertEquals(0, s.getStepMultiplier(), Config.ASSERT_DELTA);
     }
@@ -172,48 +174,48 @@ public final class ParticlesSceneTest {
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeInvalidFirstArgument() {
-        new ParticlesScene().setDotRadiusRange(0.49f, 1f);
+        new ParticlesSceneProperties().setDotRadiusRange(0.49f, 1f);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeInvalidSecondArgument() {
-        new ParticlesScene().setDotRadiusRange(2f, 0f);
+        new ParticlesSceneProperties().setDotRadiusRange(2f, 0f);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeInvalidBothArguments() {
-        new ParticlesScene().setDotRadiusRange(0.1f, -2f);
+        new ParticlesSceneProperties().setDotRadiusRange(0.1f, -2f);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeFirstArgumentNAN() {
-        new ParticlesScene().setDotRadiusRange(Float.NaN, 1f);
+        new ParticlesSceneProperties().setDotRadiusRange(Float.NaN, 1f);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeSecondArgumentNAN() {
-        new ParticlesScene().setDotRadiusRange(1f, Float.NaN);
+        new ParticlesSceneProperties().setDotRadiusRange(1f, Float.NaN);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeBothArgumentsNAN() {
-        new ParticlesScene().setDotRadiusRange(Float.NaN, Float.NaN);
+        new ParticlesSceneProperties().setDotRadiusRange(Float.NaN, Float.NaN);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeMaxLessThanMin() {
-        new ParticlesScene().setDotRadiusRange(0.7f, 0.6f);
+        new ParticlesSceneProperties().setDotRadiusRange(0.7f, 0.6f);
     }
 
     @Test
     public void testSetDotRadiusRange() {
-        final ParticlesScene s = new ParticlesScene();
+        final ParticlesSceneProperties s = new ParticlesSceneProperties();
         s.setDotRadiusRange(0.5f, 0.6f);
         assertEquals(0.5, s.getMinDotRadius(), Config.ASSERT_DELTA);
         assertEquals(0.6, s.getMaxDotRadius(), Config.ASSERT_DELTA);
@@ -222,18 +224,18 @@ public final class ParticlesSceneTest {
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetLineThicknessInvalidArgument() {
-        new ParticlesScene().setLineThickness(0.99f);
+        new ParticlesSceneProperties().setLineThickness(0.99f);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetLineThicknessNAN() {
-        new ParticlesScene().setLineThickness(Float.NaN);
+        new ParticlesSceneProperties().setLineThickness(Float.NaN);
     }
 
     @Test
     public void testSetLineThickness() {
-        final ParticlesScene s = new ParticlesScene();
+        final ParticlesSceneProperties s = new ParticlesSceneProperties();
         s.setLineThickness(1f);
         assertEquals(1, s.getLineThickness(), Config.ASSERT_DELTA);
     }
@@ -241,18 +243,18 @@ public final class ParticlesSceneTest {
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetLineDistanceInvalidArgument() {
-        new ParticlesScene().setLineDistance(Float.NEGATIVE_INFINITY);
+        new ParticlesSceneProperties().setLineDistance(Float.NEGATIVE_INFINITY);
     }
 
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetLineDistanceNAN() {
-        new ParticlesScene().setLineDistance(Float.NaN);
+        new ParticlesSceneProperties().setLineDistance(Float.NaN);
     }
 
     @Test
     public void testSetLineDistance() {
-        final ParticlesScene s = new ParticlesScene();
+        final ParticlesSceneProperties s = new ParticlesSceneProperties();
         s.setLineDistance(0f);
         assertEquals(0, s.getLineDistance(), Config.ASSERT_DELTA);
     }
@@ -260,19 +262,19 @@ public final class ParticlesSceneTest {
     @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetNumDotsInvalidArgument() {
-        new ParticlesScene().setNumDots(-1);
+        new ParticlesSceneProperties().setNumDots(-1);
     }
 
     @Test
     public void testSetNumDots() {
-        final ParticlesScene s = new ParticlesScene();
+        final ParticlesSceneProperties s = new ParticlesSceneProperties();
         s.setNumDots(0);
         assertEquals(0, s.getNumDots());
     }
 
     @Test
     public void testSetLineColor() {
-        final ParticlesScene s = new ParticlesScene();
+        final ParticlesSceneProperties s = new ParticlesSceneProperties();
         s.setLineColor(2);
         assertEquals(2, s.getLineColor());
     }

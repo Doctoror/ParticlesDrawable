@@ -51,7 +51,7 @@ import android.view.ViewParent;
  */
 @Keep
 public class ParticlesView extends View
-        implements IParticlesView, SceneScheduler, ParticlesSceneConfiguration {
+        implements IParticlesView, SceneScheduler, ParticlesScene {
 
     private final SceneController mController = new SceneController(this, this);
     private final CanvasParticlesView mCanvasParticlesView = new CanvasParticlesView();
@@ -110,25 +110,26 @@ public class ParticlesView extends View
         return mCanvasParticlesView.getPaint();
     }
 
-    @Keep
-    public void resetLastFrameTime() {
-        mController.resetLastFrameTime();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void nextFrame() {
+        mController.nextFrame();
     }
 
     /**
-     * Resets and makes new random frame. This is useful for re-generating new fancy static
-     * backgrounds when not using animations.
+     * {@inheritDoc}
      */
-    @Keep
+    @Override
     public void makeBrandNewFrame() {
         mController.makeBrandNewFrame();
     }
 
     /**
-     * Resets and makes new random frame where all points are out of screen bounds and will be
-     * moving into the screen once animation starts.
+     * {@inheritDoc}
      */
-    @Keep
+    @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
         mController.makeBrandNewFrameWithPointsOffscreen();
     }
@@ -299,14 +300,6 @@ public class ParticlesView extends View
     @Override
     public void unscheduleNextFrame() {
 
-    }
-
-    /**
-     * Use this if you want to manually set to next frame, while animations are stopped.
-     */
-    @Keep
-    public void nextFrame() {
-        mController.nextFrame();
     }
 
     @Override

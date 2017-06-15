@@ -41,7 +41,7 @@ import java.io.IOException;
  */
 @Keep
 public class ParticlesDrawable extends Drawable
-        implements Animatable, IParticlesView, SceneScheduler, ParticlesSceneConfiguration {
+        implements Animatable, IParticlesView, SceneScheduler, ParticlesScene {
 
     private final CanvasParticlesView mCanvasParticlesView = new CanvasParticlesView();
     private final SceneController mController = new SceneController(this, this);
@@ -59,37 +59,6 @@ public class ParticlesDrawable extends Drawable
     @Keep
     public Paint getPaint() {
         return mCanvasParticlesView.getPaint();
-    }
-
-    @Keep
-    public void resetLastFrameTime() {
-        mController.resetLastFrameTime();
-    }
-
-    /**
-     * Use this if you want to manually set to next frame, while animations are stopped.
-     */
-    @Keep
-    public void nextFrame() {
-        mController.nextFrame();
-    }
-
-    /**
-     * Resets and makes new random frame. This is useful for re-generating new fancy static
-     * backgrounds when not using animations.
-     */
-    @Keep
-    public void makeBrandNewFrame() {
-        mController.makeBrandNewFrame();
-    }
-
-    /**
-     * Resets and makes new random frame where all points are out of screen bounds and will be
-     * moving into the screen once animation starts.
-     */
-    @Keep
-    public void makeBrandNewFrameWithPointsOffscreen() {
-        mController.makeBrandNewFrameWithPointsOffscreen();
     }
 
     @Override
@@ -165,6 +134,30 @@ public class ParticlesDrawable extends Drawable
     @Override
     public boolean isRunning() {
         return mController.isRunning();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void nextFrame() {
+        mController.nextFrame();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void makeBrandNewFrame() {
+        mController.makeBrandNewFrame();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void makeBrandNewFrameWithPointsOffscreen() {
+        mController.makeBrandNewFrameWithPointsOffscreen();
     }
 
     /**
