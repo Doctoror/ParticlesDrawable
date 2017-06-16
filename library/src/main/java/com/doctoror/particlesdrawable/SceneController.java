@@ -16,7 +16,7 @@ import java.util.Random;
 /**
  * Particles Scene Controller
  */
-final class SceneController implements Runnable, ParticlesSceneConfiguration {
+final class SceneController implements Runnable, ParticlesScene {
 
     /**
      * Path calculation padding.
@@ -109,7 +109,7 @@ final class SceneController implements Runnable, ParticlesSceneConfiguration {
         setDotRadiusRange(minDotRadius, maxDotRadius);
     }
 
-    void resetLastFrameTime() {
+    private void resetLastFrameTime() {
         mLastFrameTime = 0L;
     }
 
@@ -156,10 +156,10 @@ final class SceneController implements Runnable, ParticlesSceneConfiguration {
     }
 
     /**
-     * Resets and makes new random frame. This is useful for re-generating new fancy static
-     * backgrounds when not using animations.
+     * {@inheritDoc}
      */
-    void makeBrandNewFrame() {
+    @Override
+    public void makeBrandNewFrame() {
         final ParticlesSceneProperties model = getScene();
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
@@ -168,10 +168,10 @@ final class SceneController implements Runnable, ParticlesSceneConfiguration {
     }
 
     /**
-     * Resets and makes new random frame where all points are out of screen bounds and will be
-     * moving into the screen once animation starts.
+     * {@inheritDoc}
      */
-    void makeBrandNewFrameWithPointsOffscreen() {
+    @Override
+    public void makeBrandNewFrameWithPointsOffscreen() {
         final ParticlesSceneProperties model = getScene();
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
@@ -416,9 +416,10 @@ final class SceneController implements Runnable, ParticlesSceneConfiguration {
     }
 
     /**
-     * Calculates values for the next frame
+     * {@inheritDoc}
      */
-    void nextFrame() {
+    @Override
+    public void nextFrame() {
         final ParticlesSceneProperties model = getScene();
         final float step = mLastFrameTime == 0 ? 1f
                 : (SystemClock.uptimeMillis() - mLastFrameTime) * STEP_PER_MS;
