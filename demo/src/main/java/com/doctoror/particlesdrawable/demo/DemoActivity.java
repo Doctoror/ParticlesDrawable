@@ -35,6 +35,7 @@ public final class DemoActivity extends AppCompatActivity {
         } else {
             mDrawable = new ParticlesDrawable();
         }
+        //noinspection deprecation
         findViewById(android.R.id.content).setBackgroundDrawable(mDrawable);
     }
 
