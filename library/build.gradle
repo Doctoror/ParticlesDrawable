@@ -18,6 +18,11 @@ android {
         testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
+
     lintOptions {
         checkAllWarnings true
     }

@@ -31,7 +31,7 @@ import java.util.Locale;
  */
 final class ParticlesSceneProperties implements ParticlesSceneConfiguration {
 
-    private final List<Particle> mPoints = new ArrayList<>(
+    private final List<Particle> mPoints = new ArrayList<Particle>(
             Defaults.DEFAULT_DOT_NUMBER);
 
     private float mMinDotRadius = Defaults.DEFAULT_MIN_DOT_RADIUS;
