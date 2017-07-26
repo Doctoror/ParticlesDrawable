@@ -1,10 +1,18 @@
+v 1.0.8
+- Source compatibility is set to 1.6, this fixes #3
+- Suppressed lint warnings that had to be suppressed
+
+v 1.0.7
+- Moved nextFrame(), makeBrandNewFrame() and makeBrandNewFrameWithPointsOffscreen() to ParticlesScene interface
+- Moved engine logic to SceneController
+
 v 1.0.6
-- Exposed nextFrame() method for using in when animating manually.
+- Exposed nextFrame() method for using in when animating manually
 
 v 1.0.5
 - Refactored
 - Added more tests
-- ParticlesDrawable and ParticlesView now implement ParticlesSceneConfiguration to make sure all configuration getters and setters are exposed.
+- ParticlesDrawable and ParticlesView now implement ParticlesSceneConfiguration to make sure all configuration getters and setters are exposed
 - ParticlesView now uses SceneController instead of ParticlesDrawable for implementation
 
 v 1.0.4
@@ -15,7 +23,7 @@ ParticlesDrawable:
 
 v 1.0.3
 ParticlesDrawable:
-- Fixed "last frame time" not being reset when stopped resulting in offscreen dots once resumed.
+- Fixed "last frame time" not being reset when stopped resulting in offscreen dots once resumed
 - Added "makeBrandNewFrameWithPointsOffscreen" method that will place all dots offscreen so that when started, all points will float onto screen
 
 v 1.0.2
@@ -30,5 +38,5 @@ ParticlesDrawable:
 
 ParticlesView:
 - Now will not animate if visibility of this View or one of it's parents is not set to VISIBLE
-- Added start() and stop() methods which allows you to control animations.
+- Added start() and stop() methods which allows you to control animations
 - Added unit tests
