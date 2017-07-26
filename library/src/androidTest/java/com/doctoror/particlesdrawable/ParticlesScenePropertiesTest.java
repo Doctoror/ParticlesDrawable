@@ -17,8 +17,6 @@ package com.doctoror.particlesdrawable;
 
 import org.junit.Test;
 
-import android.annotation.SuppressLint;
-
 import static org.junit.Assert.*;
 
 /**
@@ -139,7 +137,7 @@ public final class ParticlesScenePropertiesTest {
         assertTrue(scene.getMutablePoints().isEmpty());
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetFrameDelayNegative() {
         new ParticlesSceneProperties().setFrameDelay(-1);
@@ -152,13 +150,13 @@ public final class ParticlesScenePropertiesTest {
         assertEquals(1, s.getFrameDelay());
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testStepMultiplierNegative() {
         new ParticlesSceneProperties().setStepMultiplier(-0.01f);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testStepMultiplierNAN() {
         new ParticlesSceneProperties().setStepMultiplier(Float.NaN);
@@ -171,43 +169,42 @@ public final class ParticlesScenePropertiesTest {
         assertEquals(0, s.getStepMultiplier(), Config.ASSERT_DELTA);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeInvalidFirstArgument() {
         new ParticlesSceneProperties().setDotRadiusRange(0.49f, 1f);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeInvalidSecondArgument() {
         new ParticlesSceneProperties().setDotRadiusRange(2f, 0f);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeInvalidBothArguments() {
         new ParticlesSceneProperties().setDotRadiusRange(0.1f, -2f);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeFirstArgumentNAN() {
         new ParticlesSceneProperties().setDotRadiusRange(Float.NaN, 1f);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeSecondArgumentNAN() {
         new ParticlesSceneProperties().setDotRadiusRange(1f, Float.NaN);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeBothArgumentsNAN() {
         new ParticlesSceneProperties().setDotRadiusRange(Float.NaN, Float.NaN);
     }
 
-    @SuppressLint("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetDotRadiusRangeMaxLessThanMin() {
         new ParticlesSceneProperties().setDotRadiusRange(0.7f, 0.6f);
@@ -221,13 +218,13 @@ public final class ParticlesScenePropertiesTest {
         assertEquals(0.6, s.getMaxDotRadius(), Config.ASSERT_DELTA);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetLineThicknessInvalidArgument() {
         new ParticlesSceneProperties().setLineThickness(0.99f);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetLineThicknessNAN() {
         new ParticlesSceneProperties().setLineThickness(Float.NaN);
@@ -240,13 +237,13 @@ public final class ParticlesScenePropertiesTest {
         assertEquals(1, s.getLineThickness(), Config.ASSERT_DELTA);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetLineDistanceInvalidArgument() {
         new ParticlesSceneProperties().setLineDistance(Float.NEGATIVE_INFINITY);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetLineDistanceNAN() {
         new ParticlesSceneProperties().setLineDistance(Float.NaN);
@@ -259,7 +256,7 @@ public final class ParticlesScenePropertiesTest {
         assertEquals(0, s.getLineDistance(), Config.ASSERT_DELTA);
     }
 
-    @SuppressLint("Range")
+    @SuppressWarnings("Range")
     @Test(expected = IllegalArgumentException.class)
     public void testSetNumDotsInvalidArgument() {
         new ParticlesSceneProperties().setNumDots(-1);

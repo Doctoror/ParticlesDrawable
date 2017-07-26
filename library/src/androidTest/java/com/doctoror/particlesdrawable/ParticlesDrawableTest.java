@@ -17,6 +17,7 @@ package com.doctoror.particlesdrawable;
 
 import org.junit.Test;
 
+import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -108,8 +109,12 @@ public final class ParticlesDrawableTest {
     @NonNull
     @RequiresApi(Build.VERSION_CODES.N)
     private ParticlesDrawable inflateCustomizedDrawable() {
-        return (ParticlesDrawable) InstrumentationRegistry.getContext().getResources()
+        final ParticlesDrawable result = (ParticlesDrawable) InstrumentationRegistry.getContext()
                 .getDrawable(com.doctoror.particlesdrawable.test.R.drawable.drawable_customized);
+        if (result == null) {
+            throw new NullPointerException("getDrawable() returned null");
+        }
+        return result;
     }
 
     private float dp(final float value) {
@@ -118,6 +123,7 @@ public final class ParticlesDrawableTest {
     }
 
     @Test
+    @TargetApi(Build.VERSION_CODES.N)
     public void testDotRadiusRangeFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
         assertEquals(dp(2), v.getMinDotRadius(), Config.ASSERT_DELTA);
@@ -125,42 +131,49 @@ public final class ParticlesDrawableTest {
     }
 
     @Test
+    @TargetApi(Build.VERSION_CODES.N)
     public void testLineThicknessFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
         assertEquals(dp(4), v.getLineThickness(), Config.ASSERT_DELTA);
     }
 
     @Test
+    @TargetApi(Build.VERSION_CODES.N)
     public void testLineDistanceFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
         assertEquals(dp(5), v.getLineDistance(), Config.ASSERT_DELTA);
     }
 
     @Test
+    @TargetApi(Build.VERSION_CODES.N)
     public void testNumDotsFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
         assertEquals(6, v.getNumDots());
     }
 
     @Test
+    @TargetApi(Build.VERSION_CODES.N)
     public void testDotColorFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
         assertEquals(0xfffffff0, v.getDotColor());
     }
 
     @Test
+    @TargetApi(Build.VERSION_CODES.N)
     public void testLineColorFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
         assertEquals(0xfffffff1, v.getLineColor());
     }
 
     @Test
+    @TargetApi(Build.VERSION_CODES.N)
     public void testFrameDelayFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
         assertEquals(7, v.getFrameDelay());
     }
 
     @Test
+    @TargetApi(Build.VERSION_CODES.N)
     public void testStepMultiplierFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
         assertEquals(1.1, v.getStepMultiplier(), Config.ASSERT_DELTA);

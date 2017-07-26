@@ -17,6 +17,7 @@ package com.doctoror.particlesdrawable;
 
 import org.junit.Test;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
@@ -218,6 +219,7 @@ public final class ParticlesViewTest {
         assertEquals(3, s.getDotColor());
     }
 
+    @SuppressLint("InflateParams")
     @NonNull
     private ParticlesView inflateCustomizedView() {
         return (ParticlesView) LayoutInflater.from(InstrumentationRegistry.getContext()).inflate(
