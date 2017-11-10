@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.doctoror.particlesdrawable.demo"
 
-        minSdkVersion 9
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
 
         versionCode globalConfiguration["androidVersionCode"]
@@ -41,8 +41,5 @@ repositories{
 }
 
 dependencies {
-    def d = rootProject.ext.demoDependencies
-
     compile project(":library")
-    compile d.appcompat
 }

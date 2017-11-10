@@ -17,21 +17,19 @@ package com.doctoror.particlesdrawable.demo;
 
 import com.doctoror.particlesdrawable.ParticlesDrawable;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 
-public final class DemoActivity extends AppCompatActivity {
+public final class DemoActivity extends Activity {
 
     private ParticlesDrawable mDrawable;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mDrawable = (ParticlesDrawable) ContextCompat
-                    .getDrawable(this, R.drawable.particles_customized);
+            mDrawable = (ParticlesDrawable) getDrawable(R.drawable.particles_customized);
         } else {
             mDrawable = new ParticlesDrawable();
         }

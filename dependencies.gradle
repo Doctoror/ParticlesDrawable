@@ -7,21 +7,17 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "26.0.0"
+    androidBuildToolsVersion = "27.0.1"
     androidMinSdkVersion = 9
     androidTargetSdkVersion = 26
     androidCompileSdkVersion = 26
 
     //Libraries
-    supportVersion = '25.4.0'
+    supportVersion = '27.0.0'
 
     //Testing
-    testRunnerVersion = '0.5'
-    mockitoVersion = '2.8.9'
-
-    demoDependencies = [
-            appcompat      : "com.android.support:appcompat-v7:$supportVersion"
-    ]
+    testRunnerVersion = '1.0.1'
+    mockitoVersion = '2.12.0'
 
     libraryDependencies = [
             annotations    : "com.android.support:support-annotations:$supportVersion"
