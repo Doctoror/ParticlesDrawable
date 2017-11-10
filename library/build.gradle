@@ -50,13 +50,13 @@ dependencies {
     def d = rootProject.ext.libraryDependencies
     def td = rootProject.ext.libraryTestDependencies
 
-    androidTestCompile td.testRunner
-    androidTestCompile td.testRules
-    androidTestCompile td.mockitoAndroid
+    androidTestImplementation td.testRunner
+    androidTestImplementation td.testRules
+    androidTestImplementation td.mockitoAndroid
 
     javadocDeps d.annotations
 
-    compile d.annotations
+    implementation d.annotations
 }
 
 apply from: './gradle-mvn-push.gradle'
