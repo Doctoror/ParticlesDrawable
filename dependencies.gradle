@@ -13,7 +13,7 @@ ext {
     androidCompileSdkVersion = 26
 
     //Libraries
-    supportVersion = '27.0.0'
+    supportVersion = '27.1.1'
 
     //Testing
     testRunnerVersion = '1.0.1'
