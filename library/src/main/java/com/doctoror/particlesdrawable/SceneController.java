@@ -345,6 +345,11 @@ final class SceneController implements Runnable, ParticlesScene {
                 mPointsInited = true;
                 initPoints();
             }
+        } else {
+            if (mPointsInited) {
+                mPointsInited = false;
+                getScene().clearPoints();
+            }
         }
     }
 

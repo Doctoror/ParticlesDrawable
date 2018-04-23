@@ -218,8 +218,26 @@ public final class ParticlesDrawableTest {
     @Test
     public void testSetNumDots() {
         final ParticlesDrawable s = new ParticlesDrawable();
-        s.setNumDots(0);
-        assertEquals(0, s.getNumDots());
+        s.setNumDots(1);
+        assertEquals(1, s.getNumDots());
+    }
+
+    @Test
+    public void setNumDotsWhenHasSize() {
+        final ParticlesDrawable s = new ParticlesDrawable();
+        s.setBounds(0, 0, 1, 1);
+        s.setNumDots(1);
+        assertEquals(1, s.getNumDots());
+    }
+
+    @Test
+    public void setNumDotsWhenSizeIsBackTo0() {
+        final ParticlesDrawable s = new ParticlesDrawable();
+        s.setBounds(0, 0, 1, 1);
+        s.setNumDots(1);
+        s.setBounds(0, 0, 0, 0);
+        s.setNumDots(2);
+        assertEquals(2, s.getNumDots());
     }
 
     @Test
