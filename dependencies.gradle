@@ -17,7 +17,7 @@ ext {
 
     //Testing
     testRunnerVersion = '1.0.1'
-    mockitoVersion = '2.12.0'
+    mockitoVersion = '2.18.3'
 
     libraryDependencies = [
             annotations    : "com.android.support:support-annotations:$supportVersion"
