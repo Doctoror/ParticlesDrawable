@@ -15,37 +15,38 @@
  */
 package com.doctoror.particlesdrawable.demo;
 
-import com.doctoror.particlesdrawable.ParticlesDrawable;
+import com.doctoror.particlesdrawable.GlParticlesView;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 public final class DemoActivity extends Activity {
 
-    private ParticlesDrawable mDrawable;
+    private GlParticlesView mView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mDrawable = (ParticlesDrawable) getDrawable(R.drawable.particles_customized);
-        } else {
-            mDrawable = new ParticlesDrawable();
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            mDrawable = (ParticlesDrawable) getDrawable(R.drawable.particles_customized);
+//        } else {
+//            mDrawable = new ParticlesDrawable();
+//        }
         //noinspection deprecation
-        findViewById(android.R.id.content).setBackgroundDrawable(mDrawable);
+        mView = new GlParticlesView(this);
+        ((ViewGroup) findViewById(android.R.id.content)).addView(mView);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mDrawable.start();
+        mView.start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mDrawable.stop();
+        mView.stop();
     }
 }
