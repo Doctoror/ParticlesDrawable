@@ -26,7 +26,7 @@ public class GlParticlesView extends GLSurfaceView
         implements IParticlesView, SceneScheduler, ParticlesScene, GLSurfaceView.Renderer {
 
     private final SceneController mController = new SceneController(this, this);
-    private final ParticlesRendererView mGlParticlesView = new ParticlesRendererView();
+    private final ParticlesViewGl mGlParticlesView = new ParticlesViewGl();
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -365,6 +365,10 @@ public class GlParticlesView extends GLSurfaceView
         gl.glViewport(0, 0, getWidth(), getHeight());
         gl.glMatrixMode(GL10.GL_PROJECTION);
         gl.glLoadIdentity();
+
+        gl.glEnable(GL10.GL_LINE_SMOOTH);
+        gl.glHint(GL10.GL_LINE_SMOOTH_HINT, GL10.GL_NICEST);
+
         gl.glEnable(GL10.GL_BLEND);
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         gl.glOrthof(0, getWidth(), 0, getHeight(), 1, -1);
@@ -385,13 +389,23 @@ public class GlParticlesView extends GLSurfaceView
         gl.glLineWidth(mController.getLineThickness());
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
         mGlParticlesView.setGl(gl);
+        mGlParticlesView.beginTransaction(segmentsCount(mController.getNumDots()));
+
         mController.draw();
         mController.run();
+
+        mGlParticlesView.commit();
         mGlParticlesView.setGl(null);
 
+        gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+    }
+
+    private int segmentsCount(final int vertices) {
+        return (vertices * (vertices - 1)) / 2;
     }
 
     @SuppressWarnings("SimplifiableIfStatement")
