@@ -5,25 +5,25 @@ import android.support.annotation.Nullable;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.ShortBuffer;
+import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
 final class ParticlesViewGl implements IParticlesView {
 
-    private static final int BYTES_PER_SHORT = 2;
+    private static final int BYTES_PER_FLOAT = 4;
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int COLOR_BYTES_PER_VERTEX = 4;
     private static final int VERTICES_PER_LINE = 2;
 
     private int lineCount;
-    private int dotCount;
+    private int particlesCount;
 
-    private ShortBuffer lineCoordinatesBuffer;
-    private ShortBuffer dotCoordinatesBuffer;
+    private FloatBuffer lineCoordinatesBuffer;
+    private FloatBuffer particleCoordinatesBuffer;
 
     private ByteBuffer lineColorBuffer;
-    private ByteBuffer dotColorBuffer;
+    private ByteBuffer particleColorBuffer;
 
     private GL10 gl;
 
@@ -34,36 +34,36 @@ final class ParticlesViewGl implements IParticlesView {
     public void beginTransaction(final int vertexCount) {
         final int segmentsCount = segmentsCount(vertexCount);
         initLineCoordinates(segmentsCount);
-        initDotCoordinates(vertexCount);
+        initParticleCoordinates(vertexCount);
 
         initLineColorBuffer(segmentsCount);
-        initDotColorBuffer(vertexCount);
+        initParticleColorBuffer(vertexCount);
 
         lineCount = 0;
-        dotCount = 0;
+        particlesCount = 0;
     }
 
     private void initLineCoordinates(final int segmentsCount) {
-        final int shortCapacity = segmentsCount * VERTICES_PER_LINE * COORDINATES_PER_VERTEX;
-        if (lineCoordinatesBuffer == null || lineCoordinatesBuffer.capacity() != shortCapacity) {
+        final int floatCapacity = segmentsCount * VERTICES_PER_LINE * COORDINATES_PER_VERTEX;
+        if (lineCoordinatesBuffer == null || lineCoordinatesBuffer.capacity() != floatCapacity) {
             final ByteBuffer coordinatesByteBuffer = ByteBuffer.allocateDirect(
-                    shortCapacity * BYTES_PER_SHORT);
+                    floatCapacity * BYTES_PER_FLOAT);
             coordinatesByteBuffer.order(ByteOrder.nativeOrder());
-            lineCoordinatesBuffer = coordinatesByteBuffer.asShortBuffer();
+            lineCoordinatesBuffer = coordinatesByteBuffer.asFloatBuffer();
         } else {
             lineCoordinatesBuffer.position(0);
         }
     }
 
-    private void initDotCoordinates(final int dotCount) {
-        final int shortCapacity = dotCount * COORDINATES_PER_VERTEX;
-        if (dotCoordinatesBuffer == null || dotCoordinatesBuffer.capacity() != shortCapacity) {
+    private void initParticleCoordinates(final int dotCount) {
+        final int floatCapacity = dotCount * COORDINATES_PER_VERTEX;
+        if (particleCoordinatesBuffer == null || particleCoordinatesBuffer.capacity() != floatCapacity) {
             final ByteBuffer coordinatesByteBuffer = ByteBuffer.allocateDirect(
-                    shortCapacity * BYTES_PER_SHORT);
+                    floatCapacity * BYTES_PER_FLOAT);
             coordinatesByteBuffer.order(ByteOrder.nativeOrder());
-            dotCoordinatesBuffer = coordinatesByteBuffer.asShortBuffer();
+            particleCoordinatesBuffer = coordinatesByteBuffer.asFloatBuffer();
         } else {
-            dotCoordinatesBuffer.position(0);
+            particleCoordinatesBuffer.position(0);
         }
     }
 
@@ -77,13 +77,13 @@ final class ParticlesViewGl implements IParticlesView {
         }
     }
 
-    private void initDotColorBuffer(final int dotCount) {
+    private void initParticleColorBuffer(final int dotCount) {
         final int targetCapacity = dotCount * COLOR_BYTES_PER_VERTEX;
-        if (dotColorBuffer == null || dotColorBuffer.capacity() != targetCapacity) {
-            dotColorBuffer = ByteBuffer.allocateDirect(targetCapacity);
-            dotColorBuffer.order(ByteOrder.nativeOrder());
+        if (particleColorBuffer == null || particleColorBuffer.capacity() != targetCapacity) {
+            particleColorBuffer = ByteBuffer.allocateDirect(targetCapacity);
+            particleColorBuffer.order(ByteOrder.nativeOrder());
         } else {
-            dotColorBuffer.position(0);
+            particleColorBuffer.position(0);
         }
     }
 
@@ -94,10 +94,10 @@ final class ParticlesViewGl implements IParticlesView {
     @Override
     public void drawLine(float startX, float startY, float stopX, float stopY, float strokeWidth, int color) {
         if (gl != null) {
-            lineCoordinatesBuffer.put((short) startX);
-            lineCoordinatesBuffer.put((short) startY);
-            lineCoordinatesBuffer.put((short) stopX);
-            lineCoordinatesBuffer.put((short) stopY);
+            lineCoordinatesBuffer.put(startX);
+            lineCoordinatesBuffer.put(startY);
+            lineCoordinatesBuffer.put(stopX);
+            lineCoordinatesBuffer.put(stopY);
 
             lineColorBuffer.put((byte) Color.red(color));
             lineColorBuffer.put((byte) Color.green(color));
@@ -116,15 +116,15 @@ final class ParticlesViewGl implements IParticlesView {
     @Override
     public void fillCircle(float cx, float cy, float radius, int color) {
         if (gl != null) {
-            dotCoordinatesBuffer.put((short) cx);
-            dotCoordinatesBuffer.put((short) cy);
+            particleCoordinatesBuffer.put(cx);
+            particleCoordinatesBuffer.put(cy);
 
-            dotColorBuffer.put((byte) Color.red(color));
-            dotColorBuffer.put((byte) Color.green(color));
-            dotColorBuffer.put((byte) Color.blue(color));
-            dotColorBuffer.put((byte) Color.alpha(color));
+            particleColorBuffer.put((byte) Color.red(color));
+            particleColorBuffer.put((byte) Color.green(color));
+            particleColorBuffer.put((byte) Color.blue(color));
+            particleColorBuffer.put((byte) Color.alpha(color));
 
-            dotCount++;
+            particlesCount++;
 
             gl.glPointSize(radius * 2f);
         }
@@ -140,7 +140,7 @@ final class ParticlesViewGl implements IParticlesView {
         lineColorBuffer.position(0);
 
         gl.glColorPointer(4, GL10.GL_UNSIGNED_BYTE, 0, lineColorBuffer);
-        gl.glVertexPointer(2, GL10.GL_SHORT, 0, lineCoordinatesBuffer);
+        gl.glVertexPointer(2, GL10.GL_FLOAT, 0, lineCoordinatesBuffer);
         gl.glDrawArrays(GL10.GL_LINES, 0, lineCount * 2);
 
         lineCoordinatesBuffer.position(0);
@@ -148,14 +148,14 @@ final class ParticlesViewGl implements IParticlesView {
     }
 
     private void drawDots() {
-        dotCoordinatesBuffer.position(0);
-        dotColorBuffer.position(0);
+        particleCoordinatesBuffer.position(0);
+        particleColorBuffer.position(0);
 
-        gl.glColorPointer(4, GL10.GL_UNSIGNED_BYTE, 0, dotColorBuffer);
-        gl.glVertexPointer(2, GL10.GL_SHORT, 0, dotCoordinatesBuffer);
-        gl.glDrawArrays(GL10.GL_POINTS, 0, dotCount);
+        gl.glColorPointer(4, GL10.GL_UNSIGNED_BYTE, 0, particleColorBuffer);
+        gl.glVertexPointer(2, GL10.GL_FLOAT, 0, particleCoordinatesBuffer);
+        gl.glDrawArrays(GL10.GL_POINTS, 0, particlesCount);
 
-        dotCoordinatesBuffer.position(0);
-        dotColorBuffer.position(0);
+        particleCoordinatesBuffer.position(0);
+        particleColorBuffer.position(0);
     }
 }

@@ -35,6 +35,7 @@ public final class DemoActivity extends Activity {
 //        }
         //noinspection deprecation
         mView = new GlParticlesView(this);
+        //mView.setNumDots(1);
         ((ViewGroup) findViewById(android.R.id.content)).addView(mView);
     }
 

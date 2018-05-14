@@ -392,7 +392,7 @@ public class GlParticlesView extends GLSurfaceView
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
         mGlParticlesView.setGl(gl);
-        mGlParticlesView.beginTransaction(segmentsCount(mController.getNumDots()));
+        mGlParticlesView.beginTransaction(mController.getNumDots());
 
         mController.draw();
         mController.run();
@@ -402,10 +402,6 @@ public class GlParticlesView extends GLSurfaceView
 
         gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-    }
-
-    private int segmentsCount(final int vertices) {
-        return (vertices * (vertices - 1)) / 2;
     }
 
     @SuppressWarnings("SimplifiableIfStatement")

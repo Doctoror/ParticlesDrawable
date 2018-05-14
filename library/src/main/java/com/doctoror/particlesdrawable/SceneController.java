@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
-import java.util.List;
+import java.nio.FloatBuffer;
 import java.util.Random;
 
 /**
@@ -21,7 +21,7 @@ final class SceneController implements Runnable, ParticlesScene {
     /**
      * Path calculation padding.
      *
-     * @see #applyFreshPointOffScreen(Particle)
+     * @see #applyFreshParticleOffScreen(int)
      */
     private static final float PCC = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 18f, Resources.getSystem().getDisplayMetrics());
@@ -32,7 +32,7 @@ final class SceneController implements Runnable, ParticlesScene {
 
     private final Random mRandom = new Random();
 
-    private boolean mPointsInited;
+    private boolean mParticlesInited;
 
     private long mLastFrameTime;
     private long mLastDrawDuration;
@@ -43,7 +43,7 @@ final class SceneController implements Runnable, ParticlesScene {
     private final SceneScheduler mViewScheduler;
 
     SceneController(@NonNull final IParticlesView view,
-            @NonNull final SceneScheduler viewScheduler) {
+                    @NonNull final SceneScheduler viewScheduler) {
         mView = view;
         mViewScheduler = viewScheduler;
     }
@@ -163,7 +163,7 @@ final class SceneController implements Runnable, ParticlesScene {
         final ParticlesSceneProperties model = getScene();
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
-            initPoints();
+            initParticles();
         }
     }
 
@@ -175,7 +175,7 @@ final class SceneController implements Runnable, ParticlesScene {
         final ParticlesSceneProperties model = getScene();
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
-            initPointsOffScreen();
+            initParticlesOffScreen();
         }
     }
 
@@ -216,7 +216,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
-            @FloatRange(from = 0.5f) final float maxRadius) {
+                                  @FloatRange(from = 0.5f) final float maxRadius) {
         getScene().setDotRadiusRange(minRadius, maxRadius);
     }
 
@@ -281,14 +281,14 @@ final class SceneController implements Runnable, ParticlesScene {
         final ParticlesSceneProperties model = getScene();
         final int prevNumDots = model.getNumDots();
         if (newNum != prevNumDots) {
-            if (mPointsInited) {
+            if (mParticlesInited) {
                 if (newNum > prevNumDots) {
                     for (int i = prevNumDots; i < newNum; i++) {
-                        model.addPoint(makeNewPoint(false));
+                        addNewParticle(false);
                     }
                 } else {
                     for (int i = 0; i < prevNumDots - newNum; i++) {
-                        model.removeFirstPoint();
+                        model.removeFirstParticle();
                     }
                 }
             }
@@ -341,69 +341,68 @@ final class SceneController implements Runnable, ParticlesScene {
         model.setWidth(right - left);
         model.setHeight(bottom - top);
         if (right - left > 0 && bottom - top > 0) {
-            if (!mPointsInited) {
-                mPointsInited = true;
-                initPoints();
+            if (!mParticlesInited) {
+                mParticlesInited = true;
+                initParticles();
             }
         } else {
-            if (mPointsInited) {
-                mPointsInited = false;
-                getScene().clearPoints();
+            if (mParticlesInited) {
+                mParticlesInited = false;
+                getScene().clearParticles();
             }
         }
     }
 
-    private void initPoints() {
-        initPoints(new ParticleDotFactory() {
+    private void initParticles() {
+        initParticles(new ParticleCreationStrategy() {
+
             @Override
-            public Particle makeNewPoint(final int position) {
-                return SceneController.this.makeNewPoint(position % 2 == 0);
+            public void addNewParticle(final int position) {
+                SceneController.this.addNewParticle(position % 2 == 0);
             }
         });
     }
 
-    private void initPointsOffScreen() {
-        initPoints(new ParticleDotFactory() {
+    private void initParticlesOffScreen() {
+        initParticles(new ParticleCreationStrategy() {
+
             @Override
-            public Particle makeNewPoint(final int position) {
-                return SceneController.this.makeNewPoint(false);
+            public void addNewParticle(final int position) {
+                SceneController.this.addNewParticle(false);
             }
         });
     }
 
-    private void initPoints(@NonNull final ParticleDotFactory factory) {
+    private void initParticles(@NonNull final ParticleCreationStrategy strategy) {
         final ParticlesSceneProperties model = getScene();
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot init points if width or height is 0");
         }
-        model.clearPoints();
+        model.clearParticles();
         for (int i = 0; i < model.getNumDots(); i++) {
-            model.addPoint(factory.makeNewPoint(i));
+            strategy.addNewParticle(i);
         }
     }
 
-    @NonNull
-    private Particle makeNewPoint(final boolean onScreen) {
+    private void addNewParticle(final boolean onScreen) {
         final ParticlesSceneProperties model = getScene();
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot make new point if width or height is 0");
         }
 
-        final Particle point = new Particle();
         if (onScreen) {
-            applyFreshPointOnScreen(point);
+            applyFreshParticleOnScreen(model.getParticlesCount());
         } else {
-            applyFreshPointOffScreen(point);
+            applyFreshParticleOffScreen(model.getParticlesCount());
         }
-        return point;
     }
 
     /**
      * Set new point coordinates somewhere on screen and apply new direction
      *
-     * @param p {@link Particle} to apply new values to
+     * @param position the point position to apply new values to
      */
-    private void applyFreshPointOnScreen(@NonNull final Particle p) {
+    private void applyFreshParticleOnScreen(final int position) {
         final ParticlesSceneProperties model = getScene();
         final int w = model.getWidth();
         final int h = model.getHeight();
@@ -412,12 +411,21 @@ final class SceneController implements Runnable, ParticlesScene {
         }
 
         final double direction = Math.toRadians(mRandom.nextInt(360));
-        p.dCos = (float) Math.cos(direction);
-        p.dSin = (float) Math.sin(direction);
-        p.x = (float) mRandom.nextInt(w);
-        p.y = (float) mRandom.nextInt(h);
-        p.stepMultiplier = newRandomIndividualDotStepMultiplier();
-        p.radius = newRandomIndividualDotRadius();
+        final float dCos = (float) Math.cos(direction);
+        final float dSin = (float) Math.sin(direction);
+        final float x = mRandom.nextInt(w);
+        final float y = mRandom.nextInt(h);
+        final float stepMultiplier = newRandomIndividualDotStepMultiplier();
+        final float radius = newRandomIndividualDotRadius();
+
+        model.setParticleData(
+                position,
+                x,
+                y,
+                dCos,
+                dSin,
+                radius,
+                stepMultiplier);
     }
 
     /**
@@ -428,17 +436,27 @@ final class SceneController implements Runnable, ParticlesScene {
         final ParticlesSceneProperties model = getScene();
         final float step = mLastFrameTime == 0 ? 1f
                 : (SystemClock.uptimeMillis() - mLastFrameTime) * STEP_PER_MS;
-        final List<Particle> points = model.getMutablePoints();
-        final int pointsSize = points.size();
-        for (int i = 0; i < pointsSize; i++) {
-            final Particle p = points.get(i);
-            p.x += step * model.getStepMultiplier() * p.stepMultiplier * p.dCos;
-            p.y += step * model.getStepMultiplier() * p.stepMultiplier * p.dSin;
 
-            if (pointOutOfBounds(p.x, p.y)) {
-                applyFreshPointOffScreen(p);
+        final int pointsSize = model.getParticlesCount();
+        for (int i = 0; i < pointsSize; i++) {
+            float x = model.getParticleX(i);
+            float y = model.getParticleY(i);
+
+            final float stepMultiplier = model.getParticleStepMultiplier(i);
+            final float dCos = model.getParticleDirectionCos(i);
+            final float dSin = model.getParticleDirectionSin(i);
+
+            x += step * model.getStepMultiplier() * stepMultiplier * dCos;
+            y += step * model.getStepMultiplier() * stepMultiplier * dSin;
+
+            if (pointOutOfBounds(x, y)) {
+                applyFreshParticleOffScreen(i);
+            } else {
+                model.setParticleX(i, x);
+                model.setParticleY(i, y);
             }
         }
+
         mLastFrameTime = SystemClock.uptimeMillis();
         getViewScheduler().invalidate();
     }
@@ -469,9 +487,9 @@ final class SceneController implements Runnable, ParticlesScene {
     /**
      * Set new point coordinates somewhere off screen and apply new direction towards the screen
      *
-     * @param p {@link Particle} to apply new values to
+     * @param position the particle position to apply new values to
      */
-    private void applyFreshPointOffScreen(@NonNull final Particle p) {
+    private void applyFreshParticleOffScreen(final int position) {
         final ParticlesSceneProperties model = getScene();
         final int w = model.getWidth();
         final int h = model.getHeight();
@@ -479,11 +497,11 @@ final class SceneController implements Runnable, ParticlesScene {
             throw new IllegalStateException("Cannot apply points if width or height is 0");
         }
 
-        p.x = (float) mRandom.nextInt(w);
-        p.y = (float) mRandom.nextInt(h);
+        float x = mRandom.nextInt(w);
+        float y = mRandom.nextInt(h);
 
         // The offset to make when creating point of out bounds
-        final float offset = model.getMinDotRadius() + model.getLineDistance();
+        final short offset = (short) (model.getMinDotRadius() + model.getLineDistance());
 
         // Point angle range
         final float startAngle;
@@ -495,30 +513,30 @@ final class SceneController implements Runnable, ParticlesScene {
         switch (mRandom.nextInt(4)) {
             case 0:
                 // offset to left
-                p.x = -offset;
-                startAngle = angleDeg(PCC, PCC, p.x, p.y);
-                endAngle = angleDeg(PCC, h - PCC, p.x, p.y);
+                x = (short) -offset;
+                startAngle = angleDeg(PCC, PCC, x, y);
+                endAngle = angleDeg(PCC, h - PCC, x, y);
                 break;
 
             case 1:
                 // offset to top
-                p.y = -offset;
-                startAngle = angleDeg(w - PCC, PCC, p.x, p.y);
-                endAngle = angleDeg(PCC, PCC, p.x, p.y);
+                y = (short) -offset;
+                startAngle = angleDeg(w - PCC, PCC, x, y);
+                endAngle = angleDeg(PCC, PCC, x, y);
                 break;
 
             case 2:
                 // offset to right
-                p.x = w + offset;
-                startAngle = angleDeg(w - PCC, h - PCC, p.x, p.y);
-                endAngle = angleDeg(w - PCC, PCC, p.x, p.y);
+                x = (short) (w + offset);
+                startAngle = angleDeg(w - PCC, h - PCC, x, y);
+                endAngle = angleDeg(w - PCC, PCC, x, y);
                 break;
 
             case 3:
                 // offset to bottom
-                p.y = h + offset;
-                startAngle = angleDeg(PCC, h - PCC, p.x, p.y);
-                endAngle = angleDeg(w - PCC, h - PCC, p.x, p.y);
+                y = (short) (h + offset);
+                startAngle = angleDeg(PCC, h - PCC, x, y);
+                endAngle = angleDeg(w - PCC, h - PCC, x, y);
                 break;
 
             default:
@@ -533,10 +551,20 @@ final class SceneController implements Runnable, ParticlesScene {
         final float randomAngleInRange = startAngle + (mRandom
                 .nextInt((int) Math.abs(endAngle - startAngle)));
         final double direction = Math.toRadians(randomAngleInRange);
-        p.dCos = (float) Math.cos(direction);
-        p.dSin = (float) Math.sin(direction);
-        p.stepMultiplier = newRandomIndividualDotStepMultiplier();
-        p.radius = newRandomIndividualDotRadius();
+
+        final float dCos = (float) Math.cos(direction);
+        final float dSin = (float) Math.sin(direction);
+        final float stepMultiplier = newRandomIndividualDotStepMultiplier();
+        final float radius = newRandomIndividualDotRadius();
+
+        model.setParticleData(
+                position,
+                x,
+                y,
+                dCos,
+                dSin,
+                radius,
+                stepMultiplier);
     }
 
     /**
@@ -558,52 +586,65 @@ final class SceneController implements Runnable, ParticlesScene {
         final ParticlesSceneProperties model = getScene();
         final long startTime = SystemClock.uptimeMillis();
         if (model.getNumDots() > 0) {
-            final List<Particle> points = model.getMutablePoints();
-            final int pointsSize = points.size();
-            for (int i = 0; i < pointsSize; i++) {
-                final Particle p1 = points.get(i);
+
+            final FloatBuffer radiuses = model.getRadiuses();
+
+            final int particlesCount = model.getParticlesCount();
+            for (int i = 0; i < particlesCount; i++) {
+
+                final float x1 = model.getParticleX(i);
+                final float y1 = model.getParticleY(i);
+
                 // Draw connection lines for eligible points
-                for (int c = i + 1; c < pointsSize; c++) {
-                    final Particle p2 = points.get(c);
-                    final float distance = distance(p1.x, p1.y, p2.x, p2.y);
+                for (int j = i + 1; j < particlesCount; j++) {
+
+                    final float x2 = model.getParticleX(j);
+                    final float y2 = model.getParticleY(j);
+
+                    final float distance = distance(x1, y1, x2, y2);
                     if (distance < model.getLineDistance()) {
-                        drawLine(model, p1, p2, distance);
+                        drawLine(
+                                model,
+                                x1,
+                                y1,
+                                x2,
+                                y2,
+                                distance);
                     }
                 }
-                drawDot(model, p1);
+
+                final float radius = radiuses.get(i);
+                drawParticle(model, x1, y1, radius);
             }
         }
         mLastDrawDuration = SystemClock.uptimeMillis() - startTime;
     }
 
-    /**
-     * Draw a point
-     *
-     * @param p the {@link Particle} to draw
-     */
-    private void drawDot(
+    private void drawParticle(
             @NonNull final ParticlesSceneProperties model,
-            @NonNull final Particle p) {
-        getView().fillCircle(p.x, p.y, p.radius, model.getDotColorResolvedAlpha());
+            final float x,
+            final float y,
+            final float radius) {
+        getView().fillCircle(x, y, radius, model.getDotColorResolvedAlpha());
     }
 
     /**
-     * Draw a line between two {@link Particle}s
+     * Draw a line between two particles
      *
-     * @param p1       the neighbour {@link Particle}
-     * @param p2       the neighbour {@link Particle}
      * @param distance the distance between p1 and p2
      */
     private void drawLine(
             @NonNull final ParticlesSceneProperties model,
-            @NonNull final Particle p1,
-            @NonNull final Particle p2,
+            final float x1,
+            final float y1,
+            final float x2,
+            final float y2,
             final float distance) {
         final float alphaPercent = 1f - distance / model.getLineDistance();
         int alpha = (int) (255f * alphaPercent);
         alpha = alpha * model.getAlpha() / 255;
 
-        getView().drawLine(p1.x, p1.y, p2.x, p2.y, model.getLineThickness(),
+        getView().drawLine(x1, y1, x2, y2, model.getLineThickness(),
                 (model.getLineColor() & 0x00FFFFFF) | (alpha << 24));
     }
 
@@ -614,7 +655,7 @@ final class SceneController implements Runnable, ParticlesScene {
      * @return distance between two points
      */
     private static float distance(final float ax, final float ay,
-            final float bx, final float by) {
+                                  final float bx, final float by) {
         return (float) Math.sqrt(
                 (ax - bx) * (ax - bx) +
                         (ay - by) * (ay - by)
@@ -631,7 +672,7 @@ final class SceneController implements Runnable, ParticlesScene {
      * @return angle in degrees between two points
      */
     private static float angleDeg(final float ax, final float ay,
-            final float bx, final float by) {
+                                  final float bx, final float by) {
         final double angleRad = Math.atan2(ay - by, ax - bx);
         double angle = Math.toDegrees(angleRad);
         if (angleRad < 0) {
@@ -640,8 +681,8 @@ final class SceneController implements Runnable, ParticlesScene {
         return (float) angle;
     }
 
-    private interface ParticleDotFactory {
+    private interface ParticleCreationStrategy {
 
-        Particle makeNewPoint(int position);
+        void addNewParticle(int position);
     }
 }

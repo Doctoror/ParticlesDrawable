@@ -89,8 +89,8 @@ public final class ParticlesScenePropertiesTest {
         final Particle p1 = new Particle();
         final Particle p2 = new Particle();
 
-        scene.addPoint(p1);
-        scene.addPoint(p2);
+        scene.addParticleData(p1);
+        scene.addParticleData(p2);
 
         assertFalse(scene.getMutablePoints().isEmpty());
 
@@ -100,7 +100,7 @@ public final class ParticlesScenePropertiesTest {
 
     @Test
     public void testRemoveFirstPointWhenEmpty() {
-        new ParticlesSceneProperties().removeFirstPoint();
+        new ParticlesSceneProperties().removeFirstParticle();
     }
 
     @Test
@@ -110,15 +110,15 @@ public final class ParticlesScenePropertiesTest {
         final Particle p1 = new Particle();
         final Particle p2 = new Particle();
 
-        scene.addPoint(p1);
-        scene.addPoint(p2);
+        scene.addParticleData(p1);
+        scene.addParticleData(p2);
 
-        scene.removeFirstPoint();
+        scene.removeFirstParticle();
 
         assertFalse(scene.getMutablePoints().contains(p1));
         assertTrue(scene.getMutablePoints().contains(p2));
 
-        scene.removeFirstPoint();
+        scene.removeFirstParticle();
 
         assertFalse(scene.getMutablePoints().contains(p2));
     }
@@ -130,10 +130,10 @@ public final class ParticlesScenePropertiesTest {
         final Particle p1 = new Particle();
         final Particle p2 = new Particle();
 
-        scene.addPoint(p1);
-        scene.addPoint(p2);
+        scene.addParticleData(p1);
+        scene.addParticleData(p2);
 
-        scene.clearPoints();
+        scene.clearParticles();
         assertTrue(scene.getMutablePoints().isEmpty());
     }
 

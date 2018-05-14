@@ -22,8 +22,9 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.Locale;
 
 /**
@@ -31,8 +32,8 @@ import java.util.Locale;
  */
 final class ParticlesSceneProperties implements ParticlesSceneConfiguration {
 
-    private final List<Particle> mPoints = new ArrayList<Particle>(
-            Defaults.DEFAULT_DOT_NUMBER);
+    private static final int BYTES_PER_FLOAT = 4;
+    private static final int COORDINATES_PER_VERTEX = 2;
 
     private float mMinDotRadius = Defaults.DEFAULT_MIN_DOT_RADIUS;
     private float mMaxDotRadius = Defaults.DEFAULT_MAX_DOT_RADIUS;
@@ -62,8 +63,35 @@ final class ParticlesSceneProperties implements ParticlesSceneConfiguration {
     private int mWidth;
     private int mHeight;
 
-    List<Particle> getMutablePoints() {
-        return mPoints;
+    private FloatBuffer mCoordinates;
+
+    /**
+     * First index is for cos, next index is for sin.
+     * Next follows for next perticle in the same format.
+     */
+    private FloatBuffer mDirections;
+
+    private FloatBuffer mRadiuses;
+    private FloatBuffer mStepMultipliers;
+
+    private int mParticlesCount;
+
+    ParticlesSceneProperties() {
+        initBuffers(mNumDots);
+    }
+
+    @NonNull
+    public FloatBuffer getCoordinates() {
+        return mCoordinates;
+    }
+
+    @NonNull
+    public FloatBuffer getRadiuses() {
+        return mRadiuses;
+    }
+
+    public int getParticlesCount() {
+        return mParticlesCount;
     }
 
     void setWidth(final int width) {
@@ -82,18 +110,78 @@ final class ParticlesSceneProperties implements ParticlesSceneConfiguration {
         return mHeight;
     }
 
-    void addPoint(@NonNull final Particle p) {
-        mPoints.add(p);
-    }
+    void removeFirstParticle() {
+        if (mParticlesCount != 0) {
+            mCoordinates.position(2);
+            mCoordinates.compact();
 
-    void removeFirstPoint() {
-        if (!mPoints.isEmpty()) {
-            mPoints.remove(0);
+            mParticlesCount--;
         }
     }
 
-    void clearPoints() {
-        mPoints.clear();
+    void setParticleData(
+            final int position,
+            final float x,
+            final float y,
+            final float dCos,
+            final float dSin,
+            final float radius,
+            final float stepMultiplier) {
+        if (position == mParticlesCount) {
+            mParticlesCount++;
+        } else if (position > mParticlesCount) {
+            throw new IllegalArgumentException("Attempt to set point at position: " + position
+                    + ", points count = " + mParticlesCount);
+        }
+
+        setParticleX(position, x);
+        setParticleY(position, y);
+
+        setParticleDirectionCos(position, dCos);
+        setParticleDirectionSin(position, dSin);
+
+        mRadiuses.put(position, radius);
+        mStepMultipliers.put(position, stepMultiplier);
+    }
+
+    float getParticleX(final int position) {
+        return mCoordinates.get(position * 2);
+    }
+
+    float getParticleY(final int position) {
+        return mCoordinates.get(position * 2 + 1);
+    }
+
+    float getParticleDirectionCos(final int position) {
+        return mDirections.get(position * 2);
+    }
+
+    float getParticleDirectionSin(final int position) {
+        return mDirections.get(position * 2 + 1);
+    }
+
+    float getParticleStepMultiplier(final int position) {
+        return mStepMultipliers.get(position);
+    }
+
+    void setParticleX(final int position, final float x) {
+        mCoordinates.put(position * 2, x);
+    }
+
+    void setParticleY(final int position, final float y) {
+        mCoordinates.put(position * 2 + 1, y);
+    }
+
+    private void setParticleDirectionCos(final int position, final float direction) {
+        mDirections.put(position * 2, direction);
+    }
+
+    private void setParticleDirectionSin(final int position, final float direction) {
+        mDirections.put(position * 2 + 1, direction);
+    }
+
+    void clearParticles() {
+        mParticlesCount = 0;
     }
 
     void setAlpha(final int alpha) {
@@ -245,7 +333,46 @@ final class ParticlesSceneProperties implements ParticlesSceneConfiguration {
         if (newNum < 0) {
             throw new IllegalArgumentException("numPoints must not be negative");
         }
-        mNumDots = newNum;
+        if (mNumDots != newNum) {
+            mNumDots = newNum;
+            initBuffers(newNum);
+        }
+    }
+
+    private void initBuffers(final int dotCount) {
+        initCoordinates(dotCount);
+        initDirections(dotCount);
+        initStepMultipliers(dotCount);
+        initRadiuses(dotCount);
+    }
+
+    private void initCoordinates(final int dotCount) {
+        final int floatCapacity = dotCount * COORDINATES_PER_VERTEX;
+        if (mCoordinates == null || mCoordinates.capacity() != floatCapacity) {
+            final ByteBuffer coordinatesByteBuffer = ByteBuffer.allocateDirect(
+                    floatCapacity * BYTES_PER_FLOAT);
+            coordinatesByteBuffer.order(ByteOrder.nativeOrder());
+            mCoordinates = coordinatesByteBuffer.asFloatBuffer();
+        }
+    }
+
+    private void initDirections(final int dotCount) {
+        final int capacity = dotCount * 2;
+        if (mDirections == null || mDirections.capacity() != capacity) {
+            mDirections = FloatBuffer.allocate(capacity);
+        }
+    }
+
+    private void initStepMultipliers(final int dotCount) {
+        if (mStepMultipliers == null || mStepMultipliers.capacity() != dotCount) {
+            mStepMultipliers = FloatBuffer.allocate(dotCount);
+        }
+    }
+
+    private void initRadiuses(final int dotCount) {
+        if (mRadiuses == null || mRadiuses.capacity() != dotCount) {
+            mRadiuses = FloatBuffer.allocate(dotCount);
+        }
     }
 
     /**
