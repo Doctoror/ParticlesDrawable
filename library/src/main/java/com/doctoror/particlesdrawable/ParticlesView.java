@@ -50,11 +50,10 @@ import android.view.ViewParent;
  * onStop() call and call {@link #start()} when the hosting component gets onStart() call.
  */
 @Keep
-public class ParticlesView extends View
-        implements SceneRenderer, SceneScheduler, ParticlesScene {
+public class ParticlesView extends View implements SceneScheduler, ParticlesScene {
 
-    private final SceneController sceneController = new SceneController(this, this);
     private final CanvasSceneRenderer sceneRenderer = new CanvasSceneRenderer();
+    private final SceneController sceneController = new SceneController(sceneRenderer, this);
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -278,18 +277,6 @@ public class ParticlesView extends View
         sceneController.draw();
         sceneController.run();
         sceneRenderer.setCanvas(null);
-    }
-
-    @Override
-    public void drawLine(final float startX, final float startY, final float stopX,
-            final float stopY, final float strokeWidth, @ColorInt final int color) {
-        sceneRenderer.drawLine(startX, startY, stopX, stopY, strokeWidth, color);
-    }
-
-    @Override
-    public void fillCircle(final float cx, final float cy, final float radius,
-            @ColorInt final int color) {
-        sceneRenderer.fillCircle(cx, cy, radius, color);
     }
 
     @Override
