@@ -41,10 +41,10 @@ import java.io.IOException;
  */
 @Keep
 public class ParticlesDrawable extends Drawable
-        implements Animatable, SceneRenderer, SceneScheduler, ParticlesScene {
+        implements Animatable, SceneScheduler, ParticlesScene {
 
     private final CanvasSceneRenderer sceneRenderer = new CanvasSceneRenderer();
-    private final SceneController sceneController = new SceneController(this, this);
+    private final SceneController sceneController = new SceneController(sceneRenderer, this);
 
     @Override
     public void inflate(@NonNull final Resources r,
@@ -72,18 +72,6 @@ public class ParticlesDrawable extends Drawable
         sceneRenderer.setCanvas(canvas);
         sceneController.draw();
         sceneRenderer.setCanvas(null);
-    }
-
-    @Override
-    public void drawLine(final float startX, final float startY, final float stopX,
-            final float stopY, final float strokeWidth, @ColorInt final int color) {
-        sceneRenderer.drawLine(startX, startY, stopX, stopY, strokeWidth, color);
-    }
-
-    @Override
-    public void fillCircle(final float cx, final float cy, final float radius,
-            @ColorInt final int color) {
-        sceneRenderer.fillCircle(cx, cy, radius, color);
     }
 
     @Override
