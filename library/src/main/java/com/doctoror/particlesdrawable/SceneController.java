@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
-import java.nio.FloatBuffer;
 import java.util.Random;
 
 /**
@@ -49,7 +48,7 @@ final class SceneController implements Runnable, ParticlesScene {
     }
 
     @NonNull
-    private ParticlesSceneProperties getScene() {
+    ParticlesSceneProperties getScene() {
         return mScene;
     }
 
@@ -153,6 +152,12 @@ final class SceneController implements Runnable, ParticlesScene {
         } else {
             resetLastFrameTime();
         }
+    }
+
+    void draw() {
+        final long startTime = SystemClock.uptimeMillis();
+        renderer.drawScene(mScene);
+        mLastDrawDuration = SystemClock.uptimeMillis() - startTime;
     }
 
     /**
@@ -580,86 +585,6 @@ final class SceneController implements Runnable, ParticlesScene {
         final float offset = model.getMinDotRadius() + model.getLineDistance();
         return x + offset < 0 || x - offset > model.getWidth()
                 || y + offset < 0 || y - offset > model.getHeight();
-    }
-
-    void draw() {
-        final ParticlesSceneProperties model = getScene();
-        final long startTime = SystemClock.uptimeMillis();
-        if (model.getNumDots() > 0) {
-
-            final FloatBuffer radiuses = model.getRadiuses();
-
-            final int particlesCount = model.getParticlesCount();
-            for (int i = 0; i < particlesCount; i++) {
-
-                final float x1 = model.getParticleX(i);
-                final float y1 = model.getParticleY(i);
-
-                // Draw connection lines for eligible points
-                for (int j = i + 1; j < particlesCount; j++) {
-
-                    final float x2 = model.getParticleX(j);
-                    final float y2 = model.getParticleY(j);
-
-                    final float distance = distance(x1, y1, x2, y2);
-                    if (distance < model.getLineDistance()) {
-                        drawLine(
-                                model,
-                                x1,
-                                y1,
-                                x2,
-                                y2,
-                                distance);
-                    }
-                }
-
-                final float radius = radiuses.get(i);
-                drawParticle(model, x1, y1, radius);
-            }
-        }
-        mLastDrawDuration = SystemClock.uptimeMillis() - startTime;
-    }
-
-    private void drawParticle(
-            @NonNull final ParticlesSceneProperties model,
-            final float x,
-            final float y,
-            final float radius) {
-        getView().fillCircle(x, y, radius, model.getDotColorResolvedAlpha());
-    }
-
-    /**
-     * Draw a line between two particles
-     *
-     * @param distance the distance between p1 and p2
-     */
-    private void drawLine(
-            @NonNull final ParticlesSceneProperties model,
-            final float x1,
-            final float y1,
-            final float x2,
-            final float y2,
-            final float distance) {
-        final float alphaPercent = 1f - distance / model.getLineDistance();
-        int alpha = (int) (255f * alphaPercent);
-        alpha = alpha * model.getAlpha() / 255;
-
-        getView().drawLine(x1, y1, x2, y2, model.getLineThickness(),
-                (model.getLineColor() & 0x00FFFFFF) | (alpha << 24));
-    }
-
-
-    /**
-     * Calculates the distance between two points
-     *
-     * @return distance between two points
-     */
-    private static float distance(final float ax, final float ay,
-                                  final float bx, final float by) {
-        return (float) Math.sqrt(
-                (ax - bx) * (ax - bx) +
-                        (ay - by) * (ay - by)
-        );
     }
 
     /**

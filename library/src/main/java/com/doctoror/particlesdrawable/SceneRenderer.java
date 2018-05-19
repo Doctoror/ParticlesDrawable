@@ -15,12 +15,9 @@
  */
 package com.doctoror.particlesdrawable;
 
-import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 
 interface SceneRenderer {
 
-    void drawLine(float startX, float startY, float stopX, float stopY, float strokeWidth,
-            @ColorInt int color);
-
-    void fillCircle(float cx, float cy, float radius, @ColorInt int color);
+    void drawScene(@NonNull ParticlesSceneProperties scene);
 }

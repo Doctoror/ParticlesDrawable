@@ -25,7 +25,7 @@ import android.support.annotation.Nullable;
 /**
  * {@link SceneRenderer} that draws on {@link Canvas}
  */
-final class CanvasSceneRenderer implements SceneRenderer {
+final class CanvasSceneRenderer implements LowLevelRenderer {
 
     private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
 

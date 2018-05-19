@@ -197,6 +197,7 @@ final class ParticlesSceneProperties implements ParticlesSceneConfiguration {
         return (dotColor & 0x00FFFFFF) | (alpha << 24);
     }
 
+    @IntRange(from = 0, to = 255)
     int getAlpha() {
         return mAlpha;
     }
