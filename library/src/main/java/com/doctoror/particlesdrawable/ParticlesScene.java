@@ -146,23 +146,23 @@ public final class ParticlesScene implements SceneConfiguration {
         mStepMultipliers.put(position, stepMultiplier);
     }
 
-    float getParticleX(final int position) {
+    public float getParticleX(final int position) {
         return mCoordinates.get(position * 2);
     }
 
-    float getParticleY(final int position) {
+    public float getParticleY(final int position) {
         return mCoordinates.get(position * 2 + 1);
     }
 
-    float getParticleDirectionCos(final int position) {
+    public float getParticleDirectionCos(final int position) {
         return mDirections.get(position * 2);
     }
 
-    float getParticleDirectionSin(final int position) {
+    public float getParticleDirectionSin(final int position) {
         return mDirections.get(position * 2 + 1);
     }
 
-    float getParticleStepMultiplier(final int position) {
+    public float getParticleStepMultiplier(final int position) {
         return mStepMultipliers.get(position);
     }
 
@@ -200,7 +200,7 @@ public final class ParticlesScene implements SceneConfiguration {
     }
 
     @IntRange(from = 0, to = 255)
-    int getAlpha() {
+    public int getAlpha() {
         return mAlpha;
     }
 
@@ -403,7 +403,7 @@ public final class ParticlesScene implements SceneConfiguration {
         return mDotColor;
     }
 
-    int getDotColorResolvedAlpha() {
+    public int getDotColorResolvedAlpha() {
         return mDotColorResolvedAlpha;
     }
 

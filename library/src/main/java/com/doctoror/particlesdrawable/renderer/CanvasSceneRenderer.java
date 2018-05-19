@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.renderer;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -28,23 +28,23 @@ import com.doctoror.particlesdrawable.contract.SceneRenderer;
 /**
  * {@link SceneRenderer} that draws on {@link Canvas}
  */
-final class CanvasSceneRenderer implements LowLevelRenderer {
+public final class CanvasSceneRenderer implements LowLevelRenderer {
 
     private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
 
     @Nullable
     private Canvas mCanvas;
 
-    void setCanvas(@Nullable final Canvas canvas) {
+    public void setCanvas(@Nullable final Canvas canvas) {
         mCanvas = canvas;
     }
 
     @NonNull
-    Paint getPaint() {
+    public Paint getPaint() {
         return mPaint;
     }
 
-    void setColorFilter(final ColorFilter colorFilter) {
+    public void setColorFilter(final ColorFilter colorFilter) {
         mPaint.setColorFilter(colorFilter);
     }
 

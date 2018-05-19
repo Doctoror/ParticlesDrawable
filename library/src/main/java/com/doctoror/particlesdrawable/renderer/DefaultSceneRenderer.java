@@ -1,7 +1,8 @@
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.renderer;
 
 import android.support.annotation.NonNull;
 
+import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.util.DistanceResolver;
@@ -9,11 +10,11 @@ import com.doctoror.particlesdrawable.util.LineColorResolver;
 
 import java.nio.FloatBuffer;
 
-final class DefaultSceneRenderer implements SceneRenderer {
+public final class DefaultSceneRenderer implements SceneRenderer {
 
     private final LowLevelRenderer renderer;
 
-    DefaultSceneRenderer(@NonNull final LowLevelRenderer renderer) {
+    public DefaultSceneRenderer(@NonNull final LowLevelRenderer renderer) {
         this.renderer = renderer;
     }
 
