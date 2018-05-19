@@ -9,7 +9,7 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-final class ParticlesViewGl implements IParticlesView {
+final class GlSceneRenderer implements SceneRenderer {
 
     private static final int BYTES_PER_FLOAT = 4;
     private static final int COORDINATES_PER_VERTEX = 2;

@@ -51,10 +51,10 @@ import android.view.ViewParent;
  */
 @Keep
 public class ParticlesView extends View
-        implements IParticlesView, SceneScheduler, ParticlesScene {
+        implements SceneRenderer, SceneScheduler, ParticlesScene {
 
-    private final SceneController mController = new SceneController(this, this);
-    private final CanvasParticlesView mCanvasParticlesView = new CanvasParticlesView();
+    private final SceneController sceneController = new SceneController(this, this);
+    private final CanvasSceneRenderer sceneRenderer = new CanvasSceneRenderer();
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -91,13 +91,13 @@ public class ParticlesView extends View
 
     private void init(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            setLayerType(LAYER_TYPE_HARDWARE, mCanvasParticlesView.getPaint());
+            setLayerType(LAYER_TYPE_HARDWARE, sceneRenderer.getPaint());
         }
         if (attrs != null) {
             final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
             try {
-                mController.handleAttrs(a);
+                sceneController.handleAttrs(a);
             } finally {
                 a.recycle();
             }
@@ -107,7 +107,7 @@ public class ParticlesView extends View
     @NonNull
     @Keep
     public Paint getPaint() {
-        return mCanvasParticlesView.getPaint();
+        return sceneRenderer.getPaint();
     }
 
     /**
@@ -115,7 +115,7 @@ public class ParticlesView extends View
      */
     @Override
     public void nextFrame() {
-        mController.nextFrame();
+        sceneController.nextFrame();
     }
 
     /**
@@ -123,7 +123,7 @@ public class ParticlesView extends View
      */
     @Override
     public void makeBrandNewFrame() {
-        mController.makeBrandNewFrame();
+        sceneController.makeBrandNewFrame();
     }
 
     /**
@@ -131,7 +131,7 @@ public class ParticlesView extends View
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        mController.makeBrandNewFrameWithPointsOffscreen();
+        sceneController.makeBrandNewFrameWithPointsOffscreen();
     }
 
     /**
@@ -139,7 +139,7 @@ public class ParticlesView extends View
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        mController.setFrameDelay(delay);
+        sceneController.setFrameDelay(delay);
     }
 
     /**
@@ -147,7 +147,7 @@ public class ParticlesView extends View
      */
     @Override
     public int getFrameDelay() {
-        return mController.getFrameDelay();
+        return sceneController.getFrameDelay();
     }
 
     /**
@@ -155,7 +155,7 @@ public class ParticlesView extends View
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        mController.setStepMultiplier(stepMultiplier);
+        sceneController.setStepMultiplier(stepMultiplier);
     }
 
     /**
@@ -163,7 +163,7 @@ public class ParticlesView extends View
      */
     @Override
     public float getStepMultiplier() {
-        return mController.getStepMultiplier();
+        return sceneController.getStepMultiplier();
     }
 
     /**
@@ -171,7 +171,7 @@ public class ParticlesView extends View
      */
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
             @FloatRange(from = 0.5f) final float maxRadius) {
-        mController.setDotRadiusRange(minRadius, maxRadius);
+        sceneController.setDotRadiusRange(minRadius, maxRadius);
     }
 
     /**
@@ -179,7 +179,7 @@ public class ParticlesView extends View
      */
     @Override
     public float getMinDotRadius() {
-        return mController.getMinDotRadius();
+        return sceneController.getMinDotRadius();
     }
 
     /**
@@ -187,14 +187,14 @@ public class ParticlesView extends View
      */
     @Override
     public float getMaxDotRadius() {
-        return mController.getMaxDotRadius();
+        return sceneController.getMaxDotRadius();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        mController.setLineThickness(lineThickness);
+        sceneController.setLineThickness(lineThickness);
     }
 
     /**
@@ -202,14 +202,14 @@ public class ParticlesView extends View
      */
     @Override
     public float getLineThickness() {
-        return mController.getLineThickness();
+        return sceneController.getLineThickness();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        mController.setLineDistance(lineDistance);
+        sceneController.setLineDistance(lineDistance);
     }
 
     /**
@@ -217,14 +217,14 @@ public class ParticlesView extends View
      */
     @Override
     public float getLineDistance() {
-        return mController.getLineDistance();
+        return sceneController.getLineDistance();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        mController.setNumDots(newNum);
+        sceneController.setNumDots(newNum);
     }
 
     /**
@@ -232,14 +232,14 @@ public class ParticlesView extends View
      */
     @Override
     public int getNumDots() {
-        return mController.getNumDots();
+        return sceneController.getNumDots();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        mController.setDotColor(dotColor);
+        sceneController.setDotColor(dotColor);
     }
 
     /**
@@ -247,14 +247,14 @@ public class ParticlesView extends View
      */
     @Override
     public int getDotColor() {
-        return mController.getDotColor();
+        return sceneController.getDotColor();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineColor(@ColorInt final int lineColor) {
-        mController.setLineColor(lineColor);
+        sceneController.setLineColor(lineColor);
     }
 
     /**
@@ -262,34 +262,34 @@ public class ParticlesView extends View
      */
     @Override
     public int getLineColor() {
-        return mController.getLineColor();
+        return sceneController.getLineColor();
     }
 
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mController.setBounds(0, 0, w, h);
+        sceneController.setBounds(0, 0, w, h);
     }
 
     @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
-        mCanvasParticlesView.setCanvas(canvas);
-        mController.draw();
-        mController.run();
-        mCanvasParticlesView.setCanvas(null);
+        sceneRenderer.setCanvas(canvas);
+        sceneController.draw();
+        sceneController.run();
+        sceneRenderer.setCanvas(null);
     }
 
     @Override
     public void drawLine(final float startX, final float startY, final float stopX,
             final float stopY, final float strokeWidth, @ColorInt final int color) {
-        mCanvasParticlesView.drawLine(startX, startY, stopX, stopY, strokeWidth, color);
+        sceneRenderer.drawLine(startX, startY, stopX, stopY, strokeWidth, color);
     }
 
     @Override
     public void fillCircle(final float cx, final float cy, final float radius,
             @ColorInt final int color) {
-        mCanvasParticlesView.fillCircle(cx, cy, radius, color);
+        sceneRenderer.fillCircle(cx, cy, radius, color);
     }
 
     @Override
@@ -350,18 +350,18 @@ public class ParticlesView extends View
     @VisibleForTesting
     void startInternal() {
         if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
-            mController.start();
+            sceneController.start();
         }
     }
 
     @VisibleForTesting
     void stopInternal() {
-        mController.stop();
+        sceneController.stop();
     }
 
     @VisibleForTesting
     boolean isRunning() {
-        return mController.isRunning();
+        return sceneController.isRunning();
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)

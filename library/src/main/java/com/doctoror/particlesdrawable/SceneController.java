@@ -39,13 +39,13 @@ final class SceneController implements Runnable, ParticlesScene {
 
     private boolean mAnimating;
 
-    private final IParticlesView mView;
-    private final SceneScheduler mViewScheduler;
+    private final SceneRenderer renderer;
+    private final SceneScheduler scheduler;
 
-    SceneController(@NonNull final IParticlesView view,
-                    @NonNull final SceneScheduler viewScheduler) {
-        mView = view;
-        mViewScheduler = viewScheduler;
+    SceneController(@NonNull final SceneRenderer renderer,
+                    @NonNull final SceneScheduler scheduler) {
+        this.renderer = renderer;
+        this.scheduler = scheduler;
     }
 
     @NonNull
@@ -54,13 +54,13 @@ final class SceneController implements Runnable, ParticlesScene {
     }
 
     @NonNull
-    private IParticlesView getView() {
-        return mView;
+    private SceneRenderer getView() {
+        return renderer;
     }
 
     @NonNull
     private SceneScheduler getViewScheduler() {
-        return mViewScheduler;
+        return scheduler;
     }
 
     void inflate(@NonNull final Resources r, @NonNull final AttributeSet attrs) {

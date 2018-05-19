@@ -17,10 +17,7 @@ package com.doctoror.particlesdrawable;
 
 import android.support.annotation.ColorInt;
 
-/**
- * Particles View
- */
-interface IParticlesView {
+interface SceneRenderer {
 
     void drawLine(float startX, float startY, float stopX, float stopY, float strokeWidth,
             @ColorInt int color);

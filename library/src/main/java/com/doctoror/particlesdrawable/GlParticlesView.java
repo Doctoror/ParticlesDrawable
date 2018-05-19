@@ -23,10 +23,10 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class GlParticlesView extends GLSurfaceView
-        implements IParticlesView, SceneScheduler, ParticlesScene, GLSurfaceView.Renderer {
+        implements SceneRenderer, SceneScheduler, ParticlesScene, GLSurfaceView.Renderer {
 
-    private final SceneController mController = new SceneController(this, this);
-    private final ParticlesViewGl mGlParticlesView = new ParticlesViewGl();
+    private final SceneController sceneController = new SceneController(this, this);
+    private final GlSceneRenderer sceneRenderer = new GlSceneRenderer();
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -58,7 +58,7 @@ public class GlParticlesView extends GLSurfaceView
             @SuppressLint("CustomViewStyleable") final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
             try {
-                mController.handleAttrs(a);
+                sceneController.handleAttrs(a);
             } finally {
                 a.recycle();
             }
@@ -109,7 +109,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void nextFrame() {
-        mController.nextFrame();
+        sceneController.nextFrame();
     }
 
     /**
@@ -117,7 +117,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void makeBrandNewFrame() {
-        mController.makeBrandNewFrame();
+        sceneController.makeBrandNewFrame();
     }
 
     /**
@@ -125,7 +125,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        mController.makeBrandNewFrameWithPointsOffscreen();
+        sceneController.makeBrandNewFrameWithPointsOffscreen();
     }
 
     /**
@@ -133,7 +133,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        mController.setFrameDelay(delay);
+        sceneController.setFrameDelay(delay);
     }
 
     /**
@@ -141,7 +141,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public int getFrameDelay() {
-        return mController.getFrameDelay();
+        return sceneController.getFrameDelay();
     }
 
     /**
@@ -149,7 +149,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        mController.setStepMultiplier(stepMultiplier);
+        sceneController.setStepMultiplier(stepMultiplier);
     }
 
     /**
@@ -157,7 +157,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getStepMultiplier() {
-        return mController.getStepMultiplier();
+        return sceneController.getStepMultiplier();
     }
 
     /**
@@ -165,7 +165,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
                                   @FloatRange(from = 0.5f) final float maxRadius) {
-        mController.setDotRadiusRange(minRadius, maxRadius);
+        sceneController.setDotRadiusRange(minRadius, maxRadius);
     }
 
     /**
@@ -173,7 +173,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getMinDotRadius() {
-        return mController.getMinDotRadius();
+        return sceneController.getMinDotRadius();
     }
 
     /**
@@ -181,14 +181,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getMaxDotRadius() {
-        return mController.getMaxDotRadius();
+        return sceneController.getMaxDotRadius();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        mController.setLineThickness(lineThickness);
+        sceneController.setLineThickness(lineThickness);
     }
 
     /**
@@ -196,14 +196,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getLineThickness() {
-        return mController.getLineThickness();
+        return sceneController.getLineThickness();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        mController.setLineDistance(lineDistance);
+        sceneController.setLineDistance(lineDistance);
     }
 
     /**
@@ -211,14 +211,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getLineDistance() {
-        return mController.getLineDistance();
+        return sceneController.getLineDistance();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        mController.setNumDots(newNum);
+        sceneController.setNumDots(newNum);
     }
 
     /**
@@ -226,14 +226,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public int getNumDots() {
-        return mController.getNumDots();
+        return sceneController.getNumDots();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        mController.setDotColor(dotColor);
+        sceneController.setDotColor(dotColor);
     }
 
     /**
@@ -241,14 +241,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public int getDotColor() {
-        return mController.getDotColor();
+        return sceneController.getDotColor();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineColor(@ColorInt final int lineColor) {
-        mController.setLineColor(lineColor);
+        sceneController.setLineColor(lineColor);
     }
 
     /**
@@ -256,25 +256,25 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public int getLineColor() {
-        return mController.getLineColor();
+        return sceneController.getLineColor();
     }
 
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mController.setBounds(0, 0, w, h);
+        sceneController.setBounds(0, 0, w, h);
     }
 
     @Override
     public void drawLine(final float startX, final float startY, final float stopX,
                          final float stopY, final float strokeWidth, @ColorInt final int color) {
-        mGlParticlesView.drawLine(startX, startY, stopX, stopY, strokeWidth, color);
+        sceneRenderer.drawLine(startX, startY, stopX, stopY, strokeWidth, color);
     }
 
     @Override
     public void fillCircle(final float cx, final float cy, final float radius,
                            @ColorInt final int color) {
-        mGlParticlesView.fillCircle(cx, cy, radius, color);
+        sceneRenderer.fillCircle(cx, cy, radius, color);
     }
 
     @Override
@@ -341,18 +341,18 @@ public class GlParticlesView extends GLSurfaceView
     @VisibleForTesting
     void startInternal() {
         if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
-            mController.start();
+            sceneController.start();
         }
     }
 
     @VisibleForTesting
     void stopInternal() {
-        mController.stop();
+        sceneController.stop();
     }
 
     @VisibleForTesting
     boolean isRunning() {
-        return mController.isRunning();
+        return sceneController.isRunning();
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
@@ -386,19 +386,19 @@ public class GlParticlesView extends GLSurfaceView
                 Color.green(mBackgroundColor) / 255f,
                 Color.blue(mBackgroundColor) / 255f, 0f);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-        gl.glLineWidth(mController.getLineThickness());
+        gl.glLineWidth(sceneController.getLineThickness());
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
-        mGlParticlesView.setGl(gl);
-        mGlParticlesView.beginTransaction(mController.getNumDots());
+        sceneRenderer.setGl(gl);
+        sceneRenderer.beginTransaction(sceneController.getNumDots());
 
-        mController.draw();
-        mController.run();
+        sceneController.draw();
+        sceneController.run();
 
-        mGlParticlesView.commit();
-        mGlParticlesView.setGl(null);
+        sceneRenderer.commit();
+        sceneRenderer.setGl(null);
 
         gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);

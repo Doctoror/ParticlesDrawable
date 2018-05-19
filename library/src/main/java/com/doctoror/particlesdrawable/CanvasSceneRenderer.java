@@ -23,9 +23,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * {@link IParticlesView} that draws on {@link Canvas}
+ * {@link SceneRenderer} that draws on {@link Canvas}
  */
-final class CanvasParticlesView implements IParticlesView {
+final class CanvasSceneRenderer implements SceneRenderer {
 
     private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
 

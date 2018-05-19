@@ -29,7 +29,7 @@ public final class SceneControllerTest {
 
     @NonNull
     private SceneController newSceneController() {
-        return new SceneController(mock(IParticlesView.class), mock(SceneScheduler.class));
+        return new SceneController(mock(SceneRenderer.class), mock(SceneScheduler.class));
     }
 
     @Test
