@@ -15,14 +15,13 @@
  */
 package com.doctoror.particlesdrawable;
 
-import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
+import com.doctoror.particlesdrawable.util.ParticleColorResolver;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -58,9 +57,6 @@ public final class ParticlesScene implements SceneConfiguration {
 
     // The alpha value of the Drawable
     private int mAlpha = 255;
-
-    @ColorInt
-    private int mDotColorResolvedAlpha = resolveDotColorWithDrawableAlpha(mDotColor, mAlpha);
 
     private int mWidth;
     private int mHeight;
@@ -188,15 +184,6 @@ public final class ParticlesScene implements SceneConfiguration {
 
     void setAlpha(final int alpha) {
         mAlpha = alpha;
-        mDotColorResolvedAlpha = resolveDotColorWithDrawableAlpha(mDotColor, alpha);
-    }
-
-    @VisibleForTesting
-    static int resolveDotColorWithDrawableAlpha(
-            @ColorInt final int dotColor,
-            final int drawableAlpha) {
-        final int alpha = Color.alpha(dotColor) * drawableAlpha / 255;
-        return (dotColor & 0x00FFFFFF) | (alpha << 24);
     }
 
     @IntRange(from = 0, to = 255)
@@ -392,7 +379,6 @@ public final class ParticlesScene implements SceneConfiguration {
     @Override
     public void setDotColor(@ColorInt final int dotColor) {
         mDotColor = dotColor;
-        mDotColorResolvedAlpha = resolveDotColorWithDrawableAlpha(dotColor, mAlpha);
     }
 
     /**
@@ -401,10 +387,6 @@ public final class ParticlesScene implements SceneConfiguration {
     @Override
     public int getDotColor() {
         return mDotColor;
-    }
-
-    public int getDotColorResolvedAlpha() {
-        return mDotColorResolvedAlpha;
     }
 
     /**

@@ -25,58 +25,6 @@ import static org.junit.Assert.*;
 public final class ParticlesSceneTest {
 
     @Test
-    public void testResolveDotColorWithDrawableAlphaOpaque() {
-        final int dotColor = 0xaa000000;
-        assertEquals(dotColor,
-                ParticlesScene.resolveDotColorWithDrawableAlpha(dotColor, 255));
-    }
-
-    @Test
-    public void testResolveDotColorWithDrawableAlphaTransparent() {
-        final int dotColor = 0xaa000000;
-        assertEquals(0,
-                ParticlesScene.resolveDotColorWithDrawableAlpha(dotColor, 0));
-    }
-
-    @Test
-    public void testDotColorResolvedAlpha() {
-        final int dotColor = 0xaa000000;
-
-        final ParticlesScene scene = new ParticlesScene();
-        scene.setDotColor(dotColor);
-
-        assertEquals(dotColor, scene.getDotColorResolvedAlpha());
-    }
-
-    @Test
-    public void testDotColorResolvedAlphaAfterAlphaChange() {
-        final int dotColor = 0xaa000000;
-        final int drawableAlpha = 20;
-
-        final ParticlesScene scene = new ParticlesScene();
-        scene.setDotColor(dotColor);
-        scene.setAlpha(drawableAlpha);
-
-        assertEquals(
-                ParticlesScene.resolveDotColorWithDrawableAlpha(dotColor, drawableAlpha),
-                scene.getDotColorResolvedAlpha());
-    }
-
-    @Test
-    public void testDotColorResolvedAlphaWhenChangedAfterAlphaChange() {
-        final int dotColor = 0xaa000000;
-        final int drawableAlpha = 20;
-
-        final ParticlesScene scene = new ParticlesScene();
-        scene.setAlpha(drawableAlpha);
-        scene.setDotColor(dotColor);
-
-        assertEquals(
-                ParticlesScene.resolveDotColorWithDrawableAlpha(dotColor, drawableAlpha),
-                scene.getDotColorResolvedAlpha());
-    }
-
-    @Test
     public void testPointsEmptyByDefault() {
         final ParticlesScene scene = new ParticlesScene();
         assertTrue(scene.getMutablePoints().isEmpty());

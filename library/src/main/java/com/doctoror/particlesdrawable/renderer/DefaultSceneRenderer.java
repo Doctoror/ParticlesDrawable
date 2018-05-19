@@ -7,6 +7,7 @@ import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.util.DistanceResolver;
 import com.doctoror.particlesdrawable.util.LineColorResolver;
+import com.doctoror.particlesdrawable.util.ParticleColorResolver;
 
 import java.nio.FloatBuffer;
 
@@ -21,6 +22,12 @@ public final class DefaultSceneRenderer implements SceneRenderer {
     @Override
     public void drawScene(@NonNull final ParticlesScene scene) {
         if (scene.getNumDots() > 0) {
+
+            final int particleColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
+                    scene.getDotColor(),
+                    scene.getAlpha()
+            );
+
             final FloatBuffer radiuses = scene.getRadiuses();
             final int particlesCount = scene.getParticlesCount();
             for (int i = 0; i < particlesCount; i++) {
@@ -54,7 +61,7 @@ public final class DefaultSceneRenderer implements SceneRenderer {
                 }
 
                 final float radius = radiuses.get(i);
-                renderer.fillCircle(x1, y1, radius, scene.getDotColorResolvedAlpha());
+                renderer.fillCircle(x1, y1, radius, particleColor);
             }
         }
     }
