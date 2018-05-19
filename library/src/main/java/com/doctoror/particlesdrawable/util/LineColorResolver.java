@@ -1,9 +1,9 @@
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.util;
 
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntRange;
 
-final class LineColorResolver {
+public final class LineColorResolver {
 
     /**
      * Resolves line alpha based on distance comparing to max distance.

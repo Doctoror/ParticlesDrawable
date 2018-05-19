@@ -2,6 +2,11 @@ package com.doctoror.particlesdrawable;
 
 import android.support.annotation.NonNull;
 
+import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
+import com.doctoror.particlesdrawable.contract.SceneRenderer;
+import com.doctoror.particlesdrawable.util.DistanceResolver;
+import com.doctoror.particlesdrawable.util.LineColorResolver;
+
 import java.nio.FloatBuffer;
 
 final class DefaultSceneRenderer implements SceneRenderer {

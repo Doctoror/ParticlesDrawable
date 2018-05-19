@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.contract;
 
 /**
  * Used for scheduling redraw
  */
-interface SceneScheduler {
+public interface SceneScheduler {
 
     void scheduleNextFrame(long delay);
     void unscheduleNextFrame();

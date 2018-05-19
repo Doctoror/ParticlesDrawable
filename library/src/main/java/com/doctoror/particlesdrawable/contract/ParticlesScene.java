@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.contract;
 
 import android.support.annotation.Keep;
 

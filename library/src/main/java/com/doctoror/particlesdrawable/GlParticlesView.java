@@ -19,6 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 
+import com.doctoror.particlesdrawable.contract.ParticlesScene;
+import com.doctoror.particlesdrawable.contract.SceneScheduler;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 

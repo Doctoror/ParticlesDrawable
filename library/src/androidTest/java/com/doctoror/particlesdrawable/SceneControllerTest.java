@@ -20,6 +20,9 @@ import static org.mockito.Mockito.*;
 
 import android.support.annotation.NonNull;
 
+import com.doctoror.particlesdrawable.contract.SceneRenderer;
+import com.doctoror.particlesdrawable.contract.SceneScheduler;
+
 import static org.junit.Assert.*;
 
 /**

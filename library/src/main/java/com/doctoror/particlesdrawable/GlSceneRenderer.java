@@ -5,6 +5,10 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.doctoror.particlesdrawable.contract.SceneRenderer;
+import com.doctoror.particlesdrawable.util.DistanceResolver;
+import com.doctoror.particlesdrawable.util.LineColorResolver;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;

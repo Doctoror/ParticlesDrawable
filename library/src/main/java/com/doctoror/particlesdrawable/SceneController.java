@@ -10,6 +10,10 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
+import com.doctoror.particlesdrawable.contract.ParticlesScene;
+import com.doctoror.particlesdrawable.contract.SceneRenderer;
+import com.doctoror.particlesdrawable.contract.SceneScheduler;
+
 import java.util.Random;
 
 /**

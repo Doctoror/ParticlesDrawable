@@ -1,6 +1,6 @@
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.util;
 
-final class DistanceResolver {
+public final class DistanceResolver {
 
     /**
      * Calculates the distance between two points

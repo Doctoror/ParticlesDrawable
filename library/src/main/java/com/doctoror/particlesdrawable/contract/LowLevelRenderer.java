@@ -1,4 +1,4 @@
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.contract;
 
 import android.support.annotation.ColorInt;
 

@@ -32,6 +32,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewParent;
 
+import com.doctoror.particlesdrawable.contract.ParticlesScene;
+import com.doctoror.particlesdrawable.contract.SceneRenderer;
+import com.doctoror.particlesdrawable.contract.SceneScheduler;
+
 /**
  * The Particles View.
  *
