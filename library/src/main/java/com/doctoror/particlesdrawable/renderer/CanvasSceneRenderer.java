@@ -30,42 +30,42 @@ import com.doctoror.particlesdrawable.contract.SceneRenderer;
  */
 public final class CanvasSceneRenderer implements LowLevelRenderer {
 
-    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
 
     @Nullable
-    private Canvas mCanvas;
+    private Canvas canvas;
 
     public void setCanvas(@Nullable final Canvas canvas) {
-        mCanvas = canvas;
+        this.canvas = canvas;
     }
 
     @NonNull
     public Paint getPaint() {
-        return mPaint;
+        return paint;
     }
 
     public void setColorFilter(final ColorFilter colorFilter) {
-        mPaint.setColorFilter(colorFilter);
+        paint.setColorFilter(colorFilter);
     }
 
     @Override
     public void drawLine(final float startX, final float startY, final float stopX,
             final float stopY, final float strokeWidth, @ColorInt final int color) {
-        if (mCanvas == null) {
+        if (canvas == null) {
             throw new IllegalStateException("Called in wrong state");
         }
-        mPaint.setStrokeWidth(strokeWidth);
-        mPaint.setColor(color);
-        mCanvas.drawLine(startX, startY, stopX, stopY, mPaint);
+        paint.setStrokeWidth(strokeWidth);
+        paint.setColor(color);
+        canvas.drawLine(startX, startY, stopX, stopY, paint);
     }
 
     @Override
     public void fillCircle(final float cx, final float cy, final float radius,
             @ColorInt final int color) {
-        if (mCanvas == null) {
+        if (canvas == null) {
             throw new IllegalStateException("Called in wrong state");
         }
-        mPaint.setColor(color);
-        mCanvas.drawCircle(cx, cy, radius, mPaint);
+        paint.setColor(color);
+        canvas.drawCircle(cx, cy, radius, paint);
     }
 }
