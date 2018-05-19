@@ -18,7 +18,7 @@ package com.doctoror.particlesdrawable.contract;
 import android.support.annotation.Keep;
 
 @Keep
-public interface SceneController extends SceneConfiguration {
+public interface SceneController {
 
     /**
      * Use this if you want to manually set to next frame, while animations are stopped.

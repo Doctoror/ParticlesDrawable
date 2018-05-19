@@ -7,7 +7,7 @@ public final class DistanceResolver {
      *
      * @return distance between two points
      */
-    static float distance(final float ax, final float ay,
+    public static float distance(final float ax, final float ay,
                                   final float bx, final float by) {
         return (float) Math.sqrt(
                 (ax - bx) * (ax - bx) +

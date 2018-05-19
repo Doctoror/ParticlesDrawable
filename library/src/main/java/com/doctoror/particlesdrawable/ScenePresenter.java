@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
+import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
@@ -19,7 +20,7 @@ import java.util.Random;
 /**
  * Particles Scene Controller
  */
-final class ScenePresenter implements Runnable, SceneController {
+final class ScenePresenter implements Runnable, SceneController, SceneConfiguration {
 
     /**
      * Path calculation padding.

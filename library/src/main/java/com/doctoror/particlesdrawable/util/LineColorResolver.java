@@ -25,7 +25,7 @@ public final class LineColorResolver {
     }
 
     @ColorInt
-    static int resolveLineColorWithAlpha(
+    public static int resolveLineColorWithAlpha(
             @IntRange(from = 0, to = 255)
             final int sceneAlpha,
             @ColorInt final int lineColor,

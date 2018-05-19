@@ -19,14 +19,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 
+import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class GlParticlesView extends GLSurfaceView
-        implements SceneScheduler, SceneController, GLSurfaceView.Renderer {
+public class GlParticlesView extends GLSurfaceView implements
+        SceneController,
+        SceneConfiguration,
+        SceneScheduler,
+        GLSurfaceView.Renderer {
 
     private final GlSceneRenderer renderer = new GlSceneRenderer();
     private final ScenePresenter presenter = new ScenePresenter(renderer, this);

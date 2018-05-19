@@ -31,6 +31,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
@@ -44,8 +45,11 @@ import java.io.IOException;
  * The Particles Drawable
  */
 @Keep
-public class ParticlesDrawable extends Drawable
-        implements Animatable, SceneScheduler, SceneController {
+public class ParticlesDrawable extends Drawable implements
+        Animatable,
+        SceneConfiguration,
+        SceneController,
+        SceneScheduler {
 
     private final CanvasSceneRenderer canvasRenderer = new CanvasSceneRenderer();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasRenderer);

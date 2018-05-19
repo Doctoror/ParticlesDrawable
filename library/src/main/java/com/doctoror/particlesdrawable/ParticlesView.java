@@ -32,21 +32,22 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewParent;
 
+import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 
 /**
  * The Particles View.
- *
+ * <p>
  * Automatically starts on {@link #onAttachedToWindow()} or when visibility is set to
  * {@link #VISIBLE}. Automatically stops on {@link #onDetachedFromWindow()} or when visbility set
  * to {@link #INVISIBLE} or {@link #GONE}.
- *
+ * <p>
  * You may also use {@link #start()} and {@link #stop()} on your behalf. Note when you call {@link
  * #stop()} explicitly, the animation will not automatically restart when you trigger visibility or
  * when this View gets attached to window.
- *
+ * <p>
  * The View cannot tell whether your hosting {@link android.app.Activity} or
  * {@link android.app.Fragment} is started or stopped. It can only tell when it's being destroyed
  * ({@link #onDetachedFromWindow()} will be called) so this is where it stops animations
@@ -54,7 +55,10 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler;
  * onStop() call and call {@link #start()} when the hosting component gets onStart() call.
  */
 @Keep
-public class ParticlesView extends View implements SceneScheduler, SceneController {
+public class ParticlesView extends View implements
+        SceneConfiguration,
+        SceneController,
+        SceneScheduler {
 
     private final CanvasSceneRenderer canvasSceneRenderer = new CanvasSceneRenderer();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasSceneRenderer);
@@ -81,14 +85,14 @@ public class ParticlesView extends View implements SceneScheduler, SceneControll
     }
 
     public ParticlesView(final Context context, final AttributeSet attrs,
-            final int defStyleAttr) {
+                         final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ParticlesView(final Context context, final AttributeSet attrs,
-            final int defStyleAttr, final int defStyleRes) {
+                         final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
@@ -174,7 +178,7 @@ public class ParticlesView extends View implements SceneScheduler, SceneControll
      * {@inheritDoc}
      */
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
-            @FloatRange(from = 0.5f) final float maxRadius) {
+                                  @FloatRange(from = 0.5f) final float maxRadius) {
         presenter.setDotRadiusRange(minRadius, maxRadius);
     }
 
