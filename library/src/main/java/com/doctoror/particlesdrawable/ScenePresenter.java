@@ -32,7 +32,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
 
     private static final float STEP_PER_MS = 0.05f;
 
-    private final ParticlesSceneProperties mScene = new ParticlesSceneProperties();
+    private final ParticlesScene mScene = new ParticlesScene();
 
     private final Random mRandom = new Random();
 
@@ -160,7 +160,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      */
     @Override
     public void makeBrandNewFrame() {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
             initParticles();
@@ -172,7 +172,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
             initParticlesOffScreen();
@@ -278,7 +278,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
             throw new IllegalArgumentException("numPoints must not be negative");
         }
 
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         final int prevNumDots = model.getNumDots();
         if (newNum != prevNumDots) {
             if (mParticlesInited) {
@@ -337,7 +337,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
     }
 
     void setBounds(final int left, final int top, final int right, final int bottom) {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         model.setWidth(right - left);
         model.setHeight(bottom - top);
         if (right - left > 0 && bottom - top > 0) {
@@ -374,7 +374,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
     }
 
     private void initParticles(@NonNull final ParticleCreationStrategy strategy) {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot init points if width or height is 0");
         }
@@ -385,7 +385,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
     }
 
     private void addNewParticle(final boolean onScreen) {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot make new point if width or height is 0");
         }
@@ -403,7 +403,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      * @param position the point position to apply new values to
      */
     private void applyFreshParticleOnScreen(final int position) {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         final int w = model.getWidth();
         final int h = model.getHeight();
         if (w == 0 || h == 0) {
@@ -433,7 +433,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      */
     @Override
     public void nextFrame() {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         final float step = mLastFrameTime == 0 ? 1f
                 : (SystemClock.uptimeMillis() - mLastFrameTime) * STEP_PER_MS;
 
@@ -477,7 +477,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      * @return new dot radius
      */
     private float newRandomIndividualDotRadius() {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         return model.getMinDotRadius() == model.getMaxDotRadius() ?
                 model.getMinDotRadius() : model.getMinDotRadius()
                 + (mRandom.nextInt(
@@ -490,7 +490,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      * @param position the particle position to apply new values to
      */
     private void applyFreshParticleOffScreen(final int position) {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         final int w = model.getWidth();
         final int h = model.getHeight();
         if (w == 0 || h == 0) {
@@ -576,7 +576,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      * closest point on-screen
      */
     private boolean pointOutOfBounds(final float x, final float y) {
-        final ParticlesSceneProperties model = mScene;
+        final ParticlesScene model = mScene;
         final float offset = model.getMinDotRadius() + model.getLineDistance();
         return x + offset < 0 || x - offset > model.getWidth()
                 || y + offset < 0 || y - offset > model.getHeight();

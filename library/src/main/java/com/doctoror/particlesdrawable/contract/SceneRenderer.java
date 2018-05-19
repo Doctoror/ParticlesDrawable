@@ -17,9 +17,9 @@ package com.doctoror.particlesdrawable.contract;
 
 import android.support.annotation.NonNull;
 
-import com.doctoror.particlesdrawable.ParticlesSceneProperties;
+import com.doctoror.particlesdrawable.ParticlesScene;
 
 public interface SceneRenderer {
 
-    void drawScene(@NonNull ParticlesSceneProperties scene);
+    void drawScene(@NonNull ParticlesScene scene);
 }

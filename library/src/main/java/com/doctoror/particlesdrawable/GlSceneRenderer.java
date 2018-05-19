@@ -99,7 +99,7 @@ final class GlSceneRenderer implements SceneRenderer {
 
     @Override
     public void drawScene(
-            @NonNull final ParticlesSceneProperties scene) {
+            @NonNull final ParticlesScene scene) {
         gl.glPointSize(scene.getMaxDotRadius() * 2f);
         gl.glLineWidth(scene.getLineThickness());
 
@@ -118,7 +118,7 @@ final class GlSceneRenderer implements SceneRenderer {
         );
     }
 
-    private void resolveLines(@NonNull final ParticlesSceneProperties scene) {
+    private void resolveLines(@NonNull final ParticlesScene scene) {
         final int particlesCount = scene.getParticlesCount();
         if (particlesCount != 0) {
             initLineBuffers(scene.getParticlesCount());

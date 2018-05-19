@@ -30,9 +30,9 @@ import java.nio.FloatBuffer;
 import java.util.Locale;
 
 /**
- * The Particles scene configuration
+ * The Particles scene
  */
-public final class ParticlesSceneProperties implements SceneConfiguration {
+public final class ParticlesScene implements SceneConfiguration {
 
     private static final int BYTES_PER_FLOAT = 4;
     private static final int COORDINATES_PER_VERTEX = 2;
@@ -78,7 +78,7 @@ public final class ParticlesSceneProperties implements SceneConfiguration {
 
     private int mParticlesCount;
 
-    ParticlesSceneProperties() {
+    ParticlesScene() {
         initBuffers(mNumDots);
     }
 

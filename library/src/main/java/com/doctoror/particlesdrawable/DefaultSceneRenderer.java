@@ -18,7 +18,7 @@ final class DefaultSceneRenderer implements SceneRenderer {
     }
 
     @Override
-    public void drawScene(@NonNull final ParticlesSceneProperties scene) {
+    public void drawScene(@NonNull final ParticlesScene scene) {
         if (scene.getNumDots() > 0) {
             final FloatBuffer radiuses = scene.getRadiuses();
             final int particlesCount = scene.getParticlesCount();
