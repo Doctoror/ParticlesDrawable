@@ -21,7 +21,6 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
-import com.doctoror.particlesdrawable.util.ParticleColorResolver;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -108,11 +107,8 @@ public final class ParticlesScene implements SceneConfiguration {
         return mHeight;
     }
 
-    void removeFirstParticle() {
+    void removeLastParticle() {
         if (mParticlesCount != 0) {
-            mCoordinates.position(2);
-            mCoordinates.compact();
-
             mParticlesCount--;
         }
     }

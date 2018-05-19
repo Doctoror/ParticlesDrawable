@@ -288,7 +288,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
                     }
                 } else {
                     for (int i = 0; i < prevNumDots - newNum; i++) {
-                        model.removeFirstParticle();
+                        model.removeLastParticle();
                     }
                 }
             }
