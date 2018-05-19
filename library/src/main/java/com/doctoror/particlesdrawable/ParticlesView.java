@@ -32,7 +32,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewParent;
 
-import com.doctoror.particlesdrawable.contract.ParticlesScene;
+import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 
@@ -54,7 +54,7 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler;
  * onStop() call and call {@link #start()} when the hosting component gets onStart() call.
  */
 @Keep
-public class ParticlesView extends View implements SceneScheduler, ParticlesScene {
+public class ParticlesView extends View implements SceneScheduler, SceneController {
 
     private final CanvasSceneRenderer canvasSceneRenderer = new CanvasSceneRenderer();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasSceneRenderer);
