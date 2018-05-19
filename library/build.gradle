@@ -55,6 +55,9 @@ dependencies {
     androidTestImplementation td.mockitoAndroid
 
     testImplementation td.junit
+    testImplementation td.kotlin
+    testImplementation td.mockitoCore
+    testImplementation td.mockitoKotlin
     testImplementation td.robolectric
 
     javadocDeps d.annotations

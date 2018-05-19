@@ -19,6 +19,7 @@ ext {
     jUnitVersion = '4.12'
     testRunnerVersion = '1.0.2'
     mockitoVersion = '2.18.3'
+    mockitoKotlinVersion = '1.5.0'
     robolectricVersion = '3.8'
 
     libraryDependencies = [
@@ -28,7 +29,12 @@ ext {
     libraryTestDependencies = [
             junit         : "junit:junit:$jUnitVersion",
 
+            kotlin        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ext.kotlinVersion",
+
+            mockitoCore   : "org.mockito:mockito-core:$mockitoVersion",
+            mockitoKotlin: "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
             mockitoAndroid: "org.mockito:mockito-android:$mockitoVersion",
+
             robolectric   : "org.robolectric:robolectric:$robolectricVersion",
 
             testRunner    : "com.android.support.test:runner:$testRunnerVersion",
