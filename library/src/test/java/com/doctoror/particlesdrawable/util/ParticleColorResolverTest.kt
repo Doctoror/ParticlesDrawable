@@ -13,30 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable.util;
+package com.doctoror.particlesdrawable.util
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+import com.doctoror.particlesdrawable.util.ParticleColorResolver.resolveParticleColorWithSceneAlpha
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
-@RunWith(RobolectricTestRunner.class)
-public final class ParticleColorResolverTest {
+@RunWith(RobolectricTestRunner::class)
+class ParticleColorResolverTest {
 
     @Test
-    public void resolvesColorWithOpaqueAlpha() {
-        final int particleColor = 0xaa000000;
+    fun resolvesColorWithOpaqueAlpha() {
+        val particleColor = 0xaa000000.toInt()
         assertEquals(particleColor,
-                ParticleColorResolver.resolveParticleColorWithSceneAlpha(particleColor, 255));
+                resolveParticleColorWithSceneAlpha(particleColor, 255))
     }
 
     @Test
-    public void resolvesColorWithTransparentAlpha() {
-        final int particleColor = 0xaa000000;
+    fun resolvesColorWithTransparentAlpha() {
+        val particleColor = 0xaa000000.toInt()
         assertEquals(0,
-                ParticleColorResolver.resolveParticleColorWithSceneAlpha(particleColor, 0));
+                resolveParticleColorWithSceneAlpha(particleColor, 0))
     }
 }
