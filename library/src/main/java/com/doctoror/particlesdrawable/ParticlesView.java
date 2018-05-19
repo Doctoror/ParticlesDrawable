@@ -58,7 +58,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
 
     private final CanvasSceneRenderer canvasSceneRenderer = new CanvasSceneRenderer();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasSceneRenderer);
-    private final SceneController controller = new SceneController(renderer, this);
+    private final ScenePresenter presenter = new ScenePresenter(renderer, this);
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -101,7 +101,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
             final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
             try {
-                controller.handleAttrs(a);
+                presenter.handleAttrs(a);
             } finally {
                 a.recycle();
             }
@@ -119,7 +119,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public void nextFrame() {
-        controller.nextFrame();
+        presenter.nextFrame();
     }
 
     /**
@@ -127,7 +127,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public void makeBrandNewFrame() {
-        controller.makeBrandNewFrame();
+        presenter.makeBrandNewFrame();
     }
 
     /**
@@ -135,7 +135,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        controller.makeBrandNewFrameWithPointsOffscreen();
+        presenter.makeBrandNewFrameWithPointsOffscreen();
     }
 
     /**
@@ -143,7 +143,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        controller.setFrameDelay(delay);
+        presenter.setFrameDelay(delay);
     }
 
     /**
@@ -151,7 +151,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public int getFrameDelay() {
-        return controller.getFrameDelay();
+        return presenter.getFrameDelay();
     }
 
     /**
@@ -159,7 +159,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        controller.setStepMultiplier(stepMultiplier);
+        presenter.setStepMultiplier(stepMultiplier);
     }
 
     /**
@@ -167,7 +167,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public float getStepMultiplier() {
-        return controller.getStepMultiplier();
+        return presenter.getStepMultiplier();
     }
 
     /**
@@ -175,7 +175,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
             @FloatRange(from = 0.5f) final float maxRadius) {
-        controller.setDotRadiusRange(minRadius, maxRadius);
+        presenter.setDotRadiusRange(minRadius, maxRadius);
     }
 
     /**
@@ -183,7 +183,7 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public float getMinDotRadius() {
-        return controller.getMinDotRadius();
+        return presenter.getMinDotRadius();
     }
 
     /**
@@ -191,14 +191,14 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public float getMaxDotRadius() {
-        return controller.getMaxDotRadius();
+        return presenter.getMaxDotRadius();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        controller.setLineThickness(lineThickness);
+        presenter.setLineThickness(lineThickness);
     }
 
     /**
@@ -206,14 +206,14 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public float getLineThickness() {
-        return controller.getLineThickness();
+        return presenter.getLineThickness();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        controller.setLineDistance(lineDistance);
+        presenter.setLineDistance(lineDistance);
     }
 
     /**
@@ -221,14 +221,14 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public float getLineDistance() {
-        return controller.getLineDistance();
+        return presenter.getLineDistance();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        controller.setNumDots(newNum);
+        presenter.setNumDots(newNum);
     }
 
     /**
@@ -236,14 +236,14 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public int getNumDots() {
-        return controller.getNumDots();
+        return presenter.getNumDots();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        controller.setDotColor(dotColor);
+        presenter.setDotColor(dotColor);
     }
 
     /**
@@ -251,14 +251,14 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public int getDotColor() {
-        return controller.getDotColor();
+        return presenter.getDotColor();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineColor(@ColorInt final int lineColor) {
-        controller.setLineColor(lineColor);
+        presenter.setLineColor(lineColor);
     }
 
     /**
@@ -266,21 +266,21 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
      */
     @Override
     public int getLineColor() {
-        return controller.getLineColor();
+        return presenter.getLineColor();
     }
 
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        controller.setBounds(0, 0, w, h);
+        presenter.setBounds(0, 0, w, h);
     }
 
     @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
         canvasSceneRenderer.setCanvas(canvas);
-        controller.draw();
-        controller.run();
+        presenter.draw();
+        presenter.run();
         canvasSceneRenderer.setCanvas(null);
     }
 
@@ -342,18 +342,18 @@ public class ParticlesView extends View implements SceneScheduler, ParticlesScen
     @VisibleForTesting
     void startInternal() {
         if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
-            controller.start();
+            presenter.start();
         }
     }
 
     @VisibleForTesting
     void stopInternal() {
-        controller.stop();
+        presenter.stop();
     }
 
     @VisibleForTesting
     boolean isRunning() {
-        return controller.isRunning();
+        return presenter.isRunning();
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)

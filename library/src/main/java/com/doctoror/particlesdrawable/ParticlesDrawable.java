@@ -49,7 +49,7 @@ public class ParticlesDrawable extends Drawable
 
     private final CanvasSceneRenderer canvasRenderer = new CanvasSceneRenderer();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasRenderer);
-    private final SceneController controller = new SceneController(renderer, this);
+    private final ScenePresenter presenter = new ScenePresenter(renderer, this);
 
     @Override
     public void inflate(@NonNull final Resources r,
@@ -57,7 +57,7 @@ public class ParticlesDrawable extends Drawable
                         @NonNull final AttributeSet attrs,
                         @Nullable final Resources.Theme theme) throws XmlPullParserException, IOException {
         super.inflate(r, parser, attrs, theme);
-        controller.inflate(r, attrs);
+        presenter.inflate(r, attrs);
     }
 
     @NonNull
@@ -69,24 +69,24 @@ public class ParticlesDrawable extends Drawable
     @Override
     public void setBounds(final int left, final int top, final int right, final int bottom) {
         super.setBounds(left, top, right, bottom);
-        controller.setBounds(left, top, right, bottom);
+        presenter.setBounds(left, top, right, bottom);
     }
 
     @Override
     public void draw(@NonNull final Canvas canvas) {
         canvasRenderer.setCanvas(canvas);
-        controller.draw();
+        presenter.draw();
         canvasRenderer.setCanvas(null);
     }
 
     @Override
     public void scheduleNextFrame(final long delay) {
-        scheduleSelf(controller, SystemClock.uptimeMillis() + delay);
+        scheduleSelf(presenter, SystemClock.uptimeMillis() + delay);
     }
 
     @Override
     public void unscheduleNextFrame() {
-        unscheduleSelf(controller);
+        unscheduleSelf(presenter);
     }
 
     @Override
@@ -96,12 +96,12 @@ public class ParticlesDrawable extends Drawable
 
     @Override
     public void setAlpha(final int alpha) {
-        controller.setAlpha(alpha);
+        presenter.setAlpha(alpha);
     }
 
     @Override
     public int getAlpha() {
-        return controller.getAlpha();
+        return presenter.getAlpha();
     }
 
     @Override
@@ -116,17 +116,17 @@ public class ParticlesDrawable extends Drawable
 
     @Override
     public void start() {
-        controller.start();
+        presenter.start();
     }
 
     @Override
     public void stop() {
-        controller.stop();
+        presenter.stop();
     }
 
     @Override
     public boolean isRunning() {
-        return controller.isRunning();
+        return presenter.isRunning();
     }
 
     /**
@@ -134,7 +134,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public void nextFrame() {
-        controller.nextFrame();
+        presenter.nextFrame();
     }
 
     /**
@@ -142,7 +142,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public void makeBrandNewFrame() {
-        controller.makeBrandNewFrame();
+        presenter.makeBrandNewFrame();
     }
 
     /**
@@ -150,7 +150,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        controller.makeBrandNewFrameWithPointsOffscreen();
+        presenter.makeBrandNewFrameWithPointsOffscreen();
     }
 
     /**
@@ -158,7 +158,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        controller.setFrameDelay(delay);
+        presenter.setFrameDelay(delay);
     }
 
     /**
@@ -166,7 +166,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public int getFrameDelay() {
-        return controller.getFrameDelay();
+        return presenter.getFrameDelay();
     }
 
     /**
@@ -174,7 +174,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        controller.setStepMultiplier(stepMultiplier);
+        presenter.setStepMultiplier(stepMultiplier);
     }
 
     /**
@@ -182,7 +182,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public float getStepMultiplier() {
-        return controller.getStepMultiplier();
+        return presenter.getStepMultiplier();
     }
 
     /**
@@ -191,7 +191,7 @@ public class ParticlesDrawable extends Drawable
     @Override
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
                                   @FloatRange(from = 0.5f) final float maxRadius) {
-        controller.setDotRadiusRange(minRadius, maxRadius);
+        presenter.setDotRadiusRange(minRadius, maxRadius);
     }
 
     /**
@@ -199,7 +199,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public float getMinDotRadius() {
-        return controller.getMinDotRadius();
+        return presenter.getMinDotRadius();
     }
 
     /**
@@ -207,7 +207,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public float getMaxDotRadius() {
-        return controller.getMaxDotRadius();
+        return presenter.getMaxDotRadius();
     }
 
     /**
@@ -215,7 +215,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        controller.setLineThickness(lineThickness);
+        presenter.setLineThickness(lineThickness);
     }
 
     /**
@@ -223,7 +223,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public float getLineThickness() {
-        return controller.getLineThickness();
+        return presenter.getLineThickness();
     }
 
     /**
@@ -231,7 +231,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        controller.setLineDistance(lineDistance);
+        presenter.setLineDistance(lineDistance);
     }
 
     /**
@@ -239,14 +239,14 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public float getLineDistance() {
-        return controller.getLineDistance();
+        return presenter.getLineDistance();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        controller.setNumDots(newNum);
+        presenter.setNumDots(newNum);
     }
 
     /**
@@ -254,14 +254,14 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public int getNumDots() {
-        return controller.getNumDots();
+        return presenter.getNumDots();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        controller.setDotColor(dotColor);
+        presenter.setDotColor(dotColor);
     }
 
     /**
@@ -269,7 +269,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public int getDotColor() {
-        return controller.getDotColor();
+        return presenter.getDotColor();
     }
 
     /**
@@ -277,7 +277,7 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public void setLineColor(@ColorInt final int lineColor) {
-        controller.setLineColor(lineColor);
+        presenter.setLineColor(lineColor);
     }
 
     /**
@@ -285,6 +285,6 @@ public class ParticlesDrawable extends Drawable
      */
     @Override
     public int getLineColor() {
-        return controller.getLineColor();
+        return presenter.getLineColor();
     }
 }

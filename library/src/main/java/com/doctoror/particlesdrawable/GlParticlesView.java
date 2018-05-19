@@ -29,7 +29,7 @@ public class GlParticlesView extends GLSurfaceView
         implements SceneScheduler, ParticlesScene, GLSurfaceView.Renderer {
 
     private final GlSceneRenderer renderer = new GlSceneRenderer();
-    private final SceneController controller = new SceneController(renderer, this);
+    private final ScenePresenter presenter = new ScenePresenter(renderer, this);
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -61,7 +61,7 @@ public class GlParticlesView extends GLSurfaceView
             @SuppressLint("CustomViewStyleable") final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
             try {
-                controller.handleAttrs(a);
+                presenter.handleAttrs(a);
             } finally {
                 a.recycle();
             }
@@ -112,7 +112,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void nextFrame() {
-        controller.nextFrame();
+        presenter.nextFrame();
     }
 
     /**
@@ -120,7 +120,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void makeBrandNewFrame() {
-        controller.makeBrandNewFrame();
+        presenter.makeBrandNewFrame();
     }
 
     /**
@@ -128,7 +128,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        controller.makeBrandNewFrameWithPointsOffscreen();
+        presenter.makeBrandNewFrameWithPointsOffscreen();
     }
 
     /**
@@ -136,7 +136,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        controller.setFrameDelay(delay);
+        presenter.setFrameDelay(delay);
     }
 
     /**
@@ -144,7 +144,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public int getFrameDelay() {
-        return controller.getFrameDelay();
+        return presenter.getFrameDelay();
     }
 
     /**
@@ -152,7 +152,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        controller.setStepMultiplier(stepMultiplier);
+        presenter.setStepMultiplier(stepMultiplier);
     }
 
     /**
@@ -160,7 +160,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getStepMultiplier() {
-        return controller.getStepMultiplier();
+        return presenter.getStepMultiplier();
     }
 
     /**
@@ -168,7 +168,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
                                   @FloatRange(from = 0.5f) final float maxRadius) {
-        controller.setDotRadiusRange(minRadius, maxRadius);
+        presenter.setDotRadiusRange(minRadius, maxRadius);
     }
 
     /**
@@ -176,7 +176,7 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getMinDotRadius() {
-        return controller.getMinDotRadius();
+        return presenter.getMinDotRadius();
     }
 
     /**
@@ -184,14 +184,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getMaxDotRadius() {
-        return controller.getMaxDotRadius();
+        return presenter.getMaxDotRadius();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        controller.setLineThickness(lineThickness);
+        presenter.setLineThickness(lineThickness);
     }
 
     /**
@@ -199,14 +199,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getLineThickness() {
-        return controller.getLineThickness();
+        return presenter.getLineThickness();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        controller.setLineDistance(lineDistance);
+        presenter.setLineDistance(lineDistance);
     }
 
     /**
@@ -214,14 +214,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public float getLineDistance() {
-        return controller.getLineDistance();
+        return presenter.getLineDistance();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        controller.setNumDots(newNum);
+        presenter.setNumDots(newNum);
     }
 
     /**
@@ -229,14 +229,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public int getNumDots() {
-        return controller.getNumDots();
+        return presenter.getNumDots();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        controller.setDotColor(dotColor);
+        presenter.setDotColor(dotColor);
     }
 
     /**
@@ -244,14 +244,14 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public int getDotColor() {
-        return controller.getDotColor();
+        return presenter.getDotColor();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineColor(@ColorInt final int lineColor) {
-        controller.setLineColor(lineColor);
+        presenter.setLineColor(lineColor);
     }
 
     /**
@@ -259,13 +259,13 @@ public class GlParticlesView extends GLSurfaceView
      */
     @Override
     public int getLineColor() {
-        return controller.getLineColor();
+        return presenter.getLineColor();
     }
 
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        controller.setBounds(0, 0, w, h);
+        presenter.setBounds(0, 0, w, h);
     }
 
     @Override
@@ -332,18 +332,18 @@ public class GlParticlesView extends GLSurfaceView
     @VisibleForTesting
     void startInternal() {
         if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
-            controller.start();
+            presenter.start();
         }
     }
 
     @VisibleForTesting
     void stopInternal() {
-        controller.stop();
+        presenter.stop();
     }
 
     @VisibleForTesting
     boolean isRunning() {
-        return controller.isRunning();
+        return presenter.isRunning();
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
@@ -366,10 +366,10 @@ public class GlParticlesView extends GLSurfaceView
         renderer.setClearColor(gl, mBackgroundColor);
 
         renderer.setGl(gl);
-        controller.draw();
+        presenter.draw();
         renderer.setGl(null);
 
-        controller.run();
+        presenter.run();
     }
 
     @SuppressWarnings("SimplifiableIfStatement")

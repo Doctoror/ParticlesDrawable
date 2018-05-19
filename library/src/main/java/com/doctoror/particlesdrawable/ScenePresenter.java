@@ -19,7 +19,7 @@ import java.util.Random;
 /**
  * Particles Scene Controller
  */
-final class SceneController implements Runnable, ParticlesScene {
+final class ScenePresenter implements Runnable, ParticlesScene {
 
     /**
      * Path calculation padding.
@@ -45,8 +45,8 @@ final class SceneController implements Runnable, ParticlesScene {
     private final SceneRenderer renderer;
     private final SceneScheduler scheduler;
 
-    SceneController(@NonNull final SceneRenderer renderer,
-                    @NonNull final SceneScheduler scheduler) {
+    ScenePresenter(@NonNull final SceneRenderer renderer,
+                   @NonNull final SceneScheduler scheduler) {
         this.renderer = renderer;
         this.scheduler = scheduler;
     }
@@ -357,7 +357,7 @@ final class SceneController implements Runnable, ParticlesScene {
 
             @Override
             public void addNewParticle(final int position) {
-                SceneController.this.addNewParticle(position % 2 == 0);
+                ScenePresenter.this.addNewParticle(position % 2 == 0);
             }
         });
     }
@@ -367,7 +367,7 @@ final class SceneController implements Runnable, ParticlesScene {
 
             @Override
             public void addNewParticle(final int position) {
-                SceneController.this.addNewParticle(false);
+                ScenePresenter.this.addNewParticle(false);
             }
         });
     }

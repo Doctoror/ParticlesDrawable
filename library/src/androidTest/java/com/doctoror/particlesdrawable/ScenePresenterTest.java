@@ -26,13 +26,13 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import static org.junit.Assert.*;
 
 /**
- * {@link SceneController} test
+ * {@link ScenePresenter} test
  */
-public final class SceneControllerTest {
+public final class ScenePresenterTest {
 
     @NonNull
-    private SceneController newSceneController() {
-        return new SceneController(mock(SceneRenderer.class), mock(SceneScheduler.class));
+    private ScenePresenter newSceneController() {
+        return new ScenePresenter(mock(SceneRenderer.class), mock(SceneScheduler.class));
     }
 
     @Test
@@ -42,7 +42,7 @@ public final class SceneControllerTest {
 
     @Test
     public void testIsRunningWhenStarted() {
-        final SceneController c = newSceneController();
+        final ScenePresenter c = newSceneController();
         c.setBounds(0, 0, 10, 10);
         c.start();
         try {
@@ -54,7 +54,7 @@ public final class SceneControllerTest {
 
     @Test
     public void testIsStopedWhenStopped() {
-        final SceneController c = newSceneController();
+        final ScenePresenter c = newSceneController();
         c.setBounds(0, 0, 10, 10);
         c.start();
         c.stop();
@@ -63,7 +63,7 @@ public final class SceneControllerTest {
 
     @Test
     public void testSetBoundsWhenRunning() {
-        final SceneController c = newSceneController();
+        final ScenePresenter c = newSceneController();
         c.start();
         c.setBounds(0, 0, 10, 10);
         c.stop();
@@ -71,7 +71,7 @@ public final class SceneControllerTest {
 
     @Test
     public void testWithZeroBounds() {
-        final SceneController c = newSceneController();
+        final ScenePresenter c = newSceneController();
         c.setBounds(0, 0, 0, 0);
         c.start();
         assertTrue(c.isRunning());
@@ -81,20 +81,20 @@ public final class SceneControllerTest {
 
     @Test
     public void testMakeBrandNewFrameWithZeroBounds() {
-        final SceneController c = newSceneController();
+        final ScenePresenter c = newSceneController();
         c.makeBrandNewFrame();
     }
 
     @Test
     public void testMakeBrandNewFrame() {
-        final SceneController c = newSceneController();
+        final ScenePresenter c = newSceneController();
         c.setBounds(0, 0, 10, 10);
         c.makeBrandNewFrame();
     }
 
     @Test
     public void testMakeBrandNewFrameWhenRunning() {
-        final SceneController c = newSceneController();
+        final ScenePresenter c = newSceneController();
         c.setBounds(0, 0, 10, 10);
         c.start();
         c.makeBrandNewFrame();
@@ -103,7 +103,7 @@ public final class SceneControllerTest {
 
     @Test
     public void testDotRadiusRangeThatRoundsUpToTheSameInt() throws Throwable {
-        final SceneController c = newSceneController();
+        final ScenePresenter c = newSceneController();
         c.setBounds(0, 0, 10, 10);
         c.setDotRadiusRange(0.5f, 0.6f);
         c.makeBrandNewFrame();
@@ -111,21 +111,21 @@ public final class SceneControllerTest {
 
     @Test
     public void testSetFrameDelay() {
-        final SceneController s = newSceneController();
+        final ScenePresenter s = newSceneController();
         s.setFrameDelay(1);
         assertEquals(1, s.getFrameDelay());
     }
 
     @Test
     public void testSetStepMultiplier() {
-        final SceneController s = newSceneController();
+        final ScenePresenter s = newSceneController();
         s.setStepMultiplier(0f);
         assertEquals(0, s.getStepMultiplier(), Config.ASSERT_DELTA);
     }
 
     @Test
     public void testSetDotRadiusRange() {
-        final SceneController s = newSceneController();
+        final ScenePresenter s = newSceneController();
         s.setDotRadiusRange(0.5f, 0.6f);
         assertEquals(0.5, s.getMinDotRadius(), Config.ASSERT_DELTA);
         assertEquals(0.6, s.getMaxDotRadius(), Config.ASSERT_DELTA);
@@ -133,35 +133,35 @@ public final class SceneControllerTest {
 
     @Test
     public void testSetLineThickness() {
-        final SceneController s = newSceneController();
+        final ScenePresenter s = newSceneController();
         s.setLineThickness(1f);
         assertEquals(1, s.getLineThickness(), Config.ASSERT_DELTA);
     }
 
     @Test
     public void testSetLineDistance() {
-        final SceneController s = newSceneController();
+        final ScenePresenter s = newSceneController();
         s.setLineDistance(0f);
         assertEquals(0, s.getLineDistance(), Config.ASSERT_DELTA);
     }
 
     @Test
     public void testSetNumDots() {
-        final SceneController s = newSceneController();
+        final ScenePresenter s = newSceneController();
         s.setNumDots(0);
         assertEquals(0, s.getNumDots());
     }
 
     @Test
     public void testSetLineColor() {
-        final SceneController s = newSceneController();
+        final ScenePresenter s = newSceneController();
         s.setLineColor(2);
         assertEquals(2, s.getLineColor());
     }
 
     @Test
     public void testSetDotColor() {
-        final SceneController s = newSceneController();
+        final ScenePresenter s = newSceneController();
         s.setDotColor(3);
         assertEquals(3, s.getDotColor());
     }
