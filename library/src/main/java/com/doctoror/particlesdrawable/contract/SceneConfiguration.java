@@ -24,7 +24,7 @@ import android.support.annotation.Keep;
  * Particles scene configuration, makes sure all configuration fields are available.
  */
 @Keep
-public interface ParticlesSceneConfiguration {
+public interface SceneConfiguration {
 
     /**
      * Set a delay per frame in milliseconds.

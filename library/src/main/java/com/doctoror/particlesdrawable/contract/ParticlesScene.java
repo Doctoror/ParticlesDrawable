@@ -21,7 +21,7 @@ import android.support.annotation.Keep;
  * The Particles scene
  */
 @Keep
-public interface ParticlesScene extends ParticlesSceneConfiguration {
+public interface ParticlesScene extends SceneConfiguration {
 
     /**
      * Use this if you want to manually set to next frame, while animations are stopped.

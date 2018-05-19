@@ -22,7 +22,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.doctoror.particlesdrawable.contract.ParticlesSceneConfiguration;
+import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -32,7 +32,7 @@ import java.util.Locale;
 /**
  * The Particles scene configuration
  */
-public final class ParticlesSceneProperties implements ParticlesSceneConfiguration {
+public final class ParticlesSceneProperties implements SceneConfiguration {
 
     private static final int BYTES_PER_FLOAT = 4;
     private static final int COORDINATES_PER_VERTEX = 2;
