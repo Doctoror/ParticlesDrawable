@@ -52,16 +52,6 @@ final class SceneController implements Runnable, ParticlesScene {
     }
 
     @NonNull
-    ParticlesSceneProperties getScene() {
-        return mScene;
-    }
-
-    @NonNull
-    private SceneRenderer getView() {
-        return renderer;
-    }
-
-    @NonNull
     private SceneScheduler getViewScheduler() {
         return scheduler;
     }
@@ -169,7 +159,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void makeBrandNewFrame() {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
             initParticles();
@@ -181,7 +171,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
             initParticlesOffScreen();
@@ -193,7 +183,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        getScene().setFrameDelay(delay);
+        mScene.setFrameDelay(delay);
     }
 
     /**
@@ -201,7 +191,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public int getFrameDelay() {
-        return getScene().getFrameDelay();
+        return mScene.getFrameDelay();
     }
 
     /**
@@ -209,7 +199,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        getScene().setStepMultiplier(stepMultiplier);
+        mScene.setStepMultiplier(stepMultiplier);
     }
 
     /**
@@ -217,7 +207,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public float getStepMultiplier() {
-        return getScene().getStepMultiplier();
+        return mScene.getStepMultiplier();
     }
 
     /**
@@ -226,7 +216,7 @@ final class SceneController implements Runnable, ParticlesScene {
     @Override
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
                                   @FloatRange(from = 0.5f) final float maxRadius) {
-        getScene().setDotRadiusRange(minRadius, maxRadius);
+        mScene.setDotRadiusRange(minRadius, maxRadius);
     }
 
     /**
@@ -234,7 +224,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public float getMinDotRadius() {
-        return getScene().getMinDotRadius();
+        return mScene.getMinDotRadius();
     }
 
     /**
@@ -242,7 +232,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public float getMaxDotRadius() {
-        return getScene().getMaxDotRadius();
+        return mScene.getMaxDotRadius();
     }
 
     /**
@@ -250,7 +240,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        getScene().setLineThickness(lineThickness);
+        mScene.setLineThickness(lineThickness);
     }
 
     /**
@@ -258,7 +248,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public float getLineThickness() {
-        return getScene().getLineThickness();
+        return mScene.getLineThickness();
     }
 
     /**
@@ -266,7 +256,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        getScene().setLineDistance(lineDistance);
+        mScene.setLineDistance(lineDistance);
     }
 
     /**
@@ -274,7 +264,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public float getLineDistance() {
-        return getScene().getLineDistance();
+        return mScene.getLineDistance();
     }
 
 
@@ -287,7 +277,7 @@ final class SceneController implements Runnable, ParticlesScene {
             throw new IllegalArgumentException("numPoints must not be negative");
         }
 
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         final int prevNumDots = model.getNumDots();
         if (newNum != prevNumDots) {
             if (mParticlesInited) {
@@ -310,7 +300,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public int getNumDots() {
-        return getScene().getNumDots();
+        return mScene.getNumDots();
     }
 
     /**
@@ -318,7 +308,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void setDotColor(@ColorInt final int dotColor) {
-        getScene().setDotColor(dotColor);
+        mScene.setDotColor(dotColor);
     }
 
     /**
@@ -326,7 +316,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public int getDotColor() {
-        return getScene().getDotColor();
+        return mScene.getDotColor();
     }
 
     /**
@@ -334,7 +324,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void setLineColor(@ColorInt final int lineColor) {
-        getScene().setLineColor(lineColor);
+        mScene.setLineColor(lineColor);
     }
 
     /**
@@ -342,11 +332,11 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public int getLineColor() {
-        return getScene().getLineColor();
+        return mScene.getLineColor();
     }
 
     void setBounds(final int left, final int top, final int right, final int bottom) {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         model.setWidth(right - left);
         model.setHeight(bottom - top);
         if (right - left > 0 && bottom - top > 0) {
@@ -357,7 +347,7 @@ final class SceneController implements Runnable, ParticlesScene {
         } else {
             if (mParticlesInited) {
                 mParticlesInited = false;
-                getScene().clearParticles();
+                mScene.clearParticles();
             }
         }
     }
@@ -383,7 +373,7 @@ final class SceneController implements Runnable, ParticlesScene {
     }
 
     private void initParticles(@NonNull final ParticleCreationStrategy strategy) {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot init points if width or height is 0");
         }
@@ -394,7 +384,7 @@ final class SceneController implements Runnable, ParticlesScene {
     }
 
     private void addNewParticle(final boolean onScreen) {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot make new point if width or height is 0");
         }
@@ -412,7 +402,7 @@ final class SceneController implements Runnable, ParticlesScene {
      * @param position the point position to apply new values to
      */
     private void applyFreshParticleOnScreen(final int position) {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         final int w = model.getWidth();
         final int h = model.getHeight();
         if (w == 0 || h == 0) {
@@ -442,7 +432,7 @@ final class SceneController implements Runnable, ParticlesScene {
      */
     @Override
     public void nextFrame() {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         final float step = mLastFrameTime == 0 ? 1f
                 : (SystemClock.uptimeMillis() - mLastFrameTime) * STEP_PER_MS;
 
@@ -486,7 +476,7 @@ final class SceneController implements Runnable, ParticlesScene {
      * @return new dot radius
      */
     private float newRandomIndividualDotRadius() {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         return model.getMinDotRadius() == model.getMaxDotRadius() ?
                 model.getMinDotRadius() : model.getMinDotRadius()
                 + (mRandom.nextInt(
@@ -499,7 +489,7 @@ final class SceneController implements Runnable, ParticlesScene {
      * @param position the particle position to apply new values to
      */
     private void applyFreshParticleOffScreen(final int position) {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         final int w = model.getWidth();
         final int h = model.getHeight();
         if (w == 0 || h == 0) {
@@ -585,7 +575,7 @@ final class SceneController implements Runnable, ParticlesScene {
      * closest point on-screen
      */
     private boolean pointOutOfBounds(final float x, final float y) {
-        final ParticlesSceneProperties model = getScene();
+        final ParticlesSceneProperties model = mScene;
         final float offset = model.getMinDotRadius() + model.getLineDistance();
         return x + offset < 0 || x - offset > model.getWidth()
                 || y + offset < 0 || y - offset > model.getHeight();
