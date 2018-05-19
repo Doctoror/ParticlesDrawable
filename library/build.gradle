@@ -54,6 +54,9 @@ dependencies {
     androidTestImplementation td.testRules
     androidTestImplementation td.mockitoAndroid
 
+    testImplementation td.junit
+    testImplementation td.robolectric
+
     javadocDeps d.annotations
 
     implementation d.annotations

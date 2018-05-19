@@ -16,16 +16,22 @@ ext {
     supportVersion = '27.1.1'
 
     //Testing
-    testRunnerVersion = '1.0.1'
+    jUnitVersion = '4.12'
+    testRunnerVersion = '1.0.2'
     mockitoVersion = '2.18.3'
+    robolectricVersion = '3.8'
 
     libraryDependencies = [
-            annotations    : "com.android.support:support-annotations:$supportVersion"
+            annotations: "com.android.support:support-annotations:$supportVersion"
     ]
 
     libraryTestDependencies = [
-            testRunner     : "com.android.support.test:runner:$testRunnerVersion",
-            testRules      : "com.android.support.test:rules:$testRunnerVersion",
-            mockitoAndroid : "org.mockito:mockito-android:$mockitoVersion"
+            junit         : "junit:junit:$jUnitVersion",
+
+            mockitoAndroid: "org.mockito:mockito-android:$mockitoVersion",
+            robolectric   : "org.robolectric:robolectric:$robolectricVersion",
+
+            testRunner    : "com.android.support.test:runner:$testRunnerVersion",
+            testRules     : "com.android.support.test:rules:$testRunnerVersion"
     ]
 }
