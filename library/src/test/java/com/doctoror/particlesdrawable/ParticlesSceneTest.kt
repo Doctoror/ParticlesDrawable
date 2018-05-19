@@ -15,199 +15,246 @@
  */
 package com.doctoror.particlesdrawable
 
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-import org.junit.Assert.*
-
-/**
- * [ParticlesScene] test
- */
+@Config(manifest = Config.NONE)
+@RunWith(RobolectricTestRunner::class)
 class ParticlesSceneTest {
 
-    @Test
-    fun testPointsEmptyByDefault() {
-        val scene = ParticlesScene()
-        assertTrue(scene.getMutablePoints().isEmpty())
-    }
+    private val underTest = ParticlesScene()
 
     @Test
-    fun testAddTwoPoints() {
-        val scene = ParticlesScene()
-
-        val p1 = Particle()
-        val p2 = Particle()
-
-        scene.addParticleData(p1)
-        scene.addParticleData(p2)
-
-        assertFalse(scene.getMutablePoints().isEmpty())
-
-        assertTrue(scene.getMutablePoints().contains(p1))
-        assertTrue(scene.getMutablePoints().contains(p2))
+    fun particlesEmptyByDefault() {
+        assertEquals(0, underTest.particlesCount)
     }
 
     @Test
-    fun testRemoveFirstPointWhenEmpty() {
-        ParticlesScene().removeFirstParticle()
+    fun addTwoParticles() {
+        // When
+        underTest.setParticleData(
+                0,
+                1f,
+                2f,
+                3f,
+                4f,
+                5f,
+                6f
+        )
+
+        underTest.setParticleData(
+                1,
+                7f,
+                8f,
+                9f,
+                10f,
+                11f,
+                12f
+        )
+
+        // Then
+        assertEquals(2, underTest.particlesCount)
+
+        assertEquals(1f, underTest.getParticleX(0))
+        assertEquals(2f, underTest.getParticleY(0))
+        assertEquals(3f, underTest.getParticleDirectionCos(0))
+        assertEquals(4f, underTest.getParticleDirectionSin(0))
+        assertEquals(5f, underTest.radiuses.get(0))
+        assertEquals(6f, underTest.getParticleStepMultiplier(0))
+
+        assertEquals(7f, underTest.getParticleX(1))
+        assertEquals(8f, underTest.getParticleY(1))
+        assertEquals(9f, underTest.getParticleDirectionCos(1))
+        assertEquals(10f, underTest.getParticleDirectionSin(1))
+        assertEquals(11f, underTest.radiuses.get(1))
+        assertEquals(12f, underTest.getParticleStepMultiplier(1))
     }
 
     @Test
-    fun testRemoveFirstPointWithTwoPoints() {
-        val scene = ParticlesScene()
+    fun doesNotDecreaseParticleCountIfRemovingWhenEmpty() {
+        // When
+        underTest.removeLastParticle()
 
-        val p1 = Particle()
-        val p2 = Particle()
-
-        scene.addParticleData(p1)
-        scene.addParticleData(p2)
-
-        scene.removeFirstParticle()
-
-        assertFalse(scene.getMutablePoints().contains(p1))
-        assertTrue(scene.getMutablePoints().contains(p2))
-
-        scene.removeFirstParticle()
-
-        assertFalse(scene.getMutablePoints().contains(p2))
+        // Then
+        assertEquals(0, underTest.particlesCount)
     }
 
     @Test
-    fun testClearPointsWithTwoPoints() {
-        val scene = ParticlesScene()
+    fun removeParticleWhenHasTwoParticles() {
+        underTest.setParticleData(
+                0,
+                1f,
+                2f,
+                3f,
+                4f,
+                5f,
+                6f
+        )
 
-        val p1 = Particle()
-        val p2 = Particle()
+        underTest.setParticleData(
+                1,
+                7f,
+                8f,
+                9f,
+                10f,
+                11f,
+                12f
+        )
 
-        scene.addParticleData(p1)
-        scene.addParticleData(p2)
+        underTest.removeLastParticle()
 
-        scene.clearParticles()
-        assertTrue(scene.getMutablePoints().isEmpty())
-    }
+        assertEquals(1, underTest.particlesCount)
 
-    @Test(expected = IllegalArgumentException::class)
-    fun testSetFrameDelayNegative() {
-        ParticlesScene().frameDelay = -1
-    }
+        underTest.removeLastParticle()
 
-    @Test
-    fun testSetFrameDelay() {
-        val s = ParticlesScene()
-        s.frameDelay = 1
-        assertEquals(1, s.frameDelay.toLong())
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testStepMultiplierNegative() {
-        ParticlesScene().stepMultiplier = -0.01f
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testStepMultiplierNAN() {
-        ParticlesScene().stepMultiplier = java.lang.Float.NaN
+        assertEquals(0, underTest.particlesCount)
     }
 
     @Test
-    fun testSetStepMultiplier() {
-        val s = ParticlesScene()
-        s.stepMultiplier = 0f
-        Assert.assertEquals(0, s.stepMultiplier, Config.ASSERT_DELTA)
+    fun clearParticlesWithTwoParticles() {
+        underTest.setParticleData(
+                0,
+                1f,
+                2f,
+                3f,
+                4f,
+                5f,
+                6f
+        )
+
+        underTest.setParticleData(
+                1,
+                7f,
+                8f,
+                9f,
+                10f,
+                11f,
+                12f
+        )
+
+        underTest.clearParticles()
+
+        assertEquals(0, underTest.particlesCount)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testSetDotRadiusRangeInvalidFirstArgument() {
-        ParticlesScene().setDotRadiusRange(0.49f, 1f)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testSetDotRadiusRangeInvalidSecondArgument() {
-        ParticlesScene().setDotRadiusRange(2f, 0f)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testSetDotRadiusRangeInvalidBothArguments() {
-        ParticlesScene().setDotRadiusRange(0.1f, -2f)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testSetDotRadiusRangeFirstArgumentNAN() {
-        ParticlesScene().setDotRadiusRange(java.lang.Float.NaN, 1f)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testSetDotRadiusRangeSecondArgumentNAN() {
-        ParticlesScene().setDotRadiusRange(1f, java.lang.Float.NaN)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testSetDotRadiusRangeBothArgumentsNAN() {
-        ParticlesScene().setDotRadiusRange(java.lang.Float.NaN, java.lang.Float.NaN)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testSetDotRadiusRangeMaxLessThanMin() {
-        ParticlesScene().setDotRadiusRange(0.7f, 0.6f)
+    fun crashesWhenSetFrameDelayToNegative() {
+        underTest.frameDelay = -1
     }
 
     @Test
-    fun testSetDotRadiusRange() {
-        val s = ParticlesScene()
-        s.setDotRadiusRange(0.5f, 0.6f)
-        Assert.assertEquals(0.5, s.minDotRadius, Config.ASSERT_DELTA)
-        Assert.assertEquals(0.6, s.maxDotRadius, Config.ASSERT_DELTA)
+    fun setsFrameDelay() {
+        underTest.frameDelay = 1
+        assertEquals(1, underTest.frameDelay.toLong())
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testSetLineThicknessInvalidArgument() {
-        ParticlesScene().lineThickness = 0.99f
+    fun crashesWhenSetStepMultiplierToNegative() {
+        underTest.stepMultiplier = -0.01f
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testSetLineThicknessNAN() {
-        ParticlesScene().lineThickness = java.lang.Float.NaN
+    fun crashesWhenSetMultiplierNAN() {
+        underTest.stepMultiplier = java.lang.Float.NaN
     }
 
     @Test
-    fun testSetLineThickness() {
-        val s = ParticlesScene()
-        s.lineThickness = 1f
-        Assert.assertEquals(1, s.lineThickness, Config.ASSERT_DELTA)
+    fun setsStepMultiplier() {
+        underTest.stepMultiplier = 1f
+        assertEquals(1f, underTest.stepMultiplier, ASSERT_DELTA)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testSetLineDistanceInvalidArgument() {
-        ParticlesScene().lineDistance = java.lang.Float.NEGATIVE_INFINITY
+    fun crashesWhenSetDotRadiusRangeInvalidFirstArgument() {
+        underTest.setDotRadiusRange(0.49f, 1f)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testSetLineDistanceNAN() {
-        ParticlesScene().lineDistance = java.lang.Float.NaN
-    }
-
-    @Test
-    fun testSetLineDistance() {
-        val s = ParticlesScene()
-        s.lineDistance = 0f
-        Assert.assertEquals(0, s.lineDistance, Config.ASSERT_DELTA)
+    fun crashesWhenSetDotRadiusRangeInvalidSecondArgument() {
+        underTest.setDotRadiusRange(2f, 0f)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testSetNumDotsInvalidArgument() {
-        ParticlesScene().numDots = -1
+    fun crashesWhenSetDotRadiusRangeInvalidBothArguments() {
+        underTest.setDotRadiusRange(0.1f, -2f)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetDotRadiusRangeFirstArgumentNAN() {
+        underTest.setDotRadiusRange(java.lang.Float.NaN, 1f)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetDotRadiusRangeSecondArgumentNAN() {
+        underTest.setDotRadiusRange(1f, java.lang.Float.NaN)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetDotRadiusRangeBothArgumentsNAN() {
+        underTest.setDotRadiusRange(java.lang.Float.NaN, java.lang.Float.NaN)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetDotRadiusRangeMaxLessThanMin() {
+        underTest.setDotRadiusRange(0.7f, 0.6f)
     }
 
     @Test
-    fun testSetNumDots() {
-        val s = ParticlesScene()
-        s.numDots = 0
-        assertEquals(0, s.numDots.toLong())
+    fun setsDotRadiusRange() {
+        underTest.setDotRadiusRange(0.5f, 0.6f)
+        assertEquals(0.5f, underTest.minDotRadius, ASSERT_DELTA)
+        assertEquals(0.6f, underTest.maxDotRadius, ASSERT_DELTA)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetLineThicknessInvalidArgument() {
+        underTest.lineThickness = 0.99f
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetLineThicknessNAN() {
+        underTest.lineThickness = java.lang.Float.NaN
     }
 
     @Test
-    fun testSetLineColor() {
-        val s = ParticlesScene()
-        s.lineColor = 2
-        assertEquals(2, s.lineColor.toLong())
+    fun setsLineThickness() {
+        underTest.lineThickness = 1f
+        assertEquals(1f, underTest.lineThickness, ASSERT_DELTA)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetLineDistanceInvalidArgument() {
+        underTest.lineDistance = java.lang.Float.NEGATIVE_INFINITY
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetLineDistanceNAN() {
+        underTest.lineDistance = java.lang.Float.NaN
+    }
+
+    @Test
+    fun setsLineDistance() {
+        underTest.lineDistance = 0f
+        assertEquals(0f, underTest.lineDistance, ASSERT_DELTA)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun crashesWhenSetNumDotsInvalidArgument() {
+        underTest.numDots = -1
+    }
+
+    @Test
+    fun setsNumDots() {
+        underTest.numDots = 2
+        assertEquals(2, underTest.numDots)
+    }
+
+    @Test
+    fun setsLineColor() {
+        underTest.lineColor = 2
+        assertEquals(2, underTest.lineColor)
     }
 }
