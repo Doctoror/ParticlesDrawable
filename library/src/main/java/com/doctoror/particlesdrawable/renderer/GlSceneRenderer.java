@@ -17,7 +17,6 @@ import com.doctoror.particlesdrawable.util.LineColorResolver;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -29,8 +28,6 @@ public final class GlSceneRenderer implements SceneRenderer {
     private static final int VERTICES_PER_PARTICLE = 6;
     private static final int VERTICES_PER_LINE = 2;
 
-    private final AtomicBoolean textureDirty = new AtomicBoolean();
-
     private final int[] textureHandle = new int[1];
 
     private FloatBuffer lineCoordinatesBuffer;
@@ -39,6 +36,8 @@ public final class GlSceneRenderer implements SceneRenderer {
 
     private ByteBuffer lineColorBuffer;
 
+    private volatile boolean textureDirty;
+
     private int lineCount;
 
     private GL10 gl;
@@ -46,7 +45,7 @@ public final class GlSceneRenderer implements SceneRenderer {
     private int texId;
 
     public void markTextureDirty() {
-        textureDirty.set(true);
+        textureDirty = true;
     }
 
     @NonNull
@@ -98,7 +97,7 @@ public final class GlSceneRenderer implements SceneRenderer {
     }
 
     private void reloadTextureIfDirty(final float maxParticleRadius) {
-        if (textureDirty.get()) {
+        if (textureDirty) {
             generateAndLoadTexture(maxParticleRadius);
         }
     }
@@ -127,7 +126,7 @@ public final class GlSceneRenderer implements SceneRenderer {
 
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, texture, 0);
 
-        textureDirty.set(false);
+        textureDirty = false;
     }
 
     public void setupViewport(@NonNull final GL10 gl, final int width, final int height) {
