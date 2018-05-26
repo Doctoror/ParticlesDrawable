@@ -54,8 +54,9 @@ public class ParticlesDrawable extends Drawable implements
         SceneScheduler {
 
     private final CanvasSceneRenderer canvasRenderer = new CanvasSceneRenderer();
+    private final ParticlesScene scene = new ParticlesScene();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasRenderer);
-    private final ScenePresenter presenter = new ScenePresenter(renderer, this);
+    private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
 
     @Override
     public void inflate(@NonNull final Resources r,
@@ -164,7 +165,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        presenter.setFrameDelay(delay);
+        scene.setFrameDelay(delay);
     }
 
     /**
@@ -172,7 +173,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public int getFrameDelay() {
-        return presenter.getFrameDelay();
+        return scene.getFrameDelay();
     }
 
     /**
@@ -180,7 +181,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        presenter.setStepMultiplier(stepMultiplier);
+        scene.setStepMultiplier(stepMultiplier);
     }
 
     /**
@@ -188,7 +189,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public float getStepMultiplier() {
-        return presenter.getStepMultiplier();
+        return scene.getStepMultiplier();
     }
 
     /**
@@ -197,7 +198,7 @@ public class ParticlesDrawable extends Drawable implements
     @Override
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
                                   @FloatRange(from = 0.5f) final float maxRadius) {
-        presenter.setDotRadiusRange(minRadius, maxRadius);
+        scene.setDotRadiusRange(minRadius, maxRadius);
     }
 
     /**
@@ -205,7 +206,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public float getMinDotRadius() {
-        return presenter.getMinDotRadius();
+        return scene.getMinDotRadius();
     }
 
     /**
@@ -213,7 +214,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public float getMaxDotRadius() {
-        return presenter.getMaxDotRadius();
+        return scene.getMaxDotRadius();
     }
 
     /**
@@ -221,7 +222,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        presenter.setLineThickness(lineThickness);
+        scene.setLineThickness(lineThickness);
     }
 
     /**
@@ -229,7 +230,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public float getLineThickness() {
-        return presenter.getLineThickness();
+        return scene.getLineThickness();
     }
 
     /**
@@ -237,7 +238,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        presenter.setLineDistance(lineDistance);
+        scene.setLineDistance(lineDistance);
     }
 
     /**
@@ -245,14 +246,14 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public float getLineDistance() {
-        return presenter.getLineDistance();
+        return scene.getLineDistance();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        presenter.setNumDots(newNum);
+        scene.setNumDots(newNum);
     }
 
     /**
@@ -260,14 +261,14 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public int getNumDots() {
-        return presenter.getNumDots();
+        return scene.getNumDots();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        presenter.setDotColor(dotColor);
+        scene.setDotColor(dotColor);
     }
 
     /**
@@ -275,7 +276,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public int getDotColor() {
-        return presenter.getDotColor();
+        return scene.getDotColor();
     }
 
     /**
@@ -283,7 +284,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public void setLineColor(@ColorInt final int lineColor) {
-        presenter.setLineColor(lineColor);
+        scene.setLineColor(lineColor);
     }
 
     /**
@@ -291,6 +292,6 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public int getLineColor() {
-        return presenter.getLineColor();
+        return scene.getLineColor();
     }
 }

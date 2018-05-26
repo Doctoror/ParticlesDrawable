@@ -63,8 +63,9 @@ public class ParticlesView extends View implements
         SceneScheduler {
 
     private final CanvasSceneRenderer canvasSceneRenderer = new CanvasSceneRenderer();
+    private final ParticlesScene scene = new ParticlesScene();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasSceneRenderer);
-    private final ScenePresenter presenter = new ScenePresenter(renderer, this);
+    private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -149,7 +150,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        presenter.setFrameDelay(delay);
+        scene.setFrameDelay(delay);
     }
 
     /**
@@ -157,7 +158,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public int getFrameDelay() {
-        return presenter.getFrameDelay();
+        return scene.getFrameDelay();
     }
 
     /**
@@ -165,7 +166,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        presenter.setStepMultiplier(stepMultiplier);
+        scene.setStepMultiplier(stepMultiplier);
     }
 
     /**
@@ -173,7 +174,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public float getStepMultiplier() {
-        return presenter.getStepMultiplier();
+        return scene.getStepMultiplier();
     }
 
     /**
@@ -181,7 +182,7 @@ public class ParticlesView extends View implements
      */
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
                                   @FloatRange(from = 0.5f) final float maxRadius) {
-        presenter.setDotRadiusRange(minRadius, maxRadius);
+        scene.setDotRadiusRange(minRadius, maxRadius);
     }
 
     /**
@@ -189,7 +190,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public float getMinDotRadius() {
-        return presenter.getMinDotRadius();
+        return scene.getMinDotRadius();
     }
 
     /**
@@ -197,14 +198,14 @@ public class ParticlesView extends View implements
      */
     @Override
     public float getMaxDotRadius() {
-        return presenter.getMaxDotRadius();
+        return scene.getMaxDotRadius();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        presenter.setLineThickness(lineThickness);
+        scene.setLineThickness(lineThickness);
     }
 
     /**
@@ -212,14 +213,14 @@ public class ParticlesView extends View implements
      */
     @Override
     public float getLineThickness() {
-        return presenter.getLineThickness();
+        return scene.getLineThickness();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        presenter.setLineDistance(lineDistance);
+        scene.setLineDistance(lineDistance);
     }
 
     /**
@@ -227,14 +228,14 @@ public class ParticlesView extends View implements
      */
     @Override
     public float getLineDistance() {
-        return presenter.getLineDistance();
+        return scene.getLineDistance();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        presenter.setNumDots(newNum);
+        scene.setNumDots(newNum);
     }
 
     /**
@@ -242,14 +243,14 @@ public class ParticlesView extends View implements
      */
     @Override
     public int getNumDots() {
-        return presenter.getNumDots();
+        return scene.getNumDots();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        presenter.setDotColor(dotColor);
+        scene.setDotColor(dotColor);
     }
 
     /**
@@ -257,14 +258,14 @@ public class ParticlesView extends View implements
      */
     @Override
     public int getDotColor() {
-        return presenter.getDotColor();
+        return scene.getDotColor();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLineColor(@ColorInt final int lineColor) {
-        presenter.setLineColor(lineColor);
+        scene.setLineColor(lineColor);
     }
 
     /**
@@ -272,7 +273,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public int getLineColor() {
-        return presenter.getLineColor();
+        return scene.getLineColor();
     }
 
     @Override

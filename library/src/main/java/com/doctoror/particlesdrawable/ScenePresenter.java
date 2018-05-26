@@ -3,14 +3,10 @@ package com.doctoror.particlesdrawable;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.SystemClock;
-import android.support.annotation.ColorInt;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
-import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
@@ -20,7 +16,7 @@ import java.util.Random;
 /**
  * Particles Scene Controller
  */
-final class ScenePresenter implements Runnable, SceneController, SceneConfiguration {
+final class ScenePresenter implements Runnable, SceneController {
 
     /**
      * Path calculation padding.
@@ -31,10 +27,12 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
             TypedValue.COMPLEX_UNIT_DIP, 18f, Resources.getSystem().getDisplayMetrics());
 
     private static final float STEP_PER_MS = 0.05f;
-
-    private final ParticlesScene mScene = new ParticlesScene();
-
+    
     private final Random mRandom = new Random();
+
+    private final ParticlesScene scene;
+    private final SceneRenderer renderer;
+    private final SceneScheduler scheduler;
 
     private boolean mParticlesInited;
 
@@ -43,11 +41,11 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
 
     private boolean mAnimating;
 
-    private final SceneRenderer renderer;
-    private final SceneScheduler scheduler;
-
-    ScenePresenter(@NonNull final SceneRenderer renderer,
-                   @NonNull final SceneScheduler scheduler) {
+    ScenePresenter(
+            @NonNull final ParticlesScene scene,
+            @NonNull final SceneRenderer renderer,
+            @NonNull final SceneScheduler scheduler) {
+        this.scene = scene;
         this.renderer = renderer;
         this.scheduler = scheduler;
     }
@@ -79,28 +77,28 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
                 maxDotRadius = a.getDimension(attr, Defaults.DEFAULT_MAX_DOT_RADIUS);
 
             } else if (attr == R.styleable.ParticlesView_lineThickness) {
-                setLineThickness(a.getDimension(attr, Defaults.DEFAULT_LINE_THICKNESS));
+                scene.setLineThickness(a.getDimension(attr, Defaults.DEFAULT_LINE_THICKNESS));
 
             } else if (attr == R.styleable.ParticlesView_lineDistance) {
-                setLineDistance(a.getDimension(attr, Defaults.DEFAULT_LINE_DISTANCE));
+                scene.setLineDistance(a.getDimension(attr, Defaults.DEFAULT_LINE_DISTANCE));
 
             } else if (attr == R.styleable.ParticlesView_numDots) {
-                setNumDots(a.getInteger(attr, Defaults.DEFAULT_DOT_NUMBER));
+                scene.setNumDots(a.getInteger(attr, Defaults.DEFAULT_DOT_NUMBER));
 
             } else if (attr == R.styleable.ParticlesView_dotColor) {
-                setDotColor(a.getColor(attr, Defaults.DEFAULT_DOT_COLOR));
+                scene.setDotColor(a.getColor(attr, Defaults.DEFAULT_DOT_COLOR));
 
             } else if (attr == R.styleable.ParticlesView_lineColor) {
-                setLineColor(a.getColor(attr, Defaults.DEFAULT_LINE_COLOR));
+                scene.setLineColor(a.getColor(attr, Defaults.DEFAULT_LINE_COLOR));
 
             } else if (attr == R.styleable.ParticlesView_frameDelayMillis) {
-                setFrameDelay(a.getInteger(attr, Defaults.DEFAULT_DELAY));
+                scene.setFrameDelay(a.getInteger(attr, Defaults.DEFAULT_DELAY));
 
             } else if (attr == R.styleable.ParticlesView_stepMultiplier) {
-                setStepMultiplier(a.getFloat(attr, Defaults.DEFAULT_STEP_MULTIPLIER));
+                scene.setStepMultiplier(a.getFloat(attr, Defaults.DEFAULT_STEP_MULTIPLIER));
             }
         }
-        setDotRadiusRange(minDotRadius, maxDotRadius);
+        scene.setDotRadiusRange(minDotRadius, maxDotRadius);
     }
 
     private void resetLastFrameTime() {
@@ -110,15 +108,15 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
     private void gotoNextFrameAndSchedule() {
         nextFrame();
         getViewScheduler()
-                .scheduleNextFrame(Math.max(mScene.getFrameDelay() - mLastDrawDuration, 5L));
+                .scheduleNextFrame(Math.max(scene.getFrameDelay() - mLastDrawDuration, 5L));
     }
 
     void setAlpha(final int alpha) {
-        mScene.setAlpha(alpha);
+        scene.setAlpha(alpha);
     }
 
     int getAlpha() {
-        return mScene.getAlpha();
+        return scene.getAlpha();
     }
 
     void start() {
@@ -151,7 +149,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
 
     void draw() {
         final long startTime = SystemClock.uptimeMillis();
-        renderer.drawScene(mScene);
+        renderer.drawScene(scene);
         mLastDrawDuration = SystemClock.uptimeMillis() - startTime;
     }
 
@@ -160,7 +158,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      */
     @Override
     public void makeBrandNewFrame() {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
             initParticles();
@@ -172,157 +170,15 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
             initParticlesOffScreen();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        mScene.setFrameDelay(delay);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getFrameDelay() {
-        return mScene.getFrameDelay();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        mScene.setStepMultiplier(stepMultiplier);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getStepMultiplier() {
-        return mScene.getStepMultiplier();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
-                                  @FloatRange(from = 0.5f) final float maxRadius) {
-        mScene.setDotRadiusRange(minRadius, maxRadius);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getMinDotRadius() {
-        return mScene.getMinDotRadius();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getMaxDotRadius() {
-        return mScene.getMaxDotRadius();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        mScene.setLineThickness(lineThickness);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getLineThickness() {
-        return mScene.getLineThickness();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        mScene.setLineDistance(lineDistance);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getLineDistance() {
-        return mScene.getLineDistance();
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setNumDots(@IntRange(from = 0) final int newNum) {
-        if (newNum < 0) {
-            throw new IllegalArgumentException("numPoints must not be negative");
-        }
-
-        mScene.setNumDots(newNum);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getNumDots() {
-        return mScene.getNumDots();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setDotColor(@ColorInt final int dotColor) {
-        mScene.setDotColor(dotColor);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getDotColor() {
-        return mScene.getDotColor();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLineColor(@ColorInt final int lineColor) {
-        mScene.setLineColor(lineColor);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getLineColor() {
-        return mScene.getLineColor();
-    }
-
     void setBounds(final int left, final int top, final int right, final int bottom) {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         model.setWidth(right - left);
         model.setHeight(bottom - top);
         if (right - left > 0 && bottom - top > 0) {
@@ -358,7 +214,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
     }
 
     private void initParticles(@NonNull final ParticleCreationStrategy strategy) {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot init points if width or height is 0");
         }
@@ -370,7 +226,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
     private void addNewParticle(
             final int position,
             final boolean onScreen) {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot make new point if width or height is 0");
         }
@@ -388,7 +244,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      * @param position the point position to apply new values to
      */
     private void applyFreshParticleOnScreen(final int position) {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         final int w = model.getWidth();
         final int h = model.getHeight();
         if (w == 0 || h == 0) {
@@ -418,7 +274,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      */
     @Override
     public void nextFrame() {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         final float step = mLastFrameTime == 0 ? 1f
                 : (SystemClock.uptimeMillis() - mLastFrameTime) * STEP_PER_MS;
 
@@ -462,7 +318,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      * @return new dot radius
      */
     private float newRandomIndividualDotRadius() {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         return model.getMinDotRadius() == model.getMaxDotRadius() ?
                 model.getMinDotRadius() : model.getMinDotRadius()
                 + (mRandom.nextInt(
@@ -475,7 +331,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      * @param position the particle position to apply new values to
      */
     private void applyFreshParticleOffScreen(final int position) {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         final int w = model.getWidth();
         final int h = model.getHeight();
         if (w == 0 || h == 0) {
@@ -561,7 +417,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
      * closest point on-screen
      */
     private boolean pointOutOfBounds(final float x, final float y) {
-        final ParticlesScene model = mScene;
+        final ParticlesScene model = scene;
         final float offset = model.getMinDotRadius() + model.getLineDistance();
         return x + offset < 0 || x - offset > model.getWidth()
                 || y + offset < 0 || y - offset > model.getHeight();

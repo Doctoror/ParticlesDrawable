@@ -17,7 +17,8 @@ package com.doctoror.particlesdrawable
 
 import com.doctoror.particlesdrawable.contract.SceneRenderer
 import com.doctoror.particlesdrawable.contract.SceneScheduler
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
@@ -28,138 +29,76 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class ScenePresenterTest {
 
-    private fun newScenePresenter(): ScenePresenter {
-        return ScenePresenter(mock(SceneRenderer::class.java), mock(SceneScheduler::class.java))
-    }
+    private val scene = ParticlesScene()
+
+    private val underTest = ScenePresenter(
+            scene,
+            mock(SceneRenderer::class.java),
+            mock(SceneScheduler::class.java))
 
     @Test
     fun testIsRunningByDefault() {
-        assertFalse(newScenePresenter().isRunning)
+        assertFalse(underTest.isRunning)
     }
 
     @Test
     fun testIsRunningWhenStarted() {
-        val c = newScenePresenter()
-        c.setBounds(0, 0, 10, 10)
-        c.start()
+        underTest.setBounds(0, 0, 10, 10)
+        underTest.start()
         try {
-            assertTrue(c.isRunning)
+            assertTrue(underTest.isRunning)
         } finally {
-            c.stop()
+            underTest.stop()
         }
     }
 
     @Test
     fun testIsStopedWhenStopped() {
-        val c = newScenePresenter()
-        c.setBounds(0, 0, 10, 10)
-        c.start()
-        c.stop()
-        assertFalse(c.isRunning)
+        underTest.setBounds(0, 0, 10, 10)
+        underTest.start()
+        underTest.stop()
+        assertFalse(underTest.isRunning)
     }
 
     @Test
     fun testSetBoundsWhenRunning() {
-        val c = newScenePresenter()
-        c.start()
-        c.setBounds(0, 0, 10, 10)
-        c.stop()
+        underTest.start()
+        underTest.setBounds(0, 0, 10, 10)
+        underTest.stop()
     }
 
     @Test
     fun testWithZeroBounds() {
-        val c = newScenePresenter()
-        c.setBounds(0, 0, 0, 0)
-        c.start()
-        assertTrue(c.isRunning)
-        c.stop()
-        assertFalse(c.isRunning)
+        underTest.setBounds(0, 0, 0, 0)
+        underTest.start()
+        assertTrue(underTest.isRunning)
+        underTest.stop()
+        assertFalse(underTest.isRunning)
     }
 
     @Test
     fun testMakeBrandNewFrameWithZeroBounds() {
-        val c = newScenePresenter()
-        c.makeBrandNewFrame()
+        underTest.makeBrandNewFrame()
     }
 
     @Test
     fun testMakeBrandNewFrame() {
-        val c = newScenePresenter()
-        c.setBounds(0, 0, 10, 10)
-        c.makeBrandNewFrame()
+        underTest.setBounds(0, 0, 10, 10)
+        underTest.makeBrandNewFrame()
     }
 
     @Test
     fun testMakeBrandNewFrameWhenRunning() {
-        val c = newScenePresenter()
-        c.setBounds(0, 0, 10, 10)
-        c.start()
-        c.makeBrandNewFrame()
-        c.stop()
+        underTest.setBounds(0, 0, 10, 10)
+        underTest.start()
+        underTest.makeBrandNewFrame()
+        underTest.stop()
     }
 
     @Test
     fun testDotRadiusRangeThatRoundsUpToTheSameInt() {
-        val c = newScenePresenter()
-        c.setBounds(0, 0, 10, 10)
-        c.setDotRadiusRange(0.5f, 0.6f)
-        c.makeBrandNewFrame()
-    }
-
-    @Test
-    fun testSetFrameDelay() {
-        val s = newScenePresenter()
-        s.frameDelay = 1
-        assertEquals(1, s.frameDelay.toLong())
-    }
-
-    @Test
-    fun testSetStepMultiplier() {
-        val s = newScenePresenter()
-        s.stepMultiplier = 0f
-        assertEquals(0.0f, s.stepMultiplier, ASSERT_DELTA)
-    }
-
-    @Test
-    fun testSetDotRadiusRange() {
-        val s = newScenePresenter()
-        s.setDotRadiusRange(0.5f, 0.6f)
-        assertEquals(0.5f, s.minDotRadius, ASSERT_DELTA)
-        assertEquals(0.6f, s.maxDotRadius, ASSERT_DELTA)
-    }
-
-    @Test
-    fun testSetLineThickness() {
-        val s = newScenePresenter()
-        s.lineThickness = 1f
-        assertEquals(1.0f, s.lineThickness, ASSERT_DELTA)
-    }
-
-    @Test
-    fun testSetLineDistance() {
-        val s = newScenePresenter()
-        s.lineDistance = 0f
-        assertEquals(0.0f, s.lineDistance, ASSERT_DELTA)
-    }
-
-    @Test
-    fun testSetNumDots() {
-        val s = newScenePresenter()
-        s.numDots = 0
-        assertEquals(0, s.numDots)
-    }
-
-    @Test
-    fun testSetLineColor() {
-        val s = newScenePresenter()
-        s.lineColor = 2
-        assertEquals(2, s.lineColor)
-    }
-
-    @Test
-    fun testSetDotColor() {
-        val s = newScenePresenter()
-        s.dotColor = 3
-        assertEquals(3, s.dotColor)
+        underTest.setBounds(0, 0, 10, 10)
+        scene.setDotRadiusRange(0.5f, 0.6f)
+        underTest.makeBrandNewFrame()
     }
 }
