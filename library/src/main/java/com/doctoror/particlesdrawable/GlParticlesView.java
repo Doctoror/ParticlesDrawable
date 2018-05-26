@@ -22,6 +22,7 @@ import android.view.ViewParent;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
+import com.doctoror.particlesdrawable.renderer.GlSceneRenderer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

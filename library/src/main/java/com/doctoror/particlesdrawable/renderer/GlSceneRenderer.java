@@ -1,4 +1,4 @@
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.renderer;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,6 +9,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.util.DistanceResolver;
 import com.doctoror.particlesdrawable.util.LineColorResolver;
@@ -19,7 +20,7 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-final class GlSceneRenderer implements SceneRenderer {
+public final class GlSceneRenderer implements SceneRenderer {
 
     private static final int BYTES_PER_FLOAT = 4;
     private static final int COORDINATES_PER_VERTEX = 2;
