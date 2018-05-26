@@ -22,8 +22,6 @@ import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.Locale;
 
@@ -32,7 +30,6 @@ import java.util.Locale;
  */
 public final class ParticlesScene implements SceneConfiguration {
 
-    private static final int BYTES_PER_FLOAT = 4;
     private static final int COORDINATES_PER_VERTEX = 2;
 
     private float mMinDotRadius = Defaults.DEFAULT_MIN_DOT_RADIUS;
@@ -333,12 +330,9 @@ public final class ParticlesScene implements SceneConfiguration {
     }
 
     private void initCoordinates(final int dotCount) {
-        final int floatCapacity = dotCount * COORDINATES_PER_VERTEX;
-        if (mCoordinates == null || mCoordinates.capacity() != floatCapacity) {
-            final ByteBuffer coordinatesByteBuffer = ByteBuffer.allocateDirect(
-                    floatCapacity * BYTES_PER_FLOAT);
-            coordinatesByteBuffer.order(ByteOrder.nativeOrder());
-            mCoordinates = coordinatesByteBuffer.asFloatBuffer();
+        final int capacity = dotCount * COORDINATES_PER_VERTEX;
+        if (mCoordinates == null || mCoordinates.capacity() != capacity) {
+            mCoordinates = FloatBuffer.allocate(capacity);
         }
     }
 
