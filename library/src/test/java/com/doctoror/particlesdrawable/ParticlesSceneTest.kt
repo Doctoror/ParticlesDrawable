@@ -28,11 +28,6 @@ class ParticlesSceneTest {
     private val underTest = ParticlesScene()
 
     @Test
-    fun particlesEmptyByDefault() {
-        assertEquals(0, underTest.particlesCount)
-    }
-
-    @Test
     fun addTwoParticles() {
         // When
         underTest.setParticleData(
@@ -56,8 +51,6 @@ class ParticlesSceneTest {
         )
 
         // Then
-        assertEquals(2, underTest.particlesCount)
-
         assertEquals(1f, underTest.getParticleX(0))
         assertEquals(2f, underTest.getParticleY(0))
         assertEquals(3f, underTest.getParticleDirectionCos(0))
@@ -71,73 +64,6 @@ class ParticlesSceneTest {
         assertEquals(10f, underTest.getParticleDirectionSin(1))
         assertEquals(11f, underTest.radiuses.get(1))
         assertEquals(12f, underTest.getParticleStepMultiplier(1))
-    }
-
-    @Test
-    fun doesNotDecreaseParticleCountIfRemovingWhenEmpty() {
-        // When
-        underTest.removeLastParticle()
-
-        // Then
-        assertEquals(0, underTest.particlesCount)
-    }
-
-    @Test
-    fun removeParticleWhenHasTwoParticles() {
-        underTest.setParticleData(
-                0,
-                1f,
-                2f,
-                3f,
-                4f,
-                5f,
-                6f
-        )
-
-        underTest.setParticleData(
-                1,
-                7f,
-                8f,
-                9f,
-                10f,
-                11f,
-                12f
-        )
-
-        underTest.removeLastParticle()
-
-        assertEquals(1, underTest.particlesCount)
-
-        underTest.removeLastParticle()
-
-        assertEquals(0, underTest.particlesCount)
-    }
-
-    @Test
-    fun clearParticlesWithTwoParticles() {
-        underTest.setParticleData(
-                0,
-                1f,
-                2f,
-                3f,
-                4f,
-                5f,
-                6f
-        )
-
-        underTest.setParticleData(
-                1,
-                7f,
-                8f,
-                9f,
-                10f,
-                11f,
-                12f
-        )
-
-        underTest.clearParticles()
-
-        assertEquals(0, underTest.particlesCount)
     }
 
     @Test(expected = IllegalArgumentException::class)

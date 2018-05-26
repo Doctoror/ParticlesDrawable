@@ -44,7 +44,7 @@ public final class DefaultSceneRenderer implements SceneRenderer {
             );
 
             final FloatBuffer radiuses = scene.getRadiuses();
-            final int particlesCount = scene.getParticlesCount();
+            final int particlesCount = scene.getNumDots();
             for (int i = 0; i < particlesCount; i++) {
 
                 final float x1 = scene.getParticleX(i);

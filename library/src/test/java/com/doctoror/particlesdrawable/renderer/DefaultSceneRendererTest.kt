@@ -61,7 +61,6 @@ class DefaultSceneRendererTest {
 
         val scene: ParticlesScene = mock {
             on { it.numDots }.doReturn(1)
-            on { it.particlesCount }.thenReturn(1)
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(color)
             on { it.getParticleX(0) }.doReturn(x)
@@ -103,7 +102,6 @@ class DefaultSceneRendererTest {
 
         val scene: ParticlesScene = mock {
             on { it.numDots }.doReturn(2)
-            on { it.particlesCount }.thenReturn(2)
 
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(color)
@@ -155,7 +153,6 @@ class DefaultSceneRendererTest {
 
         val scene: ParticlesScene = mock {
             on { it.numDots }.doReturn(2)
-            on { it.particlesCount }.thenReturn(2)
 
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(particleColor)
@@ -224,7 +221,6 @@ class DefaultSceneRendererTest {
 
         val scene: ParticlesScene = mock {
             on { it.numDots }.doReturn(3)
-            on { it.particlesCount }.thenReturn(3)
 
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(particleColor)

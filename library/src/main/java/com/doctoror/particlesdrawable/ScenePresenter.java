@@ -278,22 +278,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
             throw new IllegalArgumentException("numPoints must not be negative");
         }
 
-        final ParticlesScene model = mScene;
-        final int prevNumDots = model.getNumDots();
-        if (newNum != prevNumDots) {
-            if (mParticlesInited) {
-                if (newNum > prevNumDots) {
-                    for (int i = prevNumDots; i < newNum; i++) {
-                        addNewParticle(false);
-                    }
-                } else {
-                    for (int i = 0; i < prevNumDots - newNum; i++) {
-                        model.removeLastParticle();
-                    }
-                }
-            }
-            model.setNumDots(newNum);
-        }
+        mScene.setNumDots(newNum);
     }
 
     /**
@@ -348,7 +333,6 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
         } else {
             if (mParticlesInited) {
                 mParticlesInited = false;
-                mScene.clearParticles();
             }
         }
     }
@@ -358,7 +342,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
 
             @Override
             public void addNewParticle(final int position) {
-                ScenePresenter.this.addNewParticle(position % 2 == 0);
+                ScenePresenter.this.addNewParticle(position, position % 2 == 0);
             }
         });
     }
@@ -368,7 +352,7 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
 
             @Override
             public void addNewParticle(final int position) {
-                ScenePresenter.this.addNewParticle(false);
+                ScenePresenter.this.addNewParticle(position, false);
             }
         });
     }
@@ -378,22 +362,23 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot init points if width or height is 0");
         }
-        model.clearParticles();
         for (int i = 0; i < model.getNumDots(); i++) {
             strategy.addNewParticle(i);
         }
     }
 
-    private void addNewParticle(final boolean onScreen) {
+    private void addNewParticle(
+            final int position,
+            final boolean onScreen) {
         final ParticlesScene model = mScene;
         if (model.getWidth() == 0 || model.getHeight() == 0) {
             throw new IllegalStateException("Cannot make new point if width or height is 0");
         }
 
         if (onScreen) {
-            applyFreshParticleOnScreen(model.getParticlesCount());
+            applyFreshParticleOnScreen(position);
         } else {
-            applyFreshParticleOffScreen(model.getParticlesCount());
+            applyFreshParticleOffScreen(position);
         }
     }
 
@@ -437,8 +422,8 @@ final class ScenePresenter implements Runnable, SceneController, SceneConfigurat
         final float step = mLastFrameTime == 0 ? 1f
                 : (SystemClock.uptimeMillis() - mLastFrameTime) * STEP_PER_MS;
 
-        final int pointsSize = model.getParticlesCount();
-        for (int i = 0; i < pointsSize; i++) {
+        final int particlesCount = model.getNumDots();
+        for (int i = 0; i < particlesCount; i++) {
             float x = model.getParticleX(i);
             float y = model.getParticleY(i);
 

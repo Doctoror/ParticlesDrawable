@@ -68,8 +68,6 @@ public final class ParticlesScene implements SceneConfiguration {
     private FloatBuffer mRadiuses;
     private FloatBuffer mStepMultipliers;
 
-    private int mParticlesCount;
-
     ParticlesScene() {
         initBuffers(mNumDots);
     }
@@ -82,10 +80,6 @@ public final class ParticlesScene implements SceneConfiguration {
     @NonNull
     public FloatBuffer getRadiuses() {
         return mRadiuses;
-    }
-
-    public int getParticlesCount() {
-        return mParticlesCount;
     }
 
     void setWidth(final int width) {
@@ -104,12 +98,6 @@ public final class ParticlesScene implements SceneConfiguration {
         return mHeight;
     }
 
-    void removeLastParticle() {
-        if (mParticlesCount != 0) {
-            mParticlesCount--;
-        }
-    }
-
     void setParticleData(
             final int position,
             final float x,
@@ -118,13 +106,6 @@ public final class ParticlesScene implements SceneConfiguration {
             final float dSin,
             final float radius,
             final float stepMultiplier) {
-        if (position == mParticlesCount) {
-            mParticlesCount++;
-        } else if (position > mParticlesCount) {
-            throw new IllegalArgumentException("Attempt to set point at position: " + position
-                    + ", points count = " + mParticlesCount);
-        }
-
         setParticleX(position, x);
         setParticleY(position, y);
 
@@ -169,10 +150,6 @@ public final class ParticlesScene implements SceneConfiguration {
 
     private void setParticleDirectionSin(final int position, final float direction) {
         mDirections.put(position * 2 + 1, direction);
-    }
-
-    void clearParticles() {
-        mParticlesCount = 0;
     }
 
     void setAlpha(final int alpha) {
