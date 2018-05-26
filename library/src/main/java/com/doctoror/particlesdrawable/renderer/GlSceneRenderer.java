@@ -204,7 +204,6 @@ public final class GlSceneRenderer implements SceneRenderer {
     @Override
     public void drawScene(
             @NonNull final ParticlesScene scene) {
-        gl.glPointSize(scene.getMaxDotRadius() * 2f);
         gl.glLineWidth(scene.getLineThickness());
 
         initBuffers(scene.getParticlesCount());
