@@ -17,6 +17,7 @@ import com.doctoror.particlesdrawable.util.LineColorResolver;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -27,6 +28,8 @@ public final class GlSceneRenderer implements SceneRenderer {
     private static final int COLOR_BYTES_PER_VERTEX = 4;
     private static final int VERTICES_PER_PARTICLE = 6;
     private static final int VERTICES_PER_LINE = 2;
+
+    private final AtomicBoolean textureDirty = new AtomicBoolean();
 
     private final int[] textureHandle = new int[1];
 
@@ -40,11 +43,14 @@ public final class GlSceneRenderer implements SceneRenderer {
 
     private GL10 gl;
 
-    private Bitmap particleTexture;
-
     private int texId;
 
-    public void generateParticleTexture(final float maxPointRadius) {
+    public void markTextureDirty() {
+        textureDirty.set(true);
+    }
+
+    @NonNull
+    private Bitmap generateParticleTexture(final float maxPointRadius) {
         final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         paint.setColor(Color.WHITE);
 
@@ -53,11 +59,7 @@ public final class GlSceneRenderer implements SceneRenderer {
         final Canvas canvas = new Canvas(bitmap);
         canvas.drawCircle(maxPointRadius, maxPointRadius, maxPointRadius, paint);
 
-        particleTexture = bitmap;
-
-        if (gl != null) {
-            loadParticleTexture(gl, bitmap);
-        }
+        return bitmap;
     }
 
     public void setClearColor(
@@ -84,20 +86,35 @@ public final class GlSceneRenderer implements SceneRenderer {
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         gl.glOrthof(0, width, 0, height, 1, -1);
 
-        if (particleTexture != null) {
-            loadParticleTexture(gl, particleTexture);
-        }
+        gl.glEnable(GL10.GL_TEXTURE_2D);
 
+        markTextureDirty();
+    }
+
+    private void generateAndLoadTexture(final float maxParticleRadius) {
+        final Bitmap texture = generateParticleTexture(maxParticleRadius);
+        loadParticleTexture(gl, texture);
+        texture.recycle();
+    }
+
+    private void reloadTextureIfDirty(final float maxParticleRadius) {
+        if (textureDirty.get()) {
+            generateAndLoadTexture(maxParticleRadius);
+        }
+    }
+
+    public void setGl(@Nullable final GL10 gl) {
         this.gl = gl;
     }
 
     private void loadParticleTexture(
             @NonNull final GL10 gl,
             @NonNull final Bitmap texture) {
-        gl.glEnable(GL10.GL_TEXTURE_2D);
+        gl.glDeleteTextures(1, textureHandle, 0);
 
         gl.glGenTextures(1, textureHandle, 0);
         texId = textureHandle[0];
+
         gl.glBindTexture(GL10.GL_TEXTURE_2D, texId);
 
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
@@ -109,14 +126,12 @@ public final class GlSceneRenderer implements SceneRenderer {
         gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE);
 
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, texture, 0);
+
+        textureDirty.set(false);
     }
 
     public void setupViewport(@NonNull final GL10 gl, final int width, final int height) {
         gl.glViewport(0, 0, width, height);
-    }
-
-    public void setGl(@Nullable final GL10 gl) {
-        this.gl = gl;
     }
 
     private void initBuffers(final int vertexCount) {
@@ -193,6 +208,7 @@ public final class GlSceneRenderer implements SceneRenderer {
         gl.glLineWidth(scene.getLineThickness());
 
         initBuffers(scene.getParticlesCount());
+        reloadTextureIfDirty(scene.getMaxDotRadius());
         resolveLines(scene);
         resolveParticleTriangles(scene);
 

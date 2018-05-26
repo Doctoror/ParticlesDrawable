@@ -82,7 +82,7 @@ public class GlParticlesView extends GLSurfaceView implements
             array.recycle();
         }
 
-        renderer.generateParticleTexture(presenter.getMaxDotRadius());
+        renderer.markTextureDirty();
     }
 
     /**
@@ -176,7 +176,7 @@ public class GlParticlesView extends GLSurfaceView implements
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
                                   @FloatRange(from = 0.5f) final float maxRadius) {
         presenter.setDotRadiusRange(minRadius, maxRadius);
-        renderer.generateParticleTexture(maxRadius);
+        renderer.markTextureDirty();
     }
 
     /**
