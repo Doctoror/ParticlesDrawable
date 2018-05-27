@@ -30,11 +30,11 @@ public final class GlSceneRenderer implements SceneRenderer {
 
     private final int[] textureHandle = new int[1];
 
+    private ByteBuffer lineColorBuffer;
     private FloatBuffer lineCoordinatesBuffer;
+
     private FloatBuffer particlesTrianglesCoordinates;
     private ByteBuffer particlesTexturesCoordinates;
-
-    private ByteBuffer lineColorBuffer;
 
     private volatile boolean textureDirty;
 
@@ -49,9 +49,11 @@ public final class GlSceneRenderer implements SceneRenderer {
     }
 
     @NonNull
-    private Bitmap generateParticleTexture(final float maxPointRadius) {
+    private Bitmap generateParticleTexture(
+            @ColorInt final int color,
+            final float maxPointRadius) {
         final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        paint.setColor(Color.WHITE);
+        paint.setColor(color);
 
         final int size = (int) (maxPointRadius * 2f);
         final Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_4444);
@@ -85,15 +87,19 @@ public final class GlSceneRenderer implements SceneRenderer {
         markTextureDirty();
     }
 
-    private void generateAndLoadTexture(final float maxParticleRadius) {
-        final Bitmap texture = generateParticleTexture(maxParticleRadius);
+    private void generateAndLoadTexture(
+            @ColorInt final int color,
+            final float maxParticleRadius) {
+        final Bitmap texture = generateParticleTexture(color, maxParticleRadius);
         loadParticleTexture(gl, texture);
         texture.recycle();
     }
 
-    private void reloadTextureIfDirty(final float maxParticleRadius) {
+    private void reloadTextureIfDirty(
+            @ColorInt final int color,
+            final float maxParticleRadius) {
         if (textureDirty) {
-            generateAndLoadTexture(maxParticleRadius);
+            generateAndLoadTexture(color, maxParticleRadius);
         }
     }
 
@@ -127,6 +133,10 @@ public final class GlSceneRenderer implements SceneRenderer {
     public void setDimensions(@NonNull final GL10 gl, final int width, final int height) {
         gl.glViewport(0, 0, width, height);
         gl.glOrthof(0, width, 0, height, 1, -1);
+    }
+
+    public void recycle(@NonNull final GL10 gl) {
+        gl.glDeleteTextures(1, textureHandle, 0);
     }
 
     private void initBuffers(final int vertexCount) {
@@ -198,14 +208,13 @@ public final class GlSceneRenderer implements SceneRenderer {
         gl.glLineWidth(scene.getLineThickness());
 
         initBuffers(scene.getNumDots());
-        reloadTextureIfDirty(scene.getMaxDotRadius());
+        reloadTextureIfDirty(scene.getDotColor(), scene.getMaxDotRadius());
         resolveLines(scene);
         resolveParticleTriangles(scene);
 
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         drawLines();
-
         drawParticles(scene.getNumDots());
     }
 
@@ -321,7 +330,6 @@ public final class GlSceneRenderer implements SceneRenderer {
     }
 
     private void drawParticles(final int count) {
-
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 
