@@ -70,11 +70,7 @@ public final class GlSceneRenderer implements SceneRenderer {
                 Color.blue(color) / 255f, 0f);
     }
 
-    public void setupGl(
-            @NonNull final GL10 gl,
-            final int width,
-            final int height) {
-        setupViewport(gl, width, height);
+    public void setupGl(@NonNull final GL10 gl) {
         gl.glMatrixMode(GL10.GL_PROJECTION);
         gl.glLoadIdentity();
 
@@ -83,7 +79,6 @@ public final class GlSceneRenderer implements SceneRenderer {
 
         gl.glEnable(GL10.GL_BLEND);
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-        gl.glOrthof(0, width, 0, height, 1, -1);
 
         gl.glEnable(GL10.GL_TEXTURE_2D);
 
@@ -129,8 +124,9 @@ public final class GlSceneRenderer implements SceneRenderer {
         textureDirty = false;
     }
 
-    public void setupViewport(@NonNull final GL10 gl, final int width, final int height) {
+    public void setDimensions(@NonNull final GL10 gl, final int width, final int height) {
         gl.glViewport(0, 0, width, height);
+        gl.glOrthof(0, width, 0, height, 1, -1);
     }
 
     private void initBuffers(final int vertexCount) {

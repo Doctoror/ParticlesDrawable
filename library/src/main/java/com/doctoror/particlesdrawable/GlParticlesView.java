@@ -362,12 +362,12 @@ public class GlParticlesView extends GLSurfaceView implements
 
     @Override
     public void onSurfaceCreated(@NonNull final GL10 gl, @NonNull final EGLConfig config) {
-        renderer.setupGl(gl, getWidth(), getHeight());
+        renderer.setupGl(gl);
     }
 
     @Override
     public void onSurfaceChanged(@NonNull final GL10 gl, final int width, final int height) {
-        renderer.setupViewport(gl, getWidth(), getHeight());
+        renderer.setDimensions(gl, width, height);
     }
 
     @Override
