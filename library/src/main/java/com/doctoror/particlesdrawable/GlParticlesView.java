@@ -6,18 +6,14 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewParent;
 
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
@@ -37,15 +33,7 @@ public class GlParticlesView extends GLSurfaceView implements
     private final GlSceneRenderer renderer = new GlSceneRenderer();
     private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
 
-    /**
-     * Whether explicitly stopped by user. This means it will not start automatically on visibility
-     * change or when attached to window.
-     */
-    @VisibleForTesting
-    boolean mExplicitlyStopped;
-
-    private boolean mAttachedToWindow;
-    private boolean mEmulateOnAttachToWindow;
+    private GL10 mGl;
 
     @ColorInt
     private int mBackgroundColor = Color.DKGRAY;
@@ -246,6 +234,7 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     public void setDotColor(@ColorInt final int dotColor) {
         scene.setDotColor(dotColor);
+        renderer.markTextureDirty();
     }
 
     /**
@@ -291,30 +280,6 @@ public class GlParticlesView extends GLSurfaceView implements
 
     }
 
-    @Override
-    protected void onVisibilityChanged(@NonNull final View changedView, final int visibility) {
-        super.onVisibilityChanged(changedView, visibility);
-        if (visibility != View.VISIBLE) {
-            stopInternal();
-        } else {
-            startInternal();
-        }
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        mAttachedToWindow = true;
-        startInternal();
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        mAttachedToWindow = false;
-        stopInternal();
-    }
-
     /**
      * Start animating. This will clear the explicit control flag if set by {@link #stop()}.
      * Note that if this View's visibility is not {@link #VISIBLE} or it's not attached to window,
@@ -322,9 +287,8 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Keep
     public void start() {
-        mExplicitlyStopped = false;
-        startInternal();
         onResume();
+        presenter.start();
     }
 
     /**
@@ -333,35 +297,22 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Keep
     public void stop() {
-        mExplicitlyStopped = true;
-        stopInternal();
-        onPause();
-    }
-
-    @VisibleForTesting
-    void startInternal() {
-        if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
-            presenter.start();
-        }
-    }
-
-    @VisibleForTesting
-    void stopInternal() {
         presenter.stop();
+        onPause();
+        recycle();
     }
 
-    @VisibleForTesting
-    boolean isRunning() {
-        return presenter.isRunning();
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    void setEmulateOnAttachToWindow(final boolean emulateOnAttachToWindow) {
-        mEmulateOnAttachToWindow = emulateOnAttachToWindow;
+    private void recycle() {
+        if (mGl != null) {
+            renderer.recycle(mGl);
+            mGl = null;
+        }
     }
 
     @Override
     public void onSurfaceCreated(@NonNull final GL10 gl, @NonNull final EGLConfig config) {
+        recycle();
+        mGl = gl;
         renderer.setupGl(gl);
     }
 
@@ -379,31 +330,6 @@ public class GlParticlesView extends GLSurfaceView implements
         renderer.setGl(null);
 
         presenter.run();
-    }
-
-    @SuppressWarnings("SimplifiableIfStatement")
-    private boolean isAttachedToWindowCompat() {
-        if (mEmulateOnAttachToWindow) {
-            return mAttachedToWindow;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return isAttachedToWindow();
-        }
-        return mAttachedToWindow;
-    }
-
-    private boolean isVisibleWithAllParents(@NonNull final View view) {
-        if (view.getVisibility() != VISIBLE) {
-            return false;
-        }
-
-        final ViewParent parent = view.getParent();
-        if (parent instanceof View) {
-            return isVisibleWithAllParents((View) parent);
-        }
-
-        return true;
     }
 
     private final Runnable requestRenderRunnable = new Runnable() {
