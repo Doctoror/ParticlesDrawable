@@ -16,7 +16,7 @@ import java.util.Random;
 /**
  * Particles Scene Controller
  */
-final class ScenePresenter implements Runnable, SceneController {
+public final class ScenePresenter implements Runnable, SceneController {
 
     /**
      * Path calculation padding.
@@ -41,7 +41,7 @@ final class ScenePresenter implements Runnable, SceneController {
 
     private boolean mAnimating;
 
-    ScenePresenter(
+    public ScenePresenter(
             @NonNull final ParticlesScene scene,
             @NonNull final SceneRenderer renderer,
             @NonNull final SceneScheduler scheduler) {
@@ -119,7 +119,7 @@ final class ScenePresenter implements Runnable, SceneController {
         return scene.getAlpha();
     }
 
-    void start() {
+    public void start() {
         if (!mAnimating) {
             mAnimating = true;
             resetLastFrameTime();
@@ -127,7 +127,7 @@ final class ScenePresenter implements Runnable, SceneController {
         }
     }
 
-    void stop() {
+    public void stop() {
         if (mAnimating) {
             mAnimating = false;
             resetLastFrameTime();
@@ -147,7 +147,7 @@ final class ScenePresenter implements Runnable, SceneController {
         }
     }
 
-    void draw() {
+    public void draw() {
         final long startTime = SystemClock.uptimeMillis();
         renderer.drawScene(scene);
         mLastDrawDuration = SystemClock.uptimeMillis() - startTime;
