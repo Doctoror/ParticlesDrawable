@@ -153,8 +153,6 @@ public final class GlSceneRenderer implements SceneRenderer {
                     floatCapacity * BYTES_PER_FLOAT);
             coordinatesByteBuffer.order(ByteOrder.nativeOrder());
             lineCoordinatesBuffer = coordinatesByteBuffer.asFloatBuffer();
-        } else {
-            lineCoordinatesBuffer.position(0);
         }
     }
 
@@ -163,8 +161,6 @@ public final class GlSceneRenderer implements SceneRenderer {
         if (lineColorBuffer == null || lineColorBuffer.capacity() != targetCapacity) {
             lineColorBuffer = ByteBuffer.allocateDirect(targetCapacity);
             lineColorBuffer.order(ByteOrder.nativeOrder());
-        } else {
-            lineColorBuffer.position(0);
         }
     }
 
@@ -214,6 +210,9 @@ public final class GlSceneRenderer implements SceneRenderer {
     }
 
     private void resolveLines(@NonNull final ParticlesScene scene) {
+        lineColorBuffer.clear();
+        lineCoordinatesBuffer.clear();
+
         final int particlesCount = scene.getNumDots();
         if (particlesCount != 0) {
             for (int i = 0; i < particlesCount; i++) {
@@ -295,7 +294,7 @@ public final class GlSceneRenderer implements SceneRenderer {
         final FloatBuffer radiuses = scene.getRadiuses();
         radiuses.position(0);
 
-        particlesTrianglesCoordinates.position(0);
+        particlesTrianglesCoordinates.clear();
 
         final int count = scene.getNumDots();
         for (int i = 0; i < count; i++) {
