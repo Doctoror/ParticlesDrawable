@@ -210,10 +210,7 @@ public final class GlSceneRenderer implements SceneRenderer {
 
         drawLines();
 
-        drawParticles(
-                scene.getDotColor(),
-                scene.getNumDots()
-        );
+        drawParticles(scene.getNumDots());
     }
 
     private void resolveLines(@NonNull final ParticlesScene scene) {
@@ -324,10 +321,7 @@ public final class GlSceneRenderer implements SceneRenderer {
         }
     }
 
-    private void drawParticles(
-            @ColorInt final int color,
-            final int count) {
-        setColor(gl, color);
+    private void drawParticles(final int count) {
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
@@ -343,13 +337,5 @@ public final class GlSceneRenderer implements SceneRenderer {
 
         gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-    }
-
-    private void setColor(@NonNull final GL10 gl, @ColorInt final int color) {
-        gl.glColor4f(
-                Color.red(color) / 255f,
-                Color.green(color) / 255f,
-                Color.blue(color) / 255f,
-                Color.alpha(color) / 255f);
     }
 }
