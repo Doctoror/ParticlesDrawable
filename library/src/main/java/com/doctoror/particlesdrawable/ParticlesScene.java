@@ -68,7 +68,7 @@ public final class ParticlesScene implements SceneConfiguration {
     private FloatBuffer mRadiuses;
     private FloatBuffer mStepMultipliers;
 
-    ParticlesScene() {
+    public ParticlesScene() {
         initBuffers(mNumDots);
     }
 
