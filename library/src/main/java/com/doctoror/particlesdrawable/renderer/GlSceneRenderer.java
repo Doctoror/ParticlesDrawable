@@ -43,8 +43,6 @@ public final class GlSceneRenderer implements SceneRenderer {
 
     private GL10 gl;
 
-    private int texId;
-
     public void markTextureDirty() {
         textureDirty = true;
     }
@@ -114,9 +112,7 @@ public final class GlSceneRenderer implements SceneRenderer {
         gl.glDeleteTextures(1, textureHandle, 0);
 
         gl.glGenTextures(1, textureHandle, 0);
-        texId = textureHandle[0];
-
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, texId);
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, textureHandle[0]);
 
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
