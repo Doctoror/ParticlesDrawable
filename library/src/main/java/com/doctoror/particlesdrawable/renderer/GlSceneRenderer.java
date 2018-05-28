@@ -17,12 +17,14 @@ import com.doctoror.particlesdrawable.util.LineColorResolver;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
 public final class GlSceneRenderer implements SceneRenderer {
 
     private static final int BYTES_PER_FLOAT = 4;
+    private static final int BYTES_PER_SHORT = 2;
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int COLOR_BYTES_PER_VERTEX = 4;
     private static final int VERTICES_PER_PARTICLE = 6;
@@ -31,7 +33,7 @@ public final class GlSceneRenderer implements SceneRenderer {
     private final int[] textureHandle = new int[1];
 
     private ByteBuffer lineColorBuffer;
-    private FloatBuffer lineCoordinatesBuffer;
+    private ShortBuffer lineCoordinatesBuffer;
 
     private FloatBuffer particlesTrianglesCoordinates;
     private ByteBuffer particlesTexturesCoordinates;
@@ -157,12 +159,12 @@ public final class GlSceneRenderer implements SceneRenderer {
     }
 
     private void initLineCoordinates(final int segmentsCount) {
-        final int floatCapacity = segmentsCount * VERTICES_PER_LINE * COORDINATES_PER_VERTEX;
-        if (lineCoordinatesBuffer == null || lineCoordinatesBuffer.capacity() != floatCapacity) {
+        final int shortcapacity = segmentsCount * VERTICES_PER_LINE * COORDINATES_PER_VERTEX;
+        if (lineCoordinatesBuffer == null || lineCoordinatesBuffer.capacity() != shortcapacity) {
             final ByteBuffer coordinatesByteBuffer = ByteBuffer.allocateDirect(
-                    floatCapacity * BYTES_PER_FLOAT);
+                    shortcapacity * BYTES_PER_SHORT);
             coordinatesByteBuffer.order(ByteOrder.nativeOrder());
-            lineCoordinatesBuffer = coordinatesByteBuffer.asFloatBuffer();
+            lineCoordinatesBuffer = coordinatesByteBuffer.asShortBuffer();
         }
     }
 
@@ -262,10 +264,10 @@ public final class GlSceneRenderer implements SceneRenderer {
             final float stopY,
             @ColorInt final int color) {
         if (gl != null) {
-            lineCoordinatesBuffer.put(startX);
-            lineCoordinatesBuffer.put(startY);
-            lineCoordinatesBuffer.put(stopX);
-            lineCoordinatesBuffer.put(stopY);
+            lineCoordinatesBuffer.put((short) startX);
+            lineCoordinatesBuffer.put((short) startY);
+            lineCoordinatesBuffer.put((short) stopX);
+            lineCoordinatesBuffer.put((short) stopY);
 
             lineColorBuffer.put((byte) Color.red(color));
             lineColorBuffer.put((byte) Color.green(color));
@@ -289,7 +291,7 @@ public final class GlSceneRenderer implements SceneRenderer {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
         gl.glColorPointer(4, GL10.GL_UNSIGNED_BYTE, 0, lineColorBuffer);
-        gl.glVertexPointer(2, GL10.GL_FLOAT, 0, lineCoordinatesBuffer);
+        gl.glVertexPointer(2, GL10.GL_SHORT, 0, lineCoordinatesBuffer);
         gl.glDrawArrays(GL10.GL_LINES, 0, lineCount * 2);
 
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
