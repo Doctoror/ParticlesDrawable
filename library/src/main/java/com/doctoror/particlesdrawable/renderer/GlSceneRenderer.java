@@ -23,7 +23,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 public final class GlSceneRenderer implements SceneRenderer {
 
-    private static final int BYTES_PER_FLOAT = 4;
     private static final int BYTES_PER_SHORT = 2;
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int COLOR_BYTES_PER_VERTEX = 4;
@@ -35,7 +34,7 @@ public final class GlSceneRenderer implements SceneRenderer {
     private ByteBuffer lineColorBuffer;
     private ShortBuffer lineCoordinatesBuffer;
 
-    private FloatBuffer particlesTrianglesCoordinates;
+    private ShortBuffer particlesTrianglesCoordinates;
     private ByteBuffer particlesTexturesCoordinates;
 
     private volatile boolean textureDirty;
@@ -177,12 +176,12 @@ public final class GlSceneRenderer implements SceneRenderer {
     }
 
     private void initParticleTrianglesBuffer(final int vertexCount) {
-        final int floatCapacity = vertexCount * COORDINATES_PER_VERTEX * VERTICES_PER_PARTICLE;
+        final int floatcapacity = vertexCount * COORDINATES_PER_VERTEX * VERTICES_PER_PARTICLE;
         if (particlesTrianglesCoordinates == null
-                || particlesTrianglesCoordinates.capacity() != floatCapacity) {
-            final ByteBuffer triangleShit = ByteBuffer.allocateDirect(floatCapacity * BYTES_PER_FLOAT);
+                || particlesTrianglesCoordinates.capacity() != floatcapacity) {
+            final ByteBuffer triangleShit = ByteBuffer.allocateDirect(floatcapacity * BYTES_PER_SHORT);
             triangleShit.order(ByteOrder.nativeOrder());
-            particlesTrianglesCoordinates = triangleShit.asFloatBuffer();
+            particlesTrianglesCoordinates = triangleShit.asShortBuffer();
         }
     }
 
@@ -310,24 +309,24 @@ public final class GlSceneRenderer implements SceneRenderer {
         final int count = scene.getNumDots();
         for (int i = 0; i < count; i++) {
             final float particleRadius = radiuses.get();
-            final float particleSize = particleRadius * 2f;
 
             final float coordX = coordinates.get() - particleRadius;
             final float coordY = coordinates.get() - particleRadius;
 
-            particlesTrianglesCoordinates.put(coordX);
-            particlesTrianglesCoordinates.put(coordY);
-            particlesTrianglesCoordinates.put(coordX + particleSize);
-            particlesTrianglesCoordinates.put(coordY);
-            particlesTrianglesCoordinates.put(coordX + particleSize);
-            particlesTrianglesCoordinates.put(coordY + particleSize);
+            final float particleSize = particleRadius * 2f;
+            particlesTrianglesCoordinates.put((short) coordX);
+            particlesTrianglesCoordinates.put((short) coordY);
+            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
+            particlesTrianglesCoordinates.put((short) coordY);
+            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
+            particlesTrianglesCoordinates.put((short) (coordY + particleSize));
 
-            particlesTrianglesCoordinates.put(coordX);
-            particlesTrianglesCoordinates.put(coordY);
-            particlesTrianglesCoordinates.put(coordX);
-            particlesTrianglesCoordinates.put(coordY + particleSize);
-            particlesTrianglesCoordinates.put(coordX + particleSize);
-            particlesTrianglesCoordinates.put(coordY + particleSize);
+            particlesTrianglesCoordinates.put((short) coordX);
+            particlesTrianglesCoordinates.put((short) coordY);
+            particlesTrianglesCoordinates.put((short) coordX);
+            particlesTrianglesCoordinates.put((short) (coordY + particleSize));
+            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
+            particlesTrianglesCoordinates.put((short) (coordY + particleSize));
         }
     }
 
@@ -339,7 +338,7 @@ public final class GlSceneRenderer implements SceneRenderer {
         particlesTrianglesCoordinates.position(0);
 
         gl.glTexCoordPointer(2, GL10.GL_BYTE, 0, particlesTexturesCoordinates);
-        gl.glVertexPointer(2, GL10.GL_FLOAT, 0, particlesTrianglesCoordinates);
+        gl.glVertexPointer(2, GL10.GL_SHORT, 0, particlesTrianglesCoordinates);
         gl.glDrawArrays(GL10.GL_TRIANGLES, 0, count * VERTICES_PER_PARTICLE);
 
         gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
