@@ -333,8 +333,6 @@ public final class GlSceneRenderer implements SceneRenderer {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, texId);
-
         particlesTexturesCoordinates.position(0);
         particlesTrianglesCoordinates.position(0);
 
