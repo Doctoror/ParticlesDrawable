@@ -177,7 +177,7 @@ public final class ScenePresenter implements Runnable, SceneController {
         }
     }
 
-    void setBounds(final int left, final int top, final int right, final int bottom) {
+    public void setBounds(final int left, final int top, final int right, final int bottom) {
         final ParticlesScene model = scene;
         model.setWidth(right - left);
         model.setHeight(bottom - top);
