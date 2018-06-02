@@ -97,7 +97,7 @@ public class ParticlesDrawable extends Drawable implements
     }
 
     @Override
-    public void invalidate() {
+    public void requestRender() {
         invalidateSelf();
     }
 

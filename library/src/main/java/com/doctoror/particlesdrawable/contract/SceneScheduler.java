@@ -22,5 +22,5 @@ public interface SceneScheduler {
 
     void scheduleNextFrame(long delay);
     void unscheduleNextFrame();
-    void invalidate();
+    void requestRender();
 }

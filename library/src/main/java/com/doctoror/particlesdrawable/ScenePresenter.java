@@ -299,7 +299,7 @@ public final class ScenePresenter implements Runnable, SceneController {
         }
 
         mLastFrameTime = SystemClock.uptimeMillis();
-        getViewScheduler().invalidate();
+        getViewScheduler().requestRender();
     }
 
     /**
