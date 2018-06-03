@@ -33,7 +33,7 @@ public class GlParticlesView extends GLSurfaceView implements
     private final GlSceneRenderer renderer = new GlSceneRenderer();
     private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
 
-    private GL10 mGl;
+    private volatile boolean mBackgroundDirty;
 
     @ColorInt
     private int mBackgroundColor = Color.DKGRAY;
@@ -83,6 +83,7 @@ public class GlParticlesView extends GLSurfaceView implements
     @Override
     public void setBackgroundColor(@ColorInt final int color) {
         mBackgroundColor = color;
+        mBackgroundDirty = true;
     }
 
     @Override
@@ -303,32 +304,29 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     private void recycle() {
-        if (mGl != null) {
-            renderer.recycle(mGl);
-            mGl = null;
-        }
+        renderer.recycle();
     }
 
     @Override
     public void onSurfaceCreated(@NonNull final GL10 gl, @NonNull final EGLConfig config) {
         recycle();
-        mGl = gl;
-        renderer.setupGl(gl);
+        renderer.setupGl();
+        mBackgroundDirty = true;
     }
 
     @Override
     public void onSurfaceChanged(@NonNull final GL10 gl, final int width, final int height) {
-        renderer.setDimensions(gl, width, height);
+        renderer.setDimensions(width, height);
+        mBackgroundDirty = true;
     }
 
     @Override
     public void onDrawFrame(@NonNull final GL10 gl) {
-        renderer.setClearColor(gl, mBackgroundColor);
-
-        renderer.setGl(gl);
+        if (mBackgroundDirty) {
+            renderer.setClearColor(mBackgroundColor);
+            mBackgroundDirty = false;
+        }
         presenter.draw();
-        renderer.setGl(null);
-
         presenter.run();
     }
 
