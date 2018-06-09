@@ -166,6 +166,8 @@ final class GlSceneRendererParticles {
         particlesTexturesCoordinates.position(0);
         particlesTrianglesCoordinates.position(0);
 
+        GLES11.glBindTexture(GL11.GL_TEXTURE_2D, textureHandle[0]);
+
         GLES11.glTexCoordPointer(2, GL11.GL_BYTE, 0, particlesTexturesCoordinates);
         GLES11.glVertexPointer(2, GL11.GL_SHORT, 0, particlesTrianglesCoordinates);
         GLES11.glDrawArrays(GL11.GL_TRIANGLES, 0, count * VERTICES_PER_PARTICLE);

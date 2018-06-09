@@ -3,9 +3,13 @@ package com.doctoror.particlesdrawable;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
@@ -33,10 +37,13 @@ public class GlParticlesView extends GLSurfaceView implements
     private final GlSceneRenderer renderer = new GlSceneRenderer();
     private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
 
-    private volatile boolean mBackgroundDirty;
+    private volatile boolean mBackgroundColorDirty;
+    private volatile boolean mBackgroundTextureDirty;
 
     @ColorInt
     private int mBackgroundColor = Color.DKGRAY;
+
+    private Bitmap mBackgroundTexture;
 
     public GlParticlesView(Context context) {
         super(context);
@@ -71,37 +78,77 @@ public class GlParticlesView extends GLSurfaceView implements
             array.recycle();
         }
 
-        renderer.markTextureDirty();
+        renderer.markParticleTextureDirty();
     }
 
     /**
      * Sets the background color for this View.
      * Default is windowBackground.
+     * <p>
+     * Will not affect textures set in {@link #setBackground(Drawable)}.
      *
      * @param color the background of this View.
      */
     @Override
     public void setBackgroundColor(@ColorInt final int color) {
         mBackgroundColor = color;
-        mBackgroundDirty = true;
+        mBackgroundColorDirty = true;
     }
 
+    /**
+     * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable} since API
+     * Level 11.
+     * <p>
+     * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
+     * {@link BitmapDrawable}.
+     * <p>
+     * If you want to change the background color without affecting the {@link Bitmap} texture, use
+     * {@link #setBackgroundColor(int)}
+     *
+     * @param background the background to apply
+     * @throws IllegalArgumentException if the background is not a {@link BitmapDrawable} or
+     *                                  {@link ColorDrawable} if on API level 11 or higher.
+     */
     @Override
-    public void setBackgroundDrawable(final Drawable background) {
-        throw new UnsupportedOperationException(
-                "Background drawables are not supported. Use setBackgroundColor instead");
+    public void setBackgroundDrawable(@Nullable final Drawable background) {
+        applyBackground(background);
     }
 
+    /**
+     * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable} since API
+     * Level 11.
+     * <p>
+     * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
+     * {@link BitmapDrawable}.
+     * <p>
+     * If you want to change the background color without affecting the {@link Bitmap} texture, use
+     * {@link #setBackgroundColor(int)}
+     *
+     * @param background the background to apply
+     * @throws IllegalArgumentException if the background is not a {@link BitmapDrawable} or
+     *                                  {@link ColorDrawable} if on API level 11 or higher.
+     */
     @Override
-    public void setBackground(final Drawable background) {
-        throw new UnsupportedOperationException(
-                "Background drawables are not supported. Use setBackgroundColor instead");
+    public void setBackground(@Nullable final Drawable background) {
+        applyBackground(background);
     }
 
-    @Override
-    public void setBackgroundResource(final int resid) {
-        throw new UnsupportedOperationException(
-                "Background resources are not supported. Use setBackgroundColor instead");
+    private void applyBackground(@Nullable final Drawable background) {
+        if (background == null) {
+            mBackgroundTexture = null;
+            mBackgroundTextureDirty = true;
+        } else if (background instanceof BitmapDrawable) {
+            mBackgroundTexture = ((BitmapDrawable) background).getBitmap();
+            mBackgroundTextureDirty = true;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                && background instanceof ColorDrawable) {
+            mBackgroundTexture = null;
+            mBackgroundTextureDirty = true;
+            setBackgroundColor(((ColorDrawable) background).getColor());
+        } else {
+            throw new IllegalArgumentException(
+                    "Only BitmapDrawable (sdk >= 9) or ColorDrawable (sdk >= 11) are supported");
+        }
     }
 
     /**
@@ -166,7 +213,7 @@ public class GlParticlesView extends GLSurfaceView implements
     public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
                                   @FloatRange(from = 0.5f) final float maxRadius) {
         scene.setDotRadiusRange(minRadius, maxRadius);
-        renderer.markTextureDirty();
+        renderer.markParticleTextureDirty();
     }
 
     /**
@@ -235,7 +282,7 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     public void setDotColor(@ColorInt final int dotColor) {
         scene.setDotColor(dotColor);
-        renderer.markTextureDirty();
+        renderer.markParticleTextureDirty();
     }
 
     /**
@@ -311,20 +358,26 @@ public class GlParticlesView extends GLSurfaceView implements
     public void onSurfaceCreated(@NonNull final GL10 gl, @NonNull final EGLConfig config) {
         recycle();
         renderer.setupGl();
-        mBackgroundDirty = true;
+        mBackgroundColorDirty = true;
+        mBackgroundTextureDirty = true;
     }
 
     @Override
     public void onSurfaceChanged(@NonNull final GL10 gl, final int width, final int height) {
         renderer.setDimensions(width, height);
-        mBackgroundDirty = true;
+        mBackgroundColorDirty = true;
+        mBackgroundTextureDirty = true;
     }
 
     @Override
     public void onDrawFrame(@NonNull final GL10 gl) {
-        if (mBackgroundDirty) {
+        if (mBackgroundColorDirty) {
             renderer.setClearColor(mBackgroundColor);
-            mBackgroundDirty = false;
+            mBackgroundColorDirty = false;
+        }
+        if (mBackgroundTextureDirty) {
+            renderer.setBackgroundTexture(mBackgroundTexture);
+            mBackgroundTextureDirty = false;
         }
         presenter.draw();
         presenter.run();
