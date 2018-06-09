@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2018 Yaroslav Mytkalyk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.doctoror.particlesdrawable;
 
 import android.annotation.SuppressLint;
@@ -28,6 +43,20 @@ import com.doctoror.particlesdrawable.util.TextureUtils;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * Particles View that draws on {@link GLSurfaceView}.
+ * <p/>
+ * Due to it's limitations, use it only if it gives you measured performance gain. Otherwise it is recommented
+ * to use {@link ParticlesView}.
+ * <p/>
+ * Limitations:
+ * <ul>
+ * <li>no background transparency;</li>
+ * <li>textures are resized to POT, you can disable this with
+ * {@link #setAutoScaleBackgroundToSmallerPot(boolean)} but it might be incompatible with some drivers;</li>
+ * <li>line widths more than 1.0 are incompatible with most of the drivers;</li>
+ * </ul>
+ */
 public class GlParticlesView extends GLSurfaceView implements
         SceneController,
         SceneConfiguration,
@@ -112,10 +141,14 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable} since API
      * Level 11.
-     * <p>
+     * <p/>
+     * The background will stretch to fill the entire screen. If you need transformations, like center crop,
+     * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToSmallerPot(boolean)}
+     * is set to true (which is true by default), any NPOT images will be scaled to smaller POT.
+     * <p/>
      * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
      * {@link BitmapDrawable}.
-     * <p>
+     * <p/>
      * If you want to change the background color without affecting the {@link Bitmap} texture, use
      * {@link #setBackgroundColor(int)}
      *
@@ -131,10 +164,14 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable} since API
      * Level 11.
-     * <p>
+     * <p/>
+     * The background will stretch to fill the entire screen. If you need transformations, like center crop,
+     * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToSmallerPot(boolean)}
+     * is set to true (which is true by default), any NPOT images will be scaled to smaller POT.
+     * <p/>
      * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
      * {@link BitmapDrawable}.
-     * <p>
+     * <p/>
      * If you want to change the background color without affecting the {@link Bitmap} texture, use
      * {@link #setBackgroundColor(int)}
      *
