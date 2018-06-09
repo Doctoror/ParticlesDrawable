@@ -1,8 +1,14 @@
 package com.doctoror.particlesdrawable.util
 
+import android.graphics.Bitmap
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(manifest = Config.NONE)
+@RunWith(RobolectricTestRunner::class)
 class TextureUtilsTest {
 
     @Test
@@ -85,5 +91,34 @@ class TextureUtilsTest {
         assertEquals(64, TextureUtils.findNextOrReturnIfPowerOfTwo(33))
         assertEquals(128, TextureUtils.findNextOrReturnIfPowerOfTwo(65))
         assertEquals(32768, TextureUtils.findNextOrReturnIfPowerOfTwo(32767))
+    }
+
+    @Test
+    fun doesNotScaleWhenAlreadyPot() {
+        val input = Bitmap.createBitmap(32, 32, Bitmap.Config.RGB_565)
+
+        val result = TextureUtils.scaleToSmallerPot(input)
+
+        assertTrue(result === input)
+    }
+
+    @Test
+    fun scalesToSmallerPotWhenOneSideNpot() {
+        val input = Bitmap.createBitmap(32, 50, Bitmap.Config.RGB_565)
+
+        val result = TextureUtils.scaleToSmallerPot(input)
+
+        assertEquals(32, result.width)
+        assertEquals(32, result.height)
+    }
+
+    @Test
+    fun scalesToSmallerPotWhenTwoSidesNpot() {
+        val input = Bitmap.createBitmap(144, 144, Bitmap.Config.RGB_565)
+
+        val result = TextureUtils.scaleToSmallerPot(input)
+
+        assertEquals(128, result.width)
+        assertEquals(128, result.height)
     }
 }

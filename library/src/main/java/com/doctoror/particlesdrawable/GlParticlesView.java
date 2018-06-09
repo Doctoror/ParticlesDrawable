@@ -23,6 +23,7 @@ import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import com.doctoror.particlesdrawable.renderer.GlSceneRenderer;
+import com.doctoror.particlesdrawable.util.TextureUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -44,6 +45,8 @@ public class GlParticlesView extends GLSurfaceView implements
     private int mBackgroundColor = Color.DKGRAY;
 
     private Bitmap mBackgroundTexture;
+
+    private boolean autoScaleBackgroundToSmallerPot = true;
 
     public GlParticlesView(Context context) {
         super(context);
@@ -79,6 +82,17 @@ public class GlParticlesView extends GLSurfaceView implements
         }
 
         renderer.markParticleTextureDirty();
+    }
+
+    /**
+     * Set whether NPOT backgrounds should be auto scaled to the nearest smaller POT.
+     * <p>
+     * Default is true.
+     *
+     * @param autoScaleBackgroundToSmallerPot whether to auto scaled to POT
+     */
+    public void setAutoScaleBackgroundToSmallerPot(final boolean autoScaleBackgroundToSmallerPot) {
+        this.autoScaleBackgroundToSmallerPot = autoScaleBackgroundToSmallerPot;
     }
 
     /**
@@ -135,20 +149,25 @@ public class GlParticlesView extends GLSurfaceView implements
 
     private void applyBackground(@Nullable final Drawable background) {
         if (background == null) {
-            mBackgroundTexture = null;
-            mBackgroundTextureDirty = true;
+            processAndSetBackgroundTexture(null);
         } else if (background instanceof BitmapDrawable) {
-            mBackgroundTexture = ((BitmapDrawable) background).getBitmap();
-            mBackgroundTextureDirty = true;
+            processAndSetBackgroundTexture(((BitmapDrawable) background).getBitmap());
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
                 && background instanceof ColorDrawable) {
-            mBackgroundTexture = null;
-            mBackgroundTextureDirty = true;
+            processAndSetBackgroundTexture(null);
             setBackgroundColor(((ColorDrawable) background).getColor());
         } else {
             throw new IllegalArgumentException(
                     "Only BitmapDrawable (sdk >= 9) or ColorDrawable (sdk >= 11) are supported");
         }
+    }
+
+    private void processAndSetBackgroundTexture(@Nullable Bitmap texture) {
+        if (texture != null && autoScaleBackgroundToSmallerPot) {
+            texture = TextureUtils.scaleToSmallerPot(texture);
+        }
+        mBackgroundTexture = texture;
+        mBackgroundTextureDirty = true;
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.doctoror.particlesdrawable.util;
 
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 public final class TextureUtils {
@@ -43,5 +45,22 @@ public final class TextureUtils {
         n |= n >> 16;
         n++;
         return n;
+    }
+
+    @NonNull
+    public static Bitmap scaleToSmallerPot(@NonNull Bitmap texture) {
+        final int sourceWidth = texture.getWidth();
+        final int sourceHeight = texture.getHeight();
+        if (sourceWidth <= 0 && sourceHeight <= 0) {
+            return texture;
+        }
+
+        final int targetWidth = findPreviousOrReturnIfPowerOfTwo(sourceWidth);
+        final int targetHeight = findPreviousOrReturnIfPowerOfTwo(sourceHeight);
+
+        if (targetWidth != sourceWidth || targetHeight != sourceHeight) {
+            texture = Bitmap.createScaledBitmap(texture, targetWidth, targetHeight, true);
+        }
+        return texture;
     }
 }
