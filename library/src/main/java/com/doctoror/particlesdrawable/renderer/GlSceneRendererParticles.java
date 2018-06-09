@@ -9,6 +9,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.util.TextureUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -95,9 +96,11 @@ final class GlSceneRendererParticles {
         paint.setColor(color);
 
         final int size = (int) (maxPointRadius * 2f);
-        final Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_4444);
+        final int sizePowerOfTwo = TextureUtils.findNextOrReturnIfPowerOfTwo(size);
+        final int halfSizePowerOfTwo = sizePowerOfTwo / 2;
+        final Bitmap bitmap = Bitmap.createBitmap(sizePowerOfTwo, sizePowerOfTwo, Bitmap.Config.ARGB_4444);
         final Canvas canvas = new Canvas(bitmap);
-        canvas.drawCircle(maxPointRadius, maxPointRadius, maxPointRadius, paint);
+        canvas.drawCircle(halfSizePowerOfTwo, halfSizePowerOfTwo, halfSizePowerOfTwo, paint);
 
         return bitmap;
     }
