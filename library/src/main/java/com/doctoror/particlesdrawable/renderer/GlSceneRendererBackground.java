@@ -47,7 +47,7 @@ final class GlSceneRendererBackground {
         backgroundCoordinatesDirty = true;
     }
 
-    void drawBackground() {
+    void drawScene() {
         if (textureHandle[0] != 0 && width != 0 && height != 0) {
             ensureBackgroundTextureCoordiantes();
             ensureBackgroundCooridnates();

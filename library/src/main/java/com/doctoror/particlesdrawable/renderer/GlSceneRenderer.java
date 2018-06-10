@@ -79,7 +79,7 @@ public final class GlSceneRenderer implements SceneRenderer {
     public void drawScene(
             @NonNull final ParticlesScene scene) {
         GLES11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        background.drawBackground();
+        background.drawScene();
         lines.drawScene(scene);
         particles.drawScene(scene);
     }
