@@ -51,6 +51,9 @@ import javax.microedition.khronos.opengles.GL10;
  * <p/>
  * Limitations:
  * <ul>
+ * <li>does not draw after onPause/onResume on some deivces. The same was reported here
+ * <a href=https://stackoverflow.com/questions/14686815/blank-screen-after-onpause-onresume>Blank screen after
+ * onPause-onResume</a>;</li>
  * <li>no background transparency;</li>
  * <li>textures are resized to POT, you can disable this with
  * {@link #setAutoScaleBackgroundToSmallerPot(boolean)} but it might be incompatible with some drivers;</li>
