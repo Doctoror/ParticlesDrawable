@@ -35,7 +35,7 @@ final class GlSceneRendererLines {
     private static final int BYTES_PER_SHORT = 2;
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int COLOR_BYTES_PER_VERTEX = 4;
-    private static final int VERTICES_PER_LINE = 2;
+    private static final int VERTICES_PER_LINE = 6;
 
     private ByteBuffer lineColorBuffer;
     private ShortBuffer lineCoordinatesBuffer;
@@ -122,10 +122,57 @@ final class GlSceneRendererLines {
             final float stopX,
             final float stopY,
             @ColorInt final int color) {
-        lineCoordinatesBuffer.put((short) startX);
-        lineCoordinatesBuffer.put((short) startY);
-        lineCoordinatesBuffer.put((short) stopX);
-        lineCoordinatesBuffer.put((short) stopY);
+
+        // Based on https://stackoverflow.com/a/1937202/1366471
+        double dx = stopX - startX; //delta x
+        double dy = stopY - startY; //delta y
+        final double linelength = Math.sqrt(dx * dx + dy * dy);
+        dx /= linelength;
+        dy /= linelength;
+
+        //Ok, (dx, dy) is now a unit vector pointing in the direction of the line
+        //A perpendicular vector is given by (-dy, dx)
+        final float thickness = 10.0f; //Some number
+        final float px = (float) (0.5 * thickness * (-dy)); //perpendicular vector with lenght thickness * 0.5
+        final float py = (float) (0.5 * thickness * dx);
+
+        final short x1 = (short) (startX + px);
+        final short y1 = (short) (startY + py);
+
+        final short x2 = (short) (stopX + px);
+        final short y2 = (short) (stopY + py);
+
+        final short x3 = (short) (stopX - px);
+        final short y3 = (short) (stopY - py);
+
+        final short x4 = (short) (startX - px);
+        final short y4 = (short) (startY - py);
+
+        putLineTrianglesBasedOnQuad(
+                x1, y1,
+                x2, y2,
+                x3, y3,
+                x4, y4);
+
+        lineColorBuffer.put((byte) Color.red(color));
+        lineColorBuffer.put((byte) Color.green(color));
+        lineColorBuffer.put((byte) Color.blue(color));
+        lineColorBuffer.put((byte) Color.alpha(color));
+
+        lineColorBuffer.put((byte) Color.red(color));
+        lineColorBuffer.put((byte) Color.green(color));
+        lineColorBuffer.put((byte) Color.blue(color));
+        lineColorBuffer.put((byte) Color.alpha(color));
+
+        lineColorBuffer.put((byte) Color.red(color));
+        lineColorBuffer.put((byte) Color.green(color));
+        lineColorBuffer.put((byte) Color.blue(color));
+        lineColorBuffer.put((byte) Color.alpha(color));
+
+        lineColorBuffer.put((byte) Color.red(color));
+        lineColorBuffer.put((byte) Color.green(color));
+        lineColorBuffer.put((byte) Color.blue(color));
+        lineColorBuffer.put((byte) Color.alpha(color));
 
         lineColorBuffer.put((byte) Color.red(color));
         lineColorBuffer.put((byte) Color.green(color));
@@ -140,6 +187,35 @@ final class GlSceneRendererLines {
         lineCount++;
     }
 
+    private void putLineTrianglesBasedOnQuad(
+            final short x1,
+            final short y1,
+            final short x2,
+            final short y2,
+            final short x3,
+            final short y3,
+            final short x4,
+            final short y4
+    ) {
+        lineCoordinatesBuffer.put(x1);
+        lineCoordinatesBuffer.put(y1);
+
+        lineCoordinatesBuffer.put(x2);
+        lineCoordinatesBuffer.put(y2);
+
+        lineCoordinatesBuffer.put(x4);
+        lineCoordinatesBuffer.put(y4);
+
+        lineCoordinatesBuffer.put(x2);
+        lineCoordinatesBuffer.put(y2);
+
+        lineCoordinatesBuffer.put(x3);
+        lineCoordinatesBuffer.put(y3);
+
+        lineCoordinatesBuffer.put(x4);
+        lineCoordinatesBuffer.put(y4);
+    }
+
     private void drawLines() {
         lineCoordinatesBuffer.position(0);
         lineColorBuffer.position(0);
@@ -148,7 +224,7 @@ final class GlSceneRendererLines {
 
         GLES11.glColorPointer(4, GL11.GL_UNSIGNED_BYTE, 0, lineColorBuffer);
         GLES11.glVertexPointer(2, GL11.GL_SHORT, 0, lineCoordinatesBuffer);
-        GLES11.glDrawArrays(GL11.GL_LINES, 0, lineCount * 2);
+        GLES11.glDrawArrays(GL11.GL_TRIANGLES, 0, lineCount * VERTICES_PER_LINE);
 
         GLES11.glDisableClientState(GL11.GL_COLOR_ARRAY);
     }
