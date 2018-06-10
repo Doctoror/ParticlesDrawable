@@ -72,8 +72,6 @@ final class GlSceneRendererLines {
     }
 
     void drawScene(@NonNull final ParticlesScene scene) {
-        GLES11.glLineWidth(scene.getLineThickness());
-
         initBuffers(scene.getNumDots());
         resolveLines(scene);
         drawLines();
