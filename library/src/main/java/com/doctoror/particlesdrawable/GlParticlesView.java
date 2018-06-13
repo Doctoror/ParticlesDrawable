@@ -91,6 +91,8 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     private void init(@NonNull final Context context, @Nullable final AttributeSet attrs) {
+        setDebugFlags(DEBUG_CHECK_GL_ERROR);
+        setEGLContextClientVersion(2);
         setRenderer(this);
         setRenderMode(RENDERMODE_WHEN_DIRTY);
         if (attrs != null) {

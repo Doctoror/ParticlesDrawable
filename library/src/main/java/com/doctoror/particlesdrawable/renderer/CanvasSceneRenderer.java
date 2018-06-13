@@ -30,7 +30,7 @@ import com.doctoror.particlesdrawable.contract.SceneRenderer;
  */
 public final class CanvasSceneRenderer implements LowLevelRenderer {
 
-    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     @Nullable
     private Canvas canvas;

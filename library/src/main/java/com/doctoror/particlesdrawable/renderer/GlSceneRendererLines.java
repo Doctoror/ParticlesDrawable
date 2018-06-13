@@ -16,45 +16,86 @@
 package com.doctoror.particlesdrawable.renderer;
 
 import android.graphics.Color;
-import android.opengl.GLES11;
+import android.opengl.GLES20;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.util.DistanceResolver;
 import com.doctoror.particlesdrawable.util.LineColorResolver;
+import com.doctoror.particlesdrawable.util.ShaderLoader;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 
-import javax.microedition.khronos.opengles.GL11;
-
 final class GlSceneRendererLines {
+
+    private static final String VERTEX_SHADER_CODE =
+            "uniform mat4 uMVPMatrix;" +
+                    "attribute vec4 vPosition;" +
+                    "attribute vec4 aColor;" +
+                    "varying vec4 vColor;" +
+                    "void main() {" +
+                    "  vColor = aColor;" +
+                    "  gl_Position = uMVPMatrix * vPosition;" +
+                    "}";
+
+    private static final String FRAGMENT_SHADER_CODE =
+            "precision mediump float;" +
+                    "varying vec4 vColor;" +
+                    "void main() {" +
+                    "  gl_FragColor = vColor;" +
+                    "gl_FragColor.a = vColor.a;" +
+                    "}";
 
     private static final int BYTES_PER_SHORT = 2;
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int COLOR_BYTES_PER_VERTEX = 4;
-    private static final int VERTICES_PER_LINE = 6;
+    private static final int VERTICES_PER_THIN_LINE = 2;
+    private static final int VERTICES_PER_THICK_LINE = 6;
 
     private ByteBuffer lineColorBuffer;
     private ShortBuffer lineCoordinatesBuffer;
 
-    private int lineCount;
+    private boolean lineAsTriangles = false;
+    private int lineVerticesCount;
+
+    private int program;
+
+    void init() {
+        final int vertexShader = ShaderLoader.loadShader(
+                GLES20.GL_VERTEX_SHADER,
+                VERTEX_SHADER_CODE);
+
+        final int fragmentShader = ShaderLoader.loadShader(
+                GLES20.GL_FRAGMENT_SHADER,
+                FRAGMENT_SHADER_CODE);
+
+        program = GLES20.glCreateProgram();
+        GLES20.glAttachShader(program, vertexShader);
+        GLES20.glAttachShader(program, fragmentShader);
+        GLES20.glLinkProgram(program);
+    }
 
     private void initBuffers(final int vertexCount) {
         final int segmentsCount = segmentsCount(vertexCount);
-        initLineCoordinates(segmentsCount);
-        initLineColorBuffer(segmentsCount);
-        lineCount = 0;
+
+        initCoordinates(segmentsCount, lineAsTriangles
+                ? VERTICES_PER_THICK_LINE : VERTICES_PER_THIN_LINE);
+
+        initLineColorBuffer(segmentsCount, lineAsTriangles
+                ? VERTICES_PER_THICK_LINE : VERTICES_PER_THIN_LINE);
+
+        lineVerticesCount = 0;
     }
 
     private int segmentsCount(final int vertices) {
         return (vertices * (vertices - 1)) / 2;
     }
 
-    private void initLineCoordinates(final int segmentsCount) {
-        final int shortcapacity = segmentsCount * VERTICES_PER_LINE * COORDINATES_PER_VERTEX;
+    private void initCoordinates(final int segmentsCount, final int verticesPerLine) {
+        final int shortcapacity = segmentsCount * verticesPerLine * COORDINATES_PER_VERTEX;
         if (lineCoordinatesBuffer == null || lineCoordinatesBuffer.capacity() != shortcapacity) {
             final ByteBuffer coordinatesByteBuffer = ByteBuffer.allocateDirect(
                     shortcapacity * BYTES_PER_SHORT);
@@ -63,18 +104,21 @@ final class GlSceneRendererLines {
         }
     }
 
-    private void initLineColorBuffer(final int lineCount) {
-        final int targetCapacity = lineCount * VERTICES_PER_LINE * COLOR_BYTES_PER_VERTEX;
+    private void initLineColorBuffer(final int lineCount, final int verticesPerLine) {
+        final int targetCapacity = lineCount * verticesPerLine * COLOR_BYTES_PER_VERTEX;
         if (lineColorBuffer == null || lineColorBuffer.capacity() != targetCapacity) {
             lineColorBuffer = ByteBuffer.allocateDirect(targetCapacity);
             lineColorBuffer.order(ByteOrder.nativeOrder());
         }
     }
 
-    void drawScene(@NonNull final ParticlesScene scene) {
+    void drawScene(
+            @NonNull final ParticlesScene scene,
+            @NonNull final float[] matrix) {
+        lineAsTriangles = scene.getLineThickness() >= 2f;
         initBuffers(scene.getNumDots());
         resolveLines(scene);
-        drawLines();
+        drawLines(matrix);
     }
 
     private void resolveLines(@NonNull final ParticlesScene scene) {
@@ -107,7 +151,9 @@ final class GlSceneRendererLines {
                                 y1,
                                 x2,
                                 y2,
-                                lineColor);
+                                lineColor,
+                                distance,
+                                scene.getLineThickness());
                     }
                 }
             }
@@ -119,20 +165,56 @@ final class GlSceneRendererLines {
             final float startY,
             final float stopX,
             final float stopY,
-            @ColorInt final int color) {
+            @ColorInt final int color,
+            final float lineLength,
+            final float lineThickness) {
+        if (lineAsTriangles) {
+            resolveThickLine(startX, startY, stopX, stopY, color, lineLength, lineThickness);
+        } else {
+            resolveThinLine(startX, startY, stopX, stopY, color);
+        }
+    }
 
+    private void resolveThinLine(
+            final float startX,
+            final float startY,
+            final float stopX,
+            final float stopY,
+            @ColorInt final int color) {
+        lineCoordinatesBuffer.put((short) startX);
+        lineCoordinatesBuffer.put((short) startY);
+        lineCoordinatesBuffer.put((short) stopX);
+        lineCoordinatesBuffer.put((short) stopY);
+
+        lineColorBuffer.put((byte) Color.red(color));
+        lineColorBuffer.put((byte) Color.green(color));
+        lineColorBuffer.put((byte) Color.blue(color));
+        lineColorBuffer.put((byte) Color.alpha(color));
+
+        lineColorBuffer.put((byte) Color.red(color));
+        lineColorBuffer.put((byte) Color.green(color));
+        lineColorBuffer.put((byte) Color.blue(color));
+        lineColorBuffer.put((byte) Color.alpha(color));
+
+        lineVerticesCount += VERTICES_PER_THIN_LINE;
+    }
+
+    private void resolveThickLine(
+            final float startX,
+            final float startY,
+            final float stopX,
+            final float stopY,
+            @ColorInt final int color,
+            final float lineLength,
+            final float lineThickness) {
         // Based on https://stackoverflow.com/a/1937202/1366471
-        double dx = stopX - startX; //delta x
-        double dy = stopY - startY; //delta y
-        final double linelength = Math.sqrt(dx * dx + dy * dy);
-        dx /= linelength;
-        dy /= linelength;
+        final float dx = (stopX - startX) / lineLength; //delta x
+        final float dy = (stopY - startY) / lineLength; //delta y
 
         //Ok, (dx, dy) is now a unit vector pointing in the direction of the line
         //A perpendicular vector is given by (-dy, dx)
-        final float thickness = 10.0f; //Some number
-        final float px = (float) (0.5 * thickness * (-dy)); //perpendicular vector with lenght thickness * 0.5
-        final float py = (float) (0.5 * thickness * dx);
+        final float px = 0.5f * lineThickness * (-dy); //perpendicular vector with lenght thickness * 0.5
+        final float py = 0.5f * lineThickness * dx;
 
         final short x1 = (short) (startX + px);
         final short y1 = (short) (startY + py);
@@ -182,7 +264,7 @@ final class GlSceneRendererLines {
         lineColorBuffer.put((byte) Color.blue(color));
         lineColorBuffer.put((byte) Color.alpha(color));
 
-        lineCount++;
+        lineVerticesCount += VERTICES_PER_THICK_LINE;
     }
 
     private void putLineTrianglesBasedOnQuad(
@@ -214,16 +296,37 @@ final class GlSceneRendererLines {
         lineCoordinatesBuffer.put(y4);
     }
 
-    private void drawLines() {
+    private void drawLines(@NonNull final float[] matrix) {
         lineCoordinatesBuffer.position(0);
         lineColorBuffer.position(0);
 
-        GLES11.glEnableClientState(GL11.GL_COLOR_ARRAY);
+        GLES20.glUseProgram(program);
 
-        GLES11.glColorPointer(4, GL11.GL_UNSIGNED_BYTE, 0, lineColorBuffer);
-        GLES11.glVertexPointer(2, GL11.GL_SHORT, 0, lineCoordinatesBuffer);
-        GLES11.glDrawArrays(GL11.GL_TRIANGLES, 0, lineCount * VERTICES_PER_LINE);
+        final int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
+        GLES20.glEnableVertexAttribArray(positionHandle);
 
-        GLES11.glDisableClientState(GL11.GL_COLOR_ARRAY);
+        GLES20.glVertexAttribPointer(
+                positionHandle,
+                COORDINATES_PER_VERTEX,
+                GLES20.GL_SHORT,
+                false,
+                0,
+                lineCoordinatesBuffer);
+
+        final int colorHandle = GLES20.glGetAttribLocation(program, "aColor");
+        GLES20.glEnableVertexAttribArray(colorHandle);
+
+        GLES20.glVertexAttribPointer(
+                colorHandle,
+                COLOR_BYTES_PER_VERTEX,
+                GLES20.GL_UNSIGNED_BYTE,
+                true,
+                0,
+                lineColorBuffer);
+
+        final int mvpMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
+        GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, matrix, 0);
+
+        GLES20.glDrawArrays(lineAsTriangles ? GLES20.GL_TRIANGLES : GLES20.GL_LINES, 0, lineVerticesCount);
     }
 }

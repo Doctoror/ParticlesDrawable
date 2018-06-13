@@ -16,19 +16,39 @@
 package com.doctoror.particlesdrawable.renderer;
 
 import android.graphics.Bitmap;
-import android.opengl.GLES11;
+import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.doctoror.particlesdrawable.util.ShaderLoader;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 
-import javax.microedition.khronos.opengles.GL11;
-
 final class GlSceneRendererBackground {
 
+    private static final String VERTEX_SHADER_CODE =
+            "uniform mat4 uMVPMatrix;" +
+                    "attribute vec4 vPosition;" +
+                    "attribute vec2 aTexCoord;" +
+                    "varying vec2 vTexCoord;" +
+                    "void main() {" +
+                    "  gl_Position = uMVPMatrix * vPosition;" +
+                    "  vTexCoord = aTexCoord;" +
+                    "}";
+
+    private static final String FRAGMENT_SHADER_CODE =
+            "precision mediump float;" +
+                    "varying vec2 vTexCoord;" +
+                    "uniform sampler2D sTexture;" +
+                    "void main() {" +
+                    "  gl_FragColor = texture2D(sTexture, vTexCoord);" +
+                    "}";
+
     private static final int BYTES_PER_SHORT = 2;
+    private static final int COORDINATES_PER_VERTEX = 2;
 
     private final int[] textureHandle = new int[1];
 
@@ -40,6 +60,23 @@ final class GlSceneRendererBackground {
     private short width;
     private short height;
 
+    private int program;
+
+    void init() {
+        final int vertexShader = ShaderLoader.loadShader(
+                GLES20.GL_VERTEX_SHADER,
+                VERTEX_SHADER_CODE);
+
+        final int fragmentShader = ShaderLoader.loadShader(
+                GLES20.GL_FRAGMENT_SHADER,
+                FRAGMENT_SHADER_CODE);
+
+        program = GLES20.glCreateProgram();
+        GLES20.glAttachShader(program, vertexShader);
+        GLES20.glAttachShader(program, fragmentShader);
+        GLES20.glLinkProgram(program);
+    }
+
     void setDimensions(final int width, final int height) {
         this.width = (short) width;
         this.height = (short) height;
@@ -47,7 +84,7 @@ final class GlSceneRendererBackground {
         backgroundCoordinatesDirty = true;
     }
 
-    void drawScene() {
+    void drawScene(@NonNull final float[] matrix) {
         if (textureHandle[0] != 0 && width != 0 && height != 0) {
             ensureBackgroundTextureCoordiantes();
             ensureBackgroundCooridnates();
@@ -55,37 +92,58 @@ final class GlSceneRendererBackground {
             backgroundTextureCoordinates.position(0);
             backgroundCoordinates.position(0);
 
-            GLES11.glEnable(GL11.GL_TEXTURE_2D);
-            GLES11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+            GLES20.glUseProgram(program);
 
-            GLES11.glBindTexture(GL11.GL_TEXTURE_2D, textureHandle[0]);
+            final int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
+            GLES20.glEnableVertexAttribArray(positionHandle);
 
-            GLES11.glTexCoordPointer(2, GL11.GL_BYTE, 0, backgroundTextureCoordinates);
-            GLES11.glVertexPointer(2, GL11.GL_SHORT, 0, backgroundCoordinates);
-            GLES11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
+            GLES20.glVertexAttribPointer(
+                    positionHandle,
+                    COORDINATES_PER_VERTEX,
+                    GLES20.GL_SHORT,
+                    false,
+                    0,
+                    backgroundCoordinates);
 
-            GLES11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
-            GLES11.glDisable(GL11.GL_TEXTURE_2D);
+            final int texCoordHandle = GLES20.glGetAttribLocation(program, "aTexCoord");
+            GLES20.glEnableVertexAttribArray(texCoordHandle);
+
+            GLES20.glVertexAttribPointer(
+                    texCoordHandle,
+                    COORDINATES_PER_VERTEX,
+                    GLES20.GL_BYTE,
+                    false,
+                    0,
+                    backgroundTextureCoordinates);
+
+//            final int samplerLoc = GLES20.glGetUniformLocation(program, "sTexture");
+//            GLES20.glUniform1i(samplerLoc, 0);
+
+            final int mvpMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
+            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, matrix, 0);
+
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
         }
     }
 
     void setTexture(@Nullable final Bitmap texture) {
-        GLES11.glDeleteTextures(1, textureHandle, 0);
+        GLES20.glDeleteTextures(1, textureHandle, 0);
         textureHandle[0] = 0;
 
         if (texture != null) {
-            GLES11.glGenTextures(1, textureHandle, 0);
-            GLES11.glBindTexture(GL11.GL_TEXTURE_2D, textureHandle[0]);
+            GLES20.glGenTextures(1, textureHandle, 0);
 
-            GLUtils.texImage2D(GL11.GL_TEXTURE_2D, 0, texture, 0);
+            //GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
 
-            GLES11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-            GLES11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, texture, 0);
 
-            GLES11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP_TO_EDGE);
-            GLES11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
-            GLES11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE);
+            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
         }
     }
 
