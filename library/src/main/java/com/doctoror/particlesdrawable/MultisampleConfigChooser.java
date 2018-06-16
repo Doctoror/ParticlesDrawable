@@ -1,6 +1,8 @@
 package com.doctoror.particlesdrawable;
 
 import android.opengl.GLSurfaceView;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import javax.microedition.khronos.egl.EGL10;
@@ -8,141 +10,121 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
 
 /**
- * GLView configuration for multisampling
- * <p>
- * Used <a href="http://code.google.com/p/gdc2011-android-opengl/source/browse/trunk/src/com/example/gdc11/MultisampleConfigChooser.java?r=2">GDC11 Multisample Example</a> as a reference.
- *
- * @author Aleksandar Kodzhabashev (d3kod)
+ * Multisampling will probably slow down your app -- measure performance carefully and decide if the vastly
+ * improved visual quality is worth the cost.
  */
 public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser {
-    static private final String TAG = "MultisampleConfigC";
 
-    public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display) {
-        mValue = new int[1];
+    private static final String TAG = "ConfigChooser";
 
-        // Try to find a normal multisample configuration first.
-        int[] configSpec = {
-                EGL10.EGL_RED_SIZE, 5,
-                EGL10.EGL_GREEN_SIZE, 6,
-                EGL10.EGL_BLUE_SIZE, 5,
-                EGL10.EGL_DEPTH_SIZE, 16,
-                // Requires that setEGLContextClientVersion(2) is called on the view.
-                EGL10.EGL_RENDERABLE_TYPE, 4 /* EGL_OPENGL_ES2_BIT */,
-                EGL10.EGL_SAMPLE_BUFFERS, 1 /* true */,
-                EGL10.EGL_SAMPLES, 5,
-                EGL10.EGL_NONE
-        };
+    private final int samples;
 
-        if (!egl.eglChooseConfig(display, configSpec, null, 0,
-                mValue)) {
-            //            throw new IllegalArgumentException("eglChooseConfig failed");
-            Log.e(TAG, "eglChooseConfig failed");
+    MultisampleConfigChooser(@IntRange(from = 2, to = 4) final int samples) {
+        if (samples <= 1 || samples >= 5) {
+            throw new IllegalArgumentException("Must be 2 or 4");
+        }
+        this.samples = samples;
+    }
+
+    @Override
+    public EGLConfig chooseConfig(@NonNull final EGL10 egl, @NonNull final EGLDisplay display) {
+        final int[] target = new int[1];
+
+        int[] configSpec = chooseMultiSamplingConfig(egl, display, target, samples);
+
+        if (configSpec == null || target[0] <= 0) {
+            configSpec = chooseCoverageMultiSamplingConfig(egl, display, target);
         }
 
-        int numConfigs = mValue[0];
-
-        if (numConfigs <= 0) {
-            // No normal multisampling config was found. Try to create a
-            // converage multisampling configuration, for the nVidia Tegra2.
-            // See the EGL_NV_coverage_sample documentation.
-
-            final int EGL_COVERAGE_BUFFERS_NV = 0x30E0;
-            final int EGL_COVERAGE_SAMPLES_NV = 0x30E1;
-
-            configSpec = new int[]{
-                    EGL10.EGL_RED_SIZE, 5,
-                    EGL10.EGL_GREEN_SIZE, 6,
-                    EGL10.EGL_BLUE_SIZE, 5,
-                    EGL10.EGL_DEPTH_SIZE, 16,
-                    EGL10.EGL_RENDERABLE_TYPE, 4 /* EGL_OPENGL_ES2_BIT */,
-                    EGL_COVERAGE_BUFFERS_NV, 1 /* true */,
-                    EGL_COVERAGE_SAMPLES_NV, 5,  // always 5 in practice on tegra 2
-                    EGL10.EGL_NONE
-            };
-
-            if (!egl.eglChooseConfig(display, configSpec, null, 0,
-                    mValue)) {
-                //                throw new IllegalArgumentException("2nd eglChooseConfig failed");
-                Log.e(TAG, "2nd eglChooseConfig failed");
-            } else {
-                mUsesCoverageAa = true;
-            }
-            numConfigs = mValue[0];
-
-            if (numConfigs <= 0) {
-                // Give up, try without multisampling.
-                configSpec = new int[]{
-                        EGL10.EGL_RED_SIZE, 5,
-                        EGL10.EGL_GREEN_SIZE, 6,
-                        EGL10.EGL_BLUE_SIZE, 5,
-                        EGL10.EGL_DEPTH_SIZE, 16,
-                        EGL10.EGL_RENDERABLE_TYPE, 4 /* EGL_OPENGL_ES2_BIT */,
-                        EGL10.EGL_NONE
-                };
-
-                if (!egl.eglChooseConfig(display, configSpec, null, 0,
-                        mValue)) {
-                    //                    throw new IllegalArgumentException("3rd eglChooseConfig failed");
-                    Log.e(TAG, "3rd eglChooseConfig failed");
-                }
-                numConfigs = mValue[0];
-
-                if (numConfigs <= 0) {
-                    throw new IllegalArgumentException("No configs match configSpec");
-                }
-            }
+        if (configSpec == null || target[0] <= 0) {
+            configSpec = chooseAnyConfig(egl, display, target);
         }
+
+        if (configSpec == null || target[0] <= 0) {
+            throw new IllegalArgumentException("Cannot choose any config");
+        }
+
+        final int numConfigs = target[0];
 
         // Get all matching configurations.
         final EGLConfig[] configs = new EGLConfig[numConfigs];
-        if (!egl.eglChooseConfig(display, configSpec, configs, numConfigs,
-                mValue)) {
-            throw new IllegalArgumentException("data eglChooseConfig failed");
+        if (!egl.eglChooseConfig(display, configSpec, configs, numConfigs, target)) {
+            throw new IllegalArgumentException("eglChooseConfig: failed fetching EGLConfig[]");
         }
 
-        // CAUTION! eglChooseConfigs returns configs with higher bit depth
-        // first: Even though we asked for rgb565 configurations, rgb888
-        // configurations are considered to be "better" and returned first.
-        // You need to explicitly filter the data returned by eglChooseConfig!
-        int index = -1;
-        for (int i = 0; i < configs.length; ++i) {
-            if (findConfigAttrib(egl, display, configs[i], EGL10.EGL_RED_SIZE, 0) == 5) {
-                index = i;
-                break;
+        return configs[0];
+    }
+
+    private static int[] chooseMultiSamplingConfig(
+            @NonNull final EGL10 egl,
+            @NonNull final EGLDisplay display,
+            @NonNull final int[] target,
+            final int samples) {
+        for (int i = samples; i >= 2; i /= 2) {
+            final int[] configSpec = {
+                    EGL10.EGL_RED_SIZE, EGL10.EGL_DONT_CARE,
+                    EGL10.EGL_GREEN_SIZE, EGL10.EGL_DONT_CARE,
+                    EGL10.EGL_BLUE_SIZE, EGL10.EGL_DONT_CARE,
+                    EGL10.EGL_DEPTH_SIZE, EGL10.EGL_DONT_CARE,
+                    EGL10.EGL_RENDERABLE_TYPE, EGL10.EGL_DONT_CARE,
+                    EGL10.EGL_SAMPLE_BUFFERS, 1,
+                    EGL10.EGL_SAMPLES, samples,
+                    EGL10.EGL_NONE
+            };
+
+            if (egl.eglChooseConfig(display, configSpec, null, 0, target)) {
+                return configSpec;
             }
         }
-        if (index == -1) {
-            Log.w(TAG, "Did not find sane config, using first");
-        }
-        final EGLConfig config = configs.length > 0 ? configs[index] : null;
-        if (config == null) {
-            throw new IllegalArgumentException("No config chosen");
-        }
-        return config;
+
+        Log.w(TAG, "Multisampling eglChooseConfig failed");
+        return null;
     }
 
-    private int findConfigAttrib(EGL10 egl, EGLDisplay display,
-                                 EGLConfig config, int attribute, int defaultValue) {
-        if (egl.eglGetConfigAttrib(display, config, attribute, mValue)) {
-            return mValue[0];
+    private static int[] chooseCoverageMultiSamplingConfig(
+            @NonNull final EGL10 egl,
+            @NonNull final EGLDisplay display,
+            @NonNull final int[] target) {
+        final int EGL_COVERAGE_BUFFERS_NV = 0x30E0;
+        final int EGL_COVERAGE_SAMPLES_NV = 0x30E1;
+
+        final int[] configSpec = new int[]{
+                EGL10.EGL_RED_SIZE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_GREEN_SIZE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_BLUE_SIZE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_DEPTH_SIZE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_RENDERABLE_TYPE, EGL10.EGL_DONT_CARE,
+                EGL_COVERAGE_BUFFERS_NV, 1,
+                EGL_COVERAGE_SAMPLES_NV, 4,
+                EGL10.EGL_NONE
+        };
+
+        if (egl.eglChooseConfig(display, configSpec, null, 0, target)) {
+            return configSpec;
         }
-        return defaultValue;
+
+        Log.w(TAG, "Coverage multisampling eglChooseConfig failed");
+        return null;
     }
 
-    /**
-     * See EGL_NV_coverage_sample documentation for more information. This is used in the OpenGL Renderer to determine if to clear the GL_COVERAGE_BUFFER_BIT_NV.
-     *
-     * @return if the configuration uses NVidia Tegra coverage multisampling configuration.
-     */
-    public static boolean usesCoverageAa() {
-        return mUsesCoverageAa;
-    }
+    private static int[] chooseAnyConfig(
+            @NonNull final EGL10 egl,
+            @NonNull final EGLDisplay display,
+            @NonNull final int[] target) {
+        final int[] configSpec = new int[]{
+                EGL10.EGL_RED_SIZE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_GREEN_SIZE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_BLUE_SIZE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_DEPTH_SIZE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_RENDERABLE_TYPE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_NONE
+        };
 
-    private int[] mValue;
-    /**
-     * Boolean to store if the graphics configuration uses NVidia Tegra coverage multisampling
-     *
-     * @see MultisampleConfigChooser#usesCoverageAa()
-     */
-    public static boolean mUsesCoverageAa;
+        if (egl.eglChooseConfig(display, configSpec, null, 0, target)) {
+            return configSpec;
+        }
+
+        Log.w(TAG, "Any eglChooseConfig failed");
+        return null;
+    }
 }
