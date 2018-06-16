@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.util.DistanceResolver;
+import com.doctoror.particlesdrawable.util.GLErrorChecker;
 import com.doctoror.particlesdrawable.util.LineColorResolver;
 import com.doctoror.particlesdrawable.util.ShaderLoader;
 
@@ -76,6 +77,7 @@ final class GlSceneRendererLines {
         GLES20.glAttachShader(program, vertexShader);
         GLES20.glAttachShader(program, fragmentShader);
         GLES20.glLinkProgram(program);
+        GLErrorChecker.checkGlError();
     }
 
     private void initBuffers(final int vertexCount) {
@@ -119,6 +121,7 @@ final class GlSceneRendererLines {
         initBuffers(scene.getNumDots());
         resolveLines(scene);
         drawLines(matrix);
+        GLErrorChecker.checkGlError();
     }
 
     private void resolveLines(@NonNull final ParticlesScene scene) {

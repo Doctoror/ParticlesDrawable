@@ -24,6 +24,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.util.GLErrorChecker;
 import com.doctoror.particlesdrawable.util.TextureUtils;
 import com.doctoror.particlesdrawable.util.ShaderLoader;
 
@@ -78,6 +79,7 @@ final class GlSceneRendererParticles {
         GLES20.glAttachShader(program, vertexShader);
         GLES20.glAttachShader(program, fragmentShader);
         GLES20.glLinkProgram(program);
+        GLErrorChecker.checkGlError();
     }
 
     void markTextureDirty() {

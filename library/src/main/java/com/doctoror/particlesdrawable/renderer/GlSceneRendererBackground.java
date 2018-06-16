@@ -21,6 +21,7 @@ import android.opengl.GLUtils;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.doctoror.particlesdrawable.util.GLErrorChecker;
 import com.doctoror.particlesdrawable.util.ShaderLoader;
 
 import java.nio.ByteBuffer;
@@ -75,6 +76,7 @@ final class GlSceneRendererBackground {
         GLES20.glAttachShader(program, vertexShader);
         GLES20.glAttachShader(program, fragmentShader);
         GLES20.glLinkProgram(program);
+        GLErrorChecker.checkGlError();
     }
 
     void setDimensions(final int width, final int height) {
@@ -115,9 +117,6 @@ final class GlSceneRendererBackground {
                     false,
                     0,
                     backgroundTextureCoordinates);
-
-//            final int samplerLoc = GLES20.glGetUniformLocation(program, "sTexture");
-//            GLES20.glUniform1i(samplerLoc, 0);
 
             final int mvpMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
             GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, matrix, 0);
