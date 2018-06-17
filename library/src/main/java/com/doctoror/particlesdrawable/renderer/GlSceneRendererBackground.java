@@ -62,6 +62,7 @@ final class GlSceneRendererBackground {
     private int program;
 
     private int textureId;
+    private boolean hasTexture;
 
     void init(final int textureId) {
         this.textureId = textureId;
@@ -88,47 +89,6 @@ final class GlSceneRendererBackground {
         backgroundCoordinatesDirty = true;
     }
 
-    void drawScene(@NonNull final float[] matrix) {
-        // TODO check if texture loaded
-        if (width != 0 && height != 0) {
-            ensureBackgroundTextureCoordiantes();
-            ensureBackgroundCooridnates();
-
-            backgroundTextureCoordinates.position(0);
-            backgroundCoordinates.position(0);
-
-            GLES20.glUseProgram(program);
-
-            final int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
-            GLES20.glEnableVertexAttribArray(positionHandle);
-
-            GLES20.glVertexAttribPointer(
-                    positionHandle,
-                    COORDINATES_PER_VERTEX,
-                    GLES20.GL_SHORT,
-                    false,
-                    0,
-                    backgroundCoordinates);
-
-            final int texCoordHandle = GLES20.glGetAttribLocation(program, "aTexCoord");
-            GLES20.glEnableVertexAttribArray(texCoordHandle);
-
-            GLES20.glVertexAttribPointer(
-                    texCoordHandle,
-                    COORDINATES_PER_VERTEX,
-                    GLES20.GL_BYTE,
-                    false,
-                    0,
-                    backgroundTextureCoordinates);
-
-            final int mvpMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
-            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, matrix, 0);
-
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
-        }
-    }
-
     void setTexture(@Nullable final Bitmap texture) {
         if (texture != null) {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
@@ -140,6 +100,8 @@ final class GlSceneRendererBackground {
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
         }
+
+        hasTexture = texture != null;
     }
 
     private void ensureBackgroundCooridnates() {
@@ -196,6 +158,46 @@ final class GlSceneRendererBackground {
 
             backgroundTextureCoordinates.put((byte) 1);
             backgroundTextureCoordinates.put((byte) 0);
+        }
+    }
+
+    void drawScene(@NonNull final float[] matrix) {
+        if (hasTexture && width != 0 && height != 0) {
+            ensureBackgroundTextureCoordiantes();
+            ensureBackgroundCooridnates();
+
+            backgroundTextureCoordinates.position(0);
+            backgroundCoordinates.position(0);
+
+            GLES20.glUseProgram(program);
+
+            final int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
+            GLES20.glEnableVertexAttribArray(positionHandle);
+
+            GLES20.glVertexAttribPointer(
+                    positionHandle,
+                    COORDINATES_PER_VERTEX,
+                    GLES20.GL_SHORT,
+                    false,
+                    0,
+                    backgroundCoordinates);
+
+            final int texCoordHandle = GLES20.glGetAttribLocation(program, "aTexCoord");
+            GLES20.glEnableVertexAttribArray(texCoordHandle);
+
+            GLES20.glVertexAttribPointer(
+                    texCoordHandle,
+                    COORDINATES_PER_VERTEX,
+                    GLES20.GL_BYTE,
+                    false,
+                    0,
+                    backgroundTextureCoordinates);
+
+            final int mvpMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
+            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, matrix, 0);
+
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
         }
     }
 }
