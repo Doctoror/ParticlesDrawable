@@ -25,8 +25,8 @@ import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.util.GLErrorChecker;
-import com.doctoror.particlesdrawable.util.TextureUtils;
 import com.doctoror.particlesdrawable.util.ShaderLoader;
+import com.doctoror.particlesdrawable.util.TextureUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -56,6 +56,7 @@ final class GlSceneRendererParticles {
     private static final int BYTES_PER_SHORT = 2;
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int VERTICES_PER_PARTICLE = 6;
+    private static final int TEXTURE_COORDINATES_PER_VERTEX = 6;
 
     private ShortBuffer particlesTrianglesCoordinates;
     private ByteBuffer particlesTexturesCoordinates;
@@ -104,14 +105,26 @@ final class GlSceneRendererParticles {
     }
 
     private void initParticleTexturesBuffer(final int vertexCount) {
-        final int capacity = vertexCount * COORDINATES_PER_VERTEX * VERTICES_PER_PARTICLE;
+        final int capacity = vertexCount
+                * COORDINATES_PER_VERTEX
+                * TEXTURE_COORDINATES_PER_VERTEX
+                * VERTICES_PER_PARTICLE;
+
         if (particlesTexturesCoordinates == null
                 || particlesTexturesCoordinates.capacity() != capacity) {
             particlesTexturesCoordinates = ByteBuffer.allocateDirect(capacity);
             particlesTexturesCoordinates.order(ByteOrder.nativeOrder());
 
-            for (int i = 0; i < capacity; i += VERTICES_PER_PARTICLE) {
+            final int step = VERTICES_PER_PARTICLE * TEXTURE_COORDINATES_PER_VERTEX;
+            for (int i = 0; i < capacity; i += step) {
                 particlesTexturesCoordinates.put((byte) 0);
+                particlesTexturesCoordinates.put((byte) 1);
+                particlesTexturesCoordinates.put((byte) 1);
+                particlesTexturesCoordinates.put((byte) 1);
+                particlesTexturesCoordinates.put((byte) 0);
+                particlesTexturesCoordinates.put((byte) 0);
+
+                particlesTexturesCoordinates.put((byte) 1);
                 particlesTexturesCoordinates.put((byte) 1);
                 particlesTexturesCoordinates.put((byte) 0);
                 particlesTexturesCoordinates.put((byte) 0);
@@ -193,14 +206,15 @@ final class GlSceneRendererParticles {
             final float coordY = coordinates.get() - particleRadius;
 
             final float particleSize = particleRadius * 2f;
-            particlesTrianglesCoordinates.put((short) coordX);
-            particlesTrianglesCoordinates.put((short) coordY);
-            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
-            particlesTrianglesCoordinates.put((short) coordY);
-            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
-            particlesTrianglesCoordinates.put((short) (coordY + particleSize));
 
             particlesTrianglesCoordinates.put((short) coordX);
+            particlesTrianglesCoordinates.put((short) coordY);
+            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
+            particlesTrianglesCoordinates.put((short) coordY);
+            particlesTrianglesCoordinates.put((short) coordX);
+            particlesTrianglesCoordinates.put((short) (coordY + particleSize));
+
+            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
             particlesTrianglesCoordinates.put((short) coordY);
             particlesTrianglesCoordinates.put((short) coordX);
             particlesTrianglesCoordinates.put((short) (coordY + particleSize));
