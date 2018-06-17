@@ -36,6 +36,8 @@ public final class GlSceneRenderer implements SceneRenderer {
     private final float[] projectionMatrix = new float[16];
     private final float[] viewMatrix = new float[16];
 
+    private final int[] textureHandle = new int[2];
+
     public void markParticleTextureDirty() {
         particles.markTextureDirty();
     }
@@ -54,11 +56,12 @@ public final class GlSceneRenderer implements SceneRenderer {
     public void setupGl() {
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        GLES20.glGenTextures(2, textureHandle, 0);
 
         markParticleTextureDirty();
-        background.init();
+        background.init(textureHandle[0]);
         lines.init();
-        particles.init();
+        particles.init(textureHandle[1]);
     }
 
     public void setDimensions(final int width, final int height) {
@@ -71,8 +74,7 @@ public final class GlSceneRenderer implements SceneRenderer {
     }
 
     public void recycle() {
-        particles.recycle();
-        background.recycle();
+        GLES20.glDeleteTextures(2, textureHandle, 0);
     }
 
     @Override

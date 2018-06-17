@@ -51,8 +51,6 @@ final class GlSceneRendererBackground {
     private static final int BYTES_PER_SHORT = 2;
     private static final int COORDINATES_PER_VERTEX = 2;
 
-    private final int[] textureHandle = new int[1];
-
     private volatile boolean backgroundCoordinatesDirty;
 
     private ShortBuffer backgroundCoordinates;
@@ -63,7 +61,11 @@ final class GlSceneRendererBackground {
 
     private int program;
 
-    void init() {
+    private int textureId;
+
+    void init(final int textureId) {
+        this.textureId = textureId;
+
         final int vertexShader = ShaderLoader.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 VERTEX_SHADER_CODE);
@@ -87,7 +89,8 @@ final class GlSceneRendererBackground {
     }
 
     void drawScene(@NonNull final float[] matrix) {
-        if (textureHandle[0] != 0 && width != 0 && height != 0) {
+        // TODO check if texture loaded
+        if (width != 0 && height != 0) {
             ensureBackgroundTextureCoordiantes();
             ensureBackgroundCooridnates();
 
@@ -121,21 +124,14 @@ final class GlSceneRendererBackground {
             final int mvpMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
             GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, matrix, 0);
 
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
             GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
         }
     }
 
     void setTexture(@Nullable final Bitmap texture) {
-        GLES20.glDeleteTextures(1, textureHandle, 0);
-        textureHandle[0] = 0;
-
         if (texture != null) {
-            GLES20.glGenTextures(1, textureHandle, 0);
-
-            //GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
-
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, texture, 0);
 
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
@@ -144,10 +140,6 @@ final class GlSceneRendererBackground {
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
         }
-    }
-
-    void recycle() {
-        setTexture(null);
     }
 
     private void ensureBackgroundCooridnates() {

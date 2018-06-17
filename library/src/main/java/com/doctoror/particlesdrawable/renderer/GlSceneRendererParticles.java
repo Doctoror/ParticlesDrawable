@@ -57,8 +57,6 @@ final class GlSceneRendererParticles {
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int VERTICES_PER_PARTICLE = 6;
 
-    private final int[] textureHandle = new int[1];
-
     private ShortBuffer particlesTrianglesCoordinates;
     private ByteBuffer particlesTexturesCoordinates;
 
@@ -66,7 +64,11 @@ final class GlSceneRendererParticles {
 
     private int program;
 
-    void init() {
+    private int textureId;
+
+    void init(final int textureId) {
+        this.textureId = textureId;
+
         final int vertexShader = ShaderLoader.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 VERTEX_SHADER_CODE);
@@ -89,10 +91,6 @@ final class GlSceneRendererParticles {
     private void initBuffers(final int vertexCount) {
         initParticleTrianglesBuffer(vertexCount);
         initParticleTexturesBuffer(vertexCount);
-    }
-
-    void recycle() {
-        GLES20.glDeleteTextures(1, textureHandle, 0);
     }
 
     private void initParticleTrianglesBuffer(final int vertexCount) {
@@ -157,10 +155,7 @@ final class GlSceneRendererParticles {
     }
 
     private void loadTexture(@NonNull final Bitmap texture) {
-        GLES20.glDeleteTextures(1, textureHandle, 0);
-
-        GLES20.glGenTextures(1, textureHandle, 0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, texture, 0);
 
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
@@ -248,7 +243,7 @@ final class GlSceneRendererParticles {
         final int mvpMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
         GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, matrix, 0);
 
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, count * VERTICES_PER_PARTICLE);
     }
 }
