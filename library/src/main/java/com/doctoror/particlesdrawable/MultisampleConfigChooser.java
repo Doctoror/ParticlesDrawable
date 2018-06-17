@@ -19,7 +19,7 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
 
     private final int samples;
 
-    MultisampleConfigChooser(@IntRange(from = 2, to = 4) final int samples) {
+    public MultisampleConfigChooser(@IntRange(from = 2, to = 4) final int samples) {
         if (samples <= 1 || samples >= 5) {
             throw new IllegalArgumentException("Must be 2 or 4");
         }
