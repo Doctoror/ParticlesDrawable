@@ -16,9 +16,11 @@
 package com.doctoror.particlesdrawable.util;
 
 import android.graphics.Bitmap;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+@Keep
 public final class TextureUtils {
 
     private TextureUtils() {

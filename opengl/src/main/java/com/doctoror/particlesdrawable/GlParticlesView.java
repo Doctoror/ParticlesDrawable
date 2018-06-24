@@ -38,6 +38,7 @@ import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import com.doctoror.particlesdrawable.renderer.GlSceneRenderer;
+import com.doctoror.particlesdrawable.util.MultisampleConfigChooser;
 import com.doctoror.particlesdrawable.util.TextureUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -62,17 +63,19 @@ public class GlParticlesView extends GLSurfaceView implements
         SceneScheduler,
         GLSurfaceView.Renderer {
 
+    private static final int DEFAULT_SAMPLES = 4;
+
     private final ParticlesScene scene = new ParticlesScene();
     private final GlSceneRenderer renderer = new GlSceneRenderer();
     private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
 
-    private volatile boolean mBackgroundColorDirty;
-    private volatile boolean mBackgroundTextureDirty;
+    private volatile boolean backgroundColorDirty;
+    private volatile boolean backgroundTextureDirty;
 
     @ColorInt
-    private int mBackgroundColor = Color.DKGRAY;
+    private int backgroundColor = Color.DKGRAY;
 
-    private Bitmap mBackgroundTexture;
+    private Bitmap backgroundTexture;
 
     private boolean autoScaleBackgroundToSmallerPot = true;
 
@@ -87,10 +90,7 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     private void init(@NonNull final Context context, @Nullable final AttributeSet attrs) {
-        setEGLContextClientVersion(2);
-        setEGLConfigChooser(new MultisampleConfigChooser(2));
-        setRenderer(this);
-        setRenderMode(RENDERMODE_WHEN_DIRTY);
+        int samples = DEFAULT_SAMPLES;
         if (attrs != null) {
             @SuppressLint("CustomViewStyleable") final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
@@ -99,17 +99,35 @@ public class GlParticlesView extends GLSurfaceView implements
             } finally {
                 a.recycle();
             }
+
+            final TypedArray glAttrs = context
+                    .obtainStyledAttributes(attrs, R.styleable.GlParticlesView);
+            try {
+                samples = glAttrs.getInt(R.styleable.GlParticlesView_multisampling, DEFAULT_SAMPLES);
+                setAutoScaleBackgroundToSmallerPot(glAttrs.getBoolean(
+                        R.styleable.GlParticlesView_autoScaleBackgroundToSmallerPot,
+                        autoScaleBackgroundToSmallerPot));
+            } finally {
+                glAttrs.recycle();
+            }
         }
 
         final TypedArray array = context.getTheme()
                 .obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
         try {
-            mBackgroundColor = array.getColor(0, Color.DKGRAY);
+            backgroundColor = array.getColor(0, Color.DKGRAY);
         } catch (Exception e) {
             Log.w("GlParticlesView", "Failed to obtain windowBackground", e);
         } finally {
             array.recycle();
         }
+
+        setEGLContextClientVersion(2);
+        if (samples != 0) {
+            setEGLConfigChooser(new MultisampleConfigChooser(samples));
+        }
+        setRenderer(this);
+        setRenderMode(RENDERMODE_WHEN_DIRTY);
 
         renderer.markParticleTextureDirty();
     }
@@ -135,8 +153,8 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Override
     public void setBackgroundColor(@ColorInt final int color) {
-        mBackgroundColor = color;
-        mBackgroundColorDirty = true;
+        backgroundColor = color;
+        backgroundColorDirty = true;
     }
 
     /**
@@ -204,8 +222,8 @@ public class GlParticlesView extends GLSurfaceView implements
         if (texture != null && autoScaleBackgroundToSmallerPot) {
             texture = TextureUtils.scaleToSmallerPot(texture);
         }
-        mBackgroundTexture = texture;
-        mBackgroundTextureDirty = true;
+        backgroundTexture = texture;
+        backgroundTextureDirty = true;
     }
 
     /**
@@ -415,26 +433,26 @@ public class GlParticlesView extends GLSurfaceView implements
     public void onSurfaceCreated(@NonNull final GL10 gl, @NonNull final EGLConfig config) {
         recycle();
         renderer.setupGl();
-        mBackgroundColorDirty = true;
-        mBackgroundTextureDirty = true;
+        backgroundColorDirty = true;
+        backgroundTextureDirty = true;
     }
 
     @Override
     public void onSurfaceChanged(@NonNull final GL10 gl, final int width, final int height) {
         renderer.setDimensions(width, height);
-        mBackgroundColorDirty = true;
-        mBackgroundTextureDirty = true;
+        backgroundColorDirty = true;
+        backgroundTextureDirty = true;
     }
 
     @Override
     public void onDrawFrame(@NonNull final GL10 gl) {
-        if (mBackgroundColorDirty) {
-            renderer.setClearColor(mBackgroundColor);
-            mBackgroundColorDirty = false;
+        if (backgroundColorDirty) {
+            renderer.setClearColor(backgroundColor);
+            backgroundColorDirty = false;
         }
-        if (mBackgroundTextureDirty) {
-            renderer.setBackgroundTexture(mBackgroundTexture);
-            mBackgroundTextureDirty = false;
+        if (backgroundTextureDirty) {
+            renderer.setBackgroundTexture(backgroundTexture);
+            backgroundTextureDirty = false;
         }
         presenter.draw();
         presenter.run();
