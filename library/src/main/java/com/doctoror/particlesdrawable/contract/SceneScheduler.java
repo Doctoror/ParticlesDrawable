@@ -15,9 +15,12 @@
  */
 package com.doctoror.particlesdrawable.contract;
 
+import android.support.annotation.Keep;
+
 /**
  * Used for scheduling redraw
  */
+@Keep
 public interface SceneScheduler {
 
     void scheduleNextFrame(long delay);

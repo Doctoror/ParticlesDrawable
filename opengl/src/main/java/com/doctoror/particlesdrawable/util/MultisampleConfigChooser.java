@@ -17,6 +17,7 @@ package com.doctoror.particlesdrawable.util;
 
 import android.opengl.GLSurfaceView;
 import android.support.annotation.IntRange;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -28,6 +29,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
  * Multisampling will probably slow down your app -- measure performance carefully and decide if the vastly
  * improved visual quality is worth the cost.
  */
+@Keep
 public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser {
 
     private static final String TAG = "ConfigChooser";

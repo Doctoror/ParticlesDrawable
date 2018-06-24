@@ -57,6 +57,7 @@ import javax.microedition.khronos.opengles.GL10;
  * {@link #setAutoScaleBackgroundToSmallerPot(boolean)} but it might be incompatible with some drivers;</li>
  * </ul>
  */
+@Keep
 public class GlParticlesView extends GLSurfaceView implements
         SceneController,
         SceneConfiguration,

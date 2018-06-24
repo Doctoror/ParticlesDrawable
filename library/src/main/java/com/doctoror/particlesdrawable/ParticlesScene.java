@@ -18,6 +18,7 @@ package com.doctoror.particlesdrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
@@ -28,6 +29,7 @@ import java.util.Locale;
 /**
  * The Particles scene
  */
+@Keep
 public final class ParticlesScene implements SceneConfiguration {
 
     private static final int COORDINATES_PER_VERTEX = 2;
