@@ -16,7 +16,7 @@ ext {
     supportVersion = '27.1.1'
 
     //Testing
-    jUnitVersion = '4.12'
+    jUnitVersion = '5.2.0'
     testRunnerVersion = '1.0.2'
     mockitoVersion = '2.19.0'
     mockitoKotlinVersion = '1.5.0'
@@ -27,7 +27,8 @@ ext {
     ]
 
     libraryTestDependencies = [
-            junit         : "junit:junit:$jUnitVersion",
+            junitJupiter  : "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
+            junitVintage  : "org.junit.vintage:junit-vintage-engine:$jUnitVersion",
 
             kotlin        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ext.kotlinVersion",
 

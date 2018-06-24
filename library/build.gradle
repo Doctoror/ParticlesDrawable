@@ -55,7 +55,8 @@ dependencies {
     androidTestImplementation td.testRules
     androidTestImplementation td.mockitoAndroid
 
-    testImplementation td.junit
+    testImplementation td.junitJupiter
+    testImplementation td.junitVintage
     testImplementation td.kotlin
     testImplementation td.mockitoCore
     testImplementation td.mockitoKotlin
