@@ -46,10 +46,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 /**
  * Particles View that draws on {@link GLSurfaceView}.
- * <p/>
+ * <p>
  * Due to it's limitations, use it only if it gives you measured performance gain. Otherwise it is recommented
- * to use {@link ParticlesView}.
- * <p/>
+ * to use com.doctoror.particlesdrawable.ParticlesView.
+ * <p>
  * Limitations:
  * <ul>
  * <li>not trivial to make the background transparent;</li>
@@ -160,14 +160,14 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable} since API
      * Level 11.
-     * <p/>
+     * <p>
      * The background will stretch to fill the entire screen. If you need transformations, like center crop,
      * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToSmallerPot(boolean)}
      * is set to true (which is true by default), any NPOT images will be scaled to smaller POT.
-     * <p/>
+     * <p>
      * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
      * {@link BitmapDrawable}.
-     * <p/>
+     * <p>
      * If you want to change the background color without affecting the {@link Bitmap} texture, use
      * {@link #setBackgroundColor(int)}
      *
@@ -183,14 +183,14 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable} since API
      * Level 11.
-     * <p/>
+     * <p>
      * The background will stretch to fill the entire screen. If you need transformations, like center crop,
      * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToSmallerPot(boolean)}
      * is set to true (which is true by default), any NPOT images will be scaled to smaller POT.
-     * <p/>
+     * <p>
      * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
      * {@link BitmapDrawable}.
-     * <p/>
+     * <p>
      * If you want to change the background color without affecting the {@link Bitmap} texture, use
      * {@link #setBackgroundColor(int)}
      *
