@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable.util;
+package com.doctoror.particlesdrawable.opengl.util;
 
 import android.opengl.GLES20;
 import android.util.Log;

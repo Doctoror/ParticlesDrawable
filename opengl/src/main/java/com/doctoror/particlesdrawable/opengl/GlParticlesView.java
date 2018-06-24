@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.opengl;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -34,12 +34,15 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.R;
+import com.doctoror.particlesdrawable.ScenePresenter;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
-import com.doctoror.particlesdrawable.renderer.GlSceneRenderer;
-import com.doctoror.particlesdrawable.util.MultisampleConfigChooser;
-import com.doctoror.particlesdrawable.util.TextureUtils;
+import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer;
+import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser;
+import com.doctoror.particlesdrawable.opengl.util.TextureUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
