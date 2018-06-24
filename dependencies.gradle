@@ -18,7 +18,7 @@ ext {
     //Testing
     jUnitVersion = '4.12'
     testRunnerVersion = '1.0.2'
-    mockitoVersion = '2.18.3'
+    mockitoVersion = '2.19.0'
     mockitoKotlinVersion = '1.5.0'
     robolectricVersion = '3.8'
 
