@@ -81,7 +81,7 @@ public final class ScenePresenter implements Runnable, SceneController {
         }
     }
 
-    void handleAttrs(@NonNull final TypedArray a) {
+    public void handleAttrs(@NonNull final TypedArray a) {
         final int count = a.getIndexCount();
         float minDotRadius = Defaults.DEFAULT_MIN_DOT_RADIUS;
         float maxDotRadius = Defaults.DEFAULT_MAX_DOT_RADIUS;
