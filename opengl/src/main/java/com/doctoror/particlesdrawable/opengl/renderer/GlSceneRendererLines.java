@@ -38,7 +38,10 @@ final class GlSceneRendererLines {
                     "attribute vec4 aColor;" +
                     "varying vec4 vColor;" +
                     "void main() {" +
-                    "  vColor = aColor;" +
+                    "  vColor.r = aColor.r * aColor.a;" +
+                    "  vColor.g = aColor.g * aColor.a;" +
+                    "  vColor.b = aColor.b * aColor.a;" +
+                    "  vColor.a = aColor.a;" +
                     "  gl_Position = uMVPMatrix * vPosition;" +
                     "}";
 
@@ -47,7 +50,6 @@ final class GlSceneRendererLines {
                     "varying vec4 vColor;" +
                     "void main() {" +
                     "  gl_FragColor = vColor;" +
-                    "gl_FragColor.a = vColor.a;" +
                     "}";
 
     private static final int BYTES_PER_SHORT = 2;

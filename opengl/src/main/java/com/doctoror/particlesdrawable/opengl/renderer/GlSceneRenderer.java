@@ -57,7 +57,7 @@ public final class GlSceneRenderer implements SceneRenderer {
 
     public void setupGl() {
         GLES20.glEnable(GLES20.GL_BLEND);
-        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_DST_ALPHA);
+        GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         GLES20.glGenTextures(2, textureHandle, 0);
 
         markParticleTextureDirty();
