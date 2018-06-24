@@ -15,6 +15,9 @@
  */
 package com.doctoror.particlesdrawable.util;
 
+import android.support.annotation.Keep;
+
+@Keep
 public final class DistanceResolver {
 
     /**
