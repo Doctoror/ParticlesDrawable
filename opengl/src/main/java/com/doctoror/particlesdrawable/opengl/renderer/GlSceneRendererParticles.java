@@ -25,8 +25,8 @@ import android.support.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
+import com.doctoror.particlesdrawable.opengl.util.PotCalculator;
 import com.doctoror.particlesdrawable.opengl.util.ShaderLoader;
-import com.doctoror.particlesdrawable.opengl.util.TextureUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -158,7 +158,7 @@ final class GlSceneRendererParticles {
         paint.setColor(color);
 
         final int size = (int) (maxPointRadius * 2f);
-        final int sizePowerOfTwo = TextureUtils.findNextOrReturnIfPowerOfTwo(size);
+        final int sizePowerOfTwo = PotCalculator.findNextOrReturnIfPowerOfTwo(size);
         final int halfSizePowerOfTwo = sizePowerOfTwo / 2;
         final Bitmap bitmap = Bitmap.createBitmap(sizePowerOfTwo, sizePowerOfTwo, Bitmap.Config.ARGB_4444);
         final Canvas canvas = new Canvas(bitmap);
