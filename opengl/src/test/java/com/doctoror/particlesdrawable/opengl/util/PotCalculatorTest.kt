@@ -110,43 +110,43 @@ class PotCalculatorTest {
 
     @Test
     fun returnsSameDimensionsWhenWidthIs0() {
-        val result = PotCalculator.toLargerPotDomensions(0, 32)
+        val result = PotCalculator.toLargerPotDimensions(0, 32)
         assertEquals(Pair(0, 32), result)
     }
 
     @Test
     fun returnsSameDimensionsWhenHeightIs0() {
-        val result = PotCalculator.toLargerPotDomensions(0, 32)
+        val result = PotCalculator.toLargerPotDimensions(0, 32)
         assertEquals(Pair(0, 32), result)
     }
 
     @Test
     fun returnsSameDimensionsWhenBothDimensionsAre0() {
-        val result = PotCalculator.toLargerPotDomensions(0, 0)
+        val result = PotCalculator.toLargerPotDimensions(0, 0)
         assertEquals(Pair(0, 0), result)
     }
 
     @Test
     fun returnsSameDimensionsWhenBothDimensionsAreNegative() {
-        val result = PotCalculator.toLargerPotDomensions(-1, -2)
+        val result = PotCalculator.toLargerPotDimensions(-1, -2)
         assertEquals(Pair(-1, -2), result)
     }
 
     @Test
     fun largerPotReturnsTheSameDimensionsWhenAlreadyPot() {
-        val result = PotCalculator.toLargerPotDomensions(32, 32)
+        val result = PotCalculator.toLargerPotDimensions(32, 32)
         assertEquals(Pair(32, 32), result)
     }
 
     @Test
     fun scalesToLargerPotWhenOneDimensionNpot() {
-        val result = PotCalculator.toLargerPotDomensions(32, 50)
+        val result = PotCalculator.toLargerPotDimensions(32, 50)
         assertEquals(Pair(32, 64), result)
     }
 
     @Test
     fun scalesToLargerPotWhenTwoDimensionsNpot() {
-        val result = PotCalculator.toLargerPotDomensions(62, 96)
+        val result = PotCalculator.toLargerPotDimensions(62, 96)
         assertEquals(Pair(64, 128), result)
     }
 }

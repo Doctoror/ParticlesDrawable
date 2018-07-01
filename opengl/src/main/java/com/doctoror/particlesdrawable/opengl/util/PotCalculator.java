@@ -16,6 +16,7 @@
 package com.doctoror.particlesdrawable.opengl.util;
 
 import android.support.annotation.Keep;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Pair;
 
@@ -71,7 +72,8 @@ public final class PotCalculator {
      * @param height the height to get next POT for
      * @return next larger POT dimensions or input dimensions if already POT
      */
-    public static Pair<Integer, Integer> toLargerPotDomensions(final int width, final int height) {
+    @NonNull
+    public static Pair<Integer, Integer> toLargerPotDimensions(final int width, final int height) {
         if (width <= 0 || height <= 0) {
             return new Pair<Integer, Integer>(width, height);
         }

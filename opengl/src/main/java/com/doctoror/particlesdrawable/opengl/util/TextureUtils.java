@@ -31,7 +31,7 @@ public final class TextureUtils {
         final int sourceHeight = texture.getHeight();
 
         final Pair<Integer, Integer> nextPot = PotCalculator
-                .toLargerPotDomensions(sourceWidth, sourceHeight);
+                .toLargerPotDimensions(sourceWidth, sourceHeight);
 
         if (nextPot.first != sourceWidth || nextPot.second != sourceHeight) {
             texture = Bitmap.createScaledBitmap(texture, nextPot.first, nextPot.second, true);
