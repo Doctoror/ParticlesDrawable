@@ -17,6 +17,7 @@ package com.doctoror.particlesdrawable.opengl.util;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.util.Pair;
 
 public final class TextureUtils {
 
@@ -25,18 +26,15 @@ public final class TextureUtils {
     }
 
     @NonNull
-    public static Bitmap scaleToSmallerPot(@NonNull Bitmap texture) {
+    public static Bitmap scaleToLargerPot(@NonNull Bitmap texture) {
         final int sourceWidth = texture.getWidth();
         final int sourceHeight = texture.getHeight();
-        if (sourceWidth <= 0 && sourceHeight <= 0) {
-            return texture;
-        }
 
-        final int targetWidth = PotCalculator.findPreviousOrReturnIfPowerOfTwo(sourceWidth);
-        final int targetHeight = PotCalculator.findPreviousOrReturnIfPowerOfTwo(sourceHeight);
+        final Pair<Integer, Integer> nextPot = PotCalculator
+                .toLargerPotDomensions(sourceWidth, sourceHeight);
 
-        if (targetWidth != sourceWidth || targetHeight != sourceHeight) {
-            texture = Bitmap.createScaledBitmap(texture, targetWidth, targetHeight, true);
+        if (nextPot.first != sourceWidth || nextPot.second != sourceHeight) {
+            texture = Bitmap.createScaledBitmap(texture, nextPot.first, nextPot.second, true);
         }
         return texture;
     }

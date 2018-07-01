@@ -57,7 +57,7 @@ import javax.microedition.khronos.opengles.GL10;
  * <ul>
  * <li>not trivial to make the background transparent;</li>
  * <li>textures are resized to POT, you can disable this with
- * {@link #setAutoScaleBackgroundToSmallerPot(boolean)} but it might be incompatible with some drivers;</li>
+ * {@link #setAutoScaleBackgroundToLargerPot(boolean)} but it might be incompatible with some drivers;</li>
  * </ul>
  */
 @Keep
@@ -81,7 +81,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
     private Bitmap backgroundTexture;
 
-    private boolean autoScaleBackgroundToSmallerPot = true;
+    private boolean autoScaleBackgroundToLargerPot = true;
 
     public GlParticlesView(Context context) {
         super(context);
@@ -108,9 +108,9 @@ public class GlParticlesView extends GLSurfaceView implements
                     .obtainStyledAttributes(attrs, R.styleable.GlParticlesView);
             try {
                 samples = glAttrs.getInt(R.styleable.GlParticlesView_multisampling, DEFAULT_SAMPLES);
-                setAutoScaleBackgroundToSmallerPot(glAttrs.getBoolean(
-                        R.styleable.GlParticlesView_autoScaleBackgroundToSmallerPot,
-                        autoScaleBackgroundToSmallerPot));
+                setAutoScaleBackgroundToLargerPot(glAttrs.getBoolean(
+                        R.styleable.GlParticlesView_autoScaleBackgroundToLargerPot,
+                        autoScaleBackgroundToLargerPot));
             } finally {
                 glAttrs.recycle();
             }
@@ -137,14 +137,14 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     /**
-     * Set whether NPOT backgrounds should be auto scaled to the nearest smaller POT.
+     * Set whether NPOT backgrounds should be auto scaled to the nearest larger POT.
      * <p>
      * Default is true.
      *
-     * @param autoScaleBackgroundToSmallerPot whether to auto scaled to POT
+     * @param autoScaleBackgroundToLargerPot whether to auto scale to POT
      */
-    public void setAutoScaleBackgroundToSmallerPot(final boolean autoScaleBackgroundToSmallerPot) {
-        this.autoScaleBackgroundToSmallerPot = autoScaleBackgroundToSmallerPot;
+    public void setAutoScaleBackgroundToLargerPot(final boolean autoScaleBackgroundToLargerPot) {
+        this.autoScaleBackgroundToLargerPot = autoScaleBackgroundToLargerPot;
     }
 
     /**
@@ -166,7 +166,7 @@ public class GlParticlesView extends GLSurfaceView implements
      * Level 11.
      * <p>
      * The background will stretch to fill the entire screen. If you need transformations, like center crop,
-     * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToSmallerPot(boolean)}
+     * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToLargerPot(boolean)}
      * is set to true (which is true by default), any NPOT images will be scaled to smaller POT.
      * <p>
      * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
@@ -189,7 +189,7 @@ public class GlParticlesView extends GLSurfaceView implements
      * Level 11.
      * <p>
      * The background will stretch to fill the entire screen. If you need transformations, like center crop,
-     * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToSmallerPot(boolean)}
+     * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToLargerPot(boolean)}
      * is set to true (which is true by default), any NPOT images will be scaled to smaller POT.
      * <p>
      * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
@@ -223,8 +223,8 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     private void processAndSetBackgroundTexture(@Nullable Bitmap texture) {
-        if (texture != null && autoScaleBackgroundToSmallerPot) {
-            texture = TextureUtils.scaleToSmallerPot(texture);
+        if (texture != null && autoScaleBackgroundToLargerPot) {
+            texture = TextureUtils.scaleToLargerPot(texture);
         }
         backgroundTexture = texture;
         backgroundTextureDirty = true;

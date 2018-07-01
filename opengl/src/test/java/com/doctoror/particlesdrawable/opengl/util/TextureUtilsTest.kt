@@ -31,26 +31,26 @@ class TextureUtilsTest {
     fun doesNotScaleWhenAlreadyPot() {
         val input = Bitmap.createBitmap(32, 32, Bitmap.Config.RGB_565)
 
-        val result = TextureUtils.scaleToSmallerPot(input)
+        val result = TextureUtils.scaleToLargerPot(input)
 
         assertTrue(result === input)
     }
 
     @Test
-    fun scalesToSmallerPotWhenOneSideNpot() {
+    fun scalesToLargerPotWhenOneSideNpot() {
         val input = Bitmap.createBitmap(32, 50, Bitmap.Config.RGB_565)
 
-        val result = TextureUtils.scaleToSmallerPot(input)
+        val result = TextureUtils.scaleToLargerPot(input)
 
         assertEquals(32, result.width)
-        assertEquals(32, result.height)
+        assertEquals(64, result.height)
     }
 
     @Test
-    fun scalesToSmallerPotWhenTwoSidesNpot() {
-        val input = Bitmap.createBitmap(144, 144, Bitmap.Config.RGB_565)
+    fun scalesToLargerPotWhenTwoSidesNpot() {
+        val input = Bitmap.createBitmap(114, 114, Bitmap.Config.RGB_565)
 
-        val result = TextureUtils.scaleToSmallerPot(input)
+        val result = TextureUtils.scaleToLargerPot(input)
 
         assertEquals(128, result.width)
         assertEquals(128, result.height)
