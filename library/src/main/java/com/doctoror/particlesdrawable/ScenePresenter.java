@@ -125,7 +125,7 @@ public final class ScenePresenter implements Runnable, SceneController {
     private void gotoNextFrameAndSchedule() {
         nextFrame();
         getViewScheduler()
-                .scheduleNextFrame(Math.max(scene.getFrameDelay() - mLastDrawDuration, 5L));
+                .scheduleNextFrame(Math.max(scene.getFrameDelay() - mLastDrawDuration, 0L));
     }
 
     void setAlpha(final int alpha) {
@@ -316,7 +316,6 @@ public final class ScenePresenter implements Runnable, SceneController {
         }
 
         mLastFrameTime = SystemClock.uptimeMillis();
-        getViewScheduler().requestRender();
     }
 
     /**
