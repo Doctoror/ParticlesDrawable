@@ -19,6 +19,7 @@ import android.opengl.GLSurfaceView;
 import android.support.annotation.IntRange;
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import javax.microedition.khronos.egl.EGL10;
@@ -34,13 +35,23 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
 
     private static final String TAG = "ConfigChooser";
 
+    @Nullable
+    private final Callback callback;
+
     private final int samples;
 
     public MultisampleConfigChooser(@IntRange(from = 2, to = 4) final int samples) {
+        this(samples, null);
+    }
+
+    public MultisampleConfigChooser(
+            @IntRange(from = 2, to = 4) final int samples,
+            @Nullable final Callback callback) {
         if (samples <= 1 || samples >= 5) {
             throw new IllegalArgumentException("Number of samples must be 2 or 4");
         }
         this.samples = samples;
+        this.callback = callback;
     }
 
     @Override
@@ -72,7 +83,8 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         return configs[0];
     }
 
-    private static int[] chooseMultiSamplingConfig(
+    @Nullable
+    private int[] chooseMultiSamplingConfig(
             @NonNull final EGL10 egl,
             @NonNull final EGLDisplay display,
             @NonNull final int[] target,
@@ -90,6 +102,9 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
             };
 
             if (egl.eglChooseConfig(display, configSpec, null, 0, target)) {
+                if (callback != null) {
+                    callback.onConfigChosen(i);
+                }
                 return configSpec;
             }
         }
@@ -98,7 +113,8 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         return null;
     }
 
-    private static int[] chooseCoverageMultiSamplingConfig(
+    @Nullable
+    private int[] chooseCoverageMultiSamplingConfig(
             @NonNull final EGL10 egl,
             @NonNull final EGLDisplay display,
             @NonNull final int[] target) {
@@ -117,6 +133,9 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         };
 
         if (egl.eglChooseConfig(display, configSpec, null, 0, target)) {
+            if (callback != null) {
+                callback.onConfigChosen(4);
+            }
             return configSpec;
         }
 
@@ -124,7 +143,8 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         return null;
     }
 
-    private static int[] chooseAnyConfig(
+    @Nullable
+    private int[] chooseAnyConfig(
             @NonNull final EGL10 egl,
             @NonNull final EGLDisplay display,
             @NonNull final int[] target) {
@@ -138,10 +158,24 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         };
 
         if (egl.eglChooseConfig(display, configSpec, null, 0, target)) {
+            if (callback != null) {
+                callback.onConfigChosen(0);
+            }
             return configSpec;
         }
 
         Log.w(TAG, "Any eglChooseConfig failed");
         return null;
+    }
+
+    @Keep
+    public interface Callback {
+
+        /**
+         * Notifies that the config has been chosen.
+         *
+         * @param samples the chosen EGL_SAMPLES or 0 if not a multisampling config was chosen.
+         */
+        void onConfigChosen(int samples);
     }
 }
