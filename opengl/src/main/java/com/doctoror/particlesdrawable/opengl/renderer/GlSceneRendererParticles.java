@@ -31,7 +31,6 @@ import com.doctoror.particlesdrawable.opengl.util.ShaderLoader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 
 final class GlSceneRendererParticles {
 
@@ -53,12 +52,12 @@ final class GlSceneRendererParticles {
                     "  gl_FragColor = texture2D(sTexture, vTexCoord);" +
                     "}";
 
-    private static final int BYTES_PER_SHORT = 2;
+    private static final int BYTES_PER_FLOAT = 4;
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int VERTICES_PER_PARTICLE = 6;
     private static final int TEXTURE_COORDINATES_PER_VERTEX = 6;
 
-    private ShortBuffer particlesTrianglesCoordinates;
+    private FloatBuffer particlesTrianglesCoordinates;
     private ByteBuffer particlesTexturesCoordinates;
 
     private volatile boolean textureDirty;
@@ -95,12 +94,12 @@ final class GlSceneRendererParticles {
     }
 
     private void initParticleTrianglesBuffer(final int vertexCount) {
-        final int floatcapacity = vertexCount * COORDINATES_PER_VERTEX * VERTICES_PER_PARTICLE;
+        final int capacity = vertexCount * COORDINATES_PER_VERTEX * VERTICES_PER_PARTICLE;
         if (particlesTrianglesCoordinates == null
-                || particlesTrianglesCoordinates.capacity() != floatcapacity) {
-            final ByteBuffer triangleShit = ByteBuffer.allocateDirect(floatcapacity * BYTES_PER_SHORT);
+                || particlesTrianglesCoordinates.capacity() != capacity) {
+            final ByteBuffer triangleShit = ByteBuffer.allocateDirect(capacity * BYTES_PER_FLOAT);
             triangleShit.order(ByteOrder.nativeOrder());
-            particlesTrianglesCoordinates = triangleShit.asShortBuffer();
+            particlesTrianglesCoordinates = triangleShit.asFloatBuffer();
         }
     }
 
@@ -207,19 +206,19 @@ final class GlSceneRendererParticles {
 
             final float particleSize = particleRadius * 2f;
 
-            particlesTrianglesCoordinates.put((short) coordX);
-            particlesTrianglesCoordinates.put((short) coordY);
-            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
-            particlesTrianglesCoordinates.put((short) coordY);
-            particlesTrianglesCoordinates.put((short) coordX);
-            particlesTrianglesCoordinates.put((short) (coordY + particleSize));
+            particlesTrianglesCoordinates.put(coordX);
+            particlesTrianglesCoordinates.put(coordY);
+            particlesTrianglesCoordinates.put(coordX + particleSize);
+            particlesTrianglesCoordinates.put(coordY);
+            particlesTrianglesCoordinates.put(coordX);
+            particlesTrianglesCoordinates.put(coordY + particleSize);
 
-            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
-            particlesTrianglesCoordinates.put((short) coordY);
-            particlesTrianglesCoordinates.put((short) coordX);
-            particlesTrianglesCoordinates.put((short) (coordY + particleSize));
-            particlesTrianglesCoordinates.put((short) (coordX + particleSize));
-            particlesTrianglesCoordinates.put((short) (coordY + particleSize));
+            particlesTrianglesCoordinates.put(coordX + particleSize);
+            particlesTrianglesCoordinates.put(coordY);
+            particlesTrianglesCoordinates.put(coordX);
+            particlesTrianglesCoordinates.put(coordY + particleSize);
+            particlesTrianglesCoordinates.put(coordX + particleSize);
+            particlesTrianglesCoordinates.put(coordY + particleSize);
         }
     }
 
@@ -235,7 +234,7 @@ final class GlSceneRendererParticles {
         GLES20.glVertexAttribPointer(
                 positionHandle,
                 COORDINATES_PER_VERTEX,
-                GLES20.GL_SHORT,
+                GLES20.GL_FLOAT,
                 false,
                 0,
                 particlesTrianglesCoordinates);

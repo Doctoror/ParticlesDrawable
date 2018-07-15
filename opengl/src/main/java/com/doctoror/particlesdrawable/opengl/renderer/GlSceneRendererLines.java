@@ -28,7 +28,7 @@ import com.doctoror.particlesdrawable.util.LineColorResolver;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.ShortBuffer;
+import java.nio.FloatBuffer;
 
 final class GlSceneRendererLines {
 
@@ -52,14 +52,14 @@ final class GlSceneRendererLines {
                     "  gl_FragColor = vColor;" +
                     "}";
 
-    private static final int BYTES_PER_SHORT = 2;
+    private static final int BYTES_PER_FLOAT = 4;
     private static final int COORDINATES_PER_VERTEX = 2;
     private static final int COLOR_BYTES_PER_VERTEX = 4;
     private static final int VERTICES_PER_THIN_LINE = 2;
     private static final int VERTICES_PER_THICK_LINE = 6;
 
     private ByteBuffer lineColorBuffer;
-    private ShortBuffer lineCoordinatesBuffer;
+    private FloatBuffer lineCoordinatesBuffer;
 
     private boolean lineAsTriangles = false;
     private int lineVerticesCount;
@@ -102,9 +102,9 @@ final class GlSceneRendererLines {
         final int shortcapacity = segmentsCount * verticesPerLine * COORDINATES_PER_VERTEX;
         if (lineCoordinatesBuffer == null || lineCoordinatesBuffer.capacity() != shortcapacity) {
             final ByteBuffer coordinatesByteBuffer = ByteBuffer.allocateDirect(
-                    shortcapacity * BYTES_PER_SHORT);
+                    shortcapacity * BYTES_PER_FLOAT);
             coordinatesByteBuffer.order(ByteOrder.nativeOrder());
-            lineCoordinatesBuffer = coordinatesByteBuffer.asShortBuffer();
+            lineCoordinatesBuffer = coordinatesByteBuffer.asFloatBuffer();
         }
     }
 
@@ -186,10 +186,10 @@ final class GlSceneRendererLines {
             final float stopX,
             final float stopY,
             @ColorInt final int color) {
-        lineCoordinatesBuffer.put((short) startX);
-        lineCoordinatesBuffer.put((short) startY);
-        lineCoordinatesBuffer.put((short) stopX);
-        lineCoordinatesBuffer.put((short) stopY);
+        lineCoordinatesBuffer.put(startX);
+        lineCoordinatesBuffer.put(startY);
+        lineCoordinatesBuffer.put(stopX);
+        lineCoordinatesBuffer.put(stopY);
 
         lineColorBuffer.put((byte) Color.red(color));
         lineColorBuffer.put((byte) Color.green(color));
@@ -221,17 +221,17 @@ final class GlSceneRendererLines {
         final float px = 0.5f * lineThickness * (-dy); //perpendicular vector with lenght thickness * 0.5
         final float py = 0.5f * lineThickness * dx;
 
-        final short x1 = (short) (startX + px);
-        final short y1 = (short) (startY + py);
+        final float x1 = startX + px;
+        final float y1 = startY + py;
 
-        final short x2 = (short) (stopX + px);
-        final short y2 = (short) (stopY + py);
+        final float x2 = stopX + px;
+        final float y2 = stopY + py;
 
-        final short x3 = (short) (stopX - px);
-        final short y3 = (short) (stopY - py);
+        final float x3 = stopX - px;
+        final float y3 = stopY - py;
 
-        final short x4 = (short) (startX - px);
-        final short y4 = (short) (startY - py);
+        final float x4 = startX - px;
+        final float y4 = startY - py;
 
         putLineTrianglesBasedOnQuad(
                 x1, y1,
@@ -273,14 +273,14 @@ final class GlSceneRendererLines {
     }
 
     private void putLineTrianglesBasedOnQuad(
-            final short x1,
-            final short y1,
-            final short x2,
-            final short y2,
-            final short x3,
-            final short y3,
-            final short x4,
-            final short y4
+            final float x1,
+            final float y1,
+            final float x2,
+            final float y2,
+            final float x3,
+            final float y3,
+            final float x4,
+            final float y4
     ) {
         lineCoordinatesBuffer.put(x1);
         lineCoordinatesBuffer.put(y1);
@@ -313,7 +313,7 @@ final class GlSceneRendererLines {
         GLES20.glVertexAttribPointer(
                 positionHandle,
                 COORDINATES_PER_VERTEX,
-                GLES20.GL_SHORT,
+                GLES20.GL_FLOAT,
                 false,
                 0,
                 lineCoordinatesBuffer);
