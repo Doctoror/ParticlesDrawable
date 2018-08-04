@@ -398,6 +398,7 @@ public class GlParticlesView extends GLSurfaceView implements
         if (delay == 0) {
             requestRender();
         } else {
+            removeCallbacks(requestRenderRunnable);
             postDelayed(requestRenderRunnable, delay);
         }
     }
