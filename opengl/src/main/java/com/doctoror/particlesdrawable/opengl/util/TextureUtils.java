@@ -16,7 +16,7 @@
 package com.doctoror.particlesdrawable.opengl.util;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Pair;
 
 public final class TextureUtils {

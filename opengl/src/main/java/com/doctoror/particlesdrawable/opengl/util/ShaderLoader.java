@@ -16,7 +16,7 @@
 package com.doctoror.particlesdrawable.opengl.util;
 
 import android.opengl.GLES20;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public final class ShaderLoader {
 

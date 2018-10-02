@@ -15,8 +15,8 @@
  */
 package com.doctoror.particlesdrawable.contract;
 
-import android.support.annotation.Keep;
-import android.support.annotation.NonNull;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
 

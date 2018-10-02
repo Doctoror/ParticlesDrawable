@@ -15,7 +15,7 @@
  */
 package com.doctoror.particlesdrawable.contract;
 
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 public interface LowLevelRenderer {
 

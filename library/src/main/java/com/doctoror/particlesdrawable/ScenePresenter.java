@@ -18,8 +18,8 @@ package com.doctoror.particlesdrawable;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.SystemClock;
-import android.support.annotation.Keep;
-import android.support.annotation.NonNull;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 

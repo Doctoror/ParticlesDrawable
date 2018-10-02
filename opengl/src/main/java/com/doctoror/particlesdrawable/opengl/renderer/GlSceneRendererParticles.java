@@ -20,8 +20,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;

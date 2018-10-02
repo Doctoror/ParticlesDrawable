@@ -1,7 +1,6 @@
 #Android Studio files
 *.iml
 .gradle
-gradle.properties
 gradle
 gradlew*
 .idea

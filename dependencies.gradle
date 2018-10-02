@@ -11,19 +11,20 @@ ext {
     androidMinSdkVersion = 9
     androidTargetSdkVersion = 27
     androidCompileSdkVersion = 28
+    androidXVersion = '1.0.0'
 
     //Libraries
     supportVersion = '28.0.0'
 
     //Testing
     jUnitVersion = '5.3.1'
-    testRunnerVersion = '1.0.2'
     mockitoVersion = '2.22.0'
     mockitoKotlinVersion = '1.6.0'
     robolectricVersion = '3.8'
+    testRunnerVersion = '1.1.0-alpha4'
 
     libraryDependencies = [
-            annotations: "com.android.support:support-annotations:$supportVersion"
+            annotations: "androidx.annotation:annotation:$androidXVersion"
     ]
 
     libraryTestDependencies = [
@@ -38,7 +39,7 @@ ext {
 
             robolectric   : "org.robolectric:robolectric:$robolectricVersion",
 
-            testRunner    : "com.android.support.test:runner:$testRunnerVersion",
-            testRules     : "com.android.support.test:rules:$testRunnerVersion"
+            testRunner    : "androidx.test:runner:$testRunnerVersion",
+            testRules     : "androidx.test:rules:$testRunnerVersion"
     ]
 }

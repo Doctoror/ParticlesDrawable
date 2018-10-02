@@ -23,12 +23,12 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
-import android.support.annotation.ColorInt;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntRange;
-import android.support.annotation.Keep;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
@@ -59,10 +59,11 @@ public class ParticlesDrawable extends Drawable implements
     private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
 
     @Override
-    public void inflate(@NonNull final Resources r,
-                        @NonNull final XmlPullParser parser,
-                        @NonNull final AttributeSet attrs,
-                        @Nullable final Resources.Theme theme) throws XmlPullParserException, IOException {
+    public void inflate(
+            @NonNull final Resources r,
+            @NonNull final XmlPullParser parser,
+            @NonNull final AttributeSet attrs,
+            @Nullable final Resources.Theme theme) throws XmlPullParserException, IOException {
         super.inflate(r, parser, attrs, theme);
         presenter.inflate(r, attrs);
     }
@@ -196,8 +197,9 @@ public class ParticlesDrawable extends Drawable implements
      * {@inheritDoc}
      */
     @Override
-    public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
-                                  @FloatRange(from = 0.5f) final float maxRadius) {
+    public void setDotRadiusRange(
+            @FloatRange(from = 0.5f) final float minRadius,
+            @FloatRange(from = 0.5f) final float maxRadius) {
         scene.setDotRadiusRange(minRadius, maxRadius);
     }
 

@@ -15,10 +15,10 @@
  */
 package com.doctoror.particlesdrawable.contract;
 
-import android.support.annotation.ColorInt;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntRange;
-import android.support.annotation.Keep;
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.Keep;
 
 /**
  * Particles scene configuration, makes sure all configuration fields are available.

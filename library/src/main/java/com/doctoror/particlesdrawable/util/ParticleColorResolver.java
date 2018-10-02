@@ -16,8 +16,8 @@
 package com.doctoror.particlesdrawable.util;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntRange;
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
 
 public final class ParticleColorResolver {
 

@@ -17,7 +17,7 @@ package com.doctoror.particlesdrawable;
 
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.TypedValue;
 
 /**

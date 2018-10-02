@@ -20,9 +20,9 @@ import org.junit.Test;
 import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.test.InstrumentationRegistry;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.test.InstrumentationRegistry;
 import android.util.TypedValue;
 
 import static org.junit.Assert.*;

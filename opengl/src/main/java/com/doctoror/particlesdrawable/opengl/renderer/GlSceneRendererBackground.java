@@ -18,8 +18,8 @@ package com.doctoror.particlesdrawable.opengl.renderer;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
 import com.doctoror.particlesdrawable.opengl.util.ShaderLoader;

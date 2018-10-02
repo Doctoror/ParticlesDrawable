@@ -15,7 +15,7 @@
  */
 package com.doctoror.particlesdrawable.renderer;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
