@@ -41,5 +41,6 @@ repositories{
 }
 
 dependencies {
-    implementation project(":library")
+    implementation project(path: ':library', configuration: 'productionReleaseRuntimeElements')
+    //implementation project(':library')
 }

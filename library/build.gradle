@@ -36,6 +36,18 @@ android {
         }
     }
 
+    flavorDimensions 'default'
+
+    productFlavors {
+        exposed {
+
+        }
+
+        production {
+            proguardFile 'proguard-configurable-keep.pro'
+        }
+    }
+
     configurations {
         javadocDeps
     }

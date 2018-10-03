@@ -15,15 +15,16 @@
  */
 package com.doctoror.particlesdrawable.contract;
 
+import com.doctoror.particlesdrawable.ConfigurableKeep;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
 import androidx.annotation.IntRange;
-import androidx.annotation.Keep;
 
 /**
  * Particles scene configuration, makes sure all configuration fields are available.
  */
-@Keep
+@ConfigurableKeep
 public interface SceneConfiguration {
 
     /**
@@ -134,7 +135,8 @@ public interface SceneConfiguration {
      *
      * @return the particles color
      */
-    @ColorInt int getDotColor();
+    @ColorInt
+    int getDotColor();
 
     /**
      * Set the line color. Note that the color alpha is ignored and will be calculated depending on
@@ -149,5 +151,6 @@ public interface SceneConfiguration {
      *
      * @return the connection line color
      */
-    @ColorInt int getLineColor();
+    @ColorInt
+    int getLineColor();
 }

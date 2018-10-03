@@ -15,9 +15,9 @@
  */
 package com.doctoror.particlesdrawable.contract;
 
-import androidx.annotation.Keep;
+import com.doctoror.particlesdrawable.ConfigurableKeep;
 
-@Keep
+@ConfigurableKeep
 public interface SceneController {
 
     /**

@@ -15,12 +15,14 @@
  */
 package com.doctoror.particlesdrawable.opengl.util;
 
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import android.util.Pair;
 
-@Keep
+import com.doctoror.particlesdrawable.ConfigurableKeep;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+
+@ConfigurableKeep
 public final class PotCalculator {
 
     private PotCalculator() {

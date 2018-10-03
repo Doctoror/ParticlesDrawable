@@ -19,15 +19,16 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
-import androidx.annotation.ColorInt;
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
+import com.doctoror.particlesdrawable.ConfigurableKeep;
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 
-@Keep
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+@ConfigurableKeep
 public final class GlSceneRenderer implements SceneRenderer {
 
     private final GlSceneRendererBackground background = new GlSceneRendererBackground();

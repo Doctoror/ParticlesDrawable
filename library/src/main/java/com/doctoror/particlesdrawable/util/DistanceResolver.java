@@ -15,9 +15,9 @@
  */
 package com.doctoror.particlesdrawable.util;
 
-import androidx.annotation.Keep;
+import com.doctoror.particlesdrawable.ConfigurableKeep;
 
-@Keep
+@ConfigurableKeep
 public final class DistanceResolver {
 
     /**
@@ -26,7 +26,7 @@ public final class DistanceResolver {
      * @return distance between two points
      */
     public static float distance(final float ax, final float ay,
-                                  final float bx, final float by) {
+                                 final float bx, final float by) {
         return (float) Math.sqrt(
                 (ax - bx) * (ax - bx) +
                         (ay - by) * (ay - by)

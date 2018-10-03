@@ -15,11 +15,12 @@
  */
 package com.doctoror.particlesdrawable.util;
 
+import com.doctoror.particlesdrawable.ConfigurableKeep;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
-import androidx.annotation.Keep;
 
-@Keep
+@ConfigurableKeep
 public final class LineColorResolver {
 
     /**
@@ -32,8 +33,7 @@ public final class LineColorResolver {
      */
     @IntRange(from = 0, to = 255)
     private static int resolveLineAlpha(
-            @IntRange(from = 0, to = 255)
-            final int sceneAlpha,
+            @IntRange(from = 0, to = 255) final int sceneAlpha,
             final float maxDistance,
             final float distance) {
         final float alphaPercent = 1f - distance / maxDistance;
@@ -43,8 +43,7 @@ public final class LineColorResolver {
 
     @ColorInt
     public static int resolveLineColorWithAlpha(
-            @IntRange(from = 0, to = 255)
-            final int sceneAlpha,
+            @IntRange(from = 0, to = 255) final int sceneAlpha,
             @ColorInt final int lineColor,
             final float maxDistance,
             final float distance) {

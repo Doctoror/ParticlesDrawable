@@ -18,8 +18,6 @@ package com.doctoror.particlesdrawable;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.SystemClock;
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
@@ -29,10 +27,12 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler;
 
 import java.util.Random;
 
+import androidx.annotation.NonNull;
+
 /**
  * Particles Scene Controller
  */
-@Keep
+@ConfigurableKeep
 public final class ScenePresenter implements Runnable, SceneController {
 
     /**
@@ -44,7 +44,7 @@ public final class ScenePresenter implements Runnable, SceneController {
             TypedValue.COMPLEX_UNIT_DIP, 18f, Resources.getSystem().getDisplayMetrics());
 
     private static final float STEP_PER_MS = 0.05f;
-    
+
     private final Random mRandom = new Random();
 
     private final ParticlesScene scene;

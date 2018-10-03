@@ -15,21 +15,20 @@
  */
 package com.doctoror.particlesdrawable;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.FloatRange;
-import androidx.annotation.IntRange;
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 
 import java.nio.FloatBuffer;
 import java.util.Locale;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+
 /**
  * The Particles scene
  */
-@Keep
+@ConfigurableKeep
 public final class ParticlesScene implements SceneConfiguration {
 
     private static final int COORDINATES_PER_VERTEX = 2;

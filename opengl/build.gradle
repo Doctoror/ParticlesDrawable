@@ -28,6 +28,18 @@ android {
         checkAllWarnings true
     }
 
+    flavorDimensions 'default'
+
+    productFlavors {
+        exposed {
+
+        }
+
+        production {
+            proguardFile 'proguard-configurable-keep.pro'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
