@@ -44,7 +44,7 @@ public final class CanvasSceneRenderer implements LowLevelRenderer {
         return paint;
     }
 
-    public void setColorFilter(final ColorFilter colorFilter) {
+    public void setColorFilter(@Nullable final ColorFilter colorFilter) {
         paint.setColorFilter(colorFilter);
     }
 

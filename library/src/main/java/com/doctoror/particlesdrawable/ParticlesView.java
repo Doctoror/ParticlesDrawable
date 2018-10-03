@@ -32,12 +32,14 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
 import androidx.annotation.IntRange;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 import androidx.annotation.VisibleForTesting;
 
 /**
@@ -78,25 +80,30 @@ public class ParticlesView extends View implements
     private boolean mAttachedToWindow;
     private boolean mEmulateOnAttachToWindow;
 
-    public ParticlesView(final Context context) {
+    public ParticlesView(@NonNull final Context context) {
         super(context);
         init(context, null);
     }
 
-    public ParticlesView(final Context context, final AttributeSet attrs) {
+    public ParticlesView(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public ParticlesView(final Context context, final AttributeSet attrs,
-                         final int defStyleAttr) {
+    public ParticlesView(
+            @NonNull final Context context,
+            @Nullable final AttributeSet attrs,
+            @AttrRes final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ParticlesView(final Context context, final AttributeSet attrs,
-                         final int defStyleAttr, final int defStyleRes) {
+    public ParticlesView(
+            @NonNull final Context context,
+            @Nullable final AttributeSet attrs,
+            @AttrRes final int defStyleAttr,
+            @StyleRes final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
@@ -289,7 +296,7 @@ public class ParticlesView extends View implements
     }
 
     @Override
-    protected void onDraw(final Canvas canvas) {
+    protected void onDraw(@NonNull final Canvas canvas) {
         super.onDraw(canvas);
         canvasSceneRenderer.setCanvas(canvas);
         presenter.draw();

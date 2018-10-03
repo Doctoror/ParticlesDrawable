@@ -114,7 +114,7 @@ public class ParticlesDrawable extends Drawable implements
     }
 
     @Override
-    public void setColorFilter(final ColorFilter colorFilter) {
+    public void setColorFilter(@Nullable final ColorFilter colorFilter) {
         canvasRenderer.setColorFilter(colorFilter);
     }
 
