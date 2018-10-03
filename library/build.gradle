@@ -32,7 +32,7 @@ android {
         release {
             minifyEnabled true
             proguardFile getDefaultProguardFile('proguard-android.txt')
-            proguardFile ':proguard-keep.pro'
+            proguardFile 'proguard-keep.pro'
         }
     }
 
