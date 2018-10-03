@@ -240,7 +240,8 @@ public final class ScenePresenter implements Runnable, SceneController {
         }
     }
 
-    private void addNewParticle(
+    @SuppressWarnings("WeakerAccess") // exposed to avoid synthethic accessor
+    void addNewParticle(
             final int position,
             final boolean onScreen) {
         final ParticlesScene model = scene;
