@@ -56,9 +56,9 @@ dependencies {
     testImplementation td.kotlin
     testImplementation td.robolectric
 
-    javadocDeps 'androidx.annotation:annotation:1.0.0'
+    javadocDeps d.annotations
 
-    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation d.annotations
     implementation project(':library')
 }
 
