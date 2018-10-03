@@ -33,8 +33,8 @@ class ScenePresenterTest {
 
     private val underTest = ScenePresenter(
             scene,
-            mock(SceneRenderer::class.java),
-            mock(SceneScheduler::class.java))
+            mock(SceneScheduler::class.java),
+            mock(SceneRenderer::class.java))
 
     @Test
     fun testIsRunningByDefault() {

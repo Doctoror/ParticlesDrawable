@@ -48,8 +48,8 @@ public final class ScenePresenter implements Runnable, SceneController {
     private final Random mRandom = new Random();
 
     private final ParticlesScene scene;
-    private final SceneRenderer renderer;
     private final SceneScheduler scheduler;
+    private final SceneRenderer renderer;
 
     private boolean mParticlesInited;
 
@@ -60,11 +60,11 @@ public final class ScenePresenter implements Runnable, SceneController {
 
     public ScenePresenter(
             @NonNull final ParticlesScene scene,
-            @NonNull final SceneRenderer renderer,
-            @NonNull final SceneScheduler scheduler) {
+            @NonNull final SceneScheduler scheduler,
+            @NonNull final SceneRenderer renderer) {
         this.scene = scene;
-        this.renderer = renderer;
         this.scheduler = scheduler;
+        this.renderer = renderer;
     }
 
     @NonNull

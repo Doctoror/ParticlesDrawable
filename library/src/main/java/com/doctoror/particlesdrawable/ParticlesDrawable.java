@@ -23,12 +23,6 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
-import androidx.annotation.ColorInt;
-import androidx.annotation.FloatRange;
-import androidx.annotation.IntRange;
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
@@ -43,6 +37,13 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * The Particles Drawable
  */
@@ -56,7 +57,7 @@ public class ParticlesDrawable extends Drawable implements
     private final CanvasSceneRenderer canvasRenderer = new CanvasSceneRenderer();
     private final ParticlesScene scene = new ParticlesScene();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasRenderer);
-    private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
+    private final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
 
     @Override
     public void inflate(

@@ -71,7 +71,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
     private final ParticlesScene scene = new ParticlesScene();
     private final GlSceneRenderer renderer = new GlSceneRenderer();
-    private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
+    private final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
 
     private volatile boolean backgroundColorDirty;
     private volatile boolean backgroundTextureDirty;

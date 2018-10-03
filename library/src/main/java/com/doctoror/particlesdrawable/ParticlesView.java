@@ -21,13 +21,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Build;
-import androidx.annotation.ColorInt;
-import androidx.annotation.FloatRange;
-import androidx.annotation.IntRange;
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewParent;
@@ -38,6 +31,14 @@ import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * The Particles View.
@@ -65,7 +66,7 @@ public class ParticlesView extends View implements
     private final CanvasSceneRenderer canvasSceneRenderer = new CanvasSceneRenderer();
     private final ParticlesScene scene = new ParticlesScene();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasSceneRenderer);
-    private final ScenePresenter presenter = new ScenePresenter(scene, renderer, this);
+    private final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
