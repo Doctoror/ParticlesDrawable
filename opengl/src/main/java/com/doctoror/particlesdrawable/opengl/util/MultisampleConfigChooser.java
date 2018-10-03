@@ -54,6 +54,7 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         this.callback = callback;
     }
 
+    @NonNull
     @Override
     public EGLConfig chooseConfig(@NonNull final EGL10 egl, @NonNull final EGLDisplay display) {
         final int[] target = new int[1];

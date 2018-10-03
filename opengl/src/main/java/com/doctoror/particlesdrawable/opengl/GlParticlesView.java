@@ -83,12 +83,12 @@ public class GlParticlesView extends GLSurfaceView implements
 
     private boolean autoScaleBackgroundToLargerPot = true;
 
-    public GlParticlesView(Context context) {
+    public GlParticlesView(@NonNull final Context context) {
         super(context);
         init(context, null);
     }
 
-    public GlParticlesView(Context context, AttributeSet attrs) {
+    public GlParticlesView(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
