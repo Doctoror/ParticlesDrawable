@@ -32,11 +32,10 @@ android {
 
     productFlavors {
         exposed {
-
+            proguardFile 'proguard-configurable-keep.pro'
         }
 
         production {
-            proguardFile 'proguard-configurable-keep.pro'
         }
     }
 
