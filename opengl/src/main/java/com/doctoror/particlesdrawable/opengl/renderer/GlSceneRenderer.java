@@ -29,7 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @ConfigurableKeep
-public final class GlSceneRenderer implements SceneRenderer {
+public class GlSceneRenderer implements SceneRenderer {
 
     private final GlSceneRendererBackground background = new GlSceneRendererBackground();
     private final GlSceneRendererParticles particles = new GlSceneRendererParticles();
