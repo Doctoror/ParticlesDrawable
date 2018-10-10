@@ -22,14 +22,14 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.doctoror.particlesdrawable.ConfigurableKeep;
+import com.doctoror.particlesdrawable.KeepAsApi;
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 
 /**
  * {@link SceneRenderer} that draws on {@link Canvas}
  */
-@ConfigurableKeep
+@KeepAsApi
 public final class CanvasSceneRenderer implements LowLevelRenderer {
 
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);

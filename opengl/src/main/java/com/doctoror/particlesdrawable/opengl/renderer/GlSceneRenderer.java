@@ -20,7 +20,7 @@ import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.doctoror.particlesdrawable.ConfigurableKeep;
+import com.doctoror.particlesdrawable.KeepAsApi;
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 
@@ -28,7 +28,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-@ConfigurableKeep
+@KeepAsApi
 public class GlSceneRenderer implements SceneRenderer {
 
     private final GlSceneRendererBackground background = new GlSceneRendererBackground();

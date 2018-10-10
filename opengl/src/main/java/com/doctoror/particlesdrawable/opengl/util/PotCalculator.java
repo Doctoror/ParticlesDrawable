@@ -17,12 +17,12 @@ package com.doctoror.particlesdrawable.opengl.util;
 
 import android.util.Pair;
 
-import com.doctoror.particlesdrawable.ConfigurableKeep;
+import com.doctoror.particlesdrawable.KeepAsApi;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-@ConfigurableKeep
+@KeepAsApi
 public final class PotCalculator {
 
     private PotCalculator() {

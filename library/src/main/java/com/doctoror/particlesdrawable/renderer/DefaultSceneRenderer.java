@@ -17,7 +17,7 @@ package com.doctoror.particlesdrawable.renderer;
 
 import androidx.annotation.NonNull;
 
-import com.doctoror.particlesdrawable.ConfigurableKeep;
+import com.doctoror.particlesdrawable.KeepAsApi;
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
@@ -27,7 +27,7 @@ import com.doctoror.particlesdrawable.util.ParticleColorResolver;
 
 import java.nio.FloatBuffer;
 
-@ConfigurableKeep
+@KeepAsApi
 public class DefaultSceneRenderer implements SceneRenderer {
 
     private final LowLevelRenderer renderer;

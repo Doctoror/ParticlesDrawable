@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 /**
  * Particles Scene Controller
  */
-@ConfigurableKeep
+@KeepAsApi
 public final class ScenePresenter implements Runnable, SceneController {
 
     /**

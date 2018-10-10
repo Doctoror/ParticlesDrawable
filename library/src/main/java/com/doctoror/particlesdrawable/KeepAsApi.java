@@ -17,5 +17,5 @@ import static java.lang.annotation.ElementType.TYPE;
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({PACKAGE, TYPE, ANNOTATION_TYPE, CONSTRUCTOR, METHOD, FIELD})
-public @interface ConfigurableKeep {
+public @interface KeepAsApi {
 }

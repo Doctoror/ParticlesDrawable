@@ -15,9 +15,9 @@
  */
 package com.doctoror.particlesdrawable.contract;
 
-import com.doctoror.particlesdrawable.ConfigurableKeep;
+import com.doctoror.particlesdrawable.KeepAsApi;
 
-@ConfigurableKeep
+@KeepAsApi
 public interface SceneController {
 
     /**

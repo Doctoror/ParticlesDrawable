@@ -28,7 +28,7 @@ import androidx.annotation.NonNull;
 /**
  * The Particles scene
  */
-@ConfigurableKeep
+@KeepAsApi
 public final class ParticlesScene implements SceneConfiguration {
 
     private static final int COORDINATES_PER_VERTEX = 2;

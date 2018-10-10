@@ -15,12 +15,12 @@
  */
 package com.doctoror.particlesdrawable.util;
 
-import com.doctoror.particlesdrawable.ConfigurableKeep;
+import com.doctoror.particlesdrawable.KeepAsApi;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 
-@ConfigurableKeep
+@KeepAsApi
 public final class LineColorResolver {
 
     /**

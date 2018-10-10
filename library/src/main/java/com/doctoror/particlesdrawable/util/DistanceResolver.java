@@ -15,9 +15,9 @@
  */
 package com.doctoror.particlesdrawable.util;
 
-import com.doctoror.particlesdrawable.ConfigurableKeep;
+import com.doctoror.particlesdrawable.KeepAsApi;
 
-@ConfigurableKeep
+@KeepAsApi
 public final class DistanceResolver {
 
     /**

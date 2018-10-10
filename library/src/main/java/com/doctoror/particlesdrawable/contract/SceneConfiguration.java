@@ -15,7 +15,7 @@
  */
 package com.doctoror.particlesdrawable.contract;
 
-import com.doctoror.particlesdrawable.ConfigurableKeep;
+import com.doctoror.particlesdrawable.KeepAsApi;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
@@ -24,7 +24,7 @@ import androidx.annotation.IntRange;
 /**
  * Particles scene configuration, makes sure all configuration fields are available.
  */
-@ConfigurableKeep
+@KeepAsApi
 public interface SceneConfiguration {
 
     /**
