@@ -17,6 +17,7 @@ package com.doctoror.particlesdrawable;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Animatable;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -33,7 +34,7 @@ import androidx.annotation.NonNull;
  * Particles Scene Controller
  */
 @KeepAsApi
-public final class ScenePresenter implements Runnable, SceneController {
+public final class ScenePresenter implements Animatable, Runnable, SceneController {
 
     /**
      * Path calculation padding.
@@ -136,6 +137,7 @@ public final class ScenePresenter implements Runnable, SceneController {
         return scene.getAlpha();
     }
 
+    @Override
     public void start() {
         if (!mAnimating) {
             mAnimating = true;
@@ -144,6 +146,7 @@ public final class ScenePresenter implements Runnable, SceneController {
         }
     }
 
+    @Override
     public void stop() {
         if (mAnimating) {
             mAnimating = false;
@@ -152,7 +155,8 @@ public final class ScenePresenter implements Runnable, SceneController {
         }
     }
 
-    boolean isRunning() {
+    @Override
+    public boolean isRunning() {
         return mAnimating;
     }
 
@@ -240,7 +244,8 @@ public final class ScenePresenter implements Runnable, SceneController {
         }
     }
 
-    @SuppressWarnings("WeakerAccess") // exposed to avoid synthethic accessor
+    @SuppressWarnings("WeakerAccess")
+        // exposed to avoid synthethic accessor
     void addNewParticle(
             final int position,
             final boolean onScreen) {

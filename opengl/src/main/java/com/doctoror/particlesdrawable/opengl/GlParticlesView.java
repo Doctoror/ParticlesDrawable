@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -62,6 +63,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 @Keep
 public class GlParticlesView extends GLSurfaceView implements
+        Animatable,
         SceneController,
         SceneConfiguration,
         SceneScheduler,
@@ -413,7 +415,7 @@ public class GlParticlesView extends GLSurfaceView implements
      * Note that if this View's visibility is not {@link #VISIBLE} or it's not attached to window,
      * this will not start animating until the state changes to meet the requirements above.
      */
-    @Keep
+    @Override
     public void start() {
         onResume();
         presenter.start();
@@ -423,11 +425,16 @@ public class GlParticlesView extends GLSurfaceView implements
      * Explicilty stop animating. This will stop animating and no animations will start
      * automatically until you call {@link #start()}.
      */
-    @Keep
+    @Override
     public void stop() {
         presenter.stop();
         onPause();
         recycle();
+    }
+
+    @Override
+    public boolean isRunning() {
+        return presenter.isRunning();
     }
 
     private void recycle() {

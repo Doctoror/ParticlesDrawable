@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Animatable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -61,6 +62,7 @@ import androidx.annotation.VisibleForTesting;
  */
 @Keep
 public class ParticlesView extends View implements
+        Animatable,
         SceneConfiguration,
         SceneController,
         SceneScheduler {
@@ -343,7 +345,7 @@ public class ParticlesView extends View implements
      * Note that if this View's visibility is not {@link #VISIBLE} or it's not attached to window,
      * this will not start animating until the state changes to meet the requirements above.
      */
-    @Keep
+    @Override
     public void start() {
         mExplicitlyStopped = false;
         startInternal();
@@ -353,10 +355,15 @@ public class ParticlesView extends View implements
      * Explicilty stop animating. This will stop animating and no animations will start
      * automatically until you call {@link #start()}.
      */
-    @Keep
+    @Override
     public void stop() {
         mExplicitlyStopped = true;
         stopInternal();
+    }
+
+    @Override
+    public boolean isRunning() {
+        return presenter.isRunning();
     }
 
     @VisibleForTesting
@@ -369,11 +376,6 @@ public class ParticlesView extends View implements
     @VisibleForTesting
     void stopInternal() {
         presenter.stop();
-    }
-
-    @VisibleForTesting
-    boolean isRunning() {
-        return presenter.isRunning();
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
