@@ -68,26 +68,6 @@ class PotCalculatorTest {
     }
 
     @Test
-    fun findPreviousOrReturnIfPowerOfTwo() {
-        assertEquals(1, PotCalculator.findPreviousOrReturnIfPowerOfTwo(1))
-        assertEquals(2, PotCalculator.findPreviousOrReturnIfPowerOfTwo(2))
-        assertEquals(2, PotCalculator.findPreviousOrReturnIfPowerOfTwo(3))
-        assertEquals(4, PotCalculator.findPreviousOrReturnIfPowerOfTwo(4))
-        assertEquals(4, PotCalculator.findPreviousOrReturnIfPowerOfTwo(5))
-        assertEquals(4, PotCalculator.findPreviousOrReturnIfPowerOfTwo(6))
-        assertEquals(4, PotCalculator.findPreviousOrReturnIfPowerOfTwo(7))
-        assertEquals(8, PotCalculator.findPreviousOrReturnIfPowerOfTwo(8))
-        assertEquals(8, PotCalculator.findPreviousOrReturnIfPowerOfTwo(9))
-        assertEquals(8, PotCalculator.findPreviousOrReturnIfPowerOfTwo(10))
-        assertEquals(8, PotCalculator.findPreviousOrReturnIfPowerOfTwo(15))
-        assertEquals(16, PotCalculator.findPreviousOrReturnIfPowerOfTwo(16))
-        assertEquals(16, PotCalculator.findPreviousOrReturnIfPowerOfTwo(31))
-        assertEquals(32, PotCalculator.findPreviousOrReturnIfPowerOfTwo(32))
-        assertEquals(32, PotCalculator.findPreviousOrReturnIfPowerOfTwo(63))
-        assertEquals(32768, PotCalculator.findPreviousOrReturnIfPowerOfTwo(33000))
-    }
-
-    @Test
     fun findNextOrReturnIfPowerOfTwo() {
         assertEquals(1, PotCalculator.findNextOrReturnIfPowerOfTwo(0))
         assertEquals(1, PotCalculator.findNextOrReturnIfPowerOfTwo(1))
