@@ -68,9 +68,9 @@ public class GlParticlesView extends GLSurfaceView implements
     private volatile boolean backgroundTextureDirty;
 
     @ColorInt
-    private int backgroundColor = Color.DKGRAY;
+    private volatile int backgroundColor = Color.DKGRAY;
 
-    private Bitmap backgroundTexture;
+    private volatile Bitmap backgroundTexture;
 
     public GlParticlesView(@NonNull final Context context) {
         super(context);
