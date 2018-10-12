@@ -179,7 +179,7 @@ final class GlSceneRendererParticles {
         textureDirty = false;
     }
 
-    public void drawScene(
+    void drawScene(
             @NonNull final ParticlesScene scene,
             @NonNull final float[] matrix) {
         initBuffers(scene.getNumDots());
