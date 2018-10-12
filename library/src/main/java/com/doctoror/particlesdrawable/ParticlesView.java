@@ -54,8 +54,8 @@ import androidx.annotation.VisibleForTesting;
  * #stop()} explicitly, the animation will not automatically restart when you trigger visibility or
  * when this View gets attached to window.
  * <p>
- * The View cannot tell whether your hosting {@link android.app.Activity} or
- * {@link android.app.Fragment} is started or stopped. It can only tell when it's being destroyed
+ * The View does not use Lifecycle api and thus cannot tell whether your hosting Activity or
+ * Fragment is started or stopped. It can only tell when it's being destroyed
  * ({@link #onDetachedFromWindow()} will be called) so this is where it stops animations
  * automatically. Thus, It is recommended to call {@link #stop()} when the hosting component gets
  * onStop() call and call {@link #start()} when the hosting component gets onStart() call.
