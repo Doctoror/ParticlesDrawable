@@ -24,7 +24,7 @@ allprojects {
         androidVersionCode = 10
         androidVersionName = "1.0.9"
 
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
