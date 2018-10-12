@@ -244,7 +244,12 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Override
     public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        scene.setFrameDelay(delay);
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                scene.setFrameDelay(delay);
+            }
+        });
     }
 
     /**
@@ -260,7 +265,12 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Override
     public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        scene.setStepMultiplier(stepMultiplier);
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                scene.setStepMultiplier(stepMultiplier);
+            }
+        });
     }
 
     /**
@@ -274,10 +284,16 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * {@inheritDoc}
      */
-    public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
-                                  @FloatRange(from = 0.5f) final float maxRadius) {
-        scene.setDotRadiusRange(minRadius, maxRadius);
-        renderer.markParticleTextureDirty();
+    public void setDotRadiusRange(
+            @FloatRange(from = 0.5f) final float minRadius,
+            @FloatRange(from = 0.5f) final float maxRadius) {
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                scene.setDotRadiusRange(minRadius, maxRadius);
+                renderer.markParticleTextureDirty();
+            }
+        });
     }
 
     /**
@@ -300,7 +316,12 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        scene.setLineThickness(lineThickness);
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                scene.setLineThickness(lineThickness);
+            }
+        });
     }
 
     /**
@@ -315,7 +336,12 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        scene.setLineDistance(lineDistance);
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                scene.setLineDistance(lineDistance);
+            }
+        });
     }
 
     /**
@@ -330,7 +356,12 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     public void setNumDots(@IntRange(from = 0) final int newNum) {
-        scene.setNumDots(newNum);
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                scene.setNumDots(newNum);
+            }
+        });
     }
 
     /**
@@ -345,8 +376,13 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     public void setDotColor(@ColorInt final int dotColor) {
-        scene.setDotColor(dotColor);
-        renderer.markParticleTextureDirty();
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                scene.setDotColor(dotColor);
+                renderer.markParticleTextureDirty();
+            }
+        });
     }
 
     /**
@@ -361,7 +397,12 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     public void setLineColor(@ColorInt final int lineColor) {
-        scene.setLineColor(lineColor);
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                scene.setLineColor(lineColor);
+            }
+        });
     }
 
     /**
@@ -375,7 +416,12 @@ public class GlParticlesView extends GLSurfaceView implements
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        presenter.setBounds(0, 0, w, h);
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                presenter.setBounds(0, 0, w, h);
+            }
+        });
     }
 
     @Override
@@ -412,7 +458,12 @@ public class GlParticlesView extends GLSurfaceView implements
     public void stop() {
         presenter.stop();
         onPause();
-        recycle();
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                recycle();
+            }
+        });
     }
 
     @Override
