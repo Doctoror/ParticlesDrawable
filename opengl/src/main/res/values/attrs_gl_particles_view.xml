@@ -17,7 +17,6 @@
 
     <declare-styleable name="GlParticlesView">
         <attr name="multisampling" format="integer" />
-        <attr name="autoScaleBackgroundToLargerPot" format="boolean"/>
     </declare-styleable>
 
 </resources>

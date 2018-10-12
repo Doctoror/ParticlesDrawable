@@ -26,40 +26,29 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
-import androidx.annotation.ColorInt;
-import androidx.annotation.FloatRange;
-import androidx.annotation.IntRange;
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
-import com.doctoror.particlesdrawable.R;
 import com.doctoror.particlesdrawable.ScenePresenter;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer;
 import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser;
-import com.doctoror.particlesdrawable.opengl.util.TextureUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * Particles View that draws on {@link GLSurfaceView}.
- * <p>
- * Due to it's limitations, use it only if it gives you measured performance gain. Otherwise it is recommented
- * to use com.doctoror.particlesdrawable.ParticlesView.
- * <p>
- * Limitations:
- * <ul>
- * <li>not trivial to make the background transparent;</li>
- * <li>textures are resized to POT, you can disable this with
- * {@link #setAutoScaleBackgroundToLargerPot(boolean)} but it might be incompatible with some drivers;</li>
- * </ul>
  */
 @Keep
 public class GlParticlesView extends GLSurfaceView implements
@@ -82,8 +71,6 @@ public class GlParticlesView extends GLSurfaceView implements
     private int backgroundColor = Color.DKGRAY;
 
     private Bitmap backgroundTexture;
-
-    private boolean autoScaleBackgroundToLargerPot = true;
 
     public GlParticlesView(@NonNull final Context context) {
         super(context);
@@ -110,9 +97,6 @@ public class GlParticlesView extends GLSurfaceView implements
                     .obtainStyledAttributes(attrs, R.styleable.GlParticlesView);
             try {
                 samples = glAttrs.getInt(R.styleable.GlParticlesView_multisampling, DEFAULT_SAMPLES);
-                setAutoScaleBackgroundToLargerPot(glAttrs.getBoolean(
-                        R.styleable.GlParticlesView_autoScaleBackgroundToLargerPot,
-                        autoScaleBackgroundToLargerPot));
             } finally {
                 glAttrs.recycle();
             }
@@ -139,17 +123,6 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     /**
-     * Set whether NPOT backgrounds should be auto scaled to the nearest larger POT.
-     * <p>
-     * Default is true.
-     *
-     * @param autoScaleBackgroundToLargerPot whether to auto scale to POT
-     */
-    public void setAutoScaleBackgroundToLargerPot(final boolean autoScaleBackgroundToLargerPot) {
-        this.autoScaleBackgroundToLargerPot = autoScaleBackgroundToLargerPot;
-    }
-
-    /**
      * Sets the background color for this View.
      * Default is windowBackground.
      * <p>
@@ -164,12 +137,11 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     /**
-     * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable} since API
-     * Level 11.
+     * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable}
+     * since API Level 11.
      * <p>
-     * The background will stretch to fill the entire screen. If you need transformations, like center crop,
-     * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToLargerPot(boolean)}
-     * is set to true (which is true by default), any NPOT images will be scaled to smaller POT.
+     * The background will stretch to fill the entire screen. If you need transformations, like
+     * center crop, you should do it yourself before passing here.
      * <p>
      * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
      * {@link BitmapDrawable}.
@@ -187,12 +159,11 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     /**
-     * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable} since API
-     * Level 11.
+     * Applies background. Supported Drawables are {@link BitmapDrawable}, and {@link ColorDrawable}
+     * since API Level 11.
      * <p>
-     * The background will stretch to fill the entire screen. If you need transformations, like center crop,
-     * you should do it yourself before passing here. When {@link #setAutoScaleBackgroundToLargerPot(boolean)}
-     * is set to true (which is true by default), any NPOT images will be scaled to smaller POT.
+     * The background will stretch to fill the entire screen. If you need transformations, like
+     * center crop, you should do it yourself before passing here.
      * <p>
      * Setting a {@link ColorDrawable} will apply a background color and remove any previously set
      * {@link BitmapDrawable}.
@@ -224,10 +195,7 @@ public class GlParticlesView extends GLSurfaceView implements
         }
     }
 
-    private void processAndSetBackgroundTexture(@Nullable Bitmap texture) {
-        if (texture != null && autoScaleBackgroundToLargerPot) {
-            texture = TextureUtils.scaleToLargerPot(texture);
-        }
+    private void processAndSetBackgroundTexture(@Nullable final Bitmap texture) {
         backgroundTexture = texture;
         backgroundTextureDirty = true;
     }
