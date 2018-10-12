@@ -205,7 +205,12 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Override
     public void nextFrame() {
-        presenter.nextFrame();
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                presenter.nextFrame();
+            }
+        });
     }
 
     /**
@@ -213,7 +218,12 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Override
     public void makeBrandNewFrame() {
-        presenter.makeBrandNewFrame();
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                presenter.makeBrandNewFrame();
+            }
+        });
     }
 
     /**
@@ -221,7 +231,12 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        presenter.makeBrandNewFrameWithPointsOffscreen();
+        queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                presenter.makeBrandNewFrameWithPointsOffscreen();
+            }
+        });
     }
 
     /**
