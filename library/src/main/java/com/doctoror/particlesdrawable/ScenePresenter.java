@@ -57,7 +57,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     private long mLastFrameTime;
     private long mLastDrawDuration;
 
-    private boolean mAnimating;
+    private volatile boolean mAnimating;
 
     public ScenePresenter(
             @NonNull final ParticlesScene scene,
