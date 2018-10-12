@@ -160,6 +160,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
         return mAnimating;
     }
 
+    @Override
     public void run() {
         if (mAnimating) {
             gotoNextFrameAndSchedule();
