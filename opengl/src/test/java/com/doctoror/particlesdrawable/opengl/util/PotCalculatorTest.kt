@@ -15,15 +15,9 @@
  */
 package com.doctoror.particlesdrawable.opengl.util
 
-import android.util.Pair
-import org.junit.Assert.*
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 
-@Config(manifest = Config.NONE)
-@RunWith(RobolectricTestRunner::class)
 class PotCalculatorTest {
 
     @Test
@@ -86,47 +80,5 @@ class PotCalculatorTest {
         assertEquals(64, PotCalculator.findNextOrReturnIfPowerOfTwo(33))
         assertEquals(128, PotCalculator.findNextOrReturnIfPowerOfTwo(65))
         assertEquals(32768, PotCalculator.findNextOrReturnIfPowerOfTwo(32767))
-    }
-
-    @Test
-    fun returnsSameDimensionsWhenWidthIs0() {
-        val result = PotCalculator.toLargerPotDimensions(0, 32)
-        assertEquals(Pair(0, 32), result)
-    }
-
-    @Test
-    fun returnsSameDimensionsWhenHeightIs0() {
-        val result = PotCalculator.toLargerPotDimensions(0, 32)
-        assertEquals(Pair(0, 32), result)
-    }
-
-    @Test
-    fun returnsSameDimensionsWhenBothDimensionsAre0() {
-        val result = PotCalculator.toLargerPotDimensions(0, 0)
-        assertEquals(Pair(0, 0), result)
-    }
-
-    @Test
-    fun returnsSameDimensionsWhenBothDimensionsAreNegative() {
-        val result = PotCalculator.toLargerPotDimensions(-1, -2)
-        assertEquals(Pair(-1, -2), result)
-    }
-
-    @Test
-    fun largerPotReturnsTheSameDimensionsWhenAlreadyPot() {
-        val result = PotCalculator.toLargerPotDimensions(32, 32)
-        assertEquals(Pair(32, 32), result)
-    }
-
-    @Test
-    fun scalesToLargerPotWhenOneDimensionNpot() {
-        val result = PotCalculator.toLargerPotDimensions(32, 50)
-        assertEquals(Pair(32, 64), result)
-    }
-
-    @Test
-    fun scalesToLargerPotWhenTwoDimensionsNpot() {
-        val result = PotCalculator.toLargerPotDimensions(62, 96)
-        assertEquals(Pair(64, 128), result)
     }
 }

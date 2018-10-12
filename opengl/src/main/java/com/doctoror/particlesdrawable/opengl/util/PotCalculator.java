@@ -15,14 +15,8 @@
  */
 package com.doctoror.particlesdrawable.opengl.util;
 
-import android.util.Pair;
-
-import com.doctoror.particlesdrawable.KeepAsApi;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-@KeepAsApi
 public final class PotCalculator {
 
     private PotCalculator() {
@@ -49,25 +43,5 @@ public final class PotCalculator {
         n |= n >> 16;
         n++;
         return n;
-    }
-
-    /**
-     * If both dimensions are already POT, returns them.
-     * If the dimensions are not POT, returns next largest POT for both dimensions.
-     *
-     * @param width  the width to get next POT for
-     * @param height the height to get next POT for
-     * @return next larger POT dimensions or input dimensions if already POT
-     */
-    @NonNull
-    public static Pair<Integer, Integer> toLargerPotDimensions(final int width, final int height) {
-        if (width <= 0 || height <= 0) {
-            return new Pair<Integer, Integer>(width, height);
-        }
-
-        final int targetWidth = findNextOrReturnIfPowerOfTwo(width);
-        final int targetHeight = findNextOrReturnIfPowerOfTwo(height);
-
-        return new Pair<Integer, Integer>(targetWidth, targetHeight);
     }
 }
