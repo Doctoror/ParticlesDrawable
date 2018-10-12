@@ -32,6 +32,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
+
+    // Added only to be able to compile with library variants
+    flavorDimensions 'default'
+
+    productFlavors {
+        exposed {
+        }
+
+        production {
+        }
+    }
 }
 
 repositories{
@@ -41,6 +52,5 @@ repositories{
 }
 
 dependencies {
-    implementation project(path: ':library', configuration: 'productionReleaseRuntimeElements')
-    //implementation project(':library')
+    implementation project(':library')
 }
