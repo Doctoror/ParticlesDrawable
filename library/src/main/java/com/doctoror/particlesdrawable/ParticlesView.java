@@ -76,8 +76,7 @@ public class ParticlesView extends View implements
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
      * change or when attached to window.
      */
-    @VisibleForTesting
-    boolean mExplicitlyStopped;
+    private boolean mExplicitlyStopped;
 
     private boolean mAttachedToWindow;
     private boolean mEmulateOnAttachToWindow;
