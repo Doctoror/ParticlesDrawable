@@ -86,16 +86,21 @@ public class ParticlesDrawable extends Drawable implements
         canvasRenderer.setCanvas(canvas);
         presenter.draw();
         canvasRenderer.setCanvas(null);
+        presenter.run();
     }
 
     @Override
     public void scheduleNextFrame(final long delay) {
-        scheduleSelf(presenter, SystemClock.uptimeMillis() + delay);
+        if (delay == 0L) {
+            requestRender();
+        } else {
+            scheduleSelf(requestRenderRunnable, SystemClock.uptimeMillis() + delay);
+        }
     }
 
     @Override
     public void unscheduleNextFrame() {
-        unscheduleSelf(presenter);
+        unscheduleSelf(requestRenderRunnable);
     }
 
     @Override
@@ -297,4 +302,11 @@ public class ParticlesDrawable extends Drawable implements
     public int getLineColor() {
         return scene.getLineColor();
     }
+
+    private final Runnable requestRenderRunnable = new Runnable() {
+        @Override
+        public void run() {
+            requestRender();
+        }
+    };
 }
