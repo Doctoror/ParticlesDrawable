@@ -60,9 +60,9 @@ public class GlParticlesView extends GLSurfaceView implements
 
     private static final int DEFAULT_SAMPLES = 4;
 
-    private final ParticlesScene scene = new ParticlesScene();
-    private final GlSceneRenderer renderer = new GlSceneRenderer();
-    private final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
+    final ParticlesScene scene = new ParticlesScene();
+    final GlSceneRenderer renderer = new GlSceneRenderer();
+    final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
 
     private volatile boolean backgroundColorDirty;
     private volatile boolean backgroundTextureDirty;
@@ -74,16 +74,27 @@ public class GlParticlesView extends GLSurfaceView implements
 
     public GlParticlesView(@NonNull final Context context) {
         super(context);
-        init(context, null);
+        init(context, null, DEFAULT_SAMPLES, null);
     }
 
     public GlParticlesView(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        init(context, attrs, DEFAULT_SAMPLES, null);
     }
 
-    private void init(@NonNull final Context context, @Nullable final AttributeSet attrs) {
-        int samples = DEFAULT_SAMPLES;
+    public GlParticlesView(
+            @NonNull final Context context,
+            final int samples,
+            @Nullable final MultisampleConfigChooser.Callback multisamplingCallback) {
+        super(context);
+        init(context, null, samples, multisamplingCallback);
+    }
+
+    private void init(
+            @NonNull final Context context,
+            @Nullable final AttributeSet attrs,
+            int samples,
+            @Nullable final MultisampleConfigChooser.Callback multisamplingCallback) {
         if (attrs != null) {
             @SuppressLint("CustomViewStyleable") final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
@@ -96,7 +107,7 @@ public class GlParticlesView extends GLSurfaceView implements
             final TypedArray glAttrs = context
                     .obtainStyledAttributes(attrs, R.styleable.GlParticlesView);
             try {
-                samples = glAttrs.getInt(R.styleable.GlParticlesView_multisampling, DEFAULT_SAMPLES);
+                samples = glAttrs.getInt(R.styleable.GlParticlesView_multisampling, samples);
             } finally {
                 glAttrs.recycle();
             }
@@ -114,7 +125,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
         setEGLContextClientVersion(2);
         if (samples != 0) {
-            setEGLConfigChooser(new MultisampleConfigChooser(samples));
+            setEGLConfigChooser(new MultisampleConfigChooser(samples, multisamplingCallback));
         }
         setRenderer(this);
         setRenderMode(RENDERMODE_WHEN_DIRTY);
@@ -461,7 +472,7 @@ public class GlParticlesView extends GLSurfaceView implements
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                recycle();
+                renderer.recycle();
             }
         });
     }
@@ -471,13 +482,9 @@ public class GlParticlesView extends GLSurfaceView implements
         return presenter.isRunning();
     }
 
-    private void recycle() {
-        renderer.recycle();
-    }
-
     @Override
     public void onSurfaceCreated(@NonNull final GL10 gl, @NonNull final EGLConfig config) {
-        recycle();
+        renderer.recycle();
         renderer.setupGl();
         backgroundColorDirty = true;
         backgroundTextureDirty = true;
