@@ -425,17 +425,6 @@ public class GlParticlesView extends GLSurfaceView implements
     }
 
     @Override
-    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        queueEvent(new Runnable() {
-            @Override
-            public void run() {
-                presenter.setBounds(0, 0, w, h);
-            }
-        });
-    }
-
-    @Override
     public void scheduleNextFrame(final long delay) {
         if (delay == 0) {
             requestRender();
@@ -492,6 +481,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
     @Override
     public void onSurfaceChanged(@NonNull final GL10 gl, final int width, final int height) {
+        presenter.setBounds(0, 0, width, height);
         renderer.setDimensions(width, height);
         backgroundColorDirty = true;
         backgroundTextureDirty = true;
