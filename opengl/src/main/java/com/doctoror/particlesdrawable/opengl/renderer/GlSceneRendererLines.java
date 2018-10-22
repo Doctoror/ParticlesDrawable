@@ -123,7 +123,6 @@ final class GlSceneRendererLines {
         initBuffers(scene.getNumDots());
         resolveLines(scene);
         drawLines(matrix);
-        GLErrorChecker.checkGlError();
     }
 
     private void resolveLines(@NonNull final ParticlesScene scene) {

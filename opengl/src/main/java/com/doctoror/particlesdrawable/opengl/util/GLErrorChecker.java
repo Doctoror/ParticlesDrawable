@@ -18,6 +18,9 @@ package com.doctoror.particlesdrawable.opengl.util;
 import android.opengl.GLES20;
 import android.util.Log;
 
+import com.doctoror.particlesdrawable.KeepAsApi;
+
+@KeepAsApi
 public final class GLErrorChecker {
 
     private static boolean shouldThrowOnGlError = false;

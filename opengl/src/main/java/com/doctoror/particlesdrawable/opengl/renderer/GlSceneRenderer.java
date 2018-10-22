@@ -23,6 +23,7 @@ import android.opengl.Matrix;
 import com.doctoror.particlesdrawable.KeepAsApi;
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
+import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
 
 import java.util.Arrays;
 
@@ -94,5 +95,6 @@ public class GlSceneRenderer implements SceneRenderer {
         background.drawScene(mvpMatrix);
         lines.drawScene(scene, mvpMatrix);
         particles.drawScene(scene, mvpMatrix);
+        GLErrorChecker.checkGlError();
     }
 }
