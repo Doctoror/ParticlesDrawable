@@ -24,6 +24,8 @@ import com.doctoror.particlesdrawable.KeepAsApi;
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 
+import java.util.Arrays;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,6 +70,11 @@ public class GlSceneRenderer implements SceneRenderer {
     }
 
     public void setDimensions(final int width, final int height) {
+        GLES20.glViewport(0, 0, width, height);
+
+        Arrays.fill(projectionMatrix, 0);
+        Arrays.fill(mvpMatrix, 0);
+
         Matrix.orthoM(projectionMatrix, 0, 0f, width, 0f, height, 1, -1);
 
         Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 0f, 0f, 0f, -1f, 0f, 1f, 0f);
