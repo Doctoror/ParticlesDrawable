@@ -68,16 +68,22 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         }
 
         if (configSpec == null || target[0] <= 0) {
-            configSpec = chooseAnyConfig(egl, display, target);
+            configSpec = choose888Config(egl, display, target);
         }
 
         if (configSpec == null || target[0] <= 0) {
+            configSpec = null;
+            if (!chooseAnyConfig(egl, display, target)) {
+                throw new IllegalArgumentException("Cannot choose any config");
+            }
+        }
+
+        if (target[0] <= 0) {
             throw new IllegalArgumentException("Cannot choose any config");
         }
 
         final int numConfigs = target[0];
 
-        // Get all matching configurations.
         final EGLConfig[] configs = new EGLConfig[numConfigs];
         if (!egl.eglChooseConfig(display, configSpec, configs, numConfigs, target)) {
             throw new IllegalArgumentException("eglChooseConfig: failed fetching EGLConfig[]");
@@ -94,11 +100,11 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
             final int samples) {
         for (int i = samples; i >= 2; i /= 2) {
             final int[] configSpec = {
-                    EGL10.EGL_RED_SIZE, EGL10.EGL_DONT_CARE,
-                    EGL10.EGL_GREEN_SIZE, EGL10.EGL_DONT_CARE,
-                    EGL10.EGL_BLUE_SIZE, EGL10.EGL_DONT_CARE,
-                    EGL10.EGL_DEPTH_SIZE, EGL10.EGL_DONT_CARE,
-                    EGL10.EGL_RENDERABLE_TYPE, EGL10.EGL_DONT_CARE,
+                    EGL10.EGL_RED_SIZE, 8,
+                    EGL10.EGL_GREEN_SIZE, 8,
+                    EGL10.EGL_BLUE_SIZE, 8,
+                    EGL10.EGL_DEPTH_SIZE, 0,
+                    EGL10.EGL_RENDERABLE_TYPE, 4,
                     EGL10.EGL_SAMPLE_BUFFERS, 1,
                     EGL10.EGL_SAMPLES, samples,
                     EGL10.EGL_NONE
@@ -125,11 +131,11 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         final int EGL_COVERAGE_SAMPLES_NV = 0x30E1;
 
         final int[] configSpec = new int[]{
-                EGL10.EGL_RED_SIZE, EGL10.EGL_DONT_CARE,
-                EGL10.EGL_GREEN_SIZE, EGL10.EGL_DONT_CARE,
-                EGL10.EGL_BLUE_SIZE, EGL10.EGL_DONT_CARE,
-                EGL10.EGL_DEPTH_SIZE, EGL10.EGL_DONT_CARE,
-                EGL10.EGL_RENDERABLE_TYPE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_RED_SIZE, 8,
+                EGL10.EGL_GREEN_SIZE, 8,
+                EGL10.EGL_BLUE_SIZE, 8,
+                EGL10.EGL_DEPTH_SIZE, 0,
+                EGL10.EGL_RENDERABLE_TYPE, 4,
                 EGL_COVERAGE_BUFFERS_NV, 1,
                 EGL_COVERAGE_SAMPLES_NV, 4,
                 EGL10.EGL_NONE
@@ -147,28 +153,42 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
     }
 
     @Nullable
-    private int[] chooseAnyConfig(
+    private int[] choose888Config(
             @NonNull final EGL10 egl,
             @NonNull final EGLDisplay display,
             @NonNull final int[] target) {
         final int[] configSpec = new int[]{
-                EGL10.EGL_RED_SIZE, EGL10.EGL_DONT_CARE,
-                EGL10.EGL_GREEN_SIZE, EGL10.EGL_DONT_CARE,
-                EGL10.EGL_BLUE_SIZE, EGL10.EGL_DONT_CARE,
-                EGL10.EGL_DEPTH_SIZE, EGL10.EGL_DONT_CARE,
-                EGL10.EGL_RENDERABLE_TYPE, EGL10.EGL_DONT_CARE,
+                EGL10.EGL_RED_SIZE, 8,
+                EGL10.EGL_GREEN_SIZE, 8,
+                EGL10.EGL_BLUE_SIZE, 8,
+                EGL10.EGL_DEPTH_SIZE, 0,
+                EGL10.EGL_RENDERABLE_TYPE, 4,
                 EGL10.EGL_NONE
         };
 
-        if (egl.eglChooseConfig(display, configSpec, null, 0, target)) {
+        if (egl.eglChooseConfig(display, null, null, 0, target)) {
             if (callback != null) {
                 callback.onConfigChosen(0);
             }
             return configSpec;
         }
 
-        Log.w(TAG, "Any eglChooseConfig failed");
+        Log.w(TAG, "888 eglChooseConfig failed");
         return null;
+    }
+
+    @Nullable
+    private boolean chooseAnyConfig(
+            @NonNull final EGL10 egl,
+            @NonNull final EGLDisplay display,
+            @NonNull final int[] target) {
+        final boolean result = egl.eglChooseConfig(
+                display, null, null, 0, target);
+
+        if (result && callback != null) {
+            callback.onConfigChosen(0);
+        }
+        return result;
     }
 
     @KeepAsApi
