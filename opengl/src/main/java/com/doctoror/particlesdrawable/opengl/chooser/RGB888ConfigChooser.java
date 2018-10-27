@@ -13,32 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable.opengl.util;
+package com.doctoror.particlesdrawable.opengl.chooser;
 
-public final class PotCalculator {
+import javax.microedition.khronos.egl.EGL10;
 
-    private PotCalculator() {
+import androidx.annotation.Nullable;
 
-    }
+final class RGB888ConfigChooser extends BaseConfigChooser {
 
-    public static boolean isPowerOfTwo(final int number) {
-        return number > 0 && ((number & (number - 1)) == 0);
-    }
-
-    public static int findNextOrReturnIfPowerOfTwo(int n) {
-        if (n <= 0) {
-            return 1;
-        }
-        if (isPowerOfTwo(n)) {
-            return n;
-        }
-        n--;
-        n |= n >> 1;
-        n |= n >> 2;
-        n |= n >> 4;
-        n |= n >> 8;
-        n |= n >> 16;
-        n++;
-        return n;
+    RGB888ConfigChooser(@Nullable final EGLConfigChooserCallback callback) {
+        super("RGB888ConfigChooser", new int[]{
+                EGL10.EGL_RED_SIZE, 8,
+                EGL10.EGL_GREEN_SIZE, 8,
+                EGL10.EGL_BLUE_SIZE, 8,
+                EGL10.EGL_DEPTH_SIZE, 0,
+                EGL10.EGL_RENDERABLE_TYPE, 4,
+                EGL10.EGL_NONE
+        }, callback);
     }
 }

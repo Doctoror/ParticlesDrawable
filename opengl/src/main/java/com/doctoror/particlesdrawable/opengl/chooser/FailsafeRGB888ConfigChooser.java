@@ -13,32 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable.opengl.util;
+package com.doctoror.particlesdrawable.opengl.chooser;
 
-public final class PotCalculator {
+import androidx.annotation.Nullable;
 
-    private PotCalculator() {
+/**
+ * First chooses RGB 888 config. If failed fallbacks to any config.
+ * <p>
+ * If no config choosen, throws {@link IllegalArgumentException}.
+ */
+final class FailsafeRGB888ConfigChooser extends CompositeConfigChooser {
 
-    }
-
-    public static boolean isPowerOfTwo(final int number) {
-        return number > 0 && ((number & (number - 1)) == 0);
-    }
-
-    public static int findNextOrReturnIfPowerOfTwo(int n) {
-        if (n <= 0) {
-            return 1;
-        }
-        if (isPowerOfTwo(n)) {
-            return n;
-        }
-        n--;
-        n |= n >> 1;
-        n |= n >> 2;
-        n |= n >> 4;
-        n |= n >> 8;
-        n |= n >> 16;
-        n++;
-        return n;
+    FailsafeRGB888ConfigChooser(@Nullable final EGLConfigChooserCallback callback) {
+        super(new RGB888ConfigChooser(callback), new AnyConfigChooser(callback));
     }
 }

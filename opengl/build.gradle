@@ -15,8 +15,6 @@ android {
 
         versionCode globalConfiguration["androidVersionCode"]
         versionName globalConfiguration["androidVersionName"]
-
-        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
     }
 
     compileOptions {
@@ -65,6 +63,9 @@ dependencies {
 
     testImplementation td.junitJupiter
     testImplementation td.kotlin
+    testImplementation td.mockitoCore
+    testImplementation td.mockitoKotlin
+    testImplementation 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
 
     javadocDeps d.annotations
 

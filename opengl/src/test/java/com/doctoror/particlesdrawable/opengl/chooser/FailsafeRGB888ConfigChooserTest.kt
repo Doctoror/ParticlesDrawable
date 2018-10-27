@@ -13,32 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable.opengl.util;
+package com.doctoror.particlesdrawable.opengl.chooser
 
-public final class PotCalculator {
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
-    private PotCalculator() {
+class FailsafeRGB888ConfigChooserTest {
 
-    }
-
-    public static boolean isPowerOfTwo(final int number) {
-        return number > 0 && ((number & (number - 1)) == 0);
-    }
-
-    public static int findNextOrReturnIfPowerOfTwo(int n) {
-        if (n <= 0) {
-            return 1;
-        }
-        if (isPowerOfTwo(n)) {
-            return n;
-        }
-        n--;
-        n |= n >> 1;
-        n |= n >> 2;
-        n |= n >> 4;
-        n |= n >> 8;
-        n |= n >> 16;
-        n++;
-        return n;
+    @Test
+    fun hasValidChooserList() {
+        val underTest = FailsafeRGB888ConfigChooser(null)
+        assertEquals(2, underTest.choosers.size)
+        assertTrue(underTest.choosers[0] is RGB888ConfigChooser)
+        assertTrue(underTest.choosers[1] is AnyConfigChooser)
     }
 }

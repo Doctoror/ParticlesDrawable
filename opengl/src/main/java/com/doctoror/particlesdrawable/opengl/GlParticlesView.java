@@ -34,8 +34,9 @@ import com.doctoror.particlesdrawable.ScenePresenter;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
+import com.doctoror.particlesdrawable.opengl.chooser.EGLConfigChooserCallback;
+import com.doctoror.particlesdrawable.opengl.chooser.FailsafeEGLConfigChooserFactory;
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer;
-import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -85,16 +86,16 @@ public class GlParticlesView extends GLSurfaceView implements
     public GlParticlesView(
             @NonNull final Context context,
             final int samples,
-            @Nullable final MultisampleConfigChooser.Callback multisamplingCallback) {
+            @Nullable final EGLConfigChooserCallback eglConfigChooserCallback) {
         super(context);
-        init(context, null, samples, multisamplingCallback);
+        init(context, null, samples, eglConfigChooserCallback);
     }
 
     private void init(
             @NonNull final Context context,
             @Nullable final AttributeSet attrs,
             int samples,
-            @Nullable final MultisampleConfigChooser.Callback multisamplingCallback) {
+            @Nullable final EGLConfigChooserCallback configChooserCallback) {
         if (attrs != null) {
             @SuppressLint("CustomViewStyleable") final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
@@ -124,9 +125,8 @@ public class GlParticlesView extends GLSurfaceView implements
         }
 
         setEGLContextClientVersion(2);
-        if (samples != 0) {
-            setEGLConfigChooser(new MultisampleConfigChooser(samples, multisamplingCallback));
-        }
+        setEGLConfigChooser(FailsafeEGLConfigChooserFactory
+                .newFailsafeEGLConfigChooser(samples, configChooserCallback));
         setRenderer(this);
         setRenderMode(RENDERMODE_WHEN_DIRTY);
 
