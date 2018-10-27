@@ -104,9 +104,9 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
                     EGL10.EGL_GREEN_SIZE, 8,
                     EGL10.EGL_BLUE_SIZE, 8,
                     EGL10.EGL_DEPTH_SIZE, 0,
-                    EGL10.EGL_RENDERABLE_TYPE, 4,
                     EGL10.EGL_SAMPLE_BUFFERS, 1,
                     EGL10.EGL_SAMPLES, samples,
+                    EGL10.EGL_RENDERABLE_TYPE, 4,
                     EGL10.EGL_NONE
             };
 
@@ -135,9 +135,9 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
                 EGL10.EGL_GREEN_SIZE, 8,
                 EGL10.EGL_BLUE_SIZE, 8,
                 EGL10.EGL_DEPTH_SIZE, 0,
-                EGL10.EGL_RENDERABLE_TYPE, 4,
                 EGL_COVERAGE_BUFFERS_NV, 1,
                 EGL_COVERAGE_SAMPLES_NV, 4,
+                EGL10.EGL_RENDERABLE_TYPE, 4,
                 EGL10.EGL_NONE
         };
 
