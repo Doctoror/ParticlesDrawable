@@ -78,7 +78,7 @@ public class ParticlesDrawable extends Drawable implements
     @Override
     public void setBounds(final int left, final int top, final int right, final int bottom) {
         super.setBounds(left, top, right, bottom);
-        presenter.setBounds(left, top, right, bottom);
+        presenter.setDimensions(right - left, bottom - top);
     }
 
     @Override

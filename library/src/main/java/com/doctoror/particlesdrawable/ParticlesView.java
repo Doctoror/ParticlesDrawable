@@ -293,7 +293,7 @@ public class ParticlesView extends View implements
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        presenter.setBounds(0, 0, w, h);
+        presenter.setDimensions(w, h);
     }
 
     @Override

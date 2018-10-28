@@ -481,7 +481,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
     @Override
     public void onSurfaceChanged(@NonNull final GL10 gl, final int width, final int height) {
-        presenter.setBounds(0, 0, width, height);
+        presenter.setDimensions(width, height);
         renderer.setDimensions(width, height);
         backgroundColorDirty = true;
         backgroundTextureDirty = true;

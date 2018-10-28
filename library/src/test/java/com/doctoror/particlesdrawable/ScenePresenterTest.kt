@@ -32,9 +32,10 @@ class ScenePresenterTest {
     private val scene = ParticlesScene()
 
     private val underTest = ScenePresenter(
-            scene,
-            mock(SceneScheduler::class.java),
-            mock(SceneRenderer::class.java))
+        scene,
+        mock(SceneScheduler::class.java),
+        mock(SceneRenderer::class.java)
+    )
 
     @Test
     fun testIsRunningByDefault() {
@@ -43,7 +44,7 @@ class ScenePresenterTest {
 
     @Test
     fun testIsRunningWhenStarted() {
-        underTest.setBounds(0, 0, 10, 10)
+        underTest.setDimensions(10, 10)
         underTest.start()
         try {
             assertTrue(underTest.isRunning)
@@ -54,7 +55,7 @@ class ScenePresenterTest {
 
     @Test
     fun testIsStopedWhenStopped() {
-        underTest.setBounds(0, 0, 10, 10)
+        underTest.setDimensions(10, 10)
         underTest.start()
         underTest.stop()
         assertFalse(underTest.isRunning)
@@ -63,13 +64,13 @@ class ScenePresenterTest {
     @Test
     fun testSetBoundsWhenRunning() {
         underTest.start()
-        underTest.setBounds(0, 0, 10, 10)
+        underTest.setDimensions(10, 10)
         underTest.stop()
     }
 
     @Test
     fun testWithZeroBounds() {
-        underTest.setBounds(0, 0, 0, 0)
+        underTest.setDimensions(0, 0)
         underTest.start()
         assertTrue(underTest.isRunning)
         underTest.stop()
@@ -83,13 +84,13 @@ class ScenePresenterTest {
 
     @Test
     fun testMakeBrandNewFrame() {
-        underTest.setBounds(0, 0, 10, 10)
+        underTest.setDimensions(10, 10)
         underTest.makeBrandNewFrame()
     }
 
     @Test
     fun testMakeBrandNewFrameWhenRunning() {
-        underTest.setBounds(0, 0, 10, 10)
+        underTest.setDimensions(10, 10)
         underTest.start()
         underTest.makeBrandNewFrame()
         underTest.stop()
@@ -97,7 +98,7 @@ class ScenePresenterTest {
 
     @Test
     fun testDotRadiusRangeThatRoundsUpToTheSameInt() {
-        underTest.setBounds(0, 0, 10, 10)
+        underTest.setDimensions(10, 10)
         scene.setDotRadiusRange(0.5f, 0.6f)
         underTest.makeBrandNewFrame()
     }

@@ -199,11 +199,11 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
         }
     }
 
-    public void setBounds(final int left, final int top, final int right, final int bottom) {
+    public void setDimensions(final int width, final int height) {
         final ParticlesScene model = scene;
-        model.setWidth(right - left);
-        model.setHeight(bottom - top);
-        if (right - left > 0 && bottom - top > 0) {
+        model.setWidth(width);
+        model.setHeight(height);
+        if (width > 0 && height > 0) {
             if (!mParticlesInited) {
                 mParticlesInited = true;
                 initParticles();
