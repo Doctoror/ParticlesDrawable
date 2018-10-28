@@ -82,4 +82,9 @@ public class DefaultSceneRenderer implements SceneRenderer {
             }
         }
     }
+
+    @Override
+    public void setTranslationX(final float translationX) {
+        renderer.setTranslationX(translationX);
+    }
 }

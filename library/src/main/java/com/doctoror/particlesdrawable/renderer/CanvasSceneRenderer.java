@@ -37,7 +37,12 @@ public final class CanvasSceneRenderer implements LowLevelRenderer {
     @Nullable
     private Canvas canvas;
 
+    private float translationX;
+
     public void setCanvas(@Nullable final Canvas canvas) {
+        if (canvas != null) {
+            canvas.translate(translationX, 0);
+        }
         this.canvas = canvas;
     }
 
@@ -69,5 +74,10 @@ public final class CanvasSceneRenderer implements LowLevelRenderer {
         }
         paint.setColor(color);
         canvas.drawCircle(cx, cy, radius, paint);
+    }
+
+    @Override
+    public void setTranslationX(final float translationX) {
+        this.translationX = translationX;
     }
 }

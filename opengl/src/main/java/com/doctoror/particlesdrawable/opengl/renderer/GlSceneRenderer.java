@@ -38,11 +38,20 @@ public class GlSceneRenderer implements SceneRenderer {
     private final GlSceneRendererParticles particles = new GlSceneRendererParticles();
     private final GlSceneRendererLines lines = new GlSceneRendererLines();
 
-    private final float[] mvpMatrix = new float[16];
+    private final float[] mvpSourceMatrix = new float[16];
+    private final float[] mvpTranslatedMatrix = new float[16];
     private final float[] projectionMatrix = new float[16];
     private final float[] viewMatrix = new float[16];
 
     private final int[] textureHandle = new int[2];
+
+    private float translationX;
+
+    @Override
+    public void setTranslationX(final float translationX) {
+        this.translationX = translationX;
+        Matrix.translateM(mvpTranslatedMatrix, 0, mvpSourceMatrix, 0, translationX, 0, 0);
+    }
 
     public void markParticleTextureDirty() {
         particles.markTextureDirty();
@@ -74,12 +83,16 @@ public class GlSceneRenderer implements SceneRenderer {
         GLES20.glViewport(0, 0, width, height);
 
         Arrays.fill(projectionMatrix, 0);
-        Arrays.fill(mvpMatrix, 0);
+        Arrays.fill(mvpSourceMatrix, 0);
+        Arrays.fill(mvpTranslatedMatrix, 0);
 
         Matrix.orthoM(projectionMatrix, 0, 0f, width, 0f, height, 1, -1);
 
         Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 0f, 0f, 0f, -1f, 0f, 1f, 0f);
-        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
+        Matrix.multiplyMM(mvpSourceMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
+        System.arraycopy(mvpSourceMatrix, 0, mvpTranslatedMatrix, 0, mvpSourceMatrix.length);
+
+        Matrix.translateM(mvpTranslatedMatrix, 0, mvpSourceMatrix, 0, translationX, 0, 0);
 
         background.setDimensions(width, height);
     }
@@ -92,9 +105,9 @@ public class GlSceneRenderer implements SceneRenderer {
     public void drawScene(
             @NonNull final ParticlesScene scene) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        background.drawScene(mvpMatrix);
-        lines.drawScene(scene, mvpMatrix);
-        particles.drawScene(scene, mvpMatrix);
+        background.drawScene(mvpTranslatedMatrix);
+        lines.drawScene(scene, mvpTranslatedMatrix);
+        particles.drawScene(scene, mvpTranslatedMatrix);
         GLErrorChecker.checkGlError();
     }
 }
