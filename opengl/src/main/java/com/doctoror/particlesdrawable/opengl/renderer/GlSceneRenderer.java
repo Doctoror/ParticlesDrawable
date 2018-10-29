@@ -47,6 +47,8 @@ public class GlSceneRenderer implements SceneRenderer {
 
     private float translationX;
 
+    private boolean shouldTranslateBackground = true;
+
     @Override
     public void setTranslationX(final float translationX) {
         this.translationX = translationX;
@@ -66,6 +68,10 @@ public class GlSceneRenderer implements SceneRenderer {
 
     public void setBackgroundTexture(@Nullable final Bitmap texture) {
         background.setTexture(texture);
+    }
+
+    public void setShouldTranslateBackground(final boolean shouldTranslateBackground) {
+        this.shouldTranslateBackground = shouldTranslateBackground;
     }
 
     /**
@@ -113,7 +119,7 @@ public class GlSceneRenderer implements SceneRenderer {
     public void drawScene(
             @NonNull final ParticlesScene scene) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        background.drawScene(mvpTranslatedMatrix);
+        background.drawScene(shouldTranslateBackground ? mvpTranslatedMatrix : mvpSourceMatrix);
         lines.drawScene(scene, mvpTranslatedMatrix);
         particles.drawScene(scene, mvpTranslatedMatrix);
         GLErrorChecker.checkGlError();
