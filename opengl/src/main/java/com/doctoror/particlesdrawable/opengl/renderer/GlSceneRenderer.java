@@ -68,6 +68,14 @@ public class GlSceneRenderer implements SceneRenderer {
         background.setTexture(texture);
     }
 
+    /**
+     * Overrides background dimensions with the specified ones.
+     * This change will be reset by next call to {@link #setDimensions(int, int)}.
+     */
+    public void overrideBackgroundDimensions(final int width, final int height) {
+        background.setDimensions(width, height);
+    }
+
     public void setupGl() {
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
@@ -90,8 +98,8 @@ public class GlSceneRenderer implements SceneRenderer {
 
         Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 0f, 0f, 0f, -1f, 0f, 1f, 0f);
         Matrix.multiplyMM(mvpSourceMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
-        System.arraycopy(mvpSourceMatrix, 0, mvpTranslatedMatrix, 0, mvpSourceMatrix.length);
 
+        System.arraycopy(mvpSourceMatrix, 0, mvpTranslatedMatrix, 0, mvpSourceMatrix.length);
         Matrix.translateM(mvpTranslatedMatrix, 0, mvpSourceMatrix, 0, translationX, 0, 0);
 
         background.setDimensions(width, height);
