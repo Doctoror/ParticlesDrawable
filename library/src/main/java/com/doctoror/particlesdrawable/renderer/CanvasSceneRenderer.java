@@ -18,13 +18,14 @@ package com.doctoror.particlesdrawable.renderer;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.doctoror.particlesdrawable.KeepAsApi;
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * {@link SceneRenderer} that draws on {@link Canvas}
@@ -37,12 +38,7 @@ public final class CanvasSceneRenderer implements LowLevelRenderer {
     @Nullable
     private Canvas canvas;
 
-    private float translationX;
-
     public void setCanvas(@Nullable final Canvas canvas) {
-        if (canvas != null) {
-            canvas.translate(translationX, 0);
-        }
         this.canvas = canvas;
     }
 
@@ -56,8 +52,13 @@ public final class CanvasSceneRenderer implements LowLevelRenderer {
     }
 
     @Override
-    public void drawLine(final float startX, final float startY, final float stopX,
-            final float stopY, final float strokeWidth, @ColorInt final int color) {
+    public void drawLine(
+            final float startX,
+            final float startY,
+            final float stopX,
+            final float stopY,
+            final float strokeWidth,
+            @ColorInt final int color) {
         if (canvas == null) {
             throw new IllegalStateException("Called in wrong state");
         }
@@ -67,17 +68,15 @@ public final class CanvasSceneRenderer implements LowLevelRenderer {
     }
 
     @Override
-    public void fillCircle(final float cx, final float cy, final float radius,
+    public void fillCircle(
+            final float cx,
+            final float cy,
+            final float radius,
             @ColorInt final int color) {
         if (canvas == null) {
             throw new IllegalStateException("Called in wrong state");
         }
         paint.setColor(color);
         canvas.drawCircle(cx, cy, radius, paint);
-    }
-
-    @Override
-    public void setTranslationX(final float translationX) {
-        this.translationX = translationX;
     }
 }

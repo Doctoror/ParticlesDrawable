@@ -24,6 +24,4 @@ import androidx.annotation.NonNull;
 public interface SceneRenderer {
 
     void drawScene(@NonNull ParticlesScene scene);
-
-    void setTranslationX(float translationX);
 }

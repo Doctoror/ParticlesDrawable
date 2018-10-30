@@ -39,20 +39,24 @@ public class GlSceneRenderer implements SceneRenderer {
     private final GlSceneRendererLines lines = new GlSceneRendererLines();
 
     private final float[] mvpSourceMatrix = new float[16];
-    private final float[] mvpTranslatedMatrix = new float[16];
+    private final float[] mvpTranslatedBackgroundMatrix = new float[16];
+    private final float[] mvpTranslatedForegroundMatrix = new float[16];
     private final float[] projectionMatrix = new float[16];
     private final float[] viewMatrix = new float[16];
 
     private final int[] textureHandle = new int[2];
 
-    private float translationX;
+    private float backgroundTranslationX;
+    private float foregroundTranslationX;
 
-    private boolean shouldTranslateBackground = true;
+    public void setBackgroundTranslationX(final float backgroundTranslationX) {
+        this.backgroundTranslationX = backgroundTranslationX;
+        Matrix.translateM(mvpTranslatedBackgroundMatrix, 0, mvpSourceMatrix, 0, backgroundTranslationX, 0, 0);
+    }
 
-    @Override
-    public void setTranslationX(final float translationX) {
-        this.translationX = translationX;
-        Matrix.translateM(mvpTranslatedMatrix, 0, mvpSourceMatrix, 0, translationX, 0, 0);
+    public void setForegroundTranslationX(final float foregroundTranslationX) {
+        this.foregroundTranslationX = foregroundTranslationX;
+        Matrix.translateM(mvpTranslatedForegroundMatrix, 0, mvpSourceMatrix, 0, foregroundTranslationX, 0, 0);
     }
 
     public void markParticleTextureDirty() {
@@ -68,10 +72,6 @@ public class GlSceneRenderer implements SceneRenderer {
 
     public void setBackgroundTexture(@Nullable final Bitmap texture) {
         background.setTexture(texture);
-    }
-
-    public void setShouldTranslateBackground(final boolean shouldTranslateBackground) {
-        this.shouldTranslateBackground = shouldTranslateBackground;
     }
 
     /**
@@ -98,15 +98,17 @@ public class GlSceneRenderer implements SceneRenderer {
 
         Arrays.fill(projectionMatrix, 0);
         Arrays.fill(mvpSourceMatrix, 0);
-        Arrays.fill(mvpTranslatedMatrix, 0);
 
         Matrix.orthoM(projectionMatrix, 0, 0f, width, 0f, height, 1, -1);
 
         Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 0f, 0f, 0f, -1f, 0f, 1f, 0f);
         Matrix.multiplyMM(mvpSourceMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 
-        System.arraycopy(mvpSourceMatrix, 0, mvpTranslatedMatrix, 0, mvpSourceMatrix.length);
-        Matrix.translateM(mvpTranslatedMatrix, 0, mvpSourceMatrix, 0, translationX, 0, 0);
+        System.arraycopy(mvpSourceMatrix, 0, mvpTranslatedBackgroundMatrix, 0, mvpSourceMatrix.length);
+        System.arraycopy(mvpSourceMatrix, 0, mvpTranslatedForegroundMatrix, 0, mvpSourceMatrix.length);
+
+        Matrix.translateM(mvpTranslatedBackgroundMatrix, 0, mvpSourceMatrix, 0, backgroundTranslationX, 0, 0);
+        Matrix.translateM(mvpTranslatedForegroundMatrix, 0, mvpSourceMatrix, 0, foregroundTranslationX, 0, 0);
 
         background.setDimensions(width, height);
     }
@@ -119,9 +121,9 @@ public class GlSceneRenderer implements SceneRenderer {
     public void drawScene(
             @NonNull final ParticlesScene scene) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        background.drawScene(shouldTranslateBackground ? mvpTranslatedMatrix : mvpSourceMatrix);
-        lines.drawScene(scene, mvpTranslatedMatrix);
-        particles.drawScene(scene, mvpTranslatedMatrix);
+        background.drawScene(mvpTranslatedBackgroundMatrix);
+        lines.drawScene(scene, mvpTranslatedForegroundMatrix);
+        particles.drawScene(scene, mvpTranslatedForegroundMatrix);
         GLErrorChecker.checkGlError();
     }
 }

@@ -15,8 +15,6 @@
  */
 package com.doctoror.particlesdrawable.renderer;
 
-import androidx.annotation.NonNull;
-
 import com.doctoror.particlesdrawable.KeepAsApi;
 import com.doctoror.particlesdrawable.ParticlesScene;
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
@@ -26,6 +24,8 @@ import com.doctoror.particlesdrawable.util.LineColorResolver;
 import com.doctoror.particlesdrawable.util.ParticleColorResolver;
 
 import java.nio.FloatBuffer;
+
+import androidx.annotation.NonNull;
 
 @KeepAsApi
 public class DefaultSceneRenderer implements SceneRenderer {
@@ -81,10 +81,5 @@ public class DefaultSceneRenderer implements SceneRenderer {
                 renderer.fillCircle(x1, y1, radius, particleColor);
             }
         }
-    }
-
-    @Override
-    public void setTranslationX(final float translationX) {
-        renderer.setTranslationX(translationX);
     }
 }

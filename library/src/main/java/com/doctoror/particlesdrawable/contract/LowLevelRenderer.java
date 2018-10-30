@@ -32,6 +32,4 @@ public interface LowLevelRenderer {
             float cy,
             float radius,
             @ColorInt int color);
-
-    void setTranslationX(float translationX);
 }
