@@ -46,18 +46,18 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
 
     private static final float STEP_PER_MS = 0.05f;
 
-    private final Random mRandom = new Random();
+    private final Random random = new Random();
 
     private final ParticlesScene scene;
     private final SceneScheduler scheduler;
     private final SceneRenderer renderer;
 
-    private boolean mParticlesInited;
+    private boolean particlesInited;
 
-    private long mLastFrameTime;
-    private long mLastDrawDuration;
+    private long lastFrameTime;
+    private long lastDrawDuration;
 
-    private volatile boolean mAnimating;
+    private volatile boolean animating;
 
     public ScenePresenter(
             @NonNull final ParticlesScene scene,
@@ -120,13 +120,13 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     }
 
     private void resetLastFrameTime() {
-        mLastFrameTime = 0L;
+        lastFrameTime = 0L;
     }
 
     private void gotoNextFrameAndSchedule() {
         nextFrame();
         getViewScheduler()
-                .scheduleNextFrame(Math.max(scene.getFrameDelay() - mLastDrawDuration, 0L));
+                .scheduleNextFrame(Math.max(scene.getFrameDelay() - lastDrawDuration, 0L));
     }
 
     void setAlpha(final int alpha) {
@@ -139,8 +139,8 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
 
     @Override
     public void start() {
-        if (!mAnimating) {
-            mAnimating = true;
+        if (!animating) {
+            animating = true;
             resetLastFrameTime();
             gotoNextFrameAndSchedule();
         }
@@ -148,8 +148,8 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
 
     @Override
     public void stop() {
-        if (mAnimating) {
-            mAnimating = false;
+        if (animating) {
+            animating = false;
             resetLastFrameTime();
             getViewScheduler().unscheduleNextFrame();
         }
@@ -157,12 +157,12 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
 
     @Override
     public boolean isRunning() {
-        return mAnimating;
+        return animating;
     }
 
     @Override
     public void run() {
-        if (mAnimating) {
+        if (animating) {
             gotoNextFrameAndSchedule();
         } else {
             resetLastFrameTime();
@@ -172,7 +172,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     public void draw() {
         final long startTime = SystemClock.uptimeMillis();
         renderer.drawScene(scene);
-        mLastDrawDuration = SystemClock.uptimeMillis() - startTime;
+        lastDrawDuration = SystemClock.uptimeMillis() - startTime;
     }
 
     /**
@@ -204,13 +204,13 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
         model.setWidth(width);
         model.setHeight(height);
         if (width > 0 && height > 0) {
-            if (!mParticlesInited) {
-                mParticlesInited = true;
+            if (!particlesInited) {
+                particlesInited = true;
                 initParticles();
             }
         } else {
-            if (mParticlesInited) {
-                mParticlesInited = false;
+            if (particlesInited) {
+                particlesInited = false;
             }
         }
     }
@@ -275,11 +275,11 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
             throw new IllegalStateException("Cannot apply points if width or height is 0");
         }
 
-        final double direction = Math.toRadians(mRandom.nextInt(360));
+        final double direction = Math.toRadians(random.nextInt(360));
         final float dCos = (float) Math.cos(direction);
         final float dSin = (float) Math.sin(direction);
-        final float x = mRandom.nextInt(w);
-        final float y = mRandom.nextInt(h);
+        final float x = random.nextInt(w);
+        final float y = random.nextInt(h);
         final float stepMultiplier = newRandomIndividualDotStepMultiplier();
         final float radius = newRandomIndividualDotRadius();
 
@@ -299,8 +299,8 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     @Override
     public void nextFrame() {
         final ParticlesScene model = scene;
-        final float step = mLastFrameTime == 0 ? 1f
-                : (SystemClock.uptimeMillis() - mLastFrameTime) * STEP_PER_MS;
+        final float step = lastFrameTime == 0 ? 1f
+                : (SystemClock.uptimeMillis() - lastFrameTime) * STEP_PER_MS;
 
         final int particlesCount = model.getNumDots();
         for (int i = 0; i < particlesCount; i++) {
@@ -322,7 +322,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
             }
         }
 
-        mLastFrameTime = SystemClock.uptimeMillis();
+        lastFrameTime = SystemClock.uptimeMillis();
     }
 
     /**
@@ -332,7 +332,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
      * @return new step multiplier for individual dot
      */
     private float newRandomIndividualDotStepMultiplier() {
-        return 1f + 0.1f * (mRandom.nextInt(11) - 5);
+        return 1f + 0.1f * (random.nextInt(11) - 5);
     }
 
     /**
@@ -344,7 +344,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
         final ParticlesScene model = scene;
         return model.getMinDotRadius() == model.getMaxDotRadius() ?
                 model.getMinDotRadius() : model.getMinDotRadius()
-                + (mRandom.nextInt(
+                + (random.nextInt(
                 (int) ((model.getMaxDotRadius() - model.getMinDotRadius()) * 100f))) / 100f;
     }
 
@@ -361,8 +361,8 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
             throw new IllegalStateException("Cannot apply points if width or height is 0");
         }
 
-        float x = mRandom.nextInt(w);
-        float y = mRandom.nextInt(h);
+        float x = random.nextInt(w);
+        float y = random.nextInt(h);
 
         // The offset to make when creating point of out bounds
         final short offset = (short) (model.getMinDotRadius() + model.getLineDistance());
@@ -374,7 +374,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
         // Make random offset and calulate angles so that the direction of travel will always be
         // towards our View
 
-        switch (mRandom.nextInt(4)) {
+        switch (random.nextInt(4)) {
             case 0:
                 // offset to left
                 x = (short) -offset;
@@ -412,7 +412,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
         }
 
         // Get random angle from angle range
-        final float randomAngleInRange = startAngle + (mRandom
+        final float randomAngleInRange = startAngle + (random
                 .nextInt((int) Math.abs(endAngle - startAngle)));
         final double direction = Math.toRadians(randomAngleInRange);
 
