@@ -33,24 +33,24 @@ public final class ParticlesScene implements SceneConfiguration {
 
     private static final int COORDINATES_PER_VERTEX = 2;
 
-    private float mMinDotRadius = Defaults.DEFAULT_MIN_DOT_RADIUS;
-    private float mMaxDotRadius = Defaults.DEFAULT_MAX_DOT_RADIUS;
+    private float mMinDotRadius = Defaults.PARTICLE_RADIUS_MIN;
+    private float mMaxDotRadius = Defaults.PARTICLE_RADIUS_MAX;
 
-    private float mLineThickness = Defaults.DEFAULT_LINE_THICKNESS;
+    private float mLineThickness = Defaults.LINE_THICKNESS;
 
-    private float mLineDistance = Defaults.DEFAULT_LINE_DISTANCE;
+    private float mLineDistance = Defaults.LINE_LENGTH;
 
-    private int mNumDots = Defaults.DEFAULT_DOT_NUMBER;
-
-    @ColorInt
-    private int mDotColor = Defaults.DEFAULT_DOT_COLOR;
+    private int mNumDots = Defaults.DENSITY;
 
     @ColorInt
-    private int mLineColor = Defaults.DEFAULT_LINE_COLOR;
+    private int mDotColor = Defaults.PARTICLE_COLOR;
 
-    private int mDelay = Defaults.DEFAULT_DELAY;
+    @ColorInt
+    private int mLineColor = Defaults.LINE_COLOR;
 
-    private float mStepMultiplier = Defaults.DEFAULT_STEP_MULTIPLIER;
+    private int mDelay = Defaults.FRAME_DELAY;
+
+    private float mStepMultiplier = Defaults.SPEED_FACTOR;
 
     // The alpha value of the Drawable
     private int mAlpha = 255;

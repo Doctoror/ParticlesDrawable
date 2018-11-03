@@ -29,19 +29,27 @@ final class Defaults {
         throw new UnsupportedOperationException();
     }
 
-    static final int DEFAULT_DOT_NUMBER = 60;
-    static final float DEFAULT_MAX_DOT_RADIUS = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 3f, Resources.getSystem().getDisplayMetrics());
-    static final float DEFAULT_MIN_DOT_RADIUS = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().getDisplayMetrics());
-    static final float DEFAULT_LINE_THICKNESS = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 1, Resources.getSystem().getDisplayMetrics());
+    static final int DENSITY = 60;
+
+    static final int FRAME_DELAY = 10;
+
     @ColorInt
-    static final int DEFAULT_DOT_COLOR = Color.WHITE;
-    @ColorInt
-    static final int DEFAULT_LINE_COLOR = Color.WHITE;
-    static final float DEFAULT_LINE_DISTANCE = TypedValue.applyDimension(
+    static final int LINE_COLOR = Color.WHITE;
+
+    static final float LINE_LENGTH = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 86, Resources.getSystem().getDisplayMetrics());
-    static final float DEFAULT_STEP_MULTIPLIER = 1f;
-    static final int DEFAULT_DELAY = 10;
+
+    static final float LINE_THICKNESS = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 1, Resources.getSystem().getDisplayMetrics());
+
+    @ColorInt
+    static final int PARTICLE_COLOR = Color.WHITE;
+
+    static final float PARTICLE_RADIUS_MAX = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 3f, Resources.getSystem().getDisplayMetrics());
+
+    static final float PARTICLE_RADIUS_MIN = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().getDisplayMetrics());
+
+    static final float SPEED_FACTOR = 1f;
 }

@@ -84,36 +84,36 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
 
     public void handleAttrs(@NonNull final TypedArray a) {
         final int count = a.getIndexCount();
-        float minDotRadius = Defaults.DEFAULT_MIN_DOT_RADIUS;
-        float maxDotRadius = Defaults.DEFAULT_MAX_DOT_RADIUS;
+        float minDotRadius = Defaults.PARTICLE_RADIUS_MIN;
+        float maxDotRadius = Defaults.PARTICLE_RADIUS_MAX;
         for (int i = 0; i < count; i++) {
             final int attr = a.getIndex(i);
             if (attr == R.styleable.ParticlesView_minDotRadius) {
-                minDotRadius = a.getDimension(attr, Defaults.DEFAULT_MIN_DOT_RADIUS);
+                minDotRadius = a.getDimension(attr, Defaults.PARTICLE_RADIUS_MIN);
 
             } else if (attr == R.styleable.ParticlesView_maxDotRadius) {
-                maxDotRadius = a.getDimension(attr, Defaults.DEFAULT_MAX_DOT_RADIUS);
+                maxDotRadius = a.getDimension(attr, Defaults.PARTICLE_RADIUS_MAX);
 
             } else if (attr == R.styleable.ParticlesView_lineThickness) {
-                scene.setLineThickness(a.getDimension(attr, Defaults.DEFAULT_LINE_THICKNESS));
+                scene.setLineThickness(a.getDimension(attr, Defaults.LINE_THICKNESS));
 
             } else if (attr == R.styleable.ParticlesView_lineDistance) {
-                scene.setLineDistance(a.getDimension(attr, Defaults.DEFAULT_LINE_DISTANCE));
+                scene.setLineDistance(a.getDimension(attr, Defaults.LINE_LENGTH));
 
             } else if (attr == R.styleable.ParticlesView_numDots) {
-                scene.setNumDots(a.getInteger(attr, Defaults.DEFAULT_DOT_NUMBER));
+                scene.setNumDots(a.getInteger(attr, Defaults.DENSITY));
 
             } else if (attr == R.styleable.ParticlesView_dotColor) {
-                scene.setDotColor(a.getColor(attr, Defaults.DEFAULT_DOT_COLOR));
+                scene.setDotColor(a.getColor(attr, Defaults.PARTICLE_COLOR));
 
             } else if (attr == R.styleable.ParticlesView_lineColor) {
-                scene.setLineColor(a.getColor(attr, Defaults.DEFAULT_LINE_COLOR));
+                scene.setLineColor(a.getColor(attr, Defaults.LINE_COLOR));
 
             } else if (attr == R.styleable.ParticlesView_frameDelayMillis) {
-                scene.setFrameDelay(a.getInteger(attr, Defaults.DEFAULT_DELAY));
+                scene.setFrameDelay(a.getInteger(attr, Defaults.FRAME_DELAY));
 
             } else if (attr == R.styleable.ParticlesView_stepMultiplier) {
-                scene.setStepMultiplier(a.getFloat(attr, Defaults.DEFAULT_STEP_MULTIPLIER));
+                scene.setStepMultiplier(a.getFloat(attr, Defaults.SPEED_FACTOR));
             }
         }
         scene.setDotRadiusRange(minDotRadius, maxDotRadius);
