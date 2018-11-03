@@ -38,12 +38,12 @@ class ScenePresenterTest {
     )
 
     @Test
-    fun testIsRunningByDefault() {
+    fun isRunningByDefault() {
         assertFalse(underTest.isRunning)
     }
 
     @Test
-    fun testIsRunningWhenStarted() {
+    fun isRunningWhenStarted() {
         underTest.setDimensions(10, 10)
         underTest.start()
         try {
@@ -54,7 +54,7 @@ class ScenePresenterTest {
     }
 
     @Test
-    fun testIsStopedWhenStopped() {
+    fun isStopedWhenStopped() {
         underTest.setDimensions(10, 10)
         underTest.start()
         underTest.stop()
@@ -62,14 +62,14 @@ class ScenePresenterTest {
     }
 
     @Test
-    fun testSetBoundsWhenRunning() {
+    fun setBoundsWhenRunning() {
         underTest.start()
         underTest.setDimensions(10, 10)
         underTest.stop()
     }
 
     @Test
-    fun testWithZeroBounds() {
+    fun withZeroBounds() {
         underTest.setDimensions(0, 0)
         underTest.start()
         assertTrue(underTest.isRunning)
@@ -78,18 +78,18 @@ class ScenePresenterTest {
     }
 
     @Test
-    fun testMakeBrandNewFrameWithZeroBounds() {
+    fun makeBrandNewFrameWithZeroBounds() {
         underTest.makeBrandNewFrame()
     }
 
     @Test
-    fun testMakeBrandNewFrame() {
+    fun makeBrandNewFrame() {
         underTest.setDimensions(10, 10)
         underTest.makeBrandNewFrame()
     }
 
     @Test
-    fun testMakeBrandNewFrameWhenRunning() {
+    fun makeBrandNewFrameWhenRunning() {
         underTest.setDimensions(10, 10)
         underTest.start()
         underTest.makeBrandNewFrame()
@@ -97,7 +97,7 @@ class ScenePresenterTest {
     }
 
     @Test
-    fun testDotRadiusRangeThatRoundsUpToTheSameInt() {
+    fun dotRadiusRangeThatRoundsUpToTheSameInt() {
         underTest.setDimensions(10, 10)
         scene.setDotRadiusRange(0.5f, 0.6f)
         underTest.makeBrandNewFrame()
