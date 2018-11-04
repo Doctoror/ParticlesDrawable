@@ -15,8 +15,6 @@ android {
 
         versionCode globalConfiguration["androidVersionCode"]
         versionName globalConfiguration["androidVersionName"]
-
-        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
     }
 
     compileOptions {
@@ -50,22 +48,11 @@ android {
     configurations {
         javadocDeps
     }
-
-    sourceSets {
-        androidTest {
-            java.srcDirs = ['src/androidTest/java']
-            res.srcDirs = ['src/androidTest/res']
-        }
-    }
 }
 
 dependencies {
     def d = rootProject.ext.libraryDependencies
     def td = rootProject.ext.libraryTestDependencies
-
-    androidTestImplementation td.testRunner
-    androidTestImplementation td.testRules
-    androidTestImplementation td.mockitoAndroid
 
     testImplementation td.junitJupiter
     testImplementation td.junitVintage
