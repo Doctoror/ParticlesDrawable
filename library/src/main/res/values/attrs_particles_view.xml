@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright 2017 Yaroslav Mytkalyk
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,15 +16,15 @@
 <resources>
 
     <declare-styleable name="ParticlesView">
-        <attr name="density" format="integer"/>
-        <attr name="minDotRadius" format="dimension"/>
-        <attr name="maxDotRadius" format="dimension"/>
-        <attr name="lineThickness" format="dimension"/>
-        <attr name="lineDistance" format="dimension"/>
-        <attr name="dotColor" format="color"/>
-        <attr name="lineColor" format="color"/>
-        <attr name="frameDelayMillis" format="integer"/>
-        <attr name="stepMultiplier" format="float"/>
+        <attr name="density" format="integer" />
+        <attr name="dotColor" format="color" />
+        <attr name="frameDelayMillis" format="integer" />
+        <attr name="lineColor" format="color" />
+        <attr name="lineDistance" format="dimension" />
+        <attr name="lineThickness" format="dimension" />
+        <attr name="maxDotRadius" format="dimension" />
+        <attr name="minDotRadius" format="dimension" />
+        <attr name="stepMultiplier" format="float" />
     </declare-styleable>
 
 </resources>

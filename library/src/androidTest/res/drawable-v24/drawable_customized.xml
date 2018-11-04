@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Some versions of Android Studio may show false warning,
-"Element drawable must be declared", but it works fine when
-compiling and running -->
-<drawable
+<drawable xmlns:app="http://schemas.android.com/apk/res-auto"
     class="com.doctoror.particlesdrawable.ParticlesDrawable"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:minDotRadius="2dp"
-    app:maxDotRadius="3dp"
-    app:lineThickness="4dp"
-    app:lineDistance="5dp"
     app:density="6"
     app:dotColor="#fffff0"
-    app:lineColor="#fffff1"
     app:frameDelayMillis="7"
-    app:stepMultiplier="1.1"/>
+    app:lineColor="#fffff1"
+    app:lineDistance="5dp"
+    app:lineThickness="4dp"
+    app:maxDotRadius="3dp"
+    app:minDotRadius="2dp"
+    app:stepMultiplier="1.1" />
