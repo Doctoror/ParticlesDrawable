@@ -136,7 +136,7 @@ final class GlSceneRendererLines {
                 final float x1 = scene.getParticleX(i);
                 final float y1 = scene.getParticleY(i);
 
-                // Draw connection lines for eligible points
+                // Draw connection lines for eligible particles
                 for (int j = i + 1; j < particlesCount; j++) {
 
                     final float x2 = scene.getParticleX(j);

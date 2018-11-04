@@ -291,7 +291,7 @@ public final class Scene implements SceneConfiguration {
     @Override
     public void setNumDots(@IntRange(from = 0) final int newNum) {
         if (newNum < 0) {
-            throw new IllegalArgumentException("numPoints must not be negative");
+            throw new IllegalArgumentException("newNum must not be negative");
         }
         if (mNumDots != newNum) {
             mNumDots = newNum;

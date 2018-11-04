@@ -247,7 +247,7 @@ public final class Engine implements Animatable, Runnable, SceneController {
     private void initParticles(@NonNull final ParticleCreationStrategy strategy) {
         final Scene scene = this.scene;
         if (scene.getWidth() == 0 || scene.getHeight() == 0) {
-            throw new IllegalStateException("Cannot init points if width or height is 0");
+            throw new IllegalStateException("Cannot init particles if width or height is 0");
         }
         for (int i = 0; i < scene.getNumDots(); i++) {
             strategy.addNewParticle(i);

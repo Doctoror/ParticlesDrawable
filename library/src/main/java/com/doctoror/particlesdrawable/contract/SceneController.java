@@ -32,7 +32,7 @@ public interface SceneController {
     void makeBrandNewFrame();
 
     /**
-     * Resets and makes new random frame where all points are out of screen bounds and will be
+     * Resets and makes new random frame where all particles are out of screen bounds and will be
      * moving into the screen once animation starts.
      */
     void makeBrandNewFrameWithPointsOffscreen();

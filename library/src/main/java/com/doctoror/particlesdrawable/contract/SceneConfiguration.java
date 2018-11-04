@@ -95,24 +95,24 @@ public interface SceneConfiguration {
     float getLineThickness();
 
     /**
-     * Set the maximum distance when the connection line is still drawn between points
+     * Set the maximum distance when the connection line is still drawn between particles.
      *
      * @param lineDistance maximum distance for connection lines
      */
     void setLineDistance(@FloatRange(from = 0) float lineDistance);
 
     /**
-     * Returns the maximum distance when the connection line is still drawn between points
+     * Returns the maximum distance when the connection line is still drawn between particles
      *
      * @return maximum distance for connection lines
      */
     float getLineDistance();
 
     /**
-     * Set number of points to draw
+     * Set number of particles to draw
      *
-     * @param newNum the number of points
-     * @throws IllegalArgumentException if number of points is negative
+     * @param newNum the number of particles
+     * @throws IllegalArgumentException if number of particles is negative
      */
     void setNumDots(@IntRange(from = 0) int newNum);
 
@@ -140,7 +140,7 @@ public interface SceneConfiguration {
 
     /**
      * Set the line color. Note that the color alpha is ignored and will be calculated depending on
-     * distance between points
+     * distance between particles.
      *
      * @param lineColor line color to use
      */
