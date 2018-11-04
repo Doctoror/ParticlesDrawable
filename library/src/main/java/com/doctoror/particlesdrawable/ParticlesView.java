@@ -30,7 +30,7 @@ import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
-import com.doctoror.particlesdrawable.engine.ScenePresenter;
+import com.doctoror.particlesdrawable.engine.Engine;
 import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
@@ -72,7 +72,7 @@ public class ParticlesView extends View implements
     private final CanvasSceneRenderer canvasSceneRenderer = new CanvasSceneRenderer();
     private final Scene scene = new Scene();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasSceneRenderer);
-    private final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
+    private final Engine engine = new Engine(scene, this, renderer);
 
     /**
      * Whether explicitly stopped by user. This means it will not start automatically on visibility
@@ -119,7 +119,7 @@ public class ParticlesView extends View implements
             final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
             try {
-                presenter.handleAttrs(a);
+                engine.handleAttrs(a);
             } finally {
                 a.recycle();
             }
@@ -137,7 +137,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public void nextFrame() {
-        presenter.nextFrame();
+        engine.nextFrame();
     }
 
     /**
@@ -145,7 +145,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public void makeBrandNewFrame() {
-        presenter.makeBrandNewFrame();
+        engine.makeBrandNewFrame();
     }
 
     /**
@@ -153,7 +153,7 @@ public class ParticlesView extends View implements
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        presenter.makeBrandNewFrameWithPointsOffscreen();
+        engine.makeBrandNewFrameWithPointsOffscreen();
     }
 
     /**
@@ -295,15 +295,15 @@ public class ParticlesView extends View implements
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        presenter.setDimensions(w, h);
+        engine.setDimensions(w, h);
     }
 
     @Override
     protected void onDraw(@NonNull final Canvas canvas) {
         super.onDraw(canvas);
         canvasSceneRenderer.setCanvas(canvas);
-        presenter.draw();
-        presenter.run();
+        engine.draw();
+        engine.run();
         canvasSceneRenderer.setCanvas(null);
     }
 
@@ -364,19 +364,19 @@ public class ParticlesView extends View implements
 
     @Override
     public boolean isRunning() {
-        return presenter.isRunning();
+        return engine.isRunning();
     }
 
     @VisibleForTesting
     void startInternal() {
         if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
-            presenter.start();
+            engine.start();
         }
     }
 
     @VisibleForTesting
     void stopInternal() {
-        presenter.stop();
+        engine.stop();
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)

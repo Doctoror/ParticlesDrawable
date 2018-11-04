@@ -30,7 +30,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.doctoror.particlesdrawable.model.Scene;
-import com.doctoror.particlesdrawable.engine.ScenePresenter;
+import com.doctoror.particlesdrawable.engine.Engine;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
@@ -63,7 +63,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
     final Scene scene = new Scene();
     final GlSceneRenderer renderer = new GlSceneRenderer();
-    final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
+    final Engine engine = new Engine(scene, this, renderer);
 
     private volatile boolean backgroundColorDirty;
     private volatile boolean backgroundTextureDirty;
@@ -100,7 +100,7 @@ public class GlParticlesView extends GLSurfaceView implements
             @SuppressLint("CustomViewStyleable") final TypedArray a = context
                     .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
             try {
-                presenter.handleAttrs(a);
+                engine.handleAttrs(a);
             } finally {
                 a.recycle();
             }
@@ -219,7 +219,7 @@ public class GlParticlesView extends GLSurfaceView implements
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                presenter.nextFrame();
+                engine.nextFrame();
             }
         });
     }
@@ -232,7 +232,7 @@ public class GlParticlesView extends GLSurfaceView implements
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                presenter.makeBrandNewFrame();
+                engine.makeBrandNewFrame();
             }
         });
     }
@@ -245,7 +245,7 @@ public class GlParticlesView extends GLSurfaceView implements
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                presenter.makeBrandNewFrameWithPointsOffscreen();
+                engine.makeBrandNewFrameWithPointsOffscreen();
             }
         });
     }
@@ -447,7 +447,7 @@ public class GlParticlesView extends GLSurfaceView implements
     @Override
     public void start() {
         onResume();
-        presenter.start();
+        engine.start();
     }
 
     /**
@@ -456,7 +456,7 @@ public class GlParticlesView extends GLSurfaceView implements
      */
     @Override
     public void stop() {
-        presenter.stop();
+        engine.stop();
         onPause();
         queueEvent(new Runnable() {
             @Override
@@ -468,7 +468,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
     @Override
     public boolean isRunning() {
-        return presenter.isRunning();
+        return engine.isRunning();
     }
 
     @Override
@@ -481,7 +481,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
     @Override
     public void onSurfaceChanged(@NonNull final GL10 gl, final int width, final int height) {
-        presenter.setDimensions(width, height);
+        engine.setDimensions(width, height);
         renderer.setDimensions(width, height);
         backgroundColorDirty = true;
         backgroundTextureDirty = true;
@@ -497,8 +497,8 @@ public class GlParticlesView extends GLSurfaceView implements
             renderer.setBackgroundTexture(backgroundTexture);
             backgroundTextureDirty = false;
         }
-        presenter.draw();
-        presenter.run();
+        engine.draw();
+        engine.run();
     }
 
     private final Runnable requestRenderRunnable = new Runnable() {

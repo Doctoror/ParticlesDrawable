@@ -7,7 +7,7 @@ import com.nhaarman.mockito_kotlin.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class ScenePresenterTest {
+class EngineTest {
 
     private val frameDelay = 10
 
@@ -20,7 +20,7 @@ class ScenePresenterTest {
     private val renderer: SceneRenderer = mock()
     private val timeProvider: TimeProvider = mock()
 
-    private val underTest = ScenePresenter(
+    private val underTest = Engine(
         frameAdvancer,
         particleGenerator,
         scene,

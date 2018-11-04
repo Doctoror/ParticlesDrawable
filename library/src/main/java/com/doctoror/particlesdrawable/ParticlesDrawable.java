@@ -29,7 +29,7 @@ import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
-import com.doctoror.particlesdrawable.engine.ScenePresenter;
+import com.doctoror.particlesdrawable.engine.Engine;
 import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
@@ -59,7 +59,7 @@ public class ParticlesDrawable extends Drawable implements
     private final CanvasSceneRenderer canvasRenderer = new CanvasSceneRenderer();
     private final Scene scene = new Scene();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasRenderer);
-    private final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
+    private final Engine engine = new Engine(scene, this, renderer);
 
     @Override
     public void inflate(
@@ -68,7 +68,7 @@ public class ParticlesDrawable extends Drawable implements
             @NonNull final AttributeSet attrs,
             @Nullable final Resources.Theme theme) throws XmlPullParserException, IOException {
         super.inflate(r, parser, attrs, theme);
-        presenter.inflate(r, attrs);
+        engine.inflate(r, attrs);
     }
 
     @NonNull
@@ -80,15 +80,15 @@ public class ParticlesDrawable extends Drawable implements
     @Override
     public void setBounds(final int left, final int top, final int right, final int bottom) {
         super.setBounds(left, top, right, bottom);
-        presenter.setDimensions(right - left, bottom - top);
+        engine.setDimensions(right - left, bottom - top);
     }
 
     @Override
     public void draw(@NonNull final Canvas canvas) {
         canvasRenderer.setCanvas(canvas);
-        presenter.draw();
+        engine.draw();
         canvasRenderer.setCanvas(null);
-        presenter.run();
+        engine.run();
     }
 
     @Override
@@ -112,12 +112,12 @@ public class ParticlesDrawable extends Drawable implements
 
     @Override
     public void setAlpha(final int alpha) {
-        presenter.setAlpha(alpha);
+        engine.setAlpha(alpha);
     }
 
     @Override
     public int getAlpha() {
-        return presenter.getAlpha();
+        return engine.getAlpha();
     }
 
     @Override
@@ -132,17 +132,17 @@ public class ParticlesDrawable extends Drawable implements
 
     @Override
     public void start() {
-        presenter.start();
+        engine.start();
     }
 
     @Override
     public void stop() {
-        presenter.stop();
+        engine.stop();
     }
 
     @Override
     public boolean isRunning() {
-        return presenter.isRunning();
+        return engine.isRunning();
     }
 
     /**
@@ -150,7 +150,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public void nextFrame() {
-        presenter.nextFrame();
+        engine.nextFrame();
     }
 
     /**
@@ -158,7 +158,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public void makeBrandNewFrame() {
-        presenter.makeBrandNewFrame();
+        engine.makeBrandNewFrame();
     }
 
     /**
@@ -166,7 +166,7 @@ public class ParticlesDrawable extends Drawable implements
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        presenter.makeBrandNewFrameWithPointsOffscreen();
+        engine.makeBrandNewFrameWithPointsOffscreen();
     }
 
     /**

@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 @KeepAsApi
-public final class ScenePresenter implements Animatable, Runnable, SceneController {
+public final class Engine implements Animatable, Runnable, SceneController {
 
     private static final float STEP_PER_MS = 0.05f;
 
@@ -50,7 +50,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
 
     private volatile boolean animating;
 
-    public ScenePresenter(
+    public Engine(
             @NonNull final Scene scene,
             @NonNull final SceneScheduler scheduler,
             @NonNull final SceneRenderer renderer) {
@@ -64,7 +64,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     }
 
     @VisibleForTesting
-    ScenePresenter(
+    Engine(
             @NonNull final FrameAdvancer frameAdvancer,
             @NonNull final ParticleGenerator particleGenerator,
             @NonNull final Scene scene,

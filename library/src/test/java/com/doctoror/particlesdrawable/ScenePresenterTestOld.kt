@@ -18,7 +18,7 @@ package com.doctoror.particlesdrawable
 import android.content.res.Resources
 import android.content.res.TypedArray
 import android.util.TypedValue
-import com.doctoror.particlesdrawable.engine.ScenePresenter
+import com.doctoror.particlesdrawable.engine.Engine
 import com.doctoror.particlesdrawable.model.Scene
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -52,7 +52,7 @@ class ScenePresenterTestOld {
         on(stubbing.height).thenAnswer { height }
     }
 
-    private val underTest = ScenePresenter(
+    private val underTest = Engine(
         scene,
         mock(),
         mock()
