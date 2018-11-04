@@ -23,6 +23,7 @@ import com.doctoror.particlesdrawable.model.Scene;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 final class ParticleGenerator {
 
@@ -34,7 +35,17 @@ final class ParticleGenerator {
     private final float pcc = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 18f, Resources.getSystem().getDisplayMetrics());
 
-    private final Random random = new Random();
+    @NonNull
+    private final Random random;
+
+    ParticleGenerator() {
+        this(new Random());
+    }
+
+    @VisibleForTesting
+    ParticleGenerator(@NonNull final Random random) {
+        this.random = random;
+    }
 
     /**
      * Set new point coordinates somewhere on screen and apply new direction
@@ -97,7 +108,6 @@ final class ParticleGenerator {
 
         // Make random offset and calulate angles so that the direction of travel will always be
         // towards our View
-
         switch (random.nextInt(4)) {
             case 0:
                 // offset to left
