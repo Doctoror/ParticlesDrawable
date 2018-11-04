@@ -30,6 +30,7 @@ import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import com.doctoror.particlesdrawable.engine.Engine;
+import com.doctoror.particlesdrawable.engine.SceneConfigurator;
 import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
@@ -58,6 +59,7 @@ public class ParticlesDrawable extends Drawable implements
 
     private final CanvasSceneRenderer canvasRenderer = new CanvasSceneRenderer();
     private final Scene scene = new Scene();
+    private final SceneConfigurator sceneConfigurator = new SceneConfigurator();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasRenderer);
     private final Engine engine = new Engine(scene, this, renderer);
 
@@ -68,7 +70,7 @@ public class ParticlesDrawable extends Drawable implements
             @NonNull final AttributeSet attrs,
             @Nullable final Resources.Theme theme) throws XmlPullParserException, IOException {
         super.inflate(r, parser, attrs, theme);
-        engine.inflate(r, attrs);
+        sceneConfigurator.configureSceneFromAttributes(scene, r, attrs);
     }
 
     @NonNull

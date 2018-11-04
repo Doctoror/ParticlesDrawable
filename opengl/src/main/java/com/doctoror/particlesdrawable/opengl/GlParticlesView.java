@@ -15,7 +15,6 @@
  */
 package com.doctoror.particlesdrawable.opengl;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -29,11 +28,12 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.doctoror.particlesdrawable.model.Scene;
-import com.doctoror.particlesdrawable.engine.Engine;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
+import com.doctoror.particlesdrawable.engine.Engine;
+import com.doctoror.particlesdrawable.engine.SceneConfigurator;
+import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.opengl.chooser.EGLConfigChooserCallback;
 import com.doctoror.particlesdrawable.opengl.chooser.FailsafeEGLConfigChooserFactory;
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer;
@@ -62,6 +62,7 @@ public class GlParticlesView extends GLSurfaceView implements
     private static final int DEFAULT_SAMPLES = 4;
 
     final Scene scene = new Scene();
+    private final SceneConfigurator sceneConfigurator = new SceneConfigurator();
     final GlSceneRenderer renderer = new GlSceneRenderer();
     final Engine engine = new Engine(scene, this, renderer);
 
@@ -97,13 +98,7 @@ public class GlParticlesView extends GLSurfaceView implements
             int samples,
             @Nullable final EGLConfigChooserCallback configChooserCallback) {
         if (attrs != null) {
-            @SuppressLint("CustomViewStyleable") final TypedArray a = context
-                    .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
-            try {
-                engine.handleAttrs(a);
-            } finally {
-                a.recycle();
-            }
+            sceneConfigurator.configureSceneFromAttributes(scene, context.getResources(), attrs);
 
             final TypedArray glAttrs = context
                     .obtainStyledAttributes(attrs, R.styleable.GlParticlesView);

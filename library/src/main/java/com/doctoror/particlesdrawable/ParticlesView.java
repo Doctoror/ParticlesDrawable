@@ -17,7 +17,6 @@ package com.doctoror.particlesdrawable;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Animatable;
@@ -31,6 +30,7 @@ import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import com.doctoror.particlesdrawable.engine.Engine;
+import com.doctoror.particlesdrawable.engine.SceneConfigurator;
 import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
@@ -71,6 +71,7 @@ public class ParticlesView extends View implements
 
     private final CanvasSceneRenderer canvasSceneRenderer = new CanvasSceneRenderer();
     private final Scene scene = new Scene();
+    private final SceneConfigurator sceneConfigurator = new SceneConfigurator();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasSceneRenderer);
     private final Engine engine = new Engine(scene, this, renderer);
 
@@ -116,13 +117,7 @@ public class ParticlesView extends View implements
             setLayerType(LAYER_TYPE_HARDWARE, canvasSceneRenderer.getPaint());
         }
         if (attrs != null) {
-            final TypedArray a = context
-                    .obtainStyledAttributes(attrs, R.styleable.ParticlesView);
-            try {
-                engine.handleAttrs(a);
-            } finally {
-                a.recycle();
-            }
+            sceneConfigurator.configureSceneFromAttributes(scene, context.getResources(), attrs);
         }
     }
 

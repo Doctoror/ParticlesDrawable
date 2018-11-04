@@ -119,36 +119,36 @@ class ScenePresenterTestOld {
         underTest.makeBrandNewFrame()
     }
 
-    @Test
-    fun setsDotRadiusRangeFromAttributes() {
-        val minDotRadius = 8f
-        val maxDotRadius = 16f
-
-        val typedArray: TypedArray = mock {
-            on(it.indexCount).thenReturn(2)
-
-            on(it.getIndex(0)).thenReturn(R.styleable.ParticlesView_minDotRadius)
-            on(it.getIndex(1)).thenReturn(R.styleable.ParticlesView_maxDotRadius)
-
-            on(
-                it.getDimension(
-                    R.styleable.ParticlesView_minDotRadius,
-                    Defaults.PARTICLE_RADIUS_MIN
-                )
-            ).thenReturn(minDotRadius)
-
-            on(
-                it.getDimension(
-                    R.styleable.ParticlesView_maxDotRadius,
-                    Defaults.PARTICLE_RADIUS_MAX
-                )
-            ).thenReturn(maxDotRadius)
-        }
-
-        underTest.handleAttrs(typedArray)
-
-        verify(scene).setDotRadiusRange(minDotRadius, maxDotRadius)
-    }
+//    @Test
+//    fun setsDotRadiusRangeFromAttributes() {
+//        val minDotRadius = 8f
+//        val maxDotRadius = 16f
+//
+//        val typedArray: TypedArray = mock {
+//            on(it.indexCount).thenReturn(2)
+//
+//            on(it.getIndex(0)).thenReturn(R.styleable.ParticlesView_minDotRadius)
+//            on(it.getIndex(1)).thenReturn(R.styleable.ParticlesView_maxDotRadius)
+//
+//            on(
+//                it.getDimension(
+//                    R.styleable.ParticlesView_minDotRadius,
+//                    Defaults.PARTICLE_RADIUS_MIN
+//                )
+//            ).thenReturn(minDotRadius)
+//
+//            on(
+//                it.getDimension(
+//                    R.styleable.ParticlesView_maxDotRadius,
+//                    Defaults.PARTICLE_RADIUS_MAX
+//                )
+//            ).thenReturn(maxDotRadius)
+//        }
+//
+//        underTest.handleAttrs(typedArray)
+//
+//        verify(scene).setDotRadiusRange(minDotRadius, maxDotRadius)
+//    }
 
 //    @Test
 //    fun testLineThicknessFromAttributes() {
