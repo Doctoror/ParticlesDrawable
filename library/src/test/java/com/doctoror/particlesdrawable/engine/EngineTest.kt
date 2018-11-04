@@ -125,7 +125,7 @@ class EngineTest {
 
     @Test
     fun frameTimeResetOnMakeFreshFrameWithParticlesOffScreen() {
-        verifyFrameTimeResetsWhenFunctionInvoked { underTest.makeBrandNewFrameWithPointsOffscreen() }
+        verifyFrameTimeResetsWhenFunctionInvoked { underTest.makeBrandNewFrameWithParticlesOffscreen() }
     }
 
     @Test
@@ -226,7 +226,7 @@ class EngineTest {
 
     @Test
     fun doesNotMakeeFreshFrameWithParticlesOffScreenWhenDimensionsNotSet() {
-        underTest.makeBrandNewFrameWithPointsOffscreen()
+        underTest.makeBrandNewFrameWithParticlesOffscreen()
         verifyZeroInteractions(particleGenerator)
     }
 
@@ -234,7 +234,7 @@ class EngineTest {
     fun doesNotMakeeFreshFrameWithParticlesOffScreenWhenParticlesCountIsZero() {
         givenSceneDimensions(1, 1)
 
-        underTest.makeBrandNewFrameWithPointsOffscreen()
+        underTest.makeBrandNewFrameWithParticlesOffscreen()
 
         verifyZeroInteractions(particleGenerator)
     }
@@ -246,7 +246,7 @@ class EngineTest {
         val particlesCount = 4
         whenever(scene.numDots).thenReturn(particlesCount)
 
-        underTest.makeBrandNewFrameWithPointsOffscreen()
+        underTest.makeBrandNewFrameWithParticlesOffscreen()
 
         val inorder = inOrder(particleGenerator)
         inorder.verify(particleGenerator).applyFreshParticleOffScreen(scene, 0)

@@ -35,6 +35,6 @@ public interface SceneController {
      * Resets and makes new random frame where all particles are out of screen bounds and will be
      * moving into the screen once animation starts.
      */
-    void makeBrandNewFrameWithPointsOffscreen();
+    void makeBrandNewFrameWithParticlesOffscreen();
 
 }

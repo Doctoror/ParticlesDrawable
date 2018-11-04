@@ -152,8 +152,8 @@ public class ParticlesView extends View implements
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrameWithPointsOffscreen() {
-        engine.makeBrandNewFrameWithPointsOffscreen();
+    public void makeBrandNewFrameWithParticlesOffscreen() {
+        engine.makeBrandNewFrameWithParticlesOffscreen();
     }
 
     /**

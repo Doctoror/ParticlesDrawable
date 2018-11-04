@@ -196,7 +196,7 @@ public final class Engine implements Animatable, Runnable, SceneController {
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrameWithPointsOffscreen() {
+    public void makeBrandNewFrameWithParticlesOffscreen() {
         final Scene model = scene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();

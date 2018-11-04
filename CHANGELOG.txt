@@ -1,3 +1,7 @@
+v 2.0.0
+- Added OpenGL module
+- Renamed makeBrandNewFrameWithPointsOffscreen() to makeBrandNewFrameWithParticlesOffscreen()
+
 v 1.0.9
 - Fixed crash that could happen when bounds is set back to 0
 - Target SDK is set to 27

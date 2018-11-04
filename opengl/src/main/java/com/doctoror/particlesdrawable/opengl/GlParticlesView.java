@@ -241,11 +241,11 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrameWithPointsOffscreen() {
+    public void makeBrandNewFrameWithParticlesOffscreen() {
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                engine.makeBrandNewFrameWithPointsOffscreen();
+                engine.makeBrandNewFrameWithParticlesOffscreen();
             }
         });
     }
