@@ -29,6 +29,7 @@ import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
+import com.doctoror.particlesdrawable.engine.ScenePresenter;
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
 

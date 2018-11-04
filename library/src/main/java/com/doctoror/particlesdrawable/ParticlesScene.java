@@ -83,23 +83,23 @@ public final class ParticlesScene implements SceneConfiguration {
         return mRadiuses;
     }
 
-    void setWidth(final int width) {
+    public void setWidth(final int width) {
         mWidth = width;
     }
 
-    void setHeight(final int height) {
+    public void setHeight(final int height) {
         mHeight = height;
     }
 
-    int getWidth() {
+    public int getWidth() {
         return mWidth;
     }
 
-    int getHeight() {
+    public int getHeight() {
         return mHeight;
     }
 
-    void setParticleData(
+    public void setParticleData(
             final int position,
             final float x,
             final float y,
@@ -137,11 +137,11 @@ public final class ParticlesScene implements SceneConfiguration {
         return mStepMultipliers.get(position);
     }
 
-    void setParticleX(final int position, final float x) {
+    public void setParticleX(final int position, final float x) {
         mCoordinates.put(position * 2, x);
     }
 
-    void setParticleY(final int position, final float y) {
+    public void setParticleY(final int position, final float y) {
         mCoordinates.put(position * 2 + 1, y);
     }
 
@@ -153,7 +153,7 @@ public final class ParticlesScene implements SceneConfiguration {
         mDirections.put(position * 2 + 1, direction);
     }
 
-    void setAlpha(final int alpha) {
+    public void setAlpha(final int alpha) {
         mAlpha = alpha;
     }
 

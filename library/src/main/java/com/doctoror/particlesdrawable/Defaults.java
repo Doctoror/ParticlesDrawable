@@ -23,33 +23,33 @@ import android.util.TypedValue;
 /**
  * Default values are here.
  */
-final class Defaults {
+public final class Defaults {
 
     private Defaults() {
         throw new UnsupportedOperationException();
     }
 
-    static final int DENSITY = 60;
+    public static final int DENSITY = 60;
 
-    static final int FRAME_DELAY = 10;
+    public static final int FRAME_DELAY = 10;
 
     @ColorInt
-    static final int LINE_COLOR = Color.WHITE;
+    public static final int LINE_COLOR = Color.WHITE;
 
-    static final float LINE_LENGTH = TypedValue.applyDimension(
+    public static final float LINE_LENGTH = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 86, Resources.getSystem().getDisplayMetrics());
 
-    static final float LINE_THICKNESS = TypedValue.applyDimension(
+    public static final float LINE_THICKNESS = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 1, Resources.getSystem().getDisplayMetrics());
 
     @ColorInt
-    static final int PARTICLE_COLOR = Color.WHITE;
+    public static final int PARTICLE_COLOR = Color.WHITE;
 
-    static final float PARTICLE_RADIUS_MAX = TypedValue.applyDimension(
+    public static final float PARTICLE_RADIUS_MAX = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 3f, Resources.getSystem().getDisplayMetrics());
 
-    static final float PARTICLE_RADIUS_MIN = TypedValue.applyDimension(
+    public static final float PARTICLE_RADIUS_MIN = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 1f, Resources.getSystem().getDisplayMetrics());
 
-    static final float SPEED_FACTOR = 1f;
+    public static final float SPEED_FACTOR = 1f;
 }

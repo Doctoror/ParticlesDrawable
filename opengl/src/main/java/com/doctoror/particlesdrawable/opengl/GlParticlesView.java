@@ -30,7 +30,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.doctoror.particlesdrawable.ParticlesScene;
-import com.doctoror.particlesdrawable.ScenePresenter;
+import com.doctoror.particlesdrawable.engine.ScenePresenter;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
