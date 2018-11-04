@@ -270,11 +270,11 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
+    public void setSpeedFactor(@FloatRange(from = 0) final float speedFactor) {
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                scene.setStepMultiplier(stepMultiplier);
+                scene.setSpeedFactor(speedFactor);
             }
         });
     }
@@ -283,8 +283,8 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public float getStepMultiplier() {
-        return scene.getStepMultiplier();
+    public float getSpeedFactor() {
+        return scene.getSpeedFactor();
     }
 
     /**

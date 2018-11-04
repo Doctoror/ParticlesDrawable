@@ -108,10 +108,10 @@ class ParticlesDrawableTest {
     }
 
     @Test
-    fun testSetStepMultiplier() {
+    fun testSetSpeedFactor() {
         val s = ParticlesDrawable()
-        s.stepMultiplier = 0f
-        assertEquals(0f, s.stepMultiplier, ASSERT_DELTA)
+        s.speedFactor = 0f
+        assertEquals(0f, s.speedFactor, ASSERT_DELTA)
     }
 
     @Test

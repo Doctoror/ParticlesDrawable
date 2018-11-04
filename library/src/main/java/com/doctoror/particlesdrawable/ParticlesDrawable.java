@@ -191,16 +191,16 @@ public class ParticlesDrawable extends Drawable implements
      * {@inheritDoc}
      */
     @Override
-    public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        scene.setStepMultiplier(stepMultiplier);
+    public void setSpeedFactor(@FloatRange(from = 0) final float speedFactor) {
+        scene.setSpeedFactor(speedFactor);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getStepMultiplier() {
-        return scene.getStepMultiplier();
+    public float getSpeedFactor() {
+        return scene.getSpeedFactor();
     }
 
     /**

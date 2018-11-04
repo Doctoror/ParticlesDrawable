@@ -189,21 +189,21 @@ class SceneConfiguratorTest {
     }
 
     @Test
-    fun setsStepMultiplierFromAttributes() {
-        val stepMultiplier = 64f
+    fun setsSpeedFactorFromAttributes() {
+        val speedFactor = 64f
 
         whenever(typedArray.indexCount).thenReturn(1)
-        whenever(typedArray.getIndex(0)).thenReturn(R.styleable.ParticlesView_stepMultiplier)
+        whenever(typedArray.getIndex(0)).thenReturn(R.styleable.ParticlesView_speedFactor)
 
         whenever(
             typedArray.getFloat(
-                R.styleable.ParticlesView_stepMultiplier,
+                R.styleable.ParticlesView_speedFactor,
                 Defaults.SPEED_FACTOR
             )
-        ).thenReturn(stepMultiplier)
+        ).thenReturn(speedFactor)
 
         underTest.configureSceneFromAttributes(scene, resources, attrs)
 
-        verify(scene).stepMultiplier = stepMultiplier
+        verify(scene).speedFactor = speedFactor
     }
 }

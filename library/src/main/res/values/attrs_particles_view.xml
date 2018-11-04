@@ -24,7 +24,7 @@
         <attr name="particleColor" format="color" />
         <attr name="particleRadiusMax" format="dimension" />
         <attr name="particleRadiusMin" format="dimension" />
-        <attr name="stepMultiplier" format="float" />
+        <attr name="speedFactor" format="float" />
     </declare-styleable>
 
 </resources>

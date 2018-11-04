@@ -140,16 +140,16 @@ public interface SceneConfiguration {
     float getParticleRadiusMin();
 
     /**
-     * Sets step multiplier. Use this to control speed.
+     * Sets speed factor. Use this to control speed.
      *
-     * @param stepMultiplier step multiplier
+     * @param speedFactor speed factor
      */
-    void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier);
+    void setSpeedFactor(@FloatRange(from = 0) final float speedFactor);
 
     /**
-     * Returns the step multiplier.
+     * Returns the speed factor.
      *
-     * @return the step multiplier
+     * @return the speed factor
      */
-    float getStepMultiplier();
+    float getSpeedFactor();
 }

@@ -38,12 +38,12 @@ final class FrameAdvancer {
             float x = scene.getParticleX(i);
             float y = scene.getParticleY(i);
 
-            final float stepMultiplier = scene.getParticleStepMultiplier(i);
+            final float speedFactor = scene.getParticleSpeedFactor(i);
             final float dCos = scene.getParticleDirectionCos(i);
             final float dSin = scene.getParticleDirectionSin(i);
 
-            x += step * scene.getStepMultiplier() * stepMultiplier * dCos;
-            y += step * scene.getStepMultiplier() * stepMultiplier * dSin;
+            x += step * scene.getSpeedFactor() * speedFactor * dCos;
+            y += step * scene.getSpeedFactor() * speedFactor * dSin;
 
             if (particleOutOfBounds(scene, x, y)) {
                 particleGenerator.applyFreshParticleOffScreen(scene, i);

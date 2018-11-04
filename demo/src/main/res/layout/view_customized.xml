@@ -11,4 +11,4 @@
     app:particleColor="@android:color/white"
     app:particleRadiusMax="3dp"
     app:particleRadiusMin="1dp"
-    app:stepMultiplier="1" />
+    app:speedFactor="1" />

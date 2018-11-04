@@ -49,7 +49,7 @@ public final class Scene implements SceneConfiguration {
 
     private int mDelay = Defaults.FRAME_DELAY;
 
-    private float mStepMultiplier = Defaults.SPEED_FACTOR;
+    private float mSpeedFactor = Defaults.SPEED_FACTOR;
 
     // The alpha value of the Drawable
     private int mAlpha = 255;
@@ -66,7 +66,7 @@ public final class Scene implements SceneConfiguration {
     private FloatBuffer mDirections;
 
     private FloatBuffer mRadiuses;
-    private FloatBuffer mStepMultipliers;
+    private FloatBuffer mSpeedFactors;
 
     public Scene() {
         initBuffers(density);
@@ -105,7 +105,7 @@ public final class Scene implements SceneConfiguration {
             final float dCos,
             final float dSin,
             final float radius,
-            final float stepMultiplier) {
+            final float speedFactor) {
         setParticleX(position, x);
         setParticleY(position, y);
 
@@ -113,7 +113,7 @@ public final class Scene implements SceneConfiguration {
         setParticleDirectionSin(position, dSin);
 
         mRadiuses.put(position, radius);
-        mStepMultipliers.put(position, stepMultiplier);
+        mSpeedFactors.put(position, speedFactor);
     }
 
     public float getParticleX(final int position) {
@@ -132,8 +132,8 @@ public final class Scene implements SceneConfiguration {
         return mDirections.get(position * 2 + 1);
     }
 
-    public float getParticleStepMultiplier(final int position) {
-        return mStepMultipliers.get(position);
+    public float getParticleSpeedFactor(final int position) {
+        return mSpeedFactors.get(position);
     }
 
     public void setParticleX(final int position, final float x) {
@@ -184,22 +184,22 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier) {
-        if (stepMultiplier < 0) {
-            throw new IllegalArgumentException("step multiplier must not be nagative");
+    public void setSpeedFactor(@FloatRange(from = 0) final float speedFactor) {
+        if (speedFactor < 0) {
+            throw new IllegalArgumentException("speedFactor must not be nagative");
         }
-        if (Float.compare(stepMultiplier, Float.NaN) == 0) {
-            throw new IllegalArgumentException("step multiplier must be a valid float");
+        if (Float.compare(speedFactor, Float.NaN) == 0) {
+            throw new IllegalArgumentException("speedFactor must be a valid float");
         }
-        mStepMultiplier = stepMultiplier;
+        mSpeedFactor = speedFactor;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getStepMultiplier() {
-        return mStepMultiplier;
+    public float getSpeedFactor() {
+        return mSpeedFactor;
     }
 
     /**
@@ -302,7 +302,7 @@ public final class Scene implements SceneConfiguration {
     private void initBuffers(final int density) {
         initCoordinates(density);
         initDirections(density);
-        initStepMultipliers(density);
+        initSpeedFactors(density);
         initRadiuses(density);
     }
 
@@ -320,9 +320,9 @@ public final class Scene implements SceneConfiguration {
         }
     }
 
-    private void initStepMultipliers(final int density) {
-        if (mStepMultipliers == null || mStepMultipliers.capacity() != density) {
-            mStepMultipliers = FloatBuffer.allocate(density);
+    private void initSpeedFactors(final int density) {
+        if (mSpeedFactors == null || mSpeedFactors.capacity() != density) {
+            mSpeedFactors = FloatBuffer.allocate(density);
         }
     }
 

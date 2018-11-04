@@ -62,8 +62,8 @@ public final class SceneConfigurator {
                 } else if (attr == R.styleable.ParticlesView_frameDelayMillis) {
                     scene.setFrameDelay(a.getInteger(attr, Defaults.FRAME_DELAY));
 
-                } else if (attr == R.styleable.ParticlesView_stepMultiplier) {
-                    scene.setStepMultiplier(a.getFloat(attr, Defaults.SPEED_FACTOR));
+                } else if (attr == R.styleable.ParticlesView_speedFactor) {
+                    scene.setSpeedFactor(a.getFloat(attr, Defaults.SPEED_FACTOR));
                 }
             }
             scene.setParticleRadiusRange(particleRadiusMin, particleRadiusMax);

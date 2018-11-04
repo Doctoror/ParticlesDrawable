@@ -1,9 +1,12 @@
 v 2.0.0
 - Added OpenGL module
-- Renamed makeBrandNewFrameWithPointsOffscreen() to makeBrandNewFrameWithParticlesOffscreen()
-- Renamed setNumDots() and getNumDots() to setDensity() and getDensity(). The same for xml attribute.
-- Renamed setDotColor() and getDotColor() to setParticleColor() and getParticleColor(). Same for xml.
-- Renamed setDotRadiusRange() and get[Min/Max]DotRadius() to setParticleRadiusRange() and getParticleRadius[Min/Max](). Same for xml.
+- Renamed makeBrandNewFrameWithPointsOffscreen to makeBrandNewFrameWithParticlesOffscreen
+- Renamed numDots to density
+- Renamed dotColor to particleColor
+- Renamed dotRadiusRange to particleRadiusRange
+- Renamed maxDotRadius to particleRadiusMax
+- Renamed minDotRadius to particleRadiusMin
+- Renamed stepMultiplier attribute to speedFactor, same for getter and xml attribute
 
 v 1.0.9
 - Fixed crash that could happen when bounds is set back to 0

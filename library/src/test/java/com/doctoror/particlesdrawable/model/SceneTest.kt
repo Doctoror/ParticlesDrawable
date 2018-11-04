@@ -57,14 +57,14 @@ class SceneTest {
         assertEquals(3f, underTest.getParticleDirectionCos(0))
         assertEquals(4f, underTest.getParticleDirectionSin(0))
         assertEquals(5f, underTest.radiuses.get(0))
-        assertEquals(6f, underTest.getParticleStepMultiplier(0))
+        assertEquals(6f, underTest.getParticleSpeedFactor(0))
 
         assertEquals(7f, underTest.getParticleX(1))
         assertEquals(8f, underTest.getParticleY(1))
         assertEquals(9f, underTest.getParticleDirectionCos(1))
         assertEquals(10f, underTest.getParticleDirectionSin(1))
         assertEquals(11f, underTest.radiuses.get(1))
-        assertEquals(12f, underTest.getParticleStepMultiplier(1))
+        assertEquals(12f, underTest.getParticleSpeedFactor(1))
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -79,19 +79,19 @@ class SceneTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetStepMultiplierToNegative() {
-        underTest.stepMultiplier = -0.01f
+    fun crashesWhenSetSpeedFactorToNegative() {
+        underTest.speedFactor = -0.01f
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun crashesWhenSetMultiplierNAN() {
-        underTest.stepMultiplier = java.lang.Float.NaN
+        underTest.speedFactor = java.lang.Float.NaN
     }
 
     @Test
-    fun setsStepMultiplier() {
-        underTest.stepMultiplier = 1f
-        assertEquals(1f, underTest.stepMultiplier, ASSERT_DELTA)
+    fun setsSpeedFactor() {
+        underTest.speedFactor = 1f
+        assertEquals(1f, underTest.speedFactor, ASSERT_DELTA)
     }
 
     @Test(expected = IllegalArgumentException::class)

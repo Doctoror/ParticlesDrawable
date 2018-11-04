@@ -60,7 +60,7 @@ Here is a list of all attributes, set with default values
     app:particleColor="@android:color/white"
     app:particleRadiusMax="3dp"
     app:particleRadiusMin="1dp"
-    app:stepMultiplier="1" />
+    app:speedFactor="1" />
 ```
 The conventional getters and setters are also available.
 

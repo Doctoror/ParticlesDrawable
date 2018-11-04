@@ -57,7 +57,7 @@ final class ParticleGenerator {
         final float dSin = (float) Math.sin(direction);
         final float x = random.nextInt(w);
         final float y = random.nextInt(h);
-        final float stepMultiplier = newRandomIndividualParticleStepMultiplier();
+        final float speedFactor = newRandomIndividualParticleSpeedFactor();
         final float radius = newRandomIndividualParticleRadius(scene);
 
         scene.setParticleData(
@@ -67,7 +67,7 @@ final class ParticleGenerator {
                 dCos,
                 dSin,
                 radius,
-                stepMultiplier);
+                speedFactor);
     }
 
     /**
@@ -142,7 +142,7 @@ final class ParticleGenerator {
 
         final float dCos = (float) Math.cos(direction);
         final float dSin = (float) Math.sin(direction);
-        final float stepMultiplier = newRandomIndividualParticleStepMultiplier();
+        final float speedFactor = newRandomIndividualParticleSpeedFactor();
         final float radius = newRandomIndividualParticleRadius(scene);
 
         scene.setParticleData(
@@ -152,7 +152,7 @@ final class ParticleGenerator {
                 dCos,
                 dSin,
                 radius,
-                stepMultiplier);
+                speedFactor);
     }
 
     /**
@@ -175,12 +175,12 @@ final class ParticleGenerator {
     }
 
     /**
-     * Generates new step multiplier for individual particle.
+     * Generates new speed factor for individual particle.
      * The value is in [0.5:1.5] range
      *
-     * @return new step multiplier for individual particle.
+     * @return new speed factor for individual particle.
      */
-    private float newRandomIndividualParticleStepMultiplier() {
+    private float newRandomIndividualParticleSpeedFactor() {
         return 1f + 0.1f * (random.nextInt(11) - 5);
     }
 

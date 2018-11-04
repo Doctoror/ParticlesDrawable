@@ -29,8 +29,8 @@ class FrameAdvancerTest {
         on(it.width).thenReturn(320)
         on(it.height).thenReturn(240)
         on(it.density).thenReturn(1)
-        on(it.stepMultiplier).thenReturn(1f)
-        on(it.getParticleStepMultiplier(any())).thenReturn(1f)
+        on(it.speedFactor).thenReturn(1f)
+        on(it.getParticleSpeedFactor(any())).thenReturn(1f)
     }
 
     private val underTest = FrameAdvancer(particleGenerator)
@@ -107,10 +107,10 @@ class FrameAdvancerTest {
         val step = 2f
 
         val expectedX = particleX +
-                step * scene.stepMultiplier * scene.getParticleStepMultiplier(0) * dCos
+                step * scene.speedFactor * scene.getParticleSpeedFactor(0) * dCos
 
         val expectedY = particleY +
-                step * scene.stepMultiplier * scene.getParticleStepMultiplier(0) * dSin
+                step * scene.speedFactor * scene.getParticleSpeedFactor(0) * dSin
 
         underTest.advanceToNextFrame(scene, step)
 
