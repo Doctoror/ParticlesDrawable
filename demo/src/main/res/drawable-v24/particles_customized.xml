@@ -2,11 +2,11 @@
 <drawable xmlns:app="http://schemas.android.com/apk/res-auto"
     class="com.doctoror.particlesdrawable.ParticlesDrawable"
     app:density="60"
-    app:dotColor="@android:color/white"
     app:frameDelayMillis="10"
     app:lineColor="@android:color/white"
     app:lineDistance="86dp"
     app:lineThickness="1dp"
     app:maxDotRadius="3dp"
     app:minDotRadius="1dp"
+    app:particleColor="@android:color/white"
     app:stepMultiplier="1" />

@@ -62,7 +62,7 @@ class DefaultSceneRendererTest {
         val scene: Scene = mock {
             on { it.density }.doReturn(1)
             on { it.radiuses }.doReturn(radiuses)
-            on { it.dotColor }.doReturn(color)
+            on { it.particleColor }.doReturn(color)
             on { it.getParticleX(0) }.doReturn(x)
             on { it.getParticleY(0) }.doReturn(y)
         }
@@ -75,7 +75,7 @@ class DefaultSceneRendererTest {
                 any(), any(), any(), any(), any(), any())
 
         val expectedColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                scene.dotColor,
+                scene.particleColor,
                 scene.alpha
         )
 
@@ -104,7 +104,7 @@ class DefaultSceneRendererTest {
             on { it.density }.doReturn(2)
 
             on { it.radiuses }.doReturn(radiuses)
-            on { it.dotColor }.doReturn(color)
+            on { it.particleColor }.doReturn(color)
 
             on { it.getParticleX(0) }.doReturn(x1)
             on { it.getParticleY(0) }.doReturn(y1)
@@ -120,7 +120,7 @@ class DefaultSceneRendererTest {
                 any(), any(), any(), any(), any(), any())
 
         val expectedColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                scene.dotColor,
+                scene.particleColor,
                 scene.alpha
         )
 
@@ -155,7 +155,7 @@ class DefaultSceneRendererTest {
             on { it.density }.doReturn(2)
 
             on { it.radiuses }.doReturn(radiuses)
-            on { it.dotColor }.doReturn(particleColor)
+            on { it.particleColor }.doReturn(particleColor)
 
             on { it.lineDistance }.doReturn(666f)
             on { it.lineThickness }.doReturn(lineWidth)
@@ -183,7 +183,7 @@ class DefaultSceneRendererTest {
                 x1, y1, x2, y2, lineWidth, expectedLineColor)
 
         val expectedColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                scene.dotColor,
+                scene.particleColor,
                 scene.alpha
         )
 
@@ -223,7 +223,7 @@ class DefaultSceneRendererTest {
             on { it.density }.doReturn(3)
 
             on { it.radiuses }.doReturn(radiuses)
-            on { it.dotColor }.doReturn(particleColor)
+            on { it.particleColor }.doReturn(particleColor)
 
             on { it.lineDistance }.doReturn(666f)
             on { it.lineThickness }.doReturn(lineWidth)
@@ -271,7 +271,7 @@ class DefaultSceneRendererTest {
                 x2, y2, x3, y3, lineWidth, expectedLineColor3)
 
         val expectedColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                scene.dotColor,
+                scene.particleColor,
                 scene.alpha
         )
 

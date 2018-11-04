@@ -381,11 +381,11 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * {@inheritDoc}
      */
-    public void setDotColor(@ColorInt final int dotColor) {
+    public void setParticleColor(@ColorInt final int color) {
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                scene.setDotColor(dotColor);
+                scene.setParticleColor(color);
                 renderer.markParticleTextureDirty();
             }
         });
@@ -395,8 +395,8 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public int getDotColor() {
-        return scene.getDotColor();
+    public int getParticleColor() {
+        return scene.getParticleColor();
     }
 
     /**

@@ -42,7 +42,7 @@ public final class Scene implements SceneConfiguration {
     private int density = Defaults.DENSITY;
 
     @ColorInt
-    private int mDotColor = Defaults.PARTICLE_COLOR;
+    private int particleColor = Defaults.PARTICLE_COLOR;
 
     @ColorInt
     private int mLineColor = Defaults.LINE_COLOR;
@@ -344,16 +344,16 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public void setDotColor(@ColorInt final int dotColor) {
-        mDotColor = dotColor;
+    public void setParticleColor(@ColorInt final int color) {
+        particleColor = color;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getDotColor() {
-        return mDotColor;
+    public int getParticleColor() {
+        return particleColor;
     }
 
     /**

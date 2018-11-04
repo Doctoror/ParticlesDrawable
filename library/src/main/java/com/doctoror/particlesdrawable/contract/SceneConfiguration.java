@@ -27,6 +27,21 @@ import androidx.annotation.Keep;
 public interface SceneConfiguration {
 
     /**
+     * Set number of particles to draw per scene.
+     *
+     * @param density the number of particles to draw per scene
+     * @throws IllegalArgumentException if density is negative
+     */
+    void setDensity(@IntRange(from = 0) int density);
+
+    /**
+     * Returns the number of particles in the scene
+     *
+     * @return the number of particles in the scene
+     */
+    int getDensity();
+
+    /**
      * Set a delay per frame in milliseconds.
      *
      * @param delay delay between frames
@@ -108,36 +123,6 @@ public interface SceneConfiguration {
     float getLineDistance();
 
     /**
-     * Set number of particles to draw per scene.
-     *
-     * @param density the number of particles to draw per scene
-     * @throws IllegalArgumentException if density is negative
-     */
-    void setDensity(@IntRange(from = 0) int density);
-
-    /**
-     * Returns the number of particles in the scene
-     *
-     * @return the number of particles in the scene
-     */
-    int getDensity();
-
-    /**
-     * Set the dot color
-     *
-     * @param dotColor dot color to use
-     */
-    void setDotColor(@ColorInt int dotColor);
-
-    /**
-     * Returns the particles color
-     *
-     * @return the particles color
-     */
-    @ColorInt
-    int getDotColor();
-
-    /**
      * Set the line color. Note that the color alpha is ignored and will be calculated depending on
      * distance between particles.
      *
@@ -152,4 +137,19 @@ public interface SceneConfiguration {
      */
     @ColorInt
     int getLineColor();
+
+    /**
+     * Set the particle color
+     *
+     * @param color particle color to use
+     */
+    void setParticleColor(@ColorInt int color);
+
+    /**
+     * Returns the particle color
+     *
+     * @return the particle color
+     */
+    @ColorInt
+    int getParticleColor();
 }

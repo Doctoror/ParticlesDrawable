@@ -65,25 +65,6 @@ class SceneConfiguratorTest {
     }
 
     @Test
-    fun setsDotColorFromAttributes() {
-        val color = Color.CYAN
-
-        whenever(typedArray.indexCount).thenReturn(1)
-        whenever(typedArray.getIndex(0)).thenReturn(R.styleable.ParticlesView_dotColor)
-
-        whenever(
-            typedArray.getColor(
-                R.styleable.ParticlesView_dotColor,
-                Defaults.PARTICLE_COLOR
-            )
-        ).thenReturn(color)
-
-        underTest.configureSceneFromAttributes(scene, resources, attrs)
-
-        verify(scene).dotColor = color
-    }
-
-    @Test
     fun setsFrameDelayFromAttributes() {
         val frameDelay = 16
 
@@ -157,6 +138,25 @@ class SceneConfiguratorTest {
         underTest.configureSceneFromAttributes(scene, resources, attrs)
 
         verify(scene).lineThickness = lineThickness
+    }
+
+    @Test
+    fun setsParticleColorFromAttributes() {
+        val color = Color.CYAN
+
+        whenever(typedArray.indexCount).thenReturn(1)
+        whenever(typedArray.getIndex(0)).thenReturn(R.styleable.ParticlesView_particleColor)
+
+        whenever(
+            typedArray.getColor(
+                R.styleable.ParticlesView_particleColor,
+                Defaults.PARTICLE_COLOR
+            )
+        ).thenReturn(color)
+
+        underTest.configureSceneFromAttributes(scene, resources, attrs)
+
+        verify(scene).particleColor = color
     }
 
     @Test

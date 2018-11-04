@@ -2,6 +2,7 @@ v 2.0.0
 - Added OpenGL module
 - Renamed makeBrandNewFrameWithPointsOffscreen() to makeBrandNewFrameWithParticlesOffscreen()
 - Renamed setNumDots() and getNumDots() to setDensity() and getDensity(). The same for xml attribute.
+- Renamed setDotColor() and getDotColor() to setParticleColor() and getParticleColor(). Same for xml.
 
 v 1.0.9
 - Fixed crash that could happen when bounds is set back to 0

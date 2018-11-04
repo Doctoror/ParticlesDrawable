@@ -15,14 +15,10 @@
  */
 package com.doctoror.particlesdrawable
 
-import android.content.res.Resources
-import android.content.res.TypedArray
-import android.util.TypedValue
 import com.doctoror.particlesdrawable.engine.Engine
 import com.doctoror.particlesdrawable.model.Scene
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -117,96 +113,5 @@ class ScenePresenterTestOld {
         underTest.setDimensions(10, 10)
         scene.setDotRadiusRange(0.5f, 0.6f)
         underTest.makeBrandNewFrame()
-    }
-
-//    @Test
-//    fun setsDotRadiusRangeFromAttributes() {
-//        val minDotRadius = 8f
-//        val maxDotRadius = 16f
-//
-//        val typedArray: TypedArray = mock {
-//            on(it.indexCount).thenReturn(2)
-//
-//            on(it.getIndex(0)).thenReturn(R.styleable.ParticlesView_minDotRadius)
-//            on(it.getIndex(1)).thenReturn(R.styleable.ParticlesView_maxDotRadius)
-//
-//            on(
-//                it.getDimension(
-//                    R.styleable.ParticlesView_minDotRadius,
-//                    Defaults.PARTICLE_RADIUS_MIN
-//                )
-//            ).thenReturn(minDotRadius)
-//
-//            on(
-//                it.getDimension(
-//                    R.styleable.ParticlesView_maxDotRadius,
-//                    Defaults.PARTICLE_RADIUS_MAX
-//                )
-//            ).thenReturn(maxDotRadius)
-//        }
-//
-//        underTest.handleAttrs(typedArray)
-//
-//        verify(scene).setDotRadiusRange(minDotRadius, maxDotRadius)
-//    }
-
-//    @Test
-//    fun testLineThicknessFromAttributes() {
-//        val v = inflateCustomizedDrawable()
-//        assertEquals(
-//            dp(4f).toDouble(),
-//            v.getLineThickness().toDouble(),
-//            com.doctoror.particlesdrawable.Config.ASSERT_DELTA
-//        )
-//    }
-//
-//    @Test
-//    fun testLineDistanceFromAttributes() {
-//        val v = inflateCustomizedDrawable()
-//        assertEquals(
-//            dp(5f).toDouble(),
-//            v.getLineDistance().toDouble(),
-//            com.doctoror.particlesdrawable.Config.ASSERT_DELTA
-//        )
-//    }
-//
-//    @Test
-//    fun testNumDotsFromAttributes() {
-//        val v = inflateCustomizedDrawable()
-//        assertEquals(6, v.getNumDots().toLong())
-//    }
-//
-//    @Test
-//    fun testDotColorFromAttributes() {
-//        val v = inflateCustomizedDrawable()
-//        assertEquals(-0x10, v.getDotColor().toLong())
-//    }
-//
-//    @Test
-//    fun testLineColorFromAttributes() {
-//        val v = inflateCustomizedDrawable()
-//        assertEquals(-0xf, v.getLineColor().toLong())
-//    }
-//
-//    @Test
-//    fun testFrameDelayFromAttributes() {
-//        val v = inflateCustomizedDrawable()
-//        assertEquals(7, v.getFrameDelay().toLong())
-//    }
-//
-//    @Test
-//    fun testStepMultiplierFromAttributes() {
-//        val v = inflateCustomizedDrawable()
-//        assertEquals(
-//            1.1,
-//            v.getStepMultiplier().toDouble(),
-//            com.doctoror.particlesdrawable.Config.ASSERT_DELTA
-//        )
-//    }
-
-    private fun dp(value: Float): Float {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, value, Resources.getSystem().displayMetrics
-        )
     }
 }

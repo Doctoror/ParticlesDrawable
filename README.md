@@ -53,13 +53,13 @@ Here is a list of all attributes, set with default values
 ```xml
 <com.doctoror.particlesdrawable.ParticlesView
     app:density="60"
-    app:dotColor="@android:color/white"
     app:frameDelayMillis="10"
     app:minDotRadius="1dp"
     app:maxDotRadius="3dp"
     app:lineColor="@android:color/white"
     app:lineDistance="86dp"
     app:lineThickness="1dp"
+    app:particleColor="@android:color/white"
     app:stepMultiplier="1"/>
 ```
 The conventional getters and setters are also available.

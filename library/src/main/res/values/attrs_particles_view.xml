@@ -17,13 +17,13 @@
 
     <declare-styleable name="ParticlesView">
         <attr name="density" format="integer" />
-        <attr name="dotColor" format="color" />
         <attr name="frameDelayMillis" format="integer" />
         <attr name="lineColor" format="color" />
         <attr name="lineDistance" format="dimension" />
         <attr name="lineThickness" format="dimension" />
         <attr name="maxDotRadius" format="dimension" />
         <attr name="minDotRadius" format="dimension" />
+        <attr name="particleColor" format="color" />
         <attr name="stepMultiplier" format="float" />
     </declare-styleable>
 

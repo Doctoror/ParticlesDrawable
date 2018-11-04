@@ -183,7 +183,7 @@ final class GlSceneRendererParticles {
             @NonNull final Scene scene,
             @NonNull final float[] matrix) {
         initBuffers(scene.getDensity());
-        reloadTextureIfDirty(scene.getDotColor(), scene.getMaxDotRadius());
+        reloadTextureIfDirty(scene.getParticleColor(), scene.getMaxDotRadius());
         resolveParticleTriangles(scene);
         drawParticles(scene.getDensity(), matrix);
     }

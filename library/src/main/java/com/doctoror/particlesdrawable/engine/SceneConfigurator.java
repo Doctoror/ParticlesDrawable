@@ -53,8 +53,8 @@ public final class SceneConfigurator {
                 } else if (attr == R.styleable.ParticlesView_density) {
                     scene.setDensity(a.getInteger(attr, Defaults.DENSITY));
 
-                } else if (attr == R.styleable.ParticlesView_dotColor) {
-                    scene.setDotColor(a.getColor(attr, Defaults.PARTICLE_COLOR));
+                } else if (attr == R.styleable.ParticlesView_particleColor) {
+                    scene.setParticleColor(a.getColor(attr, Defaults.PARTICLE_COLOR));
 
                 } else if (attr == R.styleable.ParticlesView_lineColor) {
                     scene.setLineColor(a.getColor(attr, Defaults.LINE_COLOR));

@@ -169,9 +169,9 @@ class ParticlesDrawableTest {
     }
 
     @Test
-    fun testSetDotColor() {
+    fun testSetParticleColor() {
         val s = ParticlesDrawable()
-        s.dotColor = 3
-        assertEquals(3, s.dotColor)
+        s.particleColor = 3
+        assertEquals(3, s.particleColor)
     }
 }

@@ -255,16 +255,16 @@ public class ParticlesView extends View implements
     /**
      * {@inheritDoc}
      */
-    public void setDotColor(@ColorInt final int dotColor) {
-        scene.setDotColor(dotColor);
+    public void setParticleColor(@ColorInt final int color) {
+        scene.setParticleColor(color);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getDotColor() {
-        return scene.getDotColor();
+    public int getParticleColor() {
+        return scene.getParticleColor();
     }
 
     /**

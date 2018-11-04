@@ -41,7 +41,7 @@ public class DefaultSceneRenderer implements SceneRenderer {
         if (scene.getDensity() > 0) {
 
             final int particleColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                    scene.getDotColor(),
+                    scene.getParticleColor(),
                     scene.getAlpha()
             );
 

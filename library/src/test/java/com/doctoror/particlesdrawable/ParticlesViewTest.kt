@@ -207,7 +207,7 @@ class ParticlesViewTest {
     @Test
     fun testSetDotColor() {
         val s = newParticlesView()
-        s.dotColor = 3
-        assertEquals(3, s.dotColor)
+        s.particleColor = 3
+        assertEquals(3, s.particleColor)
     }
 }
