@@ -157,7 +157,7 @@ class DefaultSceneRendererTest {
             on { it.radiuses }.doReturn(radiuses)
             on { it.particleColor }.doReturn(particleColor)
 
-            on { it.lineDistance }.doReturn(666f)
+            on { it.lineLength }.doReturn(666f)
             on { it.lineThickness }.doReturn(lineWidth)
 
             on { it.lineColor }.doReturn(lineColor)
@@ -176,7 +176,7 @@ class DefaultSceneRendererTest {
         val expectedLineColor = LineColorResolver.resolveLineColorWithAlpha(
                 scene.alpha,
                 scene.lineColor,
-                scene.lineDistance,
+                scene.lineLength,
                 DistanceResolver.distance(x1, y1, x2, y2))
 
         verify(lowLevelRenderer).drawLine(
@@ -225,7 +225,7 @@ class DefaultSceneRendererTest {
             on { it.radiuses }.doReturn(radiuses)
             on { it.particleColor }.doReturn(particleColor)
 
-            on { it.lineDistance }.doReturn(666f)
+            on { it.lineLength }.doReturn(666f)
             on { it.lineThickness }.doReturn(lineWidth)
 
             on { it.lineColor }.doReturn(lineColor)
@@ -246,7 +246,7 @@ class DefaultSceneRendererTest {
         val expectedLineColor1 = LineColorResolver.resolveLineColorWithAlpha(
                 scene.alpha,
                 scene.lineColor,
-                scene.lineDistance,
+                scene.lineLength,
                 DistanceResolver.distance(x1, y1, x2, y2))
 
         verify(lowLevelRenderer).drawLine(
@@ -255,7 +255,7 @@ class DefaultSceneRendererTest {
         val expectedLineColor2 = LineColorResolver.resolveLineColorWithAlpha(
                 scene.alpha,
                 scene.lineColor,
-                scene.lineDistance,
+                scene.lineLength,
                 DistanceResolver.distance(x1, y1, x3, y3))
 
         verify(lowLevelRenderer).drawLine(
@@ -264,7 +264,7 @@ class DefaultSceneRendererTest {
         val expectedLineColor3 = LineColorResolver.resolveLineColorWithAlpha(
                 scene.alpha,
                 scene.lineColor,
-                scene.lineDistance,
+                scene.lineLength,
                 DistanceResolver.distance(x2, y2, x3, y3))
 
         verify(lowLevelRenderer).drawLine(

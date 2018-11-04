@@ -225,16 +225,16 @@ public class ParticlesView extends View implements
     /**
      * {@inheritDoc}
      */
-    public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        scene.setLineDistance(lineDistance);
+    public void setLineLength(@FloatRange(from = 0) final float lineLength) {
+        scene.setLineLength(lineLength);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getLineDistance() {
-        return scene.getLineDistance();
+    public float getLineLength() {
+        return scene.getLineLength();
     }
 
     /**

@@ -55,7 +55,7 @@ final class FrameAdvancer {
     }
 
     /**
-     * Used for checking if the particle is off-screen and farther than line distance and it's
+     * Used for checking if the particle is off-screen and farther than line length and it's
      * radius.
      *
      * @param x the particle x
@@ -68,7 +68,7 @@ final class FrameAdvancer {
             @NonNull final Scene scene,
             final float x,
             final float y) {
-        final float offset = scene.getParticleRadiusMin() + scene.getLineDistance();
+        final float offset = scene.getParticleRadiusMin() + scene.getLineLength();
         return x + offset < 0 || x - offset > scene.getWidth()
                 || y + offset < 0 || y - offset > scene.getHeight();
     }

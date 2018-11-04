@@ -103,22 +103,22 @@ class SceneConfiguratorTest {
     }
 
     @Test
-    fun setsLineDistanceFromAttributes() {
-        val lineDistance = 64f
+    fun setsLineLengthFromAttributes() {
+        val lineLength = 64f
 
         whenever(typedArray.indexCount).thenReturn(1)
-        whenever(typedArray.getIndex(0)).thenReturn(R.styleable.ParticlesView_lineDistance)
+        whenever(typedArray.getIndex(0)).thenReturn(R.styleable.ParticlesView_lineLength)
 
         whenever(
             typedArray.getDimension(
-                R.styleable.ParticlesView_lineDistance,
+                R.styleable.ParticlesView_lineLength,
                 Defaults.LINE_LENGTH
             )
-        ).thenReturn(lineDistance)
+        ).thenReturn(lineLength)
 
         underTest.configureSceneFromAttributes(scene, resources, attrs)
 
-        verify(scene).lineDistance = lineDistance
+        verify(scene).lineLength = lineLength
     }
 
     @Test

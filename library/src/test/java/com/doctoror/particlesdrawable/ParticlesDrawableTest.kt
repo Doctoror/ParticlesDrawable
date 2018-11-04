@@ -130,10 +130,10 @@ class ParticlesDrawableTest {
     }
 
     @Test
-    fun testSetLineDistance() {
+    fun testSetLineLength() {
         val s = ParticlesDrawable()
-        s.lineDistance = 0f
-        assertEquals(0f, s.lineDistance, ASSERT_DELTA)
+        s.lineLength = 0f
+        assertEquals(0f, s.lineLength, ASSERT_DELTA)
     }
 
     @Test

@@ -75,16 +75,16 @@ public interface SceneConfiguration {
     /**
      * Set the maximum distance when the connection line is still drawn between particles.
      *
-     * @param lineDistance maximum distance for connection lines
+     * @param lineLength maximum distance for connection lines
      */
-    void setLineDistance(@FloatRange(from = 0) float lineDistance);
+    void setLineLength(@FloatRange(from = 0) float lineLength);
 
     /**
      * Returns the maximum distance when the connection line is still drawn between particles
      *
      * @return maximum distance for connection lines
      */
-    float getLineDistance();
+    float getLineLength();
 
     /**
      * Set a line thickness

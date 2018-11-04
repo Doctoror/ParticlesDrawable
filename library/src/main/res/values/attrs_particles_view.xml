@@ -19,7 +19,7 @@
         <attr name="density" format="integer" />
         <attr name="frameDelayMillis" format="integer" />
         <attr name="lineColor" format="color" />
-        <attr name="lineDistance" format="dimension" />
+        <attr name="lineLength" format="dimension" />
         <attr name="lineThickness" format="dimension" />
         <attr name="particleColor" format="color" />
         <attr name="particleRadiusMax" format="dimension" />

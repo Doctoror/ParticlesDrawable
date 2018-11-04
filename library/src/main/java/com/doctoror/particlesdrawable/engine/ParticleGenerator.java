@@ -89,7 +89,7 @@ final class ParticleGenerator {
         float y = random.nextInt(h);
 
         // The offset to make when creating point of out bounds
-        final short offset = (short) (scene.getParticleRadiusMin() + scene.getLineDistance());
+        final short offset = (short) (scene.getParticleRadiusMin() + scene.getLineLength());
 
         // Point angle range
         final float startAngle;

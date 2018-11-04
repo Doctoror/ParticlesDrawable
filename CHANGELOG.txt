@@ -4,6 +4,7 @@ v 2.0.0
 - Renamed numDots to density
 - Renamed dotColor to particleColor
 - Renamed dotRadiusRange to particleRadiusRange
+- Renamed lineDistance to lineLength
 - Renamed maxDotRadius to particleRadiusMax
 - Renamed minDotRadius to particleRadiusMin
 - Renamed stepMultiplier attribute to speedFactor, same for getter and xml attribute

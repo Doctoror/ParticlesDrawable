@@ -55,7 +55,7 @@ Here is a list of all attributes, set with default values
     app:density="60"
     app:frameDelayMillis="10"
     app:lineColor="@android:color/white"
-    app:lineDistance="86dp"
+    app:lineLength="86dp"
     app:lineThickness="1dp"
     app:particleColor="@android:color/white"
     app:particleRadiusMax="3dp"

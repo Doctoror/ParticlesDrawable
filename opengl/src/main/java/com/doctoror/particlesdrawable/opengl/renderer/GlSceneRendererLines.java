@@ -143,11 +143,11 @@ final class GlSceneRendererLines {
                     final float y2 = scene.getParticleY(j);
 
                     final float distance = DistanceResolver.distance(x1, y1, x2, y2);
-                    if (distance < scene.getLineDistance()) {
+                    if (distance < scene.getLineLength()) {
                         final int lineColor = LineColorResolver.resolveLineColorWithAlpha(
                                 scene.getAlpha(),
                                 scene.getLineColor(),
-                                scene.getLineDistance(),
+                                scene.getLineLength(),
                                 distance);
 
                         resolveLine(

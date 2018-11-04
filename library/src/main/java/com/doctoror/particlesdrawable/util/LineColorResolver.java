@@ -27,8 +27,8 @@ public final class LineColorResolver {
      * Resolves line alpha based on distance comparing to max distance.
      * Where alpha is close to 0 for maxDistance, and close to 1 to 0 distance.
      *
-     * @param distance    line distance
-     * @param maxDistance max line distance
+     * @param distance    line length
+     * @param maxDistance max line length
      * @return line alpha
      */
     @IntRange(from = 0, to = 255)

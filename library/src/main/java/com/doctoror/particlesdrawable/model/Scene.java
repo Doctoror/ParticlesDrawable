@@ -37,7 +37,7 @@ public final class Scene implements SceneConfiguration {
 
     private float mLineThickness = Defaults.LINE_THICKNESS;
 
-    private float mLineDistance = Defaults.LINE_LENGTH;
+    private float mLineLength = Defaults.LINE_LENGTH;
 
     private int density = Defaults.DENSITY;
 
@@ -267,22 +267,22 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
-        if (lineDistance < 0) {
-            throw new IllegalArgumentException("line distance must not be negative");
+    public void setLineLength(@FloatRange(from = 0) final float lineLength) {
+        if (lineLength < 0) {
+            throw new IllegalArgumentException("line length must not be negative");
         }
-        if (Float.compare(lineDistance, Float.NaN) == 0) {
-            throw new IllegalArgumentException("line distance must be a valid float");
+        if (Float.compare(lineLength, Float.NaN) == 0) {
+            throw new IllegalArgumentException("line length must be a valid float");
         }
-        mLineDistance = lineDistance;
+        mLineLength = lineLength;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getLineDistance() {
-        return mLineDistance;
+    public float getLineLength() {
+        return mLineLength;
     }
 
     /**

@@ -47,8 +47,8 @@ public final class SceneConfigurator {
                 } else if (attr == R.styleable.ParticlesView_lineThickness) {
                     scene.setLineThickness(a.getDimension(attr, Defaults.LINE_THICKNESS));
 
-                } else if (attr == R.styleable.ParticlesView_lineDistance) {
-                    scene.setLineDistance(a.getDimension(attr, Defaults.LINE_LENGTH));
+                } else if (attr == R.styleable.ParticlesView_lineLength) {
+                    scene.setLineLength(a.getDimension(attr, Defaults.LINE_LENGTH));
 
                 } else if (attr == R.styleable.ParticlesView_density) {
                     scene.setDensity(a.getInteger(attr, Defaults.DENSITY));

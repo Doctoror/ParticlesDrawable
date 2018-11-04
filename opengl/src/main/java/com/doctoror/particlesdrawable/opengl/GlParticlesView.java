@@ -341,11 +341,11 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * {@inheritDoc}
      */
-    public void setLineDistance(@FloatRange(from = 0) final float lineDistance) {
+    public void setLineLength(@FloatRange(from = 0) final float lineLength) {
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                scene.setLineDistance(lineDistance);
+                scene.setLineLength(lineLength);
             }
         });
     }
@@ -354,8 +354,8 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public float getLineDistance() {
-        return scene.getLineDistance();
+    public float getLineLength() {
+        return scene.getLineLength();
     }
 
     /**

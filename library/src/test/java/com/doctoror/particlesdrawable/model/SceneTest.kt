@@ -153,19 +153,19 @@ class SceneTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetLineDistanceInvalidArgument() {
-        underTest.lineDistance = java.lang.Float.NEGATIVE_INFINITY
+    fun crashesWhenSetLineLengthInvalidArgument() {
+        underTest.lineLength = java.lang.Float.NEGATIVE_INFINITY
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetLineDistanceNAN() {
-        underTest.lineDistance = java.lang.Float.NaN
+    fun crashesWhenSetLineLengthNAN() {
+        underTest.lineLength = java.lang.Float.NaN
     }
 
     @Test
-    fun setsLineDistance() {
-        underTest.lineDistance = 0f
-        assertEquals(0f, underTest.lineDistance, ASSERT_DELTA)
+    fun setsLineLength() {
+        underTest.lineLength = 0f
+        assertEquals(0f, underTest.lineLength, ASSERT_DELTA)
     }
 
     @Test(expected = IllegalArgumentException::class)
