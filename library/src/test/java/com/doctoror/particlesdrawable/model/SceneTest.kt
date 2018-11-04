@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable
+package com.doctoror.particlesdrawable.model
 
+import com.doctoror.particlesdrawable.ASSERT_DELTA
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,9 +24,9 @@ import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class ParticlesSceneTest {
+class SceneTest {
 
-    private val underTest = ParticlesScene()
+    private val underTest = Scene()
 
     @Test
     fun addTwoParticles() {

@@ -20,7 +20,7 @@ import android.opengl.GLES20;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
 import com.doctoror.particlesdrawable.opengl.util.ShaderLoader;
 import com.doctoror.particlesdrawable.util.DistanceResolver;
@@ -117,7 +117,7 @@ final class GlSceneRendererLines {
     }
 
     void drawScene(
-            @NonNull final ParticlesScene scene,
+            @NonNull final Scene scene,
             @NonNull final float[] matrix) {
         lineAsTriangles = scene.getLineThickness() >= 2f;
         initBuffers(scene.getNumDots());
@@ -125,7 +125,7 @@ final class GlSceneRendererLines {
         drawLines(matrix);
     }
 
-    private void resolveLines(@NonNull final ParticlesScene scene) {
+    private void resolveLines(@NonNull final Scene scene) {
         lineColorBuffer.clear();
         lineCoordinatesBuffer.clear();
 

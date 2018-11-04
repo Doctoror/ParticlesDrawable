@@ -1,6 +1,6 @@
 package com.doctoror.particlesdrawable.engine;
 
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 
 import androidx.annotation.NonNull;
 
@@ -14,7 +14,7 @@ final class FrameAdvancer {
     }
 
     public void advanceToNextFrame(
-            @NonNull final ParticlesScene scene,
+            @NonNull final Scene scene,
             final float step
     ) {
         final int particlesCount = scene.getNumDots();
@@ -47,7 +47,7 @@ final class FrameAdvancer {
      * closest point on-screen
      */
     private boolean pointOutOfBounds(
-            @NonNull final ParticlesScene scene,
+            @NonNull final Scene scene,
             final float x,
             final float y) {
         final float offset = scene.getMinDotRadius() + scene.getLineDistance();

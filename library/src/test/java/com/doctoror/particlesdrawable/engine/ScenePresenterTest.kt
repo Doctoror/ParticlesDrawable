@@ -1,6 +1,6 @@
 package com.doctoror.particlesdrawable.engine
 
-import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.contract.SceneRenderer
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.nhaarman.mockito_kotlin.*
@@ -13,7 +13,7 @@ class ScenePresenterTest {
 
     private val frameAdvancer: FrameAdvancer = mock()
     private val particleGenerator: ParticleGenerator = mock()
-    private val scene: ParticlesScene = mock {
+    private val scene: Scene = mock {
         on(it.frameDelay).thenReturn(frameDelay)
     }
     private val scheduler: SceneScheduler = mock()

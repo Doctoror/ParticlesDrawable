@@ -16,7 +16,7 @@
 package com.doctoror.particlesdrawable.renderer
 
 import android.graphics.Color
-import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer
 import com.doctoror.particlesdrawable.util.DistanceResolver
 import com.doctoror.particlesdrawable.util.LineColorResolver
@@ -59,7 +59,7 @@ class DefaultSceneRendererTest {
         val x = 1f
         val y = 2f
 
-        val scene: ParticlesScene = mock {
+        val scene: Scene = mock {
             on { it.numDots }.doReturn(1)
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(color)
@@ -100,7 +100,7 @@ class DefaultSceneRendererTest {
         val x2 = 96f
         val y2 = 93f
 
-        val scene: ParticlesScene = mock {
+        val scene: Scene = mock {
             on { it.numDots }.doReturn(2)
 
             on { it.radiuses }.doReturn(radiuses)
@@ -151,7 +151,7 @@ class DefaultSceneRendererTest {
         val x2 = 68.1f
         val y2 = 98.9f
 
-        val scene: ParticlesScene = mock {
+        val scene: Scene = mock {
             on { it.numDots }.doReturn(2)
 
             on { it.radiuses }.doReturn(radiuses)
@@ -219,7 +219,7 @@ class DefaultSceneRendererTest {
         val x3 = 12.1f
         val y3 = 24.9f
 
-        val scene: ParticlesScene = mock {
+        val scene: Scene = mock {
             on { it.numDots }.doReturn(3)
 
             on { it.radiuses }.doReturn(radiuses)

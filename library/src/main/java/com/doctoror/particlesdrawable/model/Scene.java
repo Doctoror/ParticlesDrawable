@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particlesdrawable;
+package com.doctoror.particlesdrawable.model;
 
+import com.doctoror.particlesdrawable.Defaults;
+import com.doctoror.particlesdrawable.KeepAsApi;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 
 import java.nio.FloatBuffer;
@@ -25,11 +27,8 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 
-/**
- * The Particles scene
- */
 @KeepAsApi
-public final class ParticlesScene implements SceneConfiguration {
+public final class Scene implements SceneConfiguration {
 
     private static final int COORDINATES_PER_VERTEX = 2;
 
@@ -69,7 +68,7 @@ public final class ParticlesScene implements SceneConfiguration {
     private FloatBuffer mRadiuses;
     private FloatBuffer mStepMultipliers;
 
-    public ParticlesScene() {
+    public Scene() {
         initBuffers(mNumDots);
     }
 

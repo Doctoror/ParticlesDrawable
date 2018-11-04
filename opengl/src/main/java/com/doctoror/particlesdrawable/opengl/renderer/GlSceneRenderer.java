@@ -21,7 +21,7 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 import com.doctoror.particlesdrawable.KeepAsApi;
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
 
@@ -119,7 +119,7 @@ public class GlSceneRenderer implements SceneRenderer {
 
     @Override
     public void drawScene(
-            @NonNull final ParticlesScene scene) {
+            @NonNull final Scene scene) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         background.drawScene(mvpTranslatedBackgroundMatrix);
         lines.drawScene(scene, mvpTranslatedForegroundMatrix);

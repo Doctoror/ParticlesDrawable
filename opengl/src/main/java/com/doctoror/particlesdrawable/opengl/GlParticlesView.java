@@ -29,7 +29,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.engine.ScenePresenter;
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
@@ -61,7 +61,7 @@ public class GlParticlesView extends GLSurfaceView implements
 
     private static final int DEFAULT_SAMPLES = 4;
 
-    final ParticlesScene scene = new ParticlesScene();
+    final Scene scene = new Scene();
     final GlSceneRenderer renderer = new GlSceneRenderer();
     final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
 

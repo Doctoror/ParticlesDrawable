@@ -16,7 +16,7 @@
 package com.doctoror.particlesdrawable.renderer;
 
 import com.doctoror.particlesdrawable.KeepAsApi;
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.util.DistanceResolver;
@@ -37,7 +37,7 @@ public class DefaultSceneRenderer implements SceneRenderer {
     }
 
     @Override
-    public void drawScene(@NonNull final ParticlesScene scene) {
+    public void drawScene(@NonNull final Scene scene) {
         if (scene.getNumDots() > 0) {
 
             final int particleColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(

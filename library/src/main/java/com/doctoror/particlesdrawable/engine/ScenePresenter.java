@@ -22,7 +22,7 @@ import android.util.AttributeSet;
 
 import com.doctoror.particlesdrawable.Defaults;
 import com.doctoror.particlesdrawable.KeepAsApi;
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.R;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
@@ -31,9 +31,6 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-/**
- * Particles Scene Controller
- */
 @KeepAsApi
 public final class ScenePresenter implements Animatable, Runnable, SceneController {
 
@@ -41,7 +38,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
 
     private final FrameAdvancer frameAdvancer;
     private final ParticleGenerator particleGenerator;
-    private final ParticlesScene scene;
+    private final Scene scene;
     private final SceneScheduler scheduler;
     private final SceneRenderer renderer;
     private final TimeProvider timeProvider;
@@ -54,7 +51,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     private volatile boolean animating;
 
     public ScenePresenter(
-            @NonNull final ParticlesScene scene,
+            @NonNull final Scene scene,
             @NonNull final SceneScheduler scheduler,
             @NonNull final SceneRenderer renderer) {
         this(
@@ -70,7 +67,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     ScenePresenter(
             @NonNull final FrameAdvancer frameAdvancer,
             @NonNull final ParticleGenerator particleGenerator,
-            @NonNull final ParticlesScene scene,
+            @NonNull final Scene scene,
             @NonNull final SceneScheduler scheduler,
             @NonNull final SceneRenderer renderer,
             @NonNull final TimeProvider timeProvider) {
@@ -188,7 +185,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
      */
     @Override
     public void makeBrandNewFrame() {
-        final ParticlesScene scene = this.scene;
+        final Scene scene = this.scene;
         if (scene.getWidth() != 0 && scene.getHeight() != 0) {
             resetLastFrameTime();
             initParticles();
@@ -200,7 +197,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
      */
     @Override
     public void makeBrandNewFrameWithPointsOffscreen() {
-        final ParticlesScene model = scene;
+        final Scene model = scene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();
             initParticlesOffScreen();
@@ -208,7 +205,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     }
 
     public void setDimensions(final int width, final int height) {
-        final ParticlesScene scene = this.scene;
+        final Scene scene = this.scene;
         scene.setWidth(width);
         scene.setHeight(height);
         if (width > 0 && height > 0) {
@@ -248,7 +245,7 @@ public final class ScenePresenter implements Animatable, Runnable, SceneControll
     }
 
     private void initParticles(@NonNull final ParticleCreationStrategy strategy) {
-        final ParticlesScene scene = this.scene;
+        final Scene scene = this.scene;
         if (scene.getWidth() == 0 || scene.getHeight() == 0) {
             throw new IllegalStateException("Cannot init points if width or height is 0");
         }

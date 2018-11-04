@@ -31,6 +31,7 @@ import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
 import com.doctoror.particlesdrawable.contract.SceneScheduler;
 import com.doctoror.particlesdrawable.engine.ScenePresenter;
+import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
 
@@ -69,7 +70,7 @@ public class ParticlesView extends View implements
         SceneScheduler {
 
     private final CanvasSceneRenderer canvasSceneRenderer = new CanvasSceneRenderer();
-    private final ParticlesScene scene = new ParticlesScene();
+    private final Scene scene = new Scene();
     private final SceneRenderer renderer = new DefaultSceneRenderer(canvasSceneRenderer);
     private final ScenePresenter presenter = new ScenePresenter(scene, this, renderer);
 

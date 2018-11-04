@@ -19,6 +19,7 @@ import android.content.res.Resources
 import android.content.res.TypedArray
 import android.util.TypedValue
 import com.doctoror.particlesdrawable.engine.ScenePresenter
+import com.doctoror.particlesdrawable.model.Scene
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -33,7 +34,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class ScenePresenterTestOld {
 
-    private val scene: ParticlesScene = mock { stubbing ->
+    private val scene: Scene = mock { stubbing ->
         var width = 0
         var height = 0
 

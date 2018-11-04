@@ -16,12 +16,12 @@
 package com.doctoror.particlesdrawable.contract;
 
 import com.doctoror.particlesdrawable.KeepAsApi;
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 
 import androidx.annotation.NonNull;
 
 @KeepAsApi
 public interface SceneRenderer {
 
-    void drawScene(@NonNull ParticlesScene scene);
+    void drawScene(@NonNull Scene scene);
 }

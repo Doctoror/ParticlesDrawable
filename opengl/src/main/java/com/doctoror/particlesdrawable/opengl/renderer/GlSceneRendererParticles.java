@@ -23,7 +23,7 @@ import android.opengl.GLUtils;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
 import com.doctoror.particlesdrawable.opengl.util.PotCalculator;
 import com.doctoror.particlesdrawable.opengl.util.ShaderLoader;
@@ -180,7 +180,7 @@ final class GlSceneRendererParticles {
     }
 
     void drawScene(
-            @NonNull final ParticlesScene scene,
+            @NonNull final Scene scene,
             @NonNull final float[] matrix) {
         initBuffers(scene.getNumDots());
         reloadTextureIfDirty(scene.getDotColor(), scene.getMaxDotRadius());
@@ -188,7 +188,7 @@ final class GlSceneRendererParticles {
         drawParticles(scene.getNumDots(), matrix);
     }
 
-    private void resolveParticleTriangles(@NonNull final ParticlesScene scene) {
+    private void resolveParticleTriangles(@NonNull final Scene scene) {
         final FloatBuffer coordinates = scene.getCoordinates();
         coordinates.position(0);
 

@@ -3,7 +3,7 @@ package com.doctoror.particlesdrawable.engine;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
-import com.doctoror.particlesdrawable.ParticlesScene;
+import com.doctoror.particlesdrawable.model.Scene;
 
 import java.util.Random;
 
@@ -14,7 +14,7 @@ final class ParticleGenerator {
     /**
      * Path calculation padding.
      *
-     * @see #applyFreshParticleOffScreen(ParticlesScene, int)
+     * @see #applyFreshParticleOffScreen(Scene, int)
      */
     private final float pcc = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 18f, Resources.getSystem().getDisplayMetrics());
@@ -27,7 +27,7 @@ final class ParticleGenerator {
      * @param position the point position to apply new values to
      */
     void applyFreshParticleOnScreen(
-            @NonNull final ParticlesScene scene,
+            @NonNull final Scene scene,
             final int position
     ) {
         final int w = scene.getWidth();
@@ -61,7 +61,7 @@ final class ParticleGenerator {
      * @param position the particle position to apply new values to
      */
     void applyFreshParticleOffScreen(
-            @NonNull final ParticlesScene scene,
+            @NonNull final Scene scene,
             final int position) {
         final int w = scene.getWidth();
         final int h = scene.getHeight();
@@ -174,7 +174,7 @@ final class ParticleGenerator {
      *
      * @return new dot radius
      */
-    private float newRandomIndividualDotRadius(@NonNull final ParticlesScene scene) {
+    private float newRandomIndividualDotRadius(@NonNull final Scene scene) {
         return scene.getMinDotRadius() == scene.getMaxDotRadius() ?
                 scene.getMinDotRadius() : scene.getMinDotRadius() + (random.nextInt(
                 (int) ((scene.getMaxDotRadius() - scene.getMinDotRadius()) * 100f))) / 100f;
