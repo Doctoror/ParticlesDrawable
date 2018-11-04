@@ -34,15 +34,15 @@ public final class SceneConfigurator {
         final TypedArray a = r.obtainAttributes(attrs, R.styleable.ParticlesView);
         try {
             final int count = a.getIndexCount();
-            float minDotRadius = Defaults.PARTICLE_RADIUS_MIN;
-            float maxDotRadius = Defaults.PARTICLE_RADIUS_MAX;
+            float particleRadiusMax = Defaults.PARTICLE_RADIUS_MAX;
+            float particleRadiusMin = Defaults.PARTICLE_RADIUS_MIN;
             for (int i = 0; i < count; i++) {
                 final int attr = a.getIndex(i);
-                if (attr == R.styleable.ParticlesView_minDotRadius) {
-                    minDotRadius = a.getDimension(attr, Defaults.PARTICLE_RADIUS_MIN);
+                if (attr == R.styleable.ParticlesView_particleRadiusMin) {
+                    particleRadiusMin = a.getDimension(attr, Defaults.PARTICLE_RADIUS_MIN);
 
-                } else if (attr == R.styleable.ParticlesView_maxDotRadius) {
-                    maxDotRadius = a.getDimension(attr, Defaults.PARTICLE_RADIUS_MAX);
+                } else if (attr == R.styleable.ParticlesView_particleRadiusMax) {
+                    particleRadiusMax = a.getDimension(attr, Defaults.PARTICLE_RADIUS_MAX);
 
                 } else if (attr == R.styleable.ParticlesView_lineThickness) {
                     scene.setLineThickness(a.getDimension(attr, Defaults.LINE_THICKNESS));
@@ -66,7 +66,7 @@ public final class SceneConfigurator {
                     scene.setStepMultiplier(a.getFloat(attr, Defaults.SPEED_FACTOR));
                 }
             }
-            scene.setDotRadiusRange(minDotRadius, maxDotRadius);
+            scene.setParticleRadiusRange(particleRadiusMin, particleRadiusMax);
         } finally {
             a.recycle();
         }

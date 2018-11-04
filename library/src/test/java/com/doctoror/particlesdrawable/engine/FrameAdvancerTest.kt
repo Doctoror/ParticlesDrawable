@@ -49,21 +49,21 @@ class FrameAdvancerTest {
     @Test
     fun particlesNotOutOfBounds() {
         whenever(scene.lineDistance).thenReturn(3f)
-        whenever(scene.minDotRadius).thenReturn(4f)
+        whenever(scene.particleRadiusMin).thenReturn(4f)
 
         assertFalse(
             underTest.particleOutOfBounds(
                 scene,
-                -scene.lineDistance - scene.minDotRadius,
-                -scene.lineDistance - scene.minDotRadius
+                -scene.lineDistance - scene.particleRadiusMin,
+                -scene.lineDistance - scene.particleRadiusMin
             )
         )
 
         assertFalse(
             underTest.particleOutOfBounds(
                 scene,
-                scene.width + scene.lineDistance + scene.minDotRadius,
-                scene.height + scene.lineDistance + scene.minDotRadius
+                scene.width + scene.lineDistance + scene.particleRadiusMin,
+                scene.height + scene.lineDistance + scene.particleRadiusMin
             )
         )
     }
@@ -71,21 +71,21 @@ class FrameAdvancerTest {
     @Test
     fun particlesOutOfBounds() {
         whenever(scene.lineDistance).thenReturn(5f)
-        whenever(scene.minDotRadius).thenReturn(3f)
+        whenever(scene.particleRadiusMin).thenReturn(3f)
 
         assertTrue(
             underTest.particleOutOfBounds(
                 scene,
-                -scene.lineDistance - scene.minDotRadius - 0.1f,
-                -scene.lineDistance - scene.minDotRadius - 0.1f
+                -scene.lineDistance - scene.particleRadiusMin - 0.1f,
+                -scene.lineDistance - scene.particleRadiusMin - 0.1f
             )
         )
 
         assertTrue(
             underTest.particleOutOfBounds(
                 scene,
-                scene.width + scene.lineDistance + scene.minDotRadius + 0.1f,
-                scene.height + scene.lineDistance + scene.minDotRadius + 0.1f
+                scene.width + scene.lineDistance + scene.particleRadiusMin + 0.1f,
+                scene.height + scene.lineDistance + scene.particleRadiusMin + 0.1f
             )
         )
     }

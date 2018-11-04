@@ -95,45 +95,45 @@ class SceneTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetDotRadiusRangeInvalidFirstArgument() {
-        underTest.setDotRadiusRange(0.49f, 1f)
+    fun crashesWhenSetParticleRadiusRangeInvalidFirstArgument() {
+        underTest.setParticleRadiusRange(0.49f, 1f)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetDotRadiusRangeInvalidSecondArgument() {
-        underTest.setDotRadiusRange(2f, 0f)
+    fun crashesWhenSetParticleRadiusRangeInvalidSecondArgument() {
+        underTest.setParticleRadiusRange(2f, 0f)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetDotRadiusRangeInvalidBothArguments() {
-        underTest.setDotRadiusRange(0.1f, -2f)
+    fun crashesWhenSetParticleRadiusRangeInvalidBothArguments() {
+        underTest.setParticleRadiusRange(0.1f, -2f)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetDotRadiusRangeFirstArgumentNAN() {
-        underTest.setDotRadiusRange(java.lang.Float.NaN, 1f)
+    fun crashesWhenSetParticleRadiusRangeFirstArgumentNAN() {
+        underTest.setParticleRadiusRange(java.lang.Float.NaN, 1f)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetDotRadiusRangeSecondArgumentNAN() {
-        underTest.setDotRadiusRange(1f, java.lang.Float.NaN)
+    fun crashesWhenSetParticleRadiusRangeSecondArgumentNAN() {
+        underTest.setParticleRadiusRange(1f, java.lang.Float.NaN)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetDotRadiusRangeBothArgumentsNAN() {
-        underTest.setDotRadiusRange(java.lang.Float.NaN, java.lang.Float.NaN)
+    fun crashesWhenSetParticleRadiusRangeBothArgumentsNAN() {
+        underTest.setParticleRadiusRange(java.lang.Float.NaN, java.lang.Float.NaN)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetDotRadiusRangeMaxLessThanMin() {
-        underTest.setDotRadiusRange(0.7f, 0.6f)
+    fun crashesWhenSetParticleRadiusRangeMaxLessThanMin() {
+        underTest.setParticleRadiusRange(0.7f, 0.6f)
     }
 
     @Test
-    fun setsDotRadiusRange() {
-        underTest.setDotRadiusRange(0.5f, 0.6f)
-        assertEquals(0.5f, underTest.minDotRadius, ASSERT_DELTA)
-        assertEquals(0.6f, underTest.maxDotRadius, ASSERT_DELTA)
+    fun setsParticleRadiusRange() {
+        underTest.setParticleRadiusRange(0.5f, 0.6f)
+        assertEquals(0.5f, underTest.particleRadiusMin, ASSERT_DELTA)
+        assertEquals(0.6f, underTest.particleRadiusMax, ASSERT_DELTA)
     }
 
     @Test(expected = IllegalArgumentException::class)

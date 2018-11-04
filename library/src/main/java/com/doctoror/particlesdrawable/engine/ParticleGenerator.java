@@ -58,7 +58,7 @@ final class ParticleGenerator {
         final float x = random.nextInt(w);
         final float y = random.nextInt(h);
         final float stepMultiplier = newRandomIndividualParticleStepMultiplier();
-        final float radius = newRandomIndividualDotRadius(scene);
+        final float radius = newRandomIndividualParticleRadius(scene);
 
         scene.setParticleData(
                 position,
@@ -89,7 +89,7 @@ final class ParticleGenerator {
         float y = random.nextInt(h);
 
         // The offset to make when creating point of out bounds
-        final short offset = (short) (scene.getMinDotRadius() + scene.getLineDistance());
+        final short offset = (short) (scene.getParticleRadiusMin() + scene.getLineDistance());
 
         // Point angle range
         final float startAngle;
@@ -143,7 +143,7 @@ final class ParticleGenerator {
         final float dCos = (float) Math.cos(direction);
         final float dSin = (float) Math.sin(direction);
         final float stepMultiplier = newRandomIndividualParticleStepMultiplier();
-        final float radius = newRandomIndividualDotRadius(scene);
+        final float radius = newRandomIndividualParticleRadius(scene);
 
         scene.setParticleData(
                 position,
@@ -175,23 +175,23 @@ final class ParticleGenerator {
     }
 
     /**
-     * Generates new step multiplier for individual dot.
+     * Generates new step multiplier for individual particle.
      * The value is in [0.5:1.5] range
      *
-     * @return new step multiplier for individual dot
+     * @return new step multiplier for individual particle.
      */
     private float newRandomIndividualParticleStepMultiplier() {
         return 1f + 0.1f * (random.nextInt(11) - 5);
     }
 
     /**
-     * Generates new individual dot radius based on min and max radius setting
+     * Generates new individual particle radius based on min and max radius setting.
      *
-     * @return new dot radius
+     * @return new particle radius
      */
-    private float newRandomIndividualDotRadius(@NonNull final Scene scene) {
-        return scene.getMinDotRadius() == scene.getMaxDotRadius() ?
-                scene.getMinDotRadius() : scene.getMinDotRadius() + (random.nextInt(
-                (int) ((scene.getMaxDotRadius() - scene.getMinDotRadius()) * 100f))) / 100f;
+    private float newRandomIndividualParticleRadius(@NonNull final Scene scene) {
+        return scene.getParticleRadiusMin() == scene.getParticleRadiusMax() ?
+                scene.getParticleRadiusMin() : scene.getParticleRadiusMin() + (random.nextInt(
+                (int) ((scene.getParticleRadiusMax() - scene.getParticleRadiusMin()) * 100f))) / 100f;
     }
 }

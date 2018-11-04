@@ -32,8 +32,8 @@ public final class Scene implements SceneConfiguration {
 
     private static final int COORDINATES_PER_VERTEX = 2;
 
-    private float mMinDotRadius = Defaults.PARTICLE_RADIUS_MIN;
-    private float mMaxDotRadius = Defaults.PARTICLE_RADIUS_MAX;
+    private float particleRadiusMin = Defaults.PARTICLE_RADIUS_MIN;
+    private float particleRadiusMax = Defaults.PARTICLE_RADIUS_MAX;
 
     private float mLineThickness = Defaults.LINE_THICKNESS;
 
@@ -206,39 +206,39 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public void setDotRadiusRange(
+    public void setParticleRadiusRange(
             @FloatRange(from = 0.5f) final float minRadius,
             @FloatRange(from = 0.5f) final float maxRadius) {
         if (minRadius < 0.5f || maxRadius < 0.5f) {
-            throw new IllegalArgumentException("Dot radius must not be less than 0.5");
+            throw new IllegalArgumentException("Particle radius must not be less than 0.5");
         }
         if (Float.compare(minRadius, Float.NaN) == 0
                 || Float.compare(maxRadius, Float.NaN) == 0) {
-            throw new IllegalArgumentException("Dot radius must be a valid float");
+            throw new IllegalArgumentException("Particle radius must be a valid float");
         }
         if (minRadius > maxRadius) {
             throw new IllegalArgumentException(String.format(Locale.US,
                     "Min radius must not be greater than max, but min = %f, max = %f",
                     minRadius, maxRadius));
         }
-        mMinDotRadius = minRadius;
-        mMaxDotRadius = maxRadius;
+        particleRadiusMin = minRadius;
+        particleRadiusMax = maxRadius;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getMinDotRadius() {
-        return mMinDotRadius;
+    public float getParticleRadiusMin() {
+        return particleRadiusMin;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getMaxDotRadius() {
-        return mMaxDotRadius;
+    public float getParticleRadiusMax() {
+        return particleRadiusMax;
     }
 
     /**
@@ -289,46 +289,46 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public void setDensity(@IntRange(from = 0) final int newNum) {
-        if (newNum < 0) {
-            throw new IllegalArgumentException("newNum must not be negative");
+    public void setDensity(@IntRange(from = 0) final int density) {
+        if (density < 0) {
+            throw new IllegalArgumentException("Density must not be negative");
         }
-        if (density != newNum) {
-            density = newNum;
-            initBuffers(newNum);
+        if (this.density != density) {
+            this.density = density;
+            initBuffers(density);
         }
     }
 
-    private void initBuffers(final int dotCount) {
-        initCoordinates(dotCount);
-        initDirections(dotCount);
-        initStepMultipliers(dotCount);
-        initRadiuses(dotCount);
+    private void initBuffers(final int density) {
+        initCoordinates(density);
+        initDirections(density);
+        initStepMultipliers(density);
+        initRadiuses(density);
     }
 
-    private void initCoordinates(final int dotCount) {
-        final int capacity = dotCount * COORDINATES_PER_VERTEX;
+    private void initCoordinates(final int density) {
+        final int capacity = density * COORDINATES_PER_VERTEX;
         if (mCoordinates == null || mCoordinates.capacity() != capacity) {
             mCoordinates = FloatBuffer.allocate(capacity);
         }
     }
 
-    private void initDirections(final int dotCount) {
-        final int capacity = dotCount * 2;
+    private void initDirections(final int density) {
+        final int capacity = density * 2;
         if (mDirections == null || mDirections.capacity() != capacity) {
             mDirections = FloatBuffer.allocate(capacity);
         }
     }
 
-    private void initStepMultipliers(final int dotCount) {
-        if (mStepMultipliers == null || mStepMultipliers.capacity() != dotCount) {
-            mStepMultipliers = FloatBuffer.allocate(dotCount);
+    private void initStepMultipliers(final int density) {
+        if (mStepMultipliers == null || mStepMultipliers.capacity() != density) {
+            mStepMultipliers = FloatBuffer.allocate(density);
         }
     }
 
-    private void initRadiuses(final int dotCount) {
-        if (mRadiuses == null || mRadiuses.capacity() != dotCount) {
-            mRadiuses = FloatBuffer.allocate(dotCount);
+    private void initRadiuses(final int density) {
+        if (mRadiuses == null || mRadiuses.capacity() != density) {
+            mRadiuses = FloatBuffer.allocate(density);
         }
     }
 

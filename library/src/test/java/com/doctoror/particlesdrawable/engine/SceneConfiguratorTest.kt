@@ -160,6 +160,35 @@ class SceneConfiguratorTest {
     }
 
     @Test
+    fun setsParticleRadiusRangeFromAttributes() {
+        val particleRadiusMax = 16f
+        val particleRadiusMin = 8f
+
+        whenever(typedArray.indexCount).thenReturn(2)
+
+        whenever(typedArray.getIndex(0)).thenReturn(R.styleable.ParticlesView_particleRadiusMax)
+        whenever(typedArray.getIndex(1)).thenReturn(R.styleable.ParticlesView_particleRadiusMin)
+
+        whenever(
+            typedArray.getDimension(
+                R.styleable.ParticlesView_particleRadiusMax,
+                Defaults.PARTICLE_RADIUS_MAX
+            )
+        ).thenReturn(particleRadiusMax)
+
+        whenever(
+            typedArray.getDimension(
+                R.styleable.ParticlesView_particleRadiusMin,
+                Defaults.PARTICLE_RADIUS_MIN
+            )
+        ).thenReturn(particleRadiusMin)
+
+        underTest.configureSceneFromAttributes(scene, resources, attrs)
+
+        verify(scene).setParticleRadiusRange(particleRadiusMin, particleRadiusMax)
+    }
+
+    @Test
     fun setsStepMultiplierFromAttributes() {
         val stepMultiplier = 64f
 
@@ -176,34 +205,5 @@ class SceneConfiguratorTest {
         underTest.configureSceneFromAttributes(scene, resources, attrs)
 
         verify(scene).stepMultiplier = stepMultiplier
-    }
-
-    @Test
-    fun setsDotRadiusRangeFromAttributes() {
-        val minDotRadius = 8f
-        val maxDotRadius = 16f
-
-        whenever(typedArray.indexCount).thenReturn(2)
-
-        whenever(typedArray.getIndex(0)).thenReturn(R.styleable.ParticlesView_minDotRadius)
-        whenever(typedArray.getIndex(1)).thenReturn(R.styleable.ParticlesView_maxDotRadius)
-
-        whenever(
-            typedArray.getDimension(
-                R.styleable.ParticlesView_minDotRadius,
-                Defaults.PARTICLE_RADIUS_MIN
-            )
-        ).thenReturn(minDotRadius)
-
-        whenever(
-            typedArray.getDimension(
-                R.styleable.ParticlesView_maxDotRadius,
-                Defaults.PARTICLE_RADIUS_MAX
-            )
-        ).thenReturn(maxDotRadius)
-
-        underTest.configureSceneFromAttributes(scene, resources, attrs)
-
-        verify(scene).setDotRadiusRange(minDotRadius, maxDotRadius)
     }
 }

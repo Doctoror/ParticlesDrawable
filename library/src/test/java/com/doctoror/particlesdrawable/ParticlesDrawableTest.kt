@@ -93,10 +93,10 @@ class ParticlesDrawableTest {
 
     @Test
     @Throws(Throwable::class)
-    fun testDotRadiusRangeThatRoundsUpToTheSameInt() {
+    fun testParticleRadiusRangeThatRoundsUpToTheSameInt() {
         val d = ParticlesDrawable()
         d.setBounds(0, 0, 10, 10)
-        d.setDotRadiusRange(0.5f, 0.6f)
+        d.setParticleRadiusRange(0.5f, 0.6f)
         d.makeBrandNewFrame()
     }
 
@@ -115,11 +115,11 @@ class ParticlesDrawableTest {
     }
 
     @Test
-    fun testSetDotRadiusRange() {
+    fun testSetParticleRadiusRange() {
         val s = ParticlesDrawable()
-        s.setDotRadiusRange(0.5f, 0.6f)
-        assertEquals(0.5f, s.minDotRadius, ASSERT_DELTA)
-        assertEquals(0.6f, s.maxDotRadius, ASSERT_DELTA)
+        s.setParticleRadiusRange(0.5f, 0.6f)
+        assertEquals(0.5f, s.particleRadiusMin, ASSERT_DELTA)
+        assertEquals(0.6f, s.particleRadiusMax, ASSERT_DELTA)
     }
 
     @Test

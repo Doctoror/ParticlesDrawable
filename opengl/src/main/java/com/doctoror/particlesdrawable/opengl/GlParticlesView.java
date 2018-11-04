@@ -290,13 +290,13 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * {@inheritDoc}
      */
-    public void setDotRadiusRange(
+    public void setParticleRadiusRange(
             @FloatRange(from = 0.5f) final float minRadius,
             @FloatRange(from = 0.5f) final float maxRadius) {
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                scene.setDotRadiusRange(minRadius, maxRadius);
+                scene.setParticleRadiusRange(minRadius, maxRadius);
                 renderer.markParticleTextureDirty();
             }
         });
@@ -306,16 +306,16 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public float getMinDotRadius() {
-        return scene.getMinDotRadius();
+    public float getParticleRadiusMin() {
+        return scene.getParticleRadiusMin();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getMaxDotRadius() {
-        return scene.getMaxDotRadius();
+    public float getParticleRadiusMax() {
+        return scene.getParticleRadiusMax();
     }
 
     /**

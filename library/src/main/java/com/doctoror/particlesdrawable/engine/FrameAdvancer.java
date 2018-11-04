@@ -68,7 +68,7 @@ final class FrameAdvancer {
             @NonNull final Scene scene,
             final float x,
             final float y) {
-        final float offset = scene.getMinDotRadius() + scene.getLineDistance();
+        final float offset = scene.getParticleRadiusMin() + scene.getLineDistance();
         return x + offset < 0 || x - offset > scene.getWidth()
                 || y + offset < 0 || y - offset > scene.getHeight();
     }

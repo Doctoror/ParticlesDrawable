@@ -57,72 +57,6 @@ public interface SceneConfiguration {
     int getFrameDelay();
 
     /**
-     * Sets step multiplier. Use this to control speed.
-     *
-     * @param stepMultiplier step multiplier
-     */
-    void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier);
-
-    /**
-     * Returns the step multiplier.
-     *
-     * @return the step multiplier
-     */
-    float getStepMultiplier();
-
-    /**
-     * Set dot radius range
-     *
-     * @param minRadius smallest dot radius
-     * @param maxRadius largest dot radius
-     */
-    void setDotRadiusRange(
-            @FloatRange(from = 0.5f) float minRadius,
-            @FloatRange(from = 0.5f) float maxRadius);
-
-    /**
-     * Returns smallest particle radius
-     *
-     * @return smallest particle radius
-     */
-    float getMinDotRadius();
-
-    /**
-     * Largest particle radius
-     *
-     * @return largest particle radius
-     */
-    float getMaxDotRadius();
-
-    /**
-     * Set a line thickness
-     *
-     * @param lineThickness line thickness
-     */
-    void setLineThickness(@FloatRange(from = 1) float lineThickness);
-
-    /**
-     * Returns the connection like thickness
-     *
-     * @return the connection line thickness
-     */
-    float getLineThickness();
-
-    /**
-     * Set the maximum distance when the connection line is still drawn between particles.
-     *
-     * @param lineDistance maximum distance for connection lines
-     */
-    void setLineDistance(@FloatRange(from = 0) float lineDistance);
-
-    /**
-     * Returns the maximum distance when the connection line is still drawn between particles
-     *
-     * @return maximum distance for connection lines
-     */
-    float getLineDistance();
-
-    /**
      * Set the line color. Note that the color alpha is ignored and will be calculated depending on
      * distance between particles.
      *
@@ -139,6 +73,34 @@ public interface SceneConfiguration {
     int getLineColor();
 
     /**
+     * Set the maximum distance when the connection line is still drawn between particles.
+     *
+     * @param lineDistance maximum distance for connection lines
+     */
+    void setLineDistance(@FloatRange(from = 0) float lineDistance);
+
+    /**
+     * Returns the maximum distance when the connection line is still drawn between particles
+     *
+     * @return maximum distance for connection lines
+     */
+    float getLineDistance();
+
+    /**
+     * Set a line thickness
+     *
+     * @param lineThickness line thickness
+     */
+    void setLineThickness(@FloatRange(from = 1) float lineThickness);
+
+    /**
+     * Returns the connection like thickness
+     *
+     * @return the connection line thickness
+     */
+    float getLineThickness();
+
+    /**
      * Set the particle color
      *
      * @param color particle color to use
@@ -152,4 +114,42 @@ public interface SceneConfiguration {
      */
     @ColorInt
     int getParticleColor();
+
+    /**
+     * Set particle radius range
+     *
+     * @param minRadius smallest particle radius
+     * @param maxRadius largest particle radius
+     */
+    void setParticleRadiusRange(
+            @FloatRange(from = 0.5f) float minRadius,
+            @FloatRange(from = 0.5f) float maxRadius);
+
+    /**
+     * Largest particle radius
+     *
+     * @return largest particle radius
+     */
+    float getParticleRadiusMax();
+
+    /**
+     * Returns smallest particle radius
+     *
+     * @return smallest particle radius
+     */
+    float getParticleRadiusMin();
+
+    /**
+     * Sets step multiplier. Use this to control speed.
+     *
+     * @param stepMultiplier step multiplier
+     */
+    void setStepMultiplier(@FloatRange(from = 0) final float stepMultiplier);
+
+    /**
+     * Returns the step multiplier.
+     *
+     * @return the step multiplier
+     */
+    float getStepMultiplier();
 }

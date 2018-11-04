@@ -6,7 +6,7 @@
     app:lineColor="@android:color/white"
     app:lineDistance="86dp"
     app:lineThickness="1dp"
-    app:maxDotRadius="3dp"
-    app:minDotRadius="1dp"
     app:particleColor="@android:color/white"
+    app:particleRadiusMax="3dp"
+    app:particleRadiusMin="1dp"
     app:stepMultiplier="1" />

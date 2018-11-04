@@ -109,9 +109,9 @@ class ScenePresenterTestOld {
     }
 
     @Test
-    fun dotRadiusRangeThatRoundsUpToTheSameInt() {
+    fun particleRadiusRangeThatRoundsUpToTheSameInt() {
         underTest.setDimensions(10, 10)
-        scene.setDotRadiusRange(0.5f, 0.6f)
+        scene.setParticleRadiusRange(0.5f, 0.6f)
         underTest.makeBrandNewFrame()
     }
 }

@@ -3,6 +3,7 @@ v 2.0.0
 - Renamed makeBrandNewFrameWithPointsOffscreen() to makeBrandNewFrameWithParticlesOffscreen()
 - Renamed setNumDots() and getNumDots() to setDensity() and getDensity(). The same for xml attribute.
 - Renamed setDotColor() and getDotColor() to setParticleColor() and getParticleColor(). Same for xml.
+- Renamed setDotRadiusRange() and get[Min/Max]DotRadius() to setParticleRadiusRange() and getParticleRadius[Min/Max](). Same for xml.
 
 v 1.0.9
 - Fixed crash that could happen when bounds is set back to 0
@@ -30,7 +31,7 @@ v 1.0.4
 ParticlesDrawable:
 - Improved drawing time complexity from N*N to N*N/2
 - Fixed lines were getting drawn twice
-- Dot alpha is now pre-calculated once dot color or drawable alpha is changed, and not every time the dot is getting drawn
+- Particle alpha is now pre-calculated once particle color or drawable alpha is changed, and not every time the particle is getting drawn
 
 v 1.0.3
 ParticlesDrawable:

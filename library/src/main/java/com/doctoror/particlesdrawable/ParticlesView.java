@@ -186,25 +186,25 @@ public class ParticlesView extends View implements
     /**
      * {@inheritDoc}
      */
-    public void setDotRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
-                                  @FloatRange(from = 0.5f) final float maxRadius) {
-        scene.setDotRadiusRange(minRadius, maxRadius);
+    public void setParticleRadiusRange(@FloatRange(from = 0.5f) final float minRadius,
+                                       @FloatRange(from = 0.5f) final float maxRadius) {
+        scene.setParticleRadiusRange(minRadius, maxRadius);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getMinDotRadius() {
-        return scene.getMinDotRadius();
+    public float getParticleRadiusMin() {
+        return scene.getParticleRadiusMin();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getMaxDotRadius() {
-        return scene.getMaxDotRadius();
+    public float getParticleRadiusMax() {
+        return scene.getParticleRadiusMax();
     }
 
     /**

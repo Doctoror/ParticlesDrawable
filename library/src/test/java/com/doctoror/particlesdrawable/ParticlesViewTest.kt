@@ -169,11 +169,11 @@ class ParticlesViewTest {
     }
 
     @Test
-    fun testSetDotRadiusRange() {
+    fun testSetParticleRadiusRange() {
         val s = newParticlesView()
-        s.setDotRadiusRange(0.5f, 0.6f)
-        assertEquals(0.5f, s.minDotRadius, ASSERT_DELTA)
-        assertEquals(0.6f, s.maxDotRadius, ASSERT_DELTA)
+        s.setParticleRadiusRange(0.5f, 0.6f)
+        assertEquals(0.5f, s.particleRadiusMin, ASSERT_DELTA)
+        assertEquals(0.6f, s.particleRadiusMax, ASSERT_DELTA)
     }
 
     @Test
@@ -205,7 +205,7 @@ class ParticlesViewTest {
     }
 
     @Test
-    fun testSetDotColor() {
+    fun testSetParticleColor() {
         val s = newParticlesView()
         s.particleColor = 3
         assertEquals(3, s.particleColor)
