@@ -32,41 +32,41 @@ public final class Scene implements SceneConfiguration {
 
     private static final int COORDINATES_PER_VERTEX = 2;
 
-    private float particleRadiusMin = Defaults.PARTICLE_RADIUS_MIN;
-    private float particleRadiusMax = Defaults.PARTICLE_RADIUS_MAX;
-
-    private float mLineThickness = Defaults.LINE_THICKNESS;
-
-    private float mLineLength = Defaults.LINE_LENGTH;
+    // The alpha value of the scene
+    private int alpha = 255;
 
     private int density = Defaults.DENSITY;
+
+    private int frameDelay = Defaults.FRAME_DELAY;
+
+    @ColorInt
+    private int lineColor = Defaults.LINE_COLOR;
+
+    private float lineLength = Defaults.LINE_LENGTH;
+
+    private float lineThickness = Defaults.LINE_THICKNESS;
 
     @ColorInt
     private int particleColor = Defaults.PARTICLE_COLOR;
 
-    @ColorInt
-    private int mLineColor = Defaults.LINE_COLOR;
+    private float particleRadiusMax = Defaults.PARTICLE_RADIUS_MAX;
 
-    private int mDelay = Defaults.FRAME_DELAY;
+    private float particleRadiusMin = Defaults.PARTICLE_RADIUS_MIN;
 
-    private float mSpeedFactor = Defaults.SPEED_FACTOR;
+    private float speedFactor = Defaults.SPEED_FACTOR;
 
-    // The alpha value of the Drawable
-    private int mAlpha = 255;
+    private int width;
+    private int height;
 
-    private int mWidth;
-    private int mHeight;
-
-    private FloatBuffer mCoordinates;
+    private FloatBuffer coordinates;
 
     /**
      * First index is for cos, next index is for sin.
      * Next follows for next perticle in the same format.
      */
-    private FloatBuffer mDirections;
-
-    private FloatBuffer mRadiuses;
-    private FloatBuffer mSpeedFactors;
+    private FloatBuffer directions;
+    private FloatBuffer radiuses;
+    private FloatBuffer speedFactors;
 
     public Scene() {
         initBuffers(density);
@@ -74,28 +74,28 @@ public final class Scene implements SceneConfiguration {
 
     @NonNull
     public FloatBuffer getCoordinates() {
-        return mCoordinates;
+        return coordinates;
     }
 
     @NonNull
     public FloatBuffer getRadiuses() {
-        return mRadiuses;
+        return radiuses;
     }
 
     public void setWidth(final int width) {
-        mWidth = width;
+        this.width = width;
     }
 
     public void setHeight(final int height) {
-        mHeight = height;
+        this.height = height;
     }
 
     public int getWidth() {
-        return mWidth;
+        return width;
     }
 
     public int getHeight() {
-        return mHeight;
+        return height;
     }
 
     public void setParticleData(
@@ -112,53 +112,53 @@ public final class Scene implements SceneConfiguration {
         setParticleDirectionCos(position, dCos);
         setParticleDirectionSin(position, dSin);
 
-        mRadiuses.put(position, radius);
-        mSpeedFactors.put(position, speedFactor);
+        radiuses.put(position, radius);
+        speedFactors.put(position, speedFactor);
     }
 
     public float getParticleX(final int position) {
-        return mCoordinates.get(position * 2);
+        return coordinates.get(position * 2);
     }
 
     public float getParticleY(final int position) {
-        return mCoordinates.get(position * 2 + 1);
+        return coordinates.get(position * 2 + 1);
     }
 
     public float getParticleDirectionCos(final int position) {
-        return mDirections.get(position * 2);
+        return directions.get(position * 2);
     }
 
     public float getParticleDirectionSin(final int position) {
-        return mDirections.get(position * 2 + 1);
+        return directions.get(position * 2 + 1);
     }
 
     public float getParticleSpeedFactor(final int position) {
-        return mSpeedFactors.get(position);
+        return speedFactors.get(position);
     }
 
     public void setParticleX(final int position, final float x) {
-        mCoordinates.put(position * 2, x);
+        coordinates.put(position * 2, x);
     }
 
     public void setParticleY(final int position, final float y) {
-        mCoordinates.put(position * 2 + 1, y);
+        coordinates.put(position * 2 + 1, y);
     }
 
     private void setParticleDirectionCos(final int position, final float direction) {
-        mDirections.put(position * 2, direction);
+        directions.put(position * 2, direction);
     }
 
     private void setParticleDirectionSin(final int position, final float direction) {
-        mDirections.put(position * 2 + 1, direction);
+        directions.put(position * 2 + 1, direction);
     }
 
     public void setAlpha(final int alpha) {
-        mAlpha = alpha;
+        this.alpha = alpha;
     }
 
     @IntRange(from = 0, to = 255)
     public int getAlpha() {
-        return mAlpha;
+        return alpha;
     }
 
     /**
@@ -169,7 +169,7 @@ public final class Scene implements SceneConfiguration {
         if (delay < 0) {
             throw new IllegalArgumentException("delay must not be nagative");
         }
-        mDelay = delay;
+        frameDelay = delay;
     }
 
     /**
@@ -177,7 +177,7 @@ public final class Scene implements SceneConfiguration {
      */
     @Override
     public int getFrameDelay() {
-        return mDelay;
+        return frameDelay;
     }
 
     /**
@@ -191,7 +191,7 @@ public final class Scene implements SceneConfiguration {
         if (Float.compare(speedFactor, Float.NaN) == 0) {
             throw new IllegalArgumentException("speedFactor must be a valid float");
         }
-        mSpeedFactor = speedFactor;
+        this.speedFactor = speedFactor;
     }
 
     /**
@@ -199,7 +199,7 @@ public final class Scene implements SceneConfiguration {
      */
     @Override
     public float getSpeedFactor() {
-        return mSpeedFactor;
+        return speedFactor;
     }
 
     /**
@@ -252,7 +252,7 @@ public final class Scene implements SceneConfiguration {
         if (Float.compare(lineThickness, Float.NaN) == 0) {
             throw new IllegalArgumentException("line thickness must be a valid float");
         }
-        mLineThickness = lineThickness;
+        this.lineThickness = lineThickness;
     }
 
     /**
@@ -260,7 +260,7 @@ public final class Scene implements SceneConfiguration {
      */
     @Override
     public float getLineThickness() {
-        return mLineThickness;
+        return lineThickness;
     }
 
     /**
@@ -274,7 +274,7 @@ public final class Scene implements SceneConfiguration {
         if (Float.compare(lineLength, Float.NaN) == 0) {
             throw new IllegalArgumentException("line length must be a valid float");
         }
-        mLineLength = lineLength;
+        this.lineLength = lineLength;
     }
 
     /**
@@ -282,7 +282,7 @@ public final class Scene implements SceneConfiguration {
      */
     @Override
     public float getLineLength() {
-        return mLineLength;
+        return lineLength;
     }
 
     /**
@@ -308,27 +308,27 @@ public final class Scene implements SceneConfiguration {
 
     private void initCoordinates(final int density) {
         final int capacity = density * COORDINATES_PER_VERTEX;
-        if (mCoordinates == null || mCoordinates.capacity() != capacity) {
-            mCoordinates = FloatBuffer.allocate(capacity);
+        if (coordinates == null || coordinates.capacity() != capacity) {
+            coordinates = FloatBuffer.allocate(capacity);
         }
     }
 
     private void initDirections(final int density) {
         final int capacity = density * 2;
-        if (mDirections == null || mDirections.capacity() != capacity) {
-            mDirections = FloatBuffer.allocate(capacity);
+        if (directions == null || directions.capacity() != capacity) {
+            directions = FloatBuffer.allocate(capacity);
         }
     }
 
     private void initSpeedFactors(final int density) {
-        if (mSpeedFactors == null || mSpeedFactors.capacity() != density) {
-            mSpeedFactors = FloatBuffer.allocate(density);
+        if (speedFactors == null || speedFactors.capacity() != density) {
+            speedFactors = FloatBuffer.allocate(density);
         }
     }
 
     private void initRadiuses(final int density) {
-        if (mRadiuses == null || mRadiuses.capacity() != density) {
-            mRadiuses = FloatBuffer.allocate(density);
+        if (radiuses == null || radiuses.capacity() != density) {
+            radiuses = FloatBuffer.allocate(density);
         }
     }
 
@@ -361,7 +361,7 @@ public final class Scene implements SceneConfiguration {
      */
     @Override
     public void setLineColor(@ColorInt final int lineColor) {
-        mLineColor = lineColor;
+        this.lineColor = lineColor;
     }
 
     /**
@@ -369,6 +369,6 @@ public final class Scene implements SceneConfiguration {
      */
     @Override
     public int getLineColor() {
-        return mLineColor;
+        return lineColor;
     }
 }
