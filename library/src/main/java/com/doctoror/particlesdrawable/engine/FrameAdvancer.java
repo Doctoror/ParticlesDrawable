@@ -18,6 +18,7 @@ package com.doctoror.particlesdrawable.engine;
 import com.doctoror.particlesdrawable.model.Scene;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 final class FrameAdvancer {
 
@@ -44,7 +45,7 @@ final class FrameAdvancer {
             x += step * scene.getStepMultiplier() * stepMultiplier * dCos;
             y += step * scene.getStepMultiplier() * stepMultiplier * dSin;
 
-            if (pointOutOfBounds(scene, x, y)) {
+            if (particleOutOfBounds(scene, x, y)) {
                 particleGenerator.applyFreshParticleOffScreen(scene, i);
             } else {
                 scene.setParticleX(i, x);
@@ -54,14 +55,16 @@ final class FrameAdvancer {
     }
 
     /**
-     * Used for checking if the point is off-screen and farther than line distance
+     * Used for checking if the particle is off-screen and farther than line distance and it's
+     * radius.
      *
-     * @param x the point x
-     * @param y the point y
-     * @return true if the point is off-screen and guaranteed not to be used to draw a line to the
-     * closest point on-screen
+     * @param x the particle x
+     * @param y the particle y
+     * @return true if the particle is off-screen and guaranteed not to be used to draw a line to
+     * the closest particle on screen.
      */
-    private boolean pointOutOfBounds(
+    @VisibleForTesting
+    boolean particleOutOfBounds(
             @NonNull final Scene scene,
             final float x,
             final float y) {
