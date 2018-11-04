@@ -7,13 +7,13 @@ import androidx.annotation.NonNull;
 final class FrameAdvancer {
 
     @NonNull
-    private final ParticleGenerator offscreenParticleGenerator;
+    private final ParticleGenerator particleGenerator;
 
-    FrameAdvancer(@NonNull final ParticleGenerator offscreenParticleGenerator) {
-        this.offscreenParticleGenerator = offscreenParticleGenerator;
+    FrameAdvancer(@NonNull final ParticleGenerator particleGenerator) {
+        this.particleGenerator = particleGenerator;
     }
 
-    public void advanceToNextFrame(
+    void advanceToNextFrame(
             @NonNull final Scene scene,
             final float step
     ) {
@@ -30,7 +30,7 @@ final class FrameAdvancer {
             y += step * scene.getStepMultiplier() * stepMultiplier * dSin;
 
             if (pointOutOfBounds(scene, x, y)) {
-                offscreenParticleGenerator.applyFreshParticleOffScreen(scene, i);
+                particleGenerator.applyFreshParticleOffScreen(scene, i);
             } else {
                 scene.setParticleX(i, x);
                 scene.setParticleY(i, y);
