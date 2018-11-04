@@ -182,10 +182,10 @@ final class GlSceneRendererParticles {
     void drawScene(
             @NonNull final Scene scene,
             @NonNull final float[] matrix) {
-        initBuffers(scene.getNumDots());
+        initBuffers(scene.getDensity());
         reloadTextureIfDirty(scene.getDotColor(), scene.getMaxDotRadius());
         resolveParticleTriangles(scene);
-        drawParticles(scene.getNumDots(), matrix);
+        drawParticles(scene.getDensity(), matrix);
     }
 
     private void resolveParticleTriangles(@NonNull final Scene scene) {
@@ -197,7 +197,7 @@ final class GlSceneRendererParticles {
 
         particlesTrianglesCoordinates.clear();
 
-        final int count = scene.getNumDots();
+        final int count = scene.getDensity();
         for (int i = 0; i < count; i++) {
             final float particleRadius = radiuses.get();
 

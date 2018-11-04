@@ -67,9 +67,9 @@ public final class ParticlesDrawableAndroidTest {
 
     @Test
     @TargetApi(Build.VERSION_CODES.N)
-    public void testNumDotsFromAttributes() {
+    public void testDensityFromAttributes() {
         final ParticlesDrawable v = inflateCustomizedDrawable();
-        assertEquals(6, v.getNumDots());
+        assertEquals(6, v.getDensity());
     }
 
     @Test

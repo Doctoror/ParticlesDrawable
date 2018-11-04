@@ -39,7 +39,7 @@ public final class Scene implements SceneConfiguration {
 
     private float mLineDistance = Defaults.LINE_LENGTH;
 
-    private int mNumDots = Defaults.DENSITY;
+    private int density = Defaults.DENSITY;
 
     @ColorInt
     private int mDotColor = Defaults.PARTICLE_COLOR;
@@ -69,7 +69,7 @@ public final class Scene implements SceneConfiguration {
     private FloatBuffer mStepMultipliers;
 
     public Scene() {
-        initBuffers(mNumDots);
+        initBuffers(density);
     }
 
     @NonNull
@@ -289,12 +289,12 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public void setNumDots(@IntRange(from = 0) final int newNum) {
+    public void setDensity(@IntRange(from = 0) final int newNum) {
         if (newNum < 0) {
             throw new IllegalArgumentException("newNum must not be negative");
         }
-        if (mNumDots != newNum) {
-            mNumDots = newNum;
+        if (density != newNum) {
+            density = newNum;
             initBuffers(newNum);
         }
     }
@@ -336,8 +336,8 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public int getNumDots() {
-        return mNumDots;
+    public int getDensity() {
+        return density;
     }
 
     /**

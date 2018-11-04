@@ -191,10 +191,10 @@ class ParticlesViewTest {
     }
 
     @Test
-    fun testSetNumDots() {
+    fun testSetDensity() {
         val s = newParticlesView()
-        s.numDots = 0
-        assertEquals(0, s.numDots)
+        s.density = 0
+        assertEquals(0, s.density)
     }
 
     @Test

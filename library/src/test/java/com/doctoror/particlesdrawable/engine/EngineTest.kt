@@ -217,7 +217,7 @@ class EngineTest {
         givenSceneDimensions(1, 1)
 
         val particlesCount = 7
-        whenever(scene.numDots).thenReturn(particlesCount)
+        whenever(scene.density).thenReturn(particlesCount)
 
         underTest.makeBrandNewFrame()
 
@@ -244,7 +244,7 @@ class EngineTest {
         givenSceneDimensions(1, 1)
 
         val particlesCount = 4
-        whenever(scene.numDots).thenReturn(particlesCount)
+        whenever(scene.density).thenReturn(particlesCount)
 
         underTest.makeBrandNewFrameWithParticlesOffscreen()
 
@@ -276,7 +276,7 @@ class EngineTest {
         givenSceneDimensions(width, height)
 
         val particlesCount = 3
-        whenever(scene.numDots).thenReturn(particlesCount)
+        whenever(scene.density).thenReturn(particlesCount)
 
         underTest.setDimensions(width, height)
 
@@ -291,7 +291,7 @@ class EngineTest {
         givenSceneDimensions(width, height)
 
         val particlesCount = 3
-        whenever(scene.numDots).thenReturn(particlesCount)
+        whenever(scene.density).thenReturn(particlesCount)
 
         underTest.setDimensions(width, height)
         underTest.setDimensions(width, height)
@@ -308,7 +308,7 @@ class EngineTest {
         givenSceneDimensions(width, height)
 
         val particlesCount = 3
-        whenever(scene.numDots).thenReturn(particlesCount)
+        whenever(scene.density).thenReturn(particlesCount)
 
         underTest.setDimensions(width, height)
         underTest.setDimensions(0, 0)

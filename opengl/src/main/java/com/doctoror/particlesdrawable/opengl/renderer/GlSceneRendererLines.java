@@ -120,7 +120,7 @@ final class GlSceneRendererLines {
             @NonNull final Scene scene,
             @NonNull final float[] matrix) {
         lineAsTriangles = scene.getLineThickness() >= 2f;
-        initBuffers(scene.getNumDots());
+        initBuffers(scene.getDensity());
         resolveLines(scene);
         drawLines(matrix);
     }
@@ -129,7 +129,7 @@ final class GlSceneRendererLines {
         lineColorBuffer.clear();
         lineCoordinatesBuffer.clear();
 
-        final int particlesCount = scene.getNumDots();
+        final int particlesCount = scene.getDensity();
         if (particlesCount != 0) {
             for (int i = 0; i < particlesCount; i++) {
 

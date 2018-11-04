@@ -38,7 +38,7 @@ public class DefaultSceneRenderer implements SceneRenderer {
 
     @Override
     public void drawScene(@NonNull final Scene scene) {
-        if (scene.getNumDots() > 0) {
+        if (scene.getDensity() > 0) {
 
             final int particleColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
                     scene.getDotColor(),
@@ -46,7 +46,7 @@ public class DefaultSceneRenderer implements SceneRenderer {
             );
 
             final FloatBuffer radiuses = scene.getRadiuses();
-            final int particlesCount = scene.getNumDots();
+            final int particlesCount = scene.getDensity();
             for (int i = 0; i < particlesCount; i++) {
 
                 final float x1 = scene.getParticleX(i);

@@ -63,9 +63,9 @@ public final class ParticlesViewAndroidTest {
     }
 
     @Test
-    public void testNumDotsFromAttributes() {
+    public void testDensityFromAttributes() {
         final ParticlesView v = inflateCustomizedView();
-        assertEquals(6, v.getNumDots());
+        assertEquals(6, v.getDensity());
     }
 
     @Test

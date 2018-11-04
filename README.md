@@ -52,20 +52,20 @@ Here is a list of all attributes, set with default values
 
 ```xml
 <com.doctoror.particlesdrawable.ParticlesView
+    app:density="60"
+    app:dotColor="@android:color/white"
+    app:frameDelayMillis="10"
     app:minDotRadius="1dp"
     app:maxDotRadius="3dp"
-    app:lineThickness="1dp"
-    app:lineDistance="86dp"
-    app:numDots="60"
-    app:dotColor="@android:color/white"
     app:lineColor="@android:color/white"
-    app:frameDelayMillis="10"
+    app:lineDistance="86dp"
+    app:lineThickness="1dp"
     app:stepMultiplier="1"/>
 ```
 The conventional getters and setters are also available.
 
 Since API 24, you may also customize the Drawable in `xml`. For example, create
-`drawable-v24/particles_120dots.xml`
+`drawable-v24/particles_density_120.xml`
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Some versions of Android Studio may show false warning,
@@ -74,12 +74,12 @@ compiling and running -->
 <drawable
     class="com.doctoror.particlesdrawable.ParticlesDrawable"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:numDots="120"/>
+    app:density="120"/>
 ```
 And inflate, like
 ```java
 mDrawable = (ParticlesDrawable) ContextCompat
-        .getDrawable(this, R.drawable.particles_120dots);
+        .getDrawable(this, R.drawable.particles_density_120);
 ```
 
 ## Configuration Demo

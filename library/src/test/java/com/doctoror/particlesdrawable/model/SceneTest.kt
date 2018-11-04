@@ -169,14 +169,14 @@ class SceneTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenSetNumDotsInvalidArgument() {
-        underTest.numDots = -1
+    fun crashesWhenSetDensityInvalidArgument() {
+        underTest.density = -1
     }
 
     @Test
-    fun setsNumDots() {
-        underTest.numDots = 2
-        assertEquals(2, underTest.numDots)
+    fun setsDensity() {
+        underTest.density = 2
+        assertEquals(2, underTest.density)
     }
 
     @Test

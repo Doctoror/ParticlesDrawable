@@ -106,8 +106,8 @@ public final class Engine implements Animatable, Runnable, SceneController {
             } else if (attr == R.styleable.ParticlesView_lineDistance) {
                 scene.setLineDistance(a.getDimension(attr, Defaults.LINE_LENGTH));
 
-            } else if (attr == R.styleable.ParticlesView_numDots) {
-                scene.setNumDots(a.getInteger(attr, Defaults.DENSITY));
+            } else if (attr == R.styleable.ParticlesView_density) {
+                scene.setDensity(a.getInteger(attr, Defaults.DENSITY));
 
             } else if (attr == R.styleable.ParticlesView_dotColor) {
                 scene.setDotColor(a.getColor(attr, Defaults.PARTICLE_COLOR));
@@ -249,7 +249,7 @@ public final class Engine implements Animatable, Runnable, SceneController {
         if (scene.getWidth() == 0 || scene.getHeight() == 0) {
             throw new IllegalStateException("Cannot init particles if width or height is 0");
         }
-        for (int i = 0; i < scene.getNumDots(); i++) {
+        for (int i = 0; i < scene.getDensity(); i++) {
             strategy.addNewParticle(i);
         }
     }

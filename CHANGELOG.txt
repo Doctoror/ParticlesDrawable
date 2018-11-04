@@ -1,6 +1,7 @@
 v 2.0.0
 - Added OpenGL module
 - Renamed makeBrandNewFrameWithPointsOffscreen() to makeBrandNewFrameWithParticlesOffscreen()
+- Renamed setNumDots() and getNumDots() to setDensity() and getDensity(). The same for xml attribute.
 
 v 1.0.9
 - Fixed crash that could happen when bounds is set back to 0
@@ -32,8 +33,8 @@ ParticlesDrawable:
 
 v 1.0.3
 ParticlesDrawable:
-- Fixed "last frame time" not being reset when stopped resulting in offscreen dots once resumed
-- Added "makeBrandNewFrameWithPointsOffscreen" method that will place all dots offscreen so that when started, all points will float onto screen
+- Fixed "last frame time" not being reset when stopped resulting in offscreen particles once resumed
+- Added "makeBrandNewFrameWithPointsOffscreen" method that will place all particles offscreen so that when started, all points will float onto screen
 
 v 1.0.2
 ParticlesDrawable:

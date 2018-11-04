@@ -33,7 +33,7 @@ final class FrameAdvancer {
             @NonNull final Scene scene,
             final float step
     ) {
-        final int particlesCount = scene.getNumDots();
+        final int particlesCount = scene.getDensity();
         for (int i = 0; i < particlesCount; i++) {
             float x = scene.getParticleX(i);
             float y = scene.getParticleY(i);

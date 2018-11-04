@@ -366,11 +366,11 @@ public class GlParticlesView extends GLSurfaceView implements
     /**
      * {@inheritDoc}
      */
-    public void setNumDots(@IntRange(from = 0) final int newNum) {
+    public void setDensity(@IntRange(from = 0) final int newNum) {
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                scene.setNumDots(newNum);
+                scene.setDensity(newNum);
             }
         });
     }
@@ -379,8 +379,8 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public int getNumDots() {
-        return scene.getNumDots();
+    public int getDensity() {
+        return scene.getDensity();
     }
 
     /**

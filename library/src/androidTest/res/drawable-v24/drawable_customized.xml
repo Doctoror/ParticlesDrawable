@@ -9,7 +9,7 @@ compiling and running -->
     app:maxDotRadius="3dp"
     app:lineThickness="4dp"
     app:lineDistance="5dp"
-    app:numDots="6"
+    app:density="6"
     app:dotColor="#fffff0"
     app:lineColor="#fffff1"
     app:frameDelayMillis="7"

@@ -245,16 +245,16 @@ public class ParticlesView extends View implements
     /**
      * {@inheritDoc}
      */
-    public void setNumDots(@IntRange(from = 0) final int newNum) {
-        scene.setNumDots(newNum);
+    public void setDensity(@IntRange(from = 0) final int newNum) {
+        scene.setDensity(newNum);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getNumDots() {
-        return scene.getNumDots();
+    public int getDensity() {
+        return scene.getDensity();
     }
 
     /**

@@ -28,7 +28,7 @@ class FrameAdvancerTest {
     private val scene: Scene = mock {
         on(it.width).thenReturn(320)
         on(it.height).thenReturn(240)
-        on(it.numDots).thenReturn(1)
+        on(it.density).thenReturn(1)
         on(it.stepMultiplier).thenReturn(1f)
         on(it.getParticleStepMultiplier(any())).thenReturn(1f)
     }
@@ -37,11 +37,11 @@ class FrameAdvancerTest {
 
     @Test
     fun doesNothingWhenParticleCountIs0() {
-        whenever(scene.numDots).thenReturn(0)
+        whenever(scene.density).thenReturn(0)
 
         underTest.advanceToNextFrame(scene, 1f)
 
-        verify(scene).numDots
+        verify(scene).density
         verifyNoMoreInteractions(scene)
         verifyZeroInteractions(particleGenerator)
     }

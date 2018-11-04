@@ -9,7 +9,7 @@ compiling and running -->
     app:maxDotRadius="3dp"
     app:lineThickness="1dp"
     app:lineDistance="86dp"
-    app:numDots="60"
+    app:density="60"
     app:dotColor="@android:color/white"
     app:lineColor="@android:color/white"
     app:frameDelayMillis="10"

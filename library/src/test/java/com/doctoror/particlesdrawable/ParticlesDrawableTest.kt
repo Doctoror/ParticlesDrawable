@@ -137,28 +137,28 @@ class ParticlesDrawableTest {
     }
 
     @Test
-    fun testSetNumDots() {
+    fun testSetDensity() {
         val s = ParticlesDrawable()
-        s.numDots = 1
-        assertEquals(1, s.numDots)
+        s.density = 1
+        assertEquals(1, s.density)
     }
 
     @Test
-    fun setNumDotsWhenHasSize() {
+    fun setDensityWhenHasSize() {
         val s = ParticlesDrawable()
         s.setBounds(0, 0, 1, 1)
-        s.numDots = 1
-        assertEquals(1, s.numDots)
+        s.density = 1
+        assertEquals(1, s.density)
     }
 
     @Test
-    fun setNumDotsWhenSizeIsBackTo0() {
+    fun setDensityWhenSizeIsBackTo0() {
         val s = ParticlesDrawable()
         s.setBounds(0, 0, 1, 1)
-        s.numDots = 1
+        s.density = 1
         s.setBounds(0, 0, 0, 0)
-        s.numDots = 2
-        assertEquals(2, s.numDots)
+        s.density = 2
+        assertEquals(2, s.density)
     }
 
     @Test

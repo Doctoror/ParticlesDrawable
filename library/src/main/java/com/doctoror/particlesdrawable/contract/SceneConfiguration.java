@@ -108,19 +108,19 @@ public interface SceneConfiguration {
     float getLineDistance();
 
     /**
-     * Set number of particles to draw
+     * Set number of particles to draw per scene.
      *
-     * @param newNum the number of particles
-     * @throws IllegalArgumentException if number of particles is negative
+     * @param density the number of particles to draw per scene
+     * @throws IllegalArgumentException if density is negative
      */
-    void setNumDots(@IntRange(from = 0) int newNum);
+    void setDensity(@IntRange(from = 0) int density);
 
     /**
      * Returns the number of particles in the scene
      *
      * @return the number of particles in the scene
      */
-    int getNumDots();
+    int getDensity();
 
     /**
      * Set the dot color

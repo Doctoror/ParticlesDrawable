@@ -60,7 +60,7 @@ class DefaultSceneRendererTest {
         val y = 2f
 
         val scene: Scene = mock {
-            on { it.numDots }.doReturn(1)
+            on { it.density }.doReturn(1)
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(color)
             on { it.getParticleX(0) }.doReturn(x)
@@ -101,7 +101,7 @@ class DefaultSceneRendererTest {
         val y2 = 93f
 
         val scene: Scene = mock {
-            on { it.numDots }.doReturn(2)
+            on { it.density }.doReturn(2)
 
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(color)
@@ -152,7 +152,7 @@ class DefaultSceneRendererTest {
         val y2 = 98.9f
 
         val scene: Scene = mock {
-            on { it.numDots }.doReturn(2)
+            on { it.density }.doReturn(2)
 
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(particleColor)
@@ -220,7 +220,7 @@ class DefaultSceneRendererTest {
         val y3 = 24.9f
 
         val scene: Scene = mock {
-            on { it.numDots }.doReturn(3)
+            on { it.density }.doReturn(3)
 
             on { it.radiuses }.doReturn(radiuses)
             on { it.dotColor }.doReturn(particleColor)

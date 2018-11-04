@@ -57,7 +57,7 @@ final class ParticleGenerator {
         final float dSin = (float) Math.sin(direction);
         final float x = random.nextInt(w);
         final float y = random.nextInt(h);
-        final float stepMultiplier = newRandomIndividualDotStepMultiplier();
+        final float stepMultiplier = newRandomIndividualParticleStepMultiplier();
         final float radius = newRandomIndividualDotRadius(scene);
 
         scene.setParticleData(
@@ -142,7 +142,7 @@ final class ParticleGenerator {
 
         final float dCos = (float) Math.cos(direction);
         final float dSin = (float) Math.sin(direction);
-        final float stepMultiplier = newRandomIndividualDotStepMultiplier();
+        final float stepMultiplier = newRandomIndividualParticleStepMultiplier();
         final float radius = newRandomIndividualDotRadius(scene);
 
         scene.setParticleData(
@@ -180,7 +180,7 @@ final class ParticleGenerator {
      *
      * @return new step multiplier for individual dot
      */
-    private float newRandomIndividualDotStepMultiplier() {
+    private float newRandomIndividualParticleStepMultiplier() {
         return 1f + 0.1f * (random.nextInt(11) - 5);
     }
 
