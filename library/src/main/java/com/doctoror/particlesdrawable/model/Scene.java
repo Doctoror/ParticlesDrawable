@@ -161,144 +161,6 @@ public final class Scene implements SceneConfiguration {
         return alpha;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setFrameDelay(@IntRange(from = 0) final int delay) {
-        if (delay < 0) {
-            throw new IllegalArgumentException("delay must not be nagative");
-        }
-        frameDelay = delay;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getFrameDelay() {
-        return frameDelay;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setSpeedFactor(@FloatRange(from = 0) final float speedFactor) {
-        if (speedFactor < 0) {
-            throw new IllegalArgumentException("speedFactor must not be nagative");
-        }
-        if (Float.compare(speedFactor, Float.NaN) == 0) {
-            throw new IllegalArgumentException("speedFactor must be a valid float");
-        }
-        this.speedFactor = speedFactor;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getSpeedFactor() {
-        return speedFactor;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setParticleRadiusRange(
-            @FloatRange(from = 0.5f) final float minRadius,
-            @FloatRange(from = 0.5f) final float maxRadius) {
-        if (minRadius < 0.5f || maxRadius < 0.5f) {
-            throw new IllegalArgumentException("Particle radius must not be less than 0.5");
-        }
-        if (Float.compare(minRadius, Float.NaN) == 0
-                || Float.compare(maxRadius, Float.NaN) == 0) {
-            throw new IllegalArgumentException("Particle radius must be a valid float");
-        }
-        if (minRadius > maxRadius) {
-            throw new IllegalArgumentException(String.format(Locale.US,
-                    "Min radius must not be greater than max, but min = %f, max = %f",
-                    minRadius, maxRadius));
-        }
-        particleRadiusMin = minRadius;
-        particleRadiusMax = maxRadius;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getParticleRadiusMin() {
-        return particleRadiusMin;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getParticleRadiusMax() {
-        return particleRadiusMax;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
-        if (lineThickness < 1) {
-            throw new IllegalArgumentException("Line thickness must not be less than 1");
-        }
-        if (Float.compare(lineThickness, Float.NaN) == 0) {
-            throw new IllegalArgumentException("line thickness must be a valid float");
-        }
-        this.lineThickness = lineThickness;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getLineThickness() {
-        return lineThickness;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLineLength(@FloatRange(from = 0) final float lineLength) {
-        if (lineLength < 0) {
-            throw new IllegalArgumentException("line length must not be negative");
-        }
-        if (Float.compare(lineLength, Float.NaN) == 0) {
-            throw new IllegalArgumentException("line length must be a valid float");
-        }
-        this.lineLength = lineLength;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getLineLength() {
-        return lineLength;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setDensity(@IntRange(from = 0) final int density) {
-        if (density < 0) {
-            throw new IllegalArgumentException("Density must not be negative");
-        }
-        if (this.density != density) {
-            this.density = density;
-            initBuffers(density);
-        }
-    }
-
     private void initBuffers(final int density) {
         initCoordinates(density);
         initDirections(density);
@@ -344,16 +206,41 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public void setParticleColor(@ColorInt final int color) {
-        particleColor = color;
+    public void setDensity(@IntRange(from = 0) final int density) {
+        if (density < 0) {
+            throw new IllegalArgumentException("Density must not be negative");
+        }
+        if (this.density != density) {
+            this.density = density;
+            initBuffers(density);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getParticleColor() {
-        return particleColor;
+    public int getFrameDelay() {
+        return frameDelay;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setFrameDelay(@IntRange(from = 0) final int delay) {
+        if (delay < 0) {
+            throw new IllegalArgumentException("delay must not be nagative");
+        }
+        frameDelay = delay;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getLineColor() {
+        return lineColor;
     }
 
     /**
@@ -368,7 +255,121 @@ public final class Scene implements SceneConfiguration {
      * {@inheritDoc}
      */
     @Override
-    public int getLineColor() {
-        return lineColor;
+    public float getLineLength() {
+        return lineLength;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public float getLineThickness() {
+        return lineThickness;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLineThickness(@FloatRange(from = 1) final float lineThickness) {
+        if (lineThickness < 1) {
+            throw new IllegalArgumentException("Line thickness must not be less than 1");
+        }
+        if (Float.compare(lineThickness, Float.NaN) == 0) {
+            throw new IllegalArgumentException("line thickness must be a valid float");
+        }
+        this.lineThickness = lineThickness;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLineLength(@FloatRange(from = 0) final float lineLength) {
+        if (lineLength < 0) {
+            throw new IllegalArgumentException("line length must not be negative");
+        }
+        if (Float.compare(lineLength, Float.NaN) == 0) {
+            throw new IllegalArgumentException("line length must be a valid float");
+        }
+        this.lineLength = lineLength;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getParticleColor() {
+        return particleColor;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setParticleColor(@ColorInt final int color) {
+        particleColor = color;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public float getParticleRadiusMin() {
+        return particleRadiusMin;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public float getParticleRadiusMax() {
+        return particleRadiusMax;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setParticleRadiusRange(
+            @FloatRange(from = 0.5f) final float minRadius,
+            @FloatRange(from = 0.5f) final float maxRadius) {
+        if (minRadius < 0.5f || maxRadius < 0.5f) {
+            throw new IllegalArgumentException("Particle radius must not be less than 0.5");
+        }
+        if (Float.compare(minRadius, Float.NaN) == 0
+                || Float.compare(maxRadius, Float.NaN) == 0) {
+            throw new IllegalArgumentException("Particle radius must be a valid float");
+        }
+        if (minRadius > maxRadius) {
+            throw new IllegalArgumentException(String.format(Locale.US,
+                    "Min radius must not be greater than max, but min = %f, max = %f",
+                    minRadius, maxRadius));
+        }
+        particleRadiusMin = minRadius;
+        particleRadiusMax = maxRadius;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public float getSpeedFactor() {
+        return speedFactor;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSpeedFactor(@FloatRange(from = 0) final float speedFactor) {
+        if (speedFactor < 0) {
+            throw new IllegalArgumentException("speedFactor must not be nagative");
+        }
+        if (Float.compare(speedFactor, Float.NaN) == 0) {
+            throw new IllegalArgumentException("speedFactor must be a valid float");
+        }
+        this.speedFactor = speedFactor;
     }
 }
