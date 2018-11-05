@@ -15,6 +15,7 @@
  */
 package com.doctoror.particlesdrawable.model
 
+import android.graphics.Color
 import com.doctoror.particlesdrawable.ASSERT_DELTA
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -32,23 +33,23 @@ class SceneTest {
     fun addTwoParticles() {
         // When
         underTest.setParticleData(
-                0,
-                1f,
-                2f,
-                3f,
-                4f,
-                5f,
-                6f
+            0,
+            1f,
+            2f,
+            3f,
+            4f,
+            5f,
+            6f
         )
 
         underTest.setParticleData(
-                1,
-                7f,
-                8f,
-                9f,
-                10f,
-                11f,
-                12f
+            1,
+            7f,
+            8f,
+            9f,
+            10f,
+            11f,
+            12f
         )
 
         // Then
@@ -183,5 +184,83 @@ class SceneTest {
     fun setsLineColor() {
         underTest.lineColor = 2
         assertEquals(2, underTest.lineColor)
+    }
+
+    @Test
+    fun setsAlpha() {
+        val alpha = 128
+        underTest.alpha = alpha
+        assertEquals(alpha, underTest.alpha)
+    }
+
+    @Test
+    fun setsWidth() {
+        val width = 4
+        underTest.width = width
+        assertEquals(width, underTest.width)
+    }
+
+    @Test
+    fun setsHeight() {
+        val height = 1024
+        underTest.height = height
+        assertEquals(height, underTest.height)
+    }
+
+    @Test
+    fun setsParticleColor() {
+        val color = Color.CYAN
+        underTest.particleColor = color
+        assertEquals(color, underTest.particleColor)
+    }
+
+    @Test
+    fun setsParticleX() {
+        val x = 2056f
+        val position = 13
+        underTest.setParticleX(position, x)
+        assertEquals(x, underTest.getParticleX(position))
+    }
+
+    @Test
+    fun setsParticleY() {
+        val y = 2056f
+        val position = 13
+        underTest.setParticleY(position, y)
+        assertEquals(y, underTest.getParticleY(position))
+    }
+
+    @Test
+    fun adjustsBuffersOnDensityChangeToLarger() {
+        val density = 120
+        underTest.density = density
+
+        // Assert available buffer sizes
+        assertEquals(density * 2, underTest.coordinates.capacity())
+        assertEquals(density, underTest.radiuses.capacity())
+
+        // Asset can query the new limit
+        assertEquals(0f, underTest.getParticleX(density - 1))
+        assertEquals(0f, underTest.getParticleY(density - 1))
+        assertEquals(0f, underTest.getParticleDirectionCos(density - 1))
+        assertEquals(0f, underTest.getParticleDirectionSin(density - 1))
+        assertEquals(0f, underTest.getParticleSpeedFactor(density - 1))
+    }
+
+    @Test
+    fun adjustsBuffersOnDensityChangeToSmaller() {
+        val density = 2
+        underTest.density = density
+
+        // Assert available buffer sizes
+        assertEquals(density * 2, underTest.coordinates.capacity())
+        assertEquals(density, underTest.radiuses.capacity())
+
+        // Asset can query the new limit
+        assertEquals(0f, underTest.getParticleX(density - 1))
+        assertEquals(0f, underTest.getParticleY(density - 1))
+        assertEquals(0f, underTest.getParticleDirectionCos(density - 1))
+        assertEquals(0f, underTest.getParticleDirectionSin(density - 1))
+        assertEquals(0f, underTest.getParticleSpeedFactor(density - 1))
     }
 }
