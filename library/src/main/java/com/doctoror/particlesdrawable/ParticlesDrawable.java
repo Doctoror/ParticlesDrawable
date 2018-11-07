@@ -91,13 +91,13 @@ public class ParticlesDrawable extends Drawable implements
         if (delay == 0L) {
             requestRender();
         } else {
-            scheduleSelf(requestRenderRunnable, SystemClock.uptimeMillis() + delay);
+            scheduleSelf(invalidateSelfRunnable, SystemClock.uptimeMillis() + delay);
         }
     }
 
     @Override
     public void unscheduleNextFrame() {
-        unscheduleSelf(requestRenderRunnable);
+        unscheduleSelf(invalidateSelfRunnable);
     }
 
     @Override
@@ -300,10 +300,10 @@ public class ParticlesDrawable extends Drawable implements
         return scene.getLineColor();
     }
 
-    private final Runnable requestRenderRunnable = new Runnable() {
+    private final Runnable invalidateSelfRunnable = new Runnable() {
         @Override
         public void run() {
-            requestRender();
+            invalidateSelf();
         }
     };
 }
