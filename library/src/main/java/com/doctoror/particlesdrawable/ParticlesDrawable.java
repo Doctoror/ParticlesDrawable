@@ -18,7 +18,6 @@ package com.doctoror.particlesdrawable;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
@@ -71,12 +70,6 @@ public class ParticlesDrawable extends Drawable implements
             @Nullable final Resources.Theme theme) throws XmlPullParserException, IOException {
         super.inflate(r, parser, attrs, theme);
         sceneConfigurator.configureSceneFromAttributes(scene, r, attrs);
-    }
-
-    @NonNull
-    @Keep
-    public Paint getPaint() {
-        return canvasRenderer.getPaint();
     }
 
     @Override
