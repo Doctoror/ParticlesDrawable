@@ -18,7 +18,6 @@ package com.doctoror.particlesdrawable;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.Animatable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -119,12 +118,6 @@ public class ParticlesView extends View implements
         if (attrs != null) {
             sceneConfigurator.configureSceneFromAttributes(scene, context.getResources(), attrs);
         }
-    }
-
-    @NonNull
-    @Keep
-    public Paint getPaint() {
-        return canvasSceneRenderer.getPaint();
     }
 
     /**

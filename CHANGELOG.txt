@@ -1,5 +1,6 @@
 v 2.0.0
 - Added OpenGL module
+- Removed getPaint methods from ParticlesDrawable and ParticlesView. If you need it back let me know.
 - Renamed makeBrandNewFrameWithPointsOffscreen to makeBrandNewFrameWithParticlesOffscreen
 - Renamed makeBrandNewFrameWithParticlesOffScreen to makeFreshFrameWithParticlesOffScreen
 - Renamed makeBrandNewFrame to makeFreshFrame
