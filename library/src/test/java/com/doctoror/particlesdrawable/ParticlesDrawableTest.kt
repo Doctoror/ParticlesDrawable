@@ -72,14 +72,14 @@ class ParticlesDrawableTest {
     @Test
     fun testMakeBrandNewFrameWithZeroBounds() {
         val d = ParticlesDrawable()
-        d.makeBrandNewFrame()
+        d.makeFreshFrame()
     }
 
     @Test
     fun testMakeBrandNewFrame() {
         val d = ParticlesDrawable()
         d.setBounds(0, 0, 10, 10)
-        d.makeBrandNewFrame()
+        d.makeFreshFrame()
     }
 
     @Test
@@ -87,7 +87,7 @@ class ParticlesDrawableTest {
         val d = ParticlesDrawable()
         d.setBounds(0, 0, 10, 10)
         d.start()
-        d.makeBrandNewFrame()
+        d.makeFreshFrame()
         d.stop()
     }
 
@@ -97,7 +97,7 @@ class ParticlesDrawableTest {
         val d = ParticlesDrawable()
         d.setBounds(0, 0, 10, 10)
         d.setParticleRadiusRange(0.5f, 0.6f)
-        d.makeBrandNewFrame()
+        d.makeFreshFrame()
     }
 
     @Test

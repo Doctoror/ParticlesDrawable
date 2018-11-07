@@ -223,11 +223,11 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrame() {
+    public void makeFreshFrame() {
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                engine.makeBrandNewFrame();
+                engine.makeFreshFrame();
             }
         });
     }
@@ -236,11 +236,11 @@ public class GlParticlesView extends GLSurfaceView implements
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrameWithParticlesOffscreen() {
+    public void makeFreshFrameWithParticlesOffscreen() {
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                engine.makeBrandNewFrameWithParticlesOffscreen();
+                engine.makeFreshFrameWithParticlesOffscreen();
             }
         });
     }

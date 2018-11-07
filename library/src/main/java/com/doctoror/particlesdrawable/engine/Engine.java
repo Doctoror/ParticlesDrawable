@@ -133,7 +133,7 @@ public final class Engine implements Animatable, Runnable, SceneController {
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrame() {
+    public void makeFreshFrame() {
         final Scene scene = this.scene;
         if (scene.getWidth() != 0 && scene.getHeight() != 0) {
             resetLastFrameTime();
@@ -145,7 +145,7 @@ public final class Engine implements Animatable, Runnable, SceneController {
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrameWithParticlesOffscreen() {
+    public void makeFreshFrameWithParticlesOffscreen() {
         final Scene model = scene;
         if (model.getWidth() != 0 && model.getHeight() != 0) {
             resetLastFrameTime();

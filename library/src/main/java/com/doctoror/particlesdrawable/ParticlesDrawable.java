@@ -152,16 +152,16 @@ public class ParticlesDrawable extends Drawable implements
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrame() {
-        engine.makeBrandNewFrame();
+    public void makeFreshFrame() {
+        engine.makeFreshFrame();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void makeBrandNewFrameWithParticlesOffscreen() {
-        engine.makeBrandNewFrameWithParticlesOffscreen();
+    public void makeFreshFrameWithParticlesOffscreen() {
+        engine.makeFreshFrameWithParticlesOffscreen();
     }
 
     /**

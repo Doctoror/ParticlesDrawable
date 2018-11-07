@@ -120,12 +120,12 @@ class EngineTest {
 
     @Test
     fun frameTimeResetOnMakeFreshFrame() {
-        verifyFrameTimeResetsWhenFunctionInvoked { underTest.makeBrandNewFrame() }
+        verifyFrameTimeResetsWhenFunctionInvoked { underTest.makeFreshFrame() }
     }
 
     @Test
     fun frameTimeResetOnMakeFreshFrameWithParticlesOffScreen() {
-        verifyFrameTimeResetsWhenFunctionInvoked { underTest.makeBrandNewFrameWithParticlesOffscreen() }
+        verifyFrameTimeResetsWhenFunctionInvoked { underTest.makeFreshFrameWithParticlesOffscreen() }
     }
 
     @Test
@@ -199,7 +199,7 @@ class EngineTest {
 
     @Test
     fun doesNotMakeeFreshFrameWhenDimensionsNotSet() {
-        underTest.makeBrandNewFrame()
+        underTest.makeFreshFrame()
         verifyZeroInteractions(particleGenerator)
     }
 
@@ -207,7 +207,7 @@ class EngineTest {
     fun doesNotMakeeFreshFrameWhenParticlesCountIsZero() {
         givenSceneDimensions(1, 1)
 
-        underTest.makeBrandNewFrame()
+        underTest.makeFreshFrame()
 
         verifyZeroInteractions(particleGenerator)
     }
@@ -219,14 +219,14 @@ class EngineTest {
         val particlesCount = 7
         whenever(scene.density).thenReturn(particlesCount)
 
-        underTest.makeBrandNewFrame()
+        underTest.makeFreshFrame()
 
         verifyMakesFreshFrame(particlesCount)
     }
 
     @Test
     fun doesNotMakeeFreshFrameWithParticlesOffScreenWhenDimensionsNotSet() {
-        underTest.makeBrandNewFrameWithParticlesOffscreen()
+        underTest.makeFreshFrameWithParticlesOffscreen()
         verifyZeroInteractions(particleGenerator)
     }
 
@@ -234,7 +234,7 @@ class EngineTest {
     fun doesNotMakeeFreshFrameWithParticlesOffScreenWhenParticlesCountIsZero() {
         givenSceneDimensions(1, 1)
 
-        underTest.makeBrandNewFrameWithParticlesOffscreen()
+        underTest.makeFreshFrameWithParticlesOffscreen()
 
         verifyZeroInteractions(particleGenerator)
     }
@@ -246,7 +246,7 @@ class EngineTest {
         val particlesCount = 4
         whenever(scene.density).thenReturn(particlesCount)
 
-        underTest.makeBrandNewFrameWithParticlesOffscreen()
+        underTest.makeFreshFrameWithParticlesOffscreen()
 
         val inorder = inOrder(particleGenerator)
         inorder.verify(particleGenerator).applyFreshParticleOffScreen(scene, 0)

@@ -142,16 +142,16 @@ class ParticlesViewTest {
     }
 
     @Test
-    fun testMakeBrandNewFrameWhenRunning() {
+    fun testMakeFreshFrameWhenRunning() {
         val v = newAttachedAndVisibleParticlesView()
-        v.makeBrandNewFrame()
+        v.makeFreshFrame()
     }
 
     @Test
-    fun testMakeBrandNewFrameWhenStopped() {
+    fun testMakeFreshFrameWhenStopped() {
         val v = newAttachedAndVisibleParticlesView()
         v.startInternal()
-        v.makeBrandNewFrame()
+        v.makeFreshFrame()
     }
 
     @Test

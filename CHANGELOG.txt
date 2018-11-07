@@ -1,6 +1,8 @@
 v 2.0.0
 - Added OpenGL module
 - Renamed makeBrandNewFrameWithPointsOffscreen to makeBrandNewFrameWithParticlesOffscreen
+- Renamed makeBrandNewFrameWithParticlesOffScreen to makeFreshFrameWithParticlesOffScreen
+- Renamed makeBrandNewFrame to makeFreshFrame
 - Renamed numDots to density
 - Renamed dotColor to particleColor
 - Renamed dotRadiusRange to particleRadiusRange
