@@ -15,10 +15,13 @@
  */
 package com.doctoror.particlesdrawable
 
+import android.content.res.Resources
+import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.ColorFilter
 import android.graphics.PixelFormat
 import android.os.SystemClock
+import android.util.AttributeSet
 import com.doctoror.particlesdrawable.engine.Engine
 import com.doctoror.particlesdrawable.engine.SceneConfigurator
 import com.doctoror.particlesdrawable.model.Scene
@@ -26,10 +29,12 @@ import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.xmlpull.v1.XmlPullParser
 import java.lang.reflect.Modifier
 
 @Config(manifest = Config.NONE)
@@ -57,6 +62,22 @@ class ParticlesDrawableTest {
         modifiers.setInt(field, field.modifiers and Modifier.FINAL.inv())
 
         field.set(target, value)
+    }
+
+    @Test
+    @Ignore // Fuck Robolectric https://github.com/robolectric/robolectric/issues/4086
+    fun inflates() {
+        val attrs: AttributeSet = mock()
+        val typedArray: TypedArray = mock()
+        val resources: Resources = mock {
+            on(it.obtainAttributes(eq(attrs), any())).thenReturn(typedArray)
+        }
+
+        val xmlPullParser: XmlPullParser = mock()
+
+        underTest.inflate(resources, xmlPullParser, attrs)
+
+        verify(sceneConfigurator).configureSceneFromAttributes(scene, resources, attrs)
     }
 
     @Test
