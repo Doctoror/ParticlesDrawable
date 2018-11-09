@@ -54,6 +54,7 @@ dependencies {
     def d = rootProject.ext.libraryDependencies
     def td = rootProject.ext.libraryTestDependencies
 
+    testImplementation td.androidxTestCore
     testImplementation td.junitJupiter
     testImplementation td.junitVintage
     testImplementation td.kotlin

@@ -14,6 +14,7 @@ ext {
     androidXVersion = '1.0.0'
 
     //Testing
+    androidxTestVersion = '1.0.0'
     jUnitVersion = '5.3.1'
     mockitoVersion = '2.23.0'
     mockitoKotlinVersion = '1.6.0'
@@ -25,6 +26,8 @@ ext {
     ]
 
     libraryTestDependencies = [
+            androidxTestCore: "androidx.test:core:$androidxTestVersion",
+
             junitJupiter  : "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
             junitVintage  : "org.junit.vintage:junit-vintage-engine:$jUnitVersion",
 

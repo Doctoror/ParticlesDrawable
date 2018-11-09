@@ -15,199 +15,335 @@
  */
 package com.doctoror.particlesdrawable
 
+import android.content.Context
+import android.graphics.Canvas
 import android.view.View
-import org.junit.Assert.*
+import androidx.test.core.app.ApplicationProvider
+import com.doctoror.particlesdrawable.engine.Engine
+import com.doctoror.particlesdrawable.engine.SceneConfigurator
+import com.doctoror.particlesdrawable.model.Scene
+import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
+import com.nhaarman.mockito_kotlin.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.annotation.Config.NONE
 
-@Config(manifest = NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
 class ParticlesViewTest {
 
-    private fun newParticlesView(): ParticlesView {
-        val v = ParticlesView(RuntimeEnvironment.application)
-        v.setEmulateOnAttachToWindow(true)
-        return v
-    }
+    private val context = ApplicationProvider.getApplicationContext<Context>()
 
-    private fun newAttachedAndVisibleParticlesView(): ParticlesView {
-        val v = newParticlesView()
-        v.visibility = View.VISIBLE
-        v.onAttachedToWindow()
-        return v
+    private val canvasRenderer: CanvasSceneRenderer = mock()
+    private val scene: Scene = mock()
+    private val sceneConfigurator: SceneConfigurator = mock()
+    private val engine: Engine = mock()
+
+    private val underTest = spy(ParticlesView(context).apply {
+        overridePrivateFinalMember(this, "canvasSceneRenderer", canvasRenderer)
+        overridePrivateFinalMember(this, "scene", scene)
+        overridePrivateFinalMember(this, "sceneConfigurator", sceneConfigurator)
+        overridePrivateFinalMember(this, "engine", engine)
+        setEmulateOnAttachToWindow(true)
+    })
+
+    @Test
+    fun setsDimensionsOnSizeChange() {
+        val width = 240
+        val height = 320
+
+        underTest.onSizeChanged(width, height, 0, 0)
+
+        verify(engine).setDimensions(width, height)
     }
 
     @Test
-    fun testIsRunningByDefault() {
-        assertFalse(newParticlesView().isRunning)
+    fun drawsAndRuns() {
+        val canvas: Canvas = mock()
+
+        underTest.onDraw(canvas)
+
+        val inorder = inOrder(canvasRenderer, engine)
+        inorder.verify(canvasRenderer).setCanvas(canvas)
+        inorder.verify(engine).draw()
+        inorder.verify(canvasRenderer).setCanvas(null)
+        inorder.verify(engine).run()
     }
 
     @Test
-    fun testIsRunningWhenVisibleAndAttached() {
-        val v = newAttachedAndVisibleParticlesView()
-        try {
-            assertTrue(v.isRunning)
-        } finally {
-            v.stopInternal()
-        }
+    fun invalidatesOnRequestRender() {
+        underTest.requestRender()
+        verify(underTest).invalidate()
     }
 
     @Test
-    fun testIsStopedWhenStopped() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.stopInternal()
-        assertFalse(v.isRunning)
+    fun reqeustsRenderOnScheduleNextFrameWithZeroDelay() {
+        underTest.scheduleNextFrame(0)
+        verify(underTest).requestRender()
     }
 
     @Test
-    fun testIsStopedWhenDetachedFromWindow() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.onDetachedFromWindow()
-        assertFalse(v.isRunning)
+    fun postInvalidatesDelayedScheduleNextFrameWithNonZeroDelay() {
+        val delay = 36000L
+
+        underTest.scheduleNextFrame(delay)
+
+        verify(underTest).postInvalidateDelayed(delay)
     }
 
     @Test
-    fun testNotRunningWhenInvisible() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.visibility = View.INVISIBLE
-        v.onVisibilityChanged(v, View.INVISIBLE)
-        assertFalse(v.isRunning)
+    fun doesNotCrashOnOnUnscheduleNextFrame() {
+        underTest.unscheduleNextFrame()
+    }
+
+    // TODO
+//    @Test
+//    fun setsAlphaToEngine() {
+//        val alpha = 0.5
+//        underTest.alpha = alpha
+//        verify(engine).alpha = alpha
+//    }
+//
+//    @Test
+//    fun returnsAlphaFromEngine() {
+//        val alpha = 128
+//        whenever(engine.alpha).thenReturn(alpha)
+//        assertEquals(alpha, underTest.alpha)
+//    }
+
+    @Test
+    fun doesNotStartWhenVisibleButNotAttachedToWindow() {
+        underTest.visibility = View.VISIBLE
+        verify(engine, never()).start()
     }
 
     @Test
-    fun testNotRunningWhenGone() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.visibility = View.GONE
-        v.onVisibilityChanged(v, View.GONE)
-        assertFalse(v.isRunning)
+    fun doesNotStartAttachedToWindowButNotVisible() {
+        underTest.visibility = View.VISIBLE
+        verify(engine, never()).start()
     }
 
     @Test
-    fun testNotRunningWhenNotVisibleBeforeStart() {
-        val v = newParticlesView()
-        v.visibility = View.INVISIBLE
-        v.onVisibilityChanged(v, View.INVISIBLE)
-        v.startInternal()
-        assertFalse(v.isRunning)
+    fun startsEngineOnAttachToWindowWhenVisible() {
+        underTest.visibility = View.VISIBLE
+        underTest.onAttachedToWindow()
+
+        verify(engine).start()
     }
 
     @Test
-    fun testNotRunningWhenNotVisibleBeforeAttachedToWindow() {
-        val v = newParticlesView()
-        v.visibility = View.INVISIBLE
-        v.onVisibilityChanged(v, View.INVISIBLE)
-        v.onAttachedToWindow()
-        assertFalse(v.isRunning)
+    fun startsEngineOnVisibiltyChangeWhenAttachedToWindow() {
+        underTest.onAttachedToWindow()
+        underTest.visibility = View.VISIBLE
+
+        verify(engine).start()
     }
 
     @Test
-    fun testNotRunningWhenExplicitlyStoppedAndAttachedToWindow() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.stop()
-        v.onAttachedToWindow()
-        assertFalse(v.isRunning)
+    fun startDoesNotStartEngineWhenNotAttachedToWindow() {
+        underTest.visibility = View.VISIBLE
+
+        underTest.start()
+
+        verify(engine, never()).start()
     }
 
     @Test
-    fun testNotRunningWhenExplicitlyStoppedAndVisible() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.stop()
-        v.visibility = View.VISIBLE
-        v.onVisibilityChanged(v, View.VISIBLE)
-        assertFalse(v.isRunning)
+    fun startDoesNotStartEngineWhenNotVisible() {
+        underTest.visibility = View.INVISIBLE
+        underTest.onAttachedToWindow()
+
+        underTest.start()
+
+        verify(engine, never()).start()
     }
 
     @Test
-    fun testNotRunningWhenExplicitlyStoppedButStartedInternally() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.stop()
-        v.startInternal()
-        assertFalse(v.isRunning)
+    fun doesNotStartEngineOnAttachToWindowWhenVisibleIfExplicitlyStopped() {
+        underTest.stop()
+
+        underTest.visibility = View.VISIBLE
+        underTest.onAttachedToWindow()
+
+        verify(engine, never()).start()
     }
 
     @Test
-    fun testRunningWhenExplicitlyStartedAfterExplicitStop() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.stop()
-        v.start()
-        try {
-            assertTrue(v.isRunning)
-        } finally {
-            v.stopInternal()
-        }
+    fun startsEngineOnStartIfConditionsAllowAndWasExplicitlyStopped() {
+        underTest.stop()
+
+        underTest.visibility = View.VISIBLE
+        underTest.onAttachedToWindow()
+
+        underTest.start()
+
+        verify(engine).start()
     }
 
     @Test
-    fun testMakeFreshFrameWhenRunning() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.makeFreshFrame()
+    fun stopsEngineOnStop() {
+        underTest.stop()
+        verify(engine).stop()
     }
 
     @Test
-    fun testMakeFreshFrameWhenStopped() {
-        val v = newAttachedAndVisibleParticlesView()
-        v.startInternal()
-        v.makeFreshFrame()
+    fun stopsEngineWhenNotVisible() {
+        underTest.visibility = View.INVISIBLE
+        verify(engine).stop()
     }
 
     @Test
-    fun testSetFrameDelay() {
-        val s = newParticlesView()
-        s.frameDelay = 1
-        assertEquals(1, s.frameDelay)
+    fun stopsEngineOnDetachFromWindow() {
+        underTest.visibility = View.INVISIBLE
+        verify(engine).stop()
     }
 
     @Test
-    fun testSetSpeedFactor() {
-        val s = newParticlesView()
-        s.speedFactor = 0f
-        assertEquals(0f, s.speedFactor, ASSERT_DELTA)
+    fun returnsRunningStateFromEngine() {
+        whenever(engine.isRunning).thenReturn(true)
+        assertTrue(underTest.isRunning)
     }
 
     @Test
-    fun testSetParticleRadiusRange() {
-        val s = newParticlesView()
-        s.setParticleRadiusRange(0.5f, 0.6f)
-        assertEquals(0.5f, s.particleRadiusMin, ASSERT_DELTA)
-        assertEquals(0.6f, s.particleRadiusMax, ASSERT_DELTA)
+    fun forwardsNextFrameToEngine() {
+        underTest.nextFrame()
+        verify(engine).nextFrame()
     }
 
     @Test
-    fun testSetLineThickness() {
-        val s = newParticlesView()
-        s.lineThickness = 1f
-        assertEquals(1f, s.lineThickness, ASSERT_DELTA)
+    fun forwardsMakeFreshFrameToEngine() {
+        underTest.makeFreshFrame()
+        verify(engine).makeFreshFrame()
     }
 
     @Test
-    fun testSetLineLength() {
-        val s = newParticlesView()
-        s.lineLength = 0f
-        assertEquals(0f, s.lineLength, ASSERT_DELTA)
+    fun forwardsMakeFreshFrameWithParticlesOffScreenToEngine() {
+        underTest.makeFreshFrameWithParticlesOffscreen()
+        verify(engine).makeFreshFrameWithParticlesOffscreen()
     }
 
     @Test
-    fun testSetDensity() {
-        val s = newParticlesView()
-        s.density = 0
-        assertEquals(0, s.density)
+    fun forwardsSetDensityToScene() {
+        val value = 1
+        underTest.density = value
+        verify(scene).density = value
     }
 
     @Test
-    fun testSetLineColor() {
-        val s = newParticlesView()
-        s.lineColor = 2
-        assertEquals(2, s.lineColor)
+    fun returnsDensityFromScene() {
+        val value = 2
+        whenever(scene.density).thenReturn(value)
+        assertEquals(value, underTest.density)
     }
 
     @Test
-    fun testSetParticleColor() {
-        val s = newParticlesView()
-        s.particleColor = 3
-        assertEquals(3, s.particleColor)
+    fun forwardsSetFrameDelayToScene() {
+        val value = 3
+        underTest.frameDelay = value
+        verify(scene).frameDelay = value
+    }
+
+    @Test
+    fun returnsFrameDelayFromScene() {
+        val value = 4
+        whenever(scene.frameDelay).thenReturn(value)
+        assertEquals(value, underTest.frameDelay)
+    }
+
+    @Test
+    fun forwardsSetParticleColorToScene() {
+        val value = 5
+        underTest.particleColor = value
+        verify(scene).particleColor = value
+    }
+
+    @Test
+    fun returnsParticleColorFromScene() {
+        val value = 6
+        whenever(scene.particleColor).thenReturn(value)
+        assertEquals(value, underTest.particleColor)
+    }
+
+    @Test
+    fun forwardsSetParticleRadiusRangeToScene() {
+        val minRadius = 7f
+        val maxRadius = 8f
+
+        underTest.setParticleRadiusRange(minRadius, maxRadius)
+
+        verify(scene).setParticleRadiusRange(minRadius, maxRadius)
+    }
+
+    @Test
+    fun returnsParticleRadiusMaxFromScene() {
+        val value = 9f
+        whenever(scene.particleRadiusMax).thenReturn(value)
+        assertEquals(value, underTest.particleRadiusMax)
+    }
+
+    @Test
+    fun returnsParticleRadiusMinFromScene() {
+        val value = 10f
+        whenever(scene.particleRadiusMin).thenReturn(value)
+        assertEquals(value, underTest.particleRadiusMin)
+    }
+
+    @Test
+    fun forwardsSetLineColorToScene() {
+        val value = 11
+        underTest.lineColor = value
+        verify(scene).lineColor = value
+    }
+
+    @Test
+    fun returnsLineColorFromScene() {
+        val value = 12
+        whenever(scene.lineColor).thenReturn(value)
+        assertEquals(value, underTest.lineColor)
+    }
+
+    @Test
+    fun forwardsSetLineLengthToScene() {
+        val value = 13f
+        underTest.lineLength = value
+        verify(scene).lineLength = value
+    }
+
+    @Test
+    fun returnsLineLengthFromScene() {
+        val value = 14f
+        whenever(scene.lineLength).thenReturn(value)
+        assertEquals(value, underTest.lineLength)
+    }
+
+    @Test
+    fun forwardsSetLineThicknessToScene() {
+        val value = 15f
+        underTest.lineThickness = value
+        verify(scene).lineThickness = value
+    }
+
+    @Test
+    fun returnsLineThicknessFromScene() {
+        val value = 16f
+        whenever(scene.lineThickness).thenReturn(value)
+        assertEquals(value, underTest.lineThickness)
+    }
+
+    @Test
+    fun forwardsSetSpeedFactorToScene() {
+        val value = 17f
+        underTest.speedFactor = value
+        verify(scene).speedFactor = value
+    }
+
+    @Test
+    fun returnsSpeedFactorFromScene() {
+        val value = 18f
+        whenever(scene.speedFactor).thenReturn(value)
+        assertEquals(value, underTest.speedFactor)
     }
 }
