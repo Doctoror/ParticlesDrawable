@@ -35,7 +35,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.xmlpull.v1.XmlPullParser
-import java.lang.reflect.Modifier
 
 @Config(manifest = Config.NONE, sdk = [Build.VERSION_CODES.LOLLIPOP])
 @RunWith(RobolectricTestRunner::class)
@@ -47,22 +46,11 @@ class ParticlesDrawableTest {
     private val engine: Engine = mock()
 
     private val underTest = spy(ParticlesDrawable().apply {
-        overrideMember(this, "canvasRenderer", canvasRenderer)
-        overrideMember(this, "scene", scene)
-        overrideMember(this, "sceneConfigurator", sceneConfigurator)
-        overrideMember(this, "engine", engine)
+        overridePrivateFinalMember(this, "canvasRenderer", canvasRenderer)
+        overridePrivateFinalMember(this, "scene", scene)
+        overridePrivateFinalMember(this, "sceneConfigurator", sceneConfigurator)
+        overridePrivateFinalMember(this, "engine", engine)
     })
-
-    private fun overrideMember(target: Any, name: String, value: Any) {
-        val field = target::class.java.getDeclaredField(name)
-        field.isAccessible = true
-
-        val modifiers = field.javaClass.getDeclaredField("modifiers")
-        modifiers.isAccessible = true
-        modifiers.setInt(field, field.modifiers and Modifier.FINAL.inv())
-
-        field.set(target, value)
-    }
 
     @Test
     fun inflates() {
