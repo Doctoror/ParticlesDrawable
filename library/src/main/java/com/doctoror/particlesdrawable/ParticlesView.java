@@ -291,8 +291,8 @@ public class ParticlesView extends View implements
         super.onDraw(canvas);
         canvasSceneRenderer.setCanvas(canvas);
         engine.draw();
-        engine.run();
         canvasSceneRenderer.setCanvas(null);
+        engine.run();
     }
 
     @Override
