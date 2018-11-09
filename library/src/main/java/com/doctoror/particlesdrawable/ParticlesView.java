@@ -297,7 +297,11 @@ public class ParticlesView extends View implements
 
     @Override
     public void scheduleNextFrame(final long delay) {
-        postInvalidateDelayed(delay);
+        if (delay == 0) {
+            requestRender();
+        } else {
+            postInvalidateDelayed(delay);
+        }
     }
 
     @Override
