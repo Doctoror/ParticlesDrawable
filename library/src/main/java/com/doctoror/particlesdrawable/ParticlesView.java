@@ -359,15 +359,13 @@ public class ParticlesView extends View implements
         return engine.isRunning();
     }
 
-    @VisibleForTesting
-    void startInternal() {
+    private void startInternal() {
         if (!mExplicitlyStopped && isVisibleWithAllParents(this) && isAttachedToWindowCompat()) {
             engine.start();
         }
     }
 
-    @VisibleForTesting
-    void stopInternal() {
+    private void stopInternal() {
         engine.stop();
     }
 
