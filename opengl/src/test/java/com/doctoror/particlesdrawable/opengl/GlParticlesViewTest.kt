@@ -164,6 +164,19 @@ class GlParticlesViewTest {
     }
 
     @Test
+    fun bitmapBackgroundDrawableIsDeliveredAsTextureOnlyOnce() {
+        val bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        @Suppress("DEPRECATION")
+        underTest.setBackgroundDrawable(BitmapDrawable(context.resources, bitmap))
+
+        val gL10: GL10 = mock()
+        underTest.onDrawFrame(gL10)
+        underTest.onDrawFrame(gL10)
+
+        verify(renderer).setBackgroundTexture(bitmap)
+    }
+
+    @Test
     fun backgroundIsResetWhenSetToNull() {
         val bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         underTest.background = BitmapDrawable(context.resources, bitmap)
