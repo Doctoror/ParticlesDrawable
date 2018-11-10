@@ -99,21 +99,6 @@ class ParticlesViewTest {
         underTest.unscheduleNextFrame()
     }
 
-    // TODO
-//    @Test
-//    fun setsAlphaToEngine() {
-//        val alpha = 0.5
-//        underTest.alpha = alpha
-//        verify(engine).alpha = alpha
-//    }
-//
-//    @Test
-//    fun returnsAlphaFromEngine() {
-//        val alpha = 128
-//        whenever(engine.alpha).thenReturn(alpha)
-//        assertEquals(alpha, underTest.alpha)
-//    }
-
     @Test
     fun doesNotStartWhenVisibleButNotAttachedToWindow() {
         underTest.visibility = View.VISIBLE
