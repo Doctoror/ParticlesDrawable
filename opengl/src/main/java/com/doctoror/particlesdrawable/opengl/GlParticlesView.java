@@ -47,6 +47,7 @@ import androidx.annotation.IntRange;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Particles View that draws on {@link GLSurfaceView}.
@@ -61,10 +62,10 @@ public class GlParticlesView extends GLSurfaceView implements
 
     private static final int DEFAULT_SAMPLES = 4;
 
-    final Scene scene = new Scene();
-    private final SceneConfigurator sceneConfigurator = new SceneConfigurator();
-    final GlSceneRenderer renderer = new GlSceneRenderer();
-    final Engine engine = new Engine(scene, this, renderer);
+    final Scene scene;
+    private final SceneConfigurator sceneConfigurator;
+    final GlSceneRenderer renderer;
+    final Engine engine;
 
     private volatile boolean backgroundColorDirty;
     private volatile boolean backgroundTextureDirty;
@@ -75,21 +76,42 @@ public class GlParticlesView extends GLSurfaceView implements
     private volatile Bitmap backgroundTexture;
 
     public GlParticlesView(@NonNull final Context context) {
-        super(context);
-        init(context, null, DEFAULT_SAMPLES, null);
+        this(context, null);
     }
 
     public GlParticlesView(@NonNull final Context context, @Nullable final AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs, DEFAULT_SAMPLES, null);
+        this(context, attrs, DEFAULT_SAMPLES, null);
     }
 
     public GlParticlesView(
             @NonNull final Context context,
+            @Nullable final AttributeSet attrs,
             final int samples,
             @Nullable final EGLConfigChooserCallback eglConfigChooserCallback) {
-        super(context);
-        init(context, null, samples, eglConfigChooserCallback);
+        super(context, attrs);
+        this.scene = new Scene();
+        this.sceneConfigurator = new SceneConfigurator();
+        this.renderer = new GlSceneRenderer();
+        this.engine = new Engine(scene, this, renderer);
+        init(context, attrs, samples, eglConfigChooserCallback);
+    }
+
+    @VisibleForTesting
+    GlParticlesView(
+            @NonNull final Context context,
+            @Nullable final AttributeSet attrs,
+            @NonNull final Engine engine,
+            @NonNull final Scene scene,
+            @NonNull final SceneConfigurator sceneConfigurator,
+            @NonNull final GlSceneRenderer sceneRenderer,
+            final int samples,
+            @Nullable final EGLConfigChooserCallback eglConfigChooserCallback) {
+        super(context, attrs);
+        this.engine = engine;
+        this.scene = scene;
+        this.sceneConfigurator = sceneConfigurator;
+        this.renderer = sceneRenderer;
+        init(context, attrs, samples, eglConfigChooserCallback);
     }
 
     private void init(
