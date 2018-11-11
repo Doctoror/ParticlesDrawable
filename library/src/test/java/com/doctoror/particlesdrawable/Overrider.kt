@@ -17,7 +17,7 @@ package com.doctoror.particlesdrawable
 
 import java.lang.reflect.Modifier
 
-fun overridePrivateFinalMember(target: Any, name: String, value: Any) {
+internal fun overridePrivateFinalMember(target: Any, name: String, value: Any) {
     val field = target::class.java.getDeclaredField(name)
     field.isAccessible = true
 
