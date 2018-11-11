@@ -23,8 +23,10 @@ import com.doctoror.particlesdrawable.Defaults;
 import com.doctoror.particlesdrawable.R;
 import com.doctoror.particlesdrawable.model.Scene;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
+@Keep
 public final class SceneConfigurator {
 
     public void configureSceneFromAttributes(
