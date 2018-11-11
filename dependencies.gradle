@@ -19,7 +19,6 @@ ext {
     mockitoVersion = '2.23.0'
     mockitoKotlinVersion = '1.6.0'
     robolectricVersion = '4.0'
-    testRunnerVersion = '1.1.0-alpha4'
 
     libraryDependencies = [
             annotations: "androidx.annotation:annotation:$androidXVersion"
@@ -37,9 +36,6 @@ ext {
             mockitoKotlin: "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
             mockitoAndroid: "org.mockito:mockito-android:$mockitoVersion",
 
-            robolectric   : "org.robolectric:robolectric:$robolectricVersion",
-
-            testRunner    : "androidx.test:runner:$testRunnerVersion",
-            testRules     : "androidx.test:rules:$testRunnerVersion"
+            robolectric   : "org.robolectric:robolectric:$robolectricVersion"
     ]
 }

@@ -22,8 +22,6 @@ allprojects {
     ext {
         androidVersionCode = 11
         androidVersionName = "2.0.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
