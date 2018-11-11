@@ -26,7 +26,7 @@ import androidx.annotation.NonNull;
 public final class GLErrorChecker {
 
     private static boolean shouldThrowOnGlError = true;
-    private static boolean shouldCheckGlError = true;
+    private static boolean shouldCheckGlError = false;
 
     public static void setShouldCheckGlError(final boolean shouldCheckGlError) {
         GLErrorChecker.shouldCheckGlError = shouldCheckGlError;
