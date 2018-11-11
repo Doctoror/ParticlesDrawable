@@ -20,6 +20,8 @@ import android.util.Log;
 
 import com.doctoror.particlesdrawable.KeepAsApi;
 
+import androidx.annotation.NonNull;
+
 @KeepAsApi
 public final class GLErrorChecker {
 
@@ -34,12 +36,12 @@ public final class GLErrorChecker {
         GLErrorChecker.shouldThrowOnGlError = shouldThrowOnGlError;
     }
 
-    public static void checkGlError() {
+    public static void checkGlError(@NonNull final String tag) {
         if (shouldCheckGlError) {
             final int error = GLES20.glGetError();
             if (error != GLES20.GL_NO_ERROR) {
                 if (shouldThrowOnGlError) {
-                    throw new RuntimeException("GLError: " + error);
+                    throw new RuntimeException("GLError: " + error + ", tag: " + tag);
                 } else {
                     Log.e("GLError", Integer.toString(error));
                 }

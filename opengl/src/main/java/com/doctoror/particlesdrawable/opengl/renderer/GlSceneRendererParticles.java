@@ -72,16 +72,22 @@ final class GlSceneRendererParticles {
         final int vertexShader = ShaderLoader.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 VERTEX_SHADER_CODE);
+        GLErrorChecker.checkGlError("particles glCompileShader vertex");
 
         final int fragmentShader = ShaderLoader.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
                 FRAGMENT_SHADER_CODE);
+        GLErrorChecker.checkGlError("particles glCompileShader fragment");
 
         program = GLES20.glCreateProgram();
         GLES20.glAttachShader(program, vertexShader);
+        GLErrorChecker.checkGlError("particles glAttachShader vertex");
+
         GLES20.glAttachShader(program, fragmentShader);
+        GLErrorChecker.checkGlError("particles glAttachShader fragment");
+
         GLES20.glLinkProgram(program);
-        GLErrorChecker.checkGlError();
+        GLErrorChecker.checkGlError("particles glLinkProgram");
     }
 
     void markTextureDirty() {
@@ -169,6 +175,7 @@ final class GlSceneRendererParticles {
     private void loadTexture(@NonNull final Bitmap texture) {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, texture, 0);
+        GLErrorChecker.checkGlError("particles texImage2D");
 
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
@@ -176,6 +183,7 @@ final class GlSceneRendererParticles {
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
+        GLErrorChecker.checkGlError("particles glTexParameterf");
         textureDirty = false;
     }
 

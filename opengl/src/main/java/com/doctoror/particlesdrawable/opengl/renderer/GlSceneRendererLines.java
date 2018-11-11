@@ -70,16 +70,22 @@ final class GlSceneRendererLines {
         final int vertexShader = ShaderLoader.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 VERTEX_SHADER_CODE);
+        GLErrorChecker.checkGlError("lines glCompileShader vertex");
 
         final int fragmentShader = ShaderLoader.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
                 FRAGMENT_SHADER_CODE);
+        GLErrorChecker.checkGlError("lines glCompileShader fragment");
 
         program = GLES20.glCreateProgram();
         GLES20.glAttachShader(program, vertexShader);
+        GLErrorChecker.checkGlError("lines glAttachShader vertex");
+
         GLES20.glAttachShader(program, fragmentShader);
+        GLErrorChecker.checkGlError("lines glAttachShader fragment");
+
         GLES20.glLinkProgram(program);
-        GLErrorChecker.checkGlError();
+        GLErrorChecker.checkGlError("lines glLinkProgram");
     }
 
     private void initBuffers(final int vertexCount) {

@@ -70,16 +70,22 @@ final class GlSceneRendererBackground {
         final int vertexShader = ShaderLoader.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 VERTEX_SHADER_CODE);
+        GLErrorChecker.checkGlError("background glCompileShader vertex");
 
         final int fragmentShader = ShaderLoader.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
                 FRAGMENT_SHADER_CODE);
+        GLErrorChecker.checkGlError("background glCompileShader fragment");
 
         program = GLES20.glCreateProgram();
         GLES20.glAttachShader(program, vertexShader);
+        GLErrorChecker.checkGlError("background glAttachShader vertex");
+
         GLES20.glAttachShader(program, fragmentShader);
+        GLErrorChecker.checkGlError("background glAttachShader fragment");
+
         GLES20.glLinkProgram(program);
-        GLErrorChecker.checkGlError();
+        GLErrorChecker.checkGlError("background glLinkProgram");
     }
 
     void setDimensions(final int width, final int height) {
@@ -93,12 +99,15 @@ final class GlSceneRendererBackground {
         if (texture != null) {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, texture, 0);
+            GLErrorChecker.checkGlError("background texImage2D");
 
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+
+            GLErrorChecker.checkGlError("background glTexParameterf");
         }
 
         hasTexture = texture != null;
