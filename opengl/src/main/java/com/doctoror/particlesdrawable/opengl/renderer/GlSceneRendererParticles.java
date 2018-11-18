@@ -20,8 +20,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
@@ -31,6 +29,9 @@ import com.doctoror.particlesdrawable.opengl.util.ShaderLoader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 final class GlSceneRendererParticles {
 
@@ -183,7 +184,6 @@ final class GlSceneRendererParticles {
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
-        GLErrorChecker.checkGlError("particles glTexParameterf");
         textureDirty = false;
     }
 
@@ -235,6 +235,7 @@ final class GlSceneRendererParticles {
         particlesTrianglesCoordinates.position(0);
 
         GLES20.glUseProgram(program);
+        GLErrorChecker.checkGlError("particles glUseProgram");
 
         final int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
         GLES20.glEnableVertexAttribArray(positionHandle);
@@ -266,5 +267,6 @@ final class GlSceneRendererParticles {
 
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, count * VERTICES_PER_PARTICLE);
+        GLErrorChecker.checkGlError("particles glDrawArrays");
     }
 }

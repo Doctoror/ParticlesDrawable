@@ -19,6 +19,7 @@ import android.opengl.GLES20;
 import android.util.Log;
 
 import com.doctoror.particlesdrawable.KeepAsApi;
+import com.doctoror.particlesdrawable.opengl.GlException;
 
 import androidx.annotation.NonNull;
 
@@ -41,9 +42,9 @@ public final class GLErrorChecker {
             final int error = GLES20.glGetError();
             if (error != GLES20.GL_NO_ERROR) {
                 if (shouldThrowOnGlError) {
-                    throw new RuntimeException("GLError: " + error + ", tag: " + tag);
+                    throw new GlException(error, tag);
                 } else {
-                    Log.e("GLError", Integer.toString(error));
+                    Log.e("GLErrorChecker", "GLError" + Integer.toString(error) + ", tag = " + tag);
                 }
             }
         }

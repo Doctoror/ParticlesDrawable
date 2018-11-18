@@ -17,8 +17,6 @@ package com.doctoror.particlesdrawable.opengl.renderer;
 
 import android.graphics.Color;
 import android.opengl.GLES20;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
 
 import com.doctoror.particlesdrawable.model.Scene;
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
@@ -29,6 +27,9 @@ import com.doctoror.particlesdrawable.util.LineColorResolver;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 final class GlSceneRendererLines {
 
@@ -311,6 +312,7 @@ final class GlSceneRendererLines {
         lineColorBuffer.position(0);
 
         GLES20.glUseProgram(program);
+        GLErrorChecker.checkGlError("lines glUseProgram");
 
         final int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
         GLES20.glEnableVertexAttribArray(positionHandle);
@@ -338,5 +340,6 @@ final class GlSceneRendererLines {
         GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, matrix, 0);
 
         GLES20.glDrawArrays(lineAsTriangles ? GLES20.GL_TRIANGLES : GLES20.GL_LINES, 0, lineVerticesCount);
+        GLErrorChecker.checkGlError("lines glDrawArrays");
     }
 }

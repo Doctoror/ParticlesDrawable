@@ -122,12 +122,7 @@ public class GlSceneRenderer implements SceneRenderer {
             @NonNull final Scene scene) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         background.drawScene(mvpTranslatedBackgroundMatrix);
-        GLErrorChecker.checkGlError("drawBackground");
-
         lines.drawScene(scene, mvpTranslatedForegroundMatrix);
-        GLErrorChecker.checkGlError("drawLines");
-
         particles.drawScene(scene, mvpTranslatedForegroundMatrix);
-        GLErrorChecker.checkGlError("drawParticles");
     }
 }

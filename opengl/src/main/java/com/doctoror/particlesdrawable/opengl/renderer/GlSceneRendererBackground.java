@@ -18,8 +18,6 @@ package com.doctoror.particlesdrawable.opengl.renderer;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
 import com.doctoror.particlesdrawable.opengl.util.ShaderLoader;
@@ -27,6 +25,9 @@ import com.doctoror.particlesdrawable.opengl.util.ShaderLoader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 final class GlSceneRendererBackground {
 
@@ -106,8 +107,6 @@ final class GlSceneRendererBackground {
 
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-
-            GLErrorChecker.checkGlError("background glTexParameterf");
         }
 
         hasTexture = texture != null;
@@ -179,6 +178,7 @@ final class GlSceneRendererBackground {
             backgroundCoordinates.position(0);
 
             GLES20.glUseProgram(program);
+            GLErrorChecker.checkGlError("background glUseProgram");
 
             final int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
             GLES20.glEnableVertexAttribArray(positionHandle);
@@ -207,6 +207,7 @@ final class GlSceneRendererBackground {
 
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
             GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
+            GLErrorChecker.checkGlError("background glDrawArrays");
         }
     }
 }
