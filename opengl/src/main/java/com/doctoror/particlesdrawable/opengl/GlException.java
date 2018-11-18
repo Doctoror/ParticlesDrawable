@@ -22,7 +22,22 @@ import androidx.annotation.NonNull;
 @KeepAsApi
 public final class GlException extends RuntimeException {
 
-    public GlException(final int error, @NonNull final String tag) {
-        super("GLError: " + error + ", tag: " + tag);
+    private final int glError;
+
+    /**
+     * @param glError the error read from glGetError.
+     * @param tag     custom tag to include in exception message.
+     */
+    public GlException(final int glError, @NonNull final String tag) {
+        super("GLError: " + glError + ", tag: " + tag);
+        this.glError = glError;
+    }
+
+    /**
+     * @return the error read from glGetError.
+     */
+    @SuppressWarnings("unused")
+    public int getGlError() {
+        return glError;
     }
 }
