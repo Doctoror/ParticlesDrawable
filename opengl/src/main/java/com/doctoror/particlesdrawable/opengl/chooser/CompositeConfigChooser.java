@@ -29,7 +29,7 @@ import androidx.annotation.VisibleForTesting;
  * Iterates from config choosers and chooses first config in order that did not throw a
  * {@link RuntimeException} and returned a non-null {@link EGLConfig}.
  * <p>
- * Throws {@link IllegalArgumentException} when all configs threw.
+ * Throws {@link NoMatchingConfigsException} when no config can be choosen.
  */
 class CompositeConfigChooser implements EGLConfigChooser {
 
@@ -65,6 +65,6 @@ class CompositeConfigChooser implements EGLConfigChooser {
             }
         }
 
-        throw new IllegalArgumentException("All config choosers failed");
+        throw new NoMatchingConfigsException();
     }
 }

@@ -32,14 +32,14 @@ class CompositeConfigChooserTest {
 
     @Test
     fun throwsWhenEmptyArgumentsPassed() {
-        Assertions.assertThrows(java.lang.IllegalArgumentException::class.java) {
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
             CompositeConfigChooser()
         }
     }
 
     @Test
     fun throwsWhenChoosersFailedToChooseDueToNullValue() {
-        Assertions.assertThrows(java.lang.IllegalArgumentException::class.java) {
+        Assertions.assertThrows(NoMatchingConfigsException::class.java) {
             val underTest = CompositeConfigChooser(mock()).apply { log = false }
             underTest.chooseConfig(egl, display)
         }
@@ -47,7 +47,7 @@ class CompositeConfigChooserTest {
 
     @Test
     fun throwsWhenChoosersFailedToChooseDueToException() {
-        Assertions.assertThrows(java.lang.IllegalArgumentException::class.java) {
+        Assertions.assertThrows(NoMatchingConfigsException::class.java) {
             val underTest = CompositeConfigChooser(mock {
                 on { it.chooseConfig(egl, display) }.thenThrow(IllegalArgumentException())
             }).apply { log = false }
