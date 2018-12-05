@@ -17,7 +17,7 @@ package com.doctoror.particlesdrawable.opengl.chooser
 
 import android.opengl.GLSurfaceView.EGLConfigChooser
 import com.doctoror.particlesdrawable.opengl.chooser.CompositeConfigChooser.log
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

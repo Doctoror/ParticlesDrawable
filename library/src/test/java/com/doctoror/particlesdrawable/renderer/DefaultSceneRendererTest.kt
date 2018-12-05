@@ -21,7 +21,7 @@ import com.doctoror.particlesdrawable.contract.LowLevelRenderer
 import com.doctoror.particlesdrawable.util.DistanceResolver
 import com.doctoror.particlesdrawable.util.LineColorResolver
 import com.doctoror.particlesdrawable.util.ParticleColorResolver
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

@@ -16,7 +16,7 @@
 package com.doctoror.particlesdrawable.opengl.chooser
 
 import android.opengl.GLSurfaceView
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue

@@ -3,7 +3,7 @@ package com.doctoror.particlesdrawable.engine
 import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.contract.SceneRenderer
 import com.doctoror.particlesdrawable.contract.SceneScheduler
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

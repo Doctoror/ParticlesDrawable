@@ -23,7 +23,7 @@ import com.doctoror.particlesdrawable.engine.Engine
 import com.doctoror.particlesdrawable.engine.SceneConfigurator
 import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
