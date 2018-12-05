@@ -32,8 +32,13 @@ public final class Engine implements Animatable, Runnable, SceneController {
     private static final float STEP_PER_MS = 0.05f;
 
     private final FrameAdvancer frameAdvancer;
-    private final ParticleGenerator particleGenerator;
-    private final Scene scene;
+
+    @SuppressWarnings("WeakerAccess") // to avoid synthetic accessor in initParticles
+    final ParticleGenerator particleGenerator;
+
+    @SuppressWarnings("WeakerAccess") // to avoid synthetic accessor in initParticles
+    final Scene scene;
+
     private final SceneScheduler scheduler;
     private final SceneRenderer renderer;
     private final TimeProvider timeProvider;
