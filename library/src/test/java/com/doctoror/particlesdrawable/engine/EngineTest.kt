@@ -125,7 +125,9 @@ class EngineTest {
 
     @Test
     fun frameTimeResetOnMakeFreshFrameWithParticlesOffScreen() {
-        verifyFrameTimeResetsWhenFunctionInvoked { underTest.makeFreshFrameWithParticlesOffscreen() }
+        verifyFrameTimeResetsWhenFunctionInvoked {
+            underTest.makeFreshFrameWithParticlesOffscreen()
+        }
     }
 
     @Test
