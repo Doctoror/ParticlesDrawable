@@ -202,6 +202,7 @@ final class ParticleGenerator {
     private float newRandomIndividualParticleRadius(@NonNull final Scene scene) {
         return scene.getParticleRadiusMin() == scene.getParticleRadiusMax() ?
                 scene.getParticleRadiusMin() : scene.getParticleRadiusMin() + (random.nextInt(
-                (int) ((scene.getParticleRadiusMax() - scene.getParticleRadiusMin()) * 100f))) / 100f;
+                (int) ((scene.getParticleRadiusMax() - scene.getParticleRadiusMin()) * 100f)))
+                / 100f;
     }
 }
