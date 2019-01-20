@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
 
-    def globalConfiguration = rootProject.extensions.getByName("ext")
+    final def globalConfiguration = rootProject.extensions.getByName("ext")
 
     compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
     buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
@@ -51,8 +51,8 @@ android {
 }
 
 dependencies {
-    def d = rootProject.ext.libraryDependencies
-    def td = rootProject.ext.libraryTestDependencies
+    final def d = rootProject.ext.libraryDependencies
+    final def td = rootProject.ext.libraryTestDependencies
 
     testImplementation td.androidxTestCore
     testImplementation td.junitJupiter

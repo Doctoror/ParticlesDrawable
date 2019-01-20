@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    def globalConfiguration = rootProject.extensions.getByName("ext")
+    final def globalConfiguration = rootProject.extensions.getByName("ext")
 
     compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
     buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
