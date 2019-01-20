@@ -11,10 +11,10 @@ ext {
     androidMinSdkVersion = 9
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
-    androidXVersion = '1.0.0'
+    androidXVersion = '1.0.1'
 
     //Testing
-    androidxTestVersion = '1.0.0'
+    androidxTestVersion = '1.1.0'
     jUnitVersion = '5.3.2'
     mockitoVersion = '2.23.4'
     mockitoKotlinVersion = '2.0.0'
