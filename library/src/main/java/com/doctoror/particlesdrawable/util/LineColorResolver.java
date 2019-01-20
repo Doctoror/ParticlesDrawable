@@ -23,6 +23,8 @@ import androidx.annotation.IntRange;
 @KeepAsApi
 public final class LineColorResolver {
 
+    private static final int OPAQUE = 255;
+
     /**
      * Resolves line alpha based on distance comparing to max distance.
      * Where alpha is close to 0 for maxDistance, and close to 1 to 0 distance.
@@ -31,19 +33,19 @@ public final class LineColorResolver {
      * @param maxDistance max line length
      * @return line alpha
      */
-    @IntRange(from = 0, to = 255)
+    @IntRange(from = 0, to = OPAQUE)
     private static int resolveLineAlpha(
-            @IntRange(from = 0, to = 255) final int sceneAlpha,
+            @IntRange(from = 0, to = OPAQUE) final int sceneAlpha,
             final float maxDistance,
             final float distance) {
         final float alphaPercent = 1f - distance / maxDistance;
-        final int alpha = (int) (255f * alphaPercent);
-        return alpha * sceneAlpha / 255;
+        final int alpha = (int) ((float) OPAQUE * alphaPercent);
+        return alpha * sceneAlpha / OPAQUE;
     }
 
     @ColorInt
     public static int resolveLineColorWithAlpha(
-            @IntRange(from = 0, to = 255) final int sceneAlpha,
+            @IntRange(from = 0, to = OPAQUE) final int sceneAlpha,
             @ColorInt final int lineColor,
             final float maxDistance,
             final float distance) {
