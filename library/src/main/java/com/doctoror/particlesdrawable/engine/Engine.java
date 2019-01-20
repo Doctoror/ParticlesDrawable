@@ -151,8 +151,8 @@ public final class Engine implements Animatable, Runnable, SceneController {
      */
     @Override
     public void makeFreshFrameWithParticlesOffscreen() {
-        final Scene model = scene;
-        if (model.getWidth() != 0 && model.getHeight() != 0) {
+        final Scene scene = this.scene;
+        if (scene.getWidth() != 0 && scene.getHeight() != 0) {
             resetLastFrameTime();
             initParticlesOffScreen();
         }
