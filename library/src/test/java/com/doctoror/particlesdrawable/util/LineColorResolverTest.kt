@@ -16,9 +16,6 @@
 package com.doctoror.particlesdrawable.util
 
 import android.graphics.Color
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -32,10 +29,11 @@ class LineColorResolverTest {
         val expectedColor = 0x00666666
 
         val result = LineColorResolver.resolveLineColorWithAlpha(
-                0,
-                color,
-                10f,
-                0f)
+            0,
+            color,
+            10f,
+            0f
+        )
 
         assertEquals(expectedColor, result)
     }
@@ -45,10 +43,11 @@ class LineColorResolverTest {
         val lineColor = Color.DKGRAY
 
         val result = LineColorResolver.resolveLineColorWithAlpha(
-                255,
-                lineColor,
-                10f,
-                0f)
+            255,
+            lineColor,
+            10f,
+            0f
+        )
 
         assertEquals(lineColor, result)
     }
@@ -59,10 +58,11 @@ class LineColorResolverTest {
         val expectedColor = 0x00112233
 
         val result = LineColorResolver.resolveLineColorWithAlpha(
-                255,
-                color,
-                10f,
-                10f)
+            255,
+            color,
+            10f,
+            10f
+        )
 
         assertEquals(expectedColor, result)
     }
@@ -73,10 +73,11 @@ class LineColorResolverTest {
         val expectedColor = 0x2d112233
 
         val result = LineColorResolver.resolveLineColorWithAlpha(
-                184,
-                color,
-                128f,
-                96f)
+            184,
+            color,
+            128f,
+            96f
+        )
 
         assertEquals(expectedColor, result)
     }

@@ -16,10 +16,6 @@
 package com.doctoror.particlesdrawable.util
 
 import com.doctoror.particlesdrawable.util.ParticleColorResolver.resolveParticleColorWithSceneAlpha
-
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -30,14 +26,18 @@ class ParticleColorResolverTest {
     @Test
     fun resolvesColorWithOpaqueAlpha() {
         val particleColor = 0xaa000000.toInt()
-        assertEquals(particleColor,
-                resolveParticleColorWithSceneAlpha(particleColor, 255))
+        assertEquals(
+            particleColor,
+            resolveParticleColorWithSceneAlpha(particleColor, 255)
+        )
     }
 
     @Test
     fun resolvesColorWithTransparentAlpha() {
         val particleColor = 0xaa000000.toInt()
-        assertEquals(0,
-                resolveParticleColorWithSceneAlpha(particleColor, 0))
+        assertEquals(
+            0,
+            resolveParticleColorWithSceneAlpha(particleColor, 0)
+        )
     }
 }

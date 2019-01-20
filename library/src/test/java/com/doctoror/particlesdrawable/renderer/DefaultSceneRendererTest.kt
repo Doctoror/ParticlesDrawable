@@ -16,14 +16,12 @@
 package com.doctoror.particlesdrawable.renderer
 
 import android.graphics.Color
-import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.contract.LowLevelRenderer
+import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.util.DistanceResolver
 import com.doctoror.particlesdrawable.util.LineColorResolver
 import com.doctoror.particlesdrawable.util.ParticleColorResolver
 import com.nhaarman.mockitokotlin2.*
-import org.junit.Test
-import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.nio.FloatBuffer
@@ -42,10 +40,12 @@ class DefaultSceneRendererTest {
 
         // Then
         verify(lowLevelRenderer, never()).drawLine(
-                any(), any(), any(), any(), any(), any())
+            any(), any(), any(), any(), any(), any()
+        )
 
         verify(lowLevelRenderer, never()).fillCircle(
-                any(), any(), any(), any())
+            any(), any(), any(), any()
+        )
     }
 
     @Test
@@ -72,15 +72,17 @@ class DefaultSceneRendererTest {
 
         // Then
         verify(lowLevelRenderer, never()).drawLine(
-                any(), any(), any(), any(), any(), any())
+            any(), any(), any(), any(), any(), any()
+        )
 
         val expectedColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                scene.particleColor,
-                scene.alpha
+            scene.particleColor,
+            scene.alpha
         )
 
         verify(lowLevelRenderer).fillCircle(
-                x, y, radius, expectedColor)
+            x, y, radius, expectedColor
+        )
     }
 
     @Test
@@ -117,18 +119,21 @@ class DefaultSceneRendererTest {
 
         // Then
         verify(lowLevelRenderer, never()).drawLine(
-                any(), any(), any(), any(), any(), any())
+            any(), any(), any(), any(), any(), any()
+        )
 
         val expectedColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                scene.particleColor,
-                scene.alpha
+            scene.particleColor,
+            scene.alpha
         )
 
         verify(lowLevelRenderer).fillCircle(
-                x1, y1, radius1, expectedColor)
+            x1, y1, radius1, expectedColor
+        )
 
         verify(lowLevelRenderer).fillCircle(
-                x2, y2, radius2, expectedColor)
+            x2, y2, radius2, expectedColor
+        )
     }
 
     @Test
@@ -174,24 +179,28 @@ class DefaultSceneRendererTest {
 
         // Then
         val expectedLineColor = LineColorResolver.resolveLineColorWithAlpha(
-                scene.alpha,
-                scene.lineColor,
-                scene.lineLength,
-                DistanceResolver.distance(x1, y1, x2, y2))
+            scene.alpha,
+            scene.lineColor,
+            scene.lineLength,
+            DistanceResolver.distance(x1, y1, x2, y2)
+        )
 
         verify(lowLevelRenderer).drawLine(
-                x1, y1, x2, y2, lineWidth, expectedLineColor)
+            x1, y1, x2, y2, lineWidth, expectedLineColor
+        )
 
         val expectedColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                scene.particleColor,
-                scene.alpha
+            scene.particleColor,
+            scene.alpha
         )
 
         verify(lowLevelRenderer).fillCircle(
-                x1, y1, radius1, expectedColor)
+            x1, y1, radius1, expectedColor
+        )
 
         verify(lowLevelRenderer).fillCircle(
-                x2, y2, radius2, expectedColor)
+            x2, y2, radius2, expectedColor
+        )
     }
 
     @Test
@@ -244,44 +253,53 @@ class DefaultSceneRendererTest {
 
         // Then
         val expectedLineColor1 = LineColorResolver.resolveLineColorWithAlpha(
-                scene.alpha,
-                scene.lineColor,
-                scene.lineLength,
-                DistanceResolver.distance(x1, y1, x2, y2))
+            scene.alpha,
+            scene.lineColor,
+            scene.lineLength,
+            DistanceResolver.distance(x1, y1, x2, y2)
+        )
 
         verify(lowLevelRenderer).drawLine(
-                x1, y1, x2, y2, lineWidth, expectedLineColor1)
+            x1, y1, x2, y2, lineWidth, expectedLineColor1
+        )
 
         val expectedLineColor2 = LineColorResolver.resolveLineColorWithAlpha(
-                scene.alpha,
-                scene.lineColor,
-                scene.lineLength,
-                DistanceResolver.distance(x1, y1, x3, y3))
+            scene.alpha,
+            scene.lineColor,
+            scene.lineLength,
+            DistanceResolver.distance(x1, y1, x3, y3)
+        )
 
         verify(lowLevelRenderer).drawLine(
-                x1, y1, x3, y3, lineWidth, expectedLineColor2)
+            x1, y1, x3, y3, lineWidth, expectedLineColor2
+        )
 
         val expectedLineColor3 = LineColorResolver.resolveLineColorWithAlpha(
-                scene.alpha,
-                scene.lineColor,
-                scene.lineLength,
-                DistanceResolver.distance(x2, y2, x3, y3))
+            scene.alpha,
+            scene.lineColor,
+            scene.lineLength,
+            DistanceResolver.distance(x2, y2, x3, y3)
+        )
 
         verify(lowLevelRenderer).drawLine(
-                x2, y2, x3, y3, lineWidth, expectedLineColor3)
+            x2, y2, x3, y3, lineWidth, expectedLineColor3
+        )
 
         val expectedColor = ParticleColorResolver.resolveParticleColorWithSceneAlpha(
-                scene.particleColor,
-                scene.alpha
+            scene.particleColor,
+            scene.alpha
         )
 
         verify(lowLevelRenderer).fillCircle(
-                x1, y1, radius1, expectedColor)
+            x1, y1, radius1, expectedColor
+        )
 
         verify(lowLevelRenderer).fillCircle(
-                x2, y2, radius2, expectedColor)
+            x2, y2, radius2, expectedColor
+        )
 
         verify(lowLevelRenderer).fillCircle(
-                x3, y3, radius3, expectedColor)
+            x3, y3, radius3, expectedColor
+        )
     }
 }
