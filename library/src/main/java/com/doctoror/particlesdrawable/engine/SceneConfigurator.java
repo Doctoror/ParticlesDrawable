@@ -21,7 +21,7 @@ import android.util.AttributeSet;
 
 import com.doctoror.particlesdrawable.Defaults;
 import com.doctoror.particlesdrawable.R;
-import com.doctoror.particlesdrawable.model.Scene;
+import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 public final class SceneConfigurator {
 
     public void configureSceneFromAttributes(
-            @NonNull final Scene scene,
+            @NonNull final SceneConfiguration scene,
             @NonNull final Resources r,
             @NonNull final AttributeSet attrs) {
         final TypedArray a = r.obtainAttributes(attrs, R.styleable.ParticlesView);

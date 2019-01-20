@@ -18,6 +18,7 @@ package com.doctoror.particlesdrawable.engine;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
+import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.model.Scene;
 
 import java.util.Random;
@@ -199,7 +200,7 @@ final class ParticleGenerator {
      *
      * @return new particle radius
      */
-    private float newRandomIndividualParticleRadius(@NonNull final Scene scene) {
+    private float newRandomIndividualParticleRadius(@NonNull final SceneConfiguration scene) {
         return scene.getParticleRadiusMin() == scene.getParticleRadiusMax() ?
                 scene.getParticleRadiusMin() : scene.getParticleRadiusMin() + (random.nextInt(
                 (int) ((scene.getParticleRadiusMax() - scene.getParticleRadiusMin()) * 100f)))
