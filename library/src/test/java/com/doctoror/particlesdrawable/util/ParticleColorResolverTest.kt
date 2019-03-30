@@ -16,6 +16,9 @@
 package com.doctoror.particlesdrawable.util
 
 import com.doctoror.particlesdrawable.util.ParticleColorResolver.resolveParticleColorWithSceneAlpha
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
