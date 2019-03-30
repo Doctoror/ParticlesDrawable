@@ -15,7 +15,7 @@ Both have the same public methods for customization and may be inflated using th
 
 ```groovy
 dependencies {
-    compile 'com.github.doctoror.particlesdrawable:library:[version]'
+    implementation 'com.github.doctoror.particlesdrawable:library:[version]'
 }
 ```
 
