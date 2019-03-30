@@ -11,7 +11,7 @@ ext {
     androidMinSdkVersion = 9
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
-    androidXVersion = '1.0.1'
+    androidXVersion = '1.0.2'
 
     //Testing
     androidxTestVersion = '1.1.0'
