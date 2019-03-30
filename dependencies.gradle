@@ -19,7 +19,7 @@ ext {
     jUnit5Version = '5.4.1'
     mockitoVersion = '2.23.4'
     mockitoKotlinVersion = '2.1.0'
-    robolectricVersion = '4.1'
+    robolectricVersion = '4.2.1'
 
     libraryDependencies = [
             annotations: "androidx.annotation:annotation:$androidXVersion"
