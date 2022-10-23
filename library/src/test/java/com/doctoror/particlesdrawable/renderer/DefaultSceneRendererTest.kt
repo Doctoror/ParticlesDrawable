@@ -21,9 +21,9 @@ import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.util.DistanceResolver
 import com.doctoror.particlesdrawable.util.LineColorResolver
 import com.doctoror.particlesdrawable.util.ParticleColorResolver
-import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.nio.FloatBuffer

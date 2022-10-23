@@ -17,10 +17,10 @@ package com.doctoror.particlesdrawable.opengl.chooser
 
 import android.opengl.GLSurfaceView.EGLConfigChooser
 import com.doctoror.particlesdrawable.opengl.chooser.CompositeConfigChooser.log
-import com.nhaarman.mockitokotlin2.mock
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.mock
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.egl.EGLDisplay

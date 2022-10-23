@@ -1,11 +1,11 @@
 package com.doctoror.particlesdrawable.engine
 
-import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.contract.SceneRenderer
 import com.doctoror.particlesdrawable.contract.SceneScheduler
-import com.nhaarman.mockitokotlin2.*
+import com.doctoror.particlesdrawable.model.Scene
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.*
 
 class EngineTest {
 

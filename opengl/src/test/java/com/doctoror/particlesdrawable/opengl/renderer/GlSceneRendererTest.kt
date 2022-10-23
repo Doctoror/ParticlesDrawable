@@ -18,9 +18,9 @@ package com.doctoror.particlesdrawable.opengl.renderer
 import android.graphics.Bitmap
 import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.opengl.util.overridePrivateFinalMember
-import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 

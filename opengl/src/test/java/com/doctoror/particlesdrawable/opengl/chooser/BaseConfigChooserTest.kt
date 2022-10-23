@@ -15,10 +15,10 @@
  */
 package com.doctoror.particlesdrawable.opengl.chooser
 
-import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.*
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.egl.EGLDisplay

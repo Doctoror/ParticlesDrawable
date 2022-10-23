@@ -23,11 +23,11 @@ import com.doctoror.particlesdrawable.engine.Engine
 import com.doctoror.particlesdrawable.engine.SceneConfigurator
 import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
-import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 

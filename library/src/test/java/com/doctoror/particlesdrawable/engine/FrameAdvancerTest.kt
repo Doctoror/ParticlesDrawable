@@ -16,10 +16,10 @@
 package com.doctoror.particlesdrawable.engine
 
 import com.doctoror.particlesdrawable.model.Scene
-import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.*
 
 class FrameAdvancerTest {
 

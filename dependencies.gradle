@@ -18,7 +18,7 @@ ext {
     jUnit4Version = '4.13.2'
     jUnit5Version = '5.9.1'
     mockitoVersion = '4.8.1'
-    mockitoKotlinVersion = '2.1.0'
+    mockitoKotlinVersion = '4.0.0'
     robolectricVersion = '4.9'
 
     libraryDependencies = [
@@ -35,7 +35,7 @@ ext {
             kotlin          : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ext.kotlinVersion",
 
             mockitoCore     : "org.mockito:mockito-core:$mockitoVersion",
-            mockitoKotlin   : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
+            mockitoKotlin   : "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion",
             mockitoAndroid  : "org.mockito:mockito-android:$mockitoVersion",
 
             robolectric     : "org.robolectric:robolectric:$robolectricVersion"

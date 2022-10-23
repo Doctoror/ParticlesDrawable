@@ -16,10 +16,10 @@
 package com.doctoror.particlesdrawable.opengl.chooser
 
 import android.opengl.GLSurfaceView
-import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.mockito.kotlin.*
 import java.util.*
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
