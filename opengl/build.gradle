@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 
 android {
 
+    namespace 'com.doctoror.particlesdrawable.opengl'
+
     final def globalConfiguration = rootProject.extensions.getByName("ext")
 
     compileSdkVersion globalConfiguration["androidCompileSdkVersion"]

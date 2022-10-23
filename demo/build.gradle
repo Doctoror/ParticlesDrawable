@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    namespace 'com.doctoror.particlesdrawable.demo'
+
     final def globalConfiguration = rootProject.extensions.getByName("ext")
 
     compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
