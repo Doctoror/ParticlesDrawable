@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
 
 android {
 
@@ -51,25 +51,17 @@ android {
     configurations {
         javadocDeps
     }
-}
 
-task androidJavadocs(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.javadocDeps
-}
+    publishing {
 
-task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-    classifier = 'javadoc'
-    from androidJavadocs.destinationDir
-}
-
-task androidSourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.sourceFiles
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 publishing {
+
     repositories {
         maven {
             url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
@@ -77,35 +69,52 @@ publishing {
     }
 
     publications {
-        mavenAar(MavenPublication) {
-            from components.android
-            artifact androidSourcesJar
-            artifact androidJavadocsJar
-            groupId = 'com.github.doctoror.particlesdrawable'
-            artifactId = 'library'
+        release(MavenPublication) {
+            groupId = GROUP
+            artifactId = POM_ARTIFACT_ID
             version = rootProject.extensions.getByName("ext")["androidVersionName"]
 
+            repositories {
+                maven {
+                    url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+
+                    credentials {
+                        username releaseRepositoryUsername
+                        password releaseRepositoryPassword
+                    }
+                }
+            }
+
             pom {
-                name = 'Particles Drawable'
-                description = 'Android Particles Drawable and View'
-                url = 'https://github.com/Doctoror/ParticlesDrawable'
+                name = POM_NAME
+                packaging = POM_PACKAGING
+                description = POM_DESCRIPTION
+                url = POM_URL
+
+                scm {
+                    url = POM_SCM_URL
+                    connection = POM_SCM_CONNECTION
+                    developerConnection = POM_SCM_DEV_CONNECTION
+                }
+
                 licenses {
                     license {
-                        name = 'The Apache Software License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name = POM_LICENCE_NAME
+                        url = POM_LICENCE_URL
+                        distribution = POM_LICENCE_DIST
                     }
                 }
+
                 developers {
                     developer {
-                        id = 'Doctoror'
-                        name = 'Yaroslav Mytkalyk'
+                        id = POM_DEVELOPER_ID
+                        name = POM_DEVELOPER_NAME
                     }
                 }
-                scm {
-                    connection = 'scm:git@github.com:Doctoror/ParticlesDrawable.git'
-                    developerConnection = 'scm:git@github.com:Doctoror/ParticlesDrawable.git'
-                    url = 'https://github.com/Doctoror/ParticlesDrawable'
-                }
+            }
+
+            afterEvaluate {
+                from components.find { it.name == 'release' }
             }
         }
     }
