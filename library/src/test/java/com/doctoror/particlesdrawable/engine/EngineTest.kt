@@ -79,7 +79,7 @@ class EngineTest {
     @Test
     fun onStopDoesNothingIfNotStarted() {
         underTest.stop()
-        verifyZeroInteractions(scheduler)
+        verifyNoInteractions(scheduler)
     }
 
     @Test
@@ -202,7 +202,7 @@ class EngineTest {
     @Test
     fun doesNotMakeeFreshFrameWhenDimensionsNotSet() {
         underTest.makeFreshFrame()
-        verifyZeroInteractions(particleGenerator)
+        verifyNoInteractions(particleGenerator)
     }
 
     @Test
@@ -211,7 +211,7 @@ class EngineTest {
 
         underTest.makeFreshFrame()
 
-        verifyZeroInteractions(particleGenerator)
+        verifyNoInteractions(particleGenerator)
     }
 
     @Test
@@ -229,7 +229,7 @@ class EngineTest {
     @Test
     fun doesNotMakeeFreshFrameWithParticlesOffScreenWhenDimensionsNotSet() {
         underTest.makeFreshFrameWithParticlesOffscreen()
-        verifyZeroInteractions(particleGenerator)
+        verifyNoInteractions(particleGenerator)
     }
 
     @Test
@@ -238,7 +238,7 @@ class EngineTest {
 
         underTest.makeFreshFrameWithParticlesOffscreen()
 
-        verifyZeroInteractions(particleGenerator)
+        verifyNoInteractions(particleGenerator)
     }
 
     @Test

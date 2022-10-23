@@ -39,7 +39,7 @@ class BaseConfigChooserTest {
         }
 
         verify(egl).eglChooseConfig(eq(display), eq(spec), eq(null), eq(0), any())
-        verifyZeroInteractions(callback)
+        verifyNoInteractions(callback)
     }
 
     @Test
@@ -54,7 +54,7 @@ class BaseConfigChooserTest {
             underTest.chooseConfig(egl, display)
         }
 
-        verifyZeroInteractions(callback)
+        verifyNoInteractions(callback)
     }
 
     @Test
@@ -69,7 +69,7 @@ class BaseConfigChooserTest {
             underTest.chooseConfig(egl, display)
         }
 
-        verifyZeroInteractions(callback)
+        verifyNoInteractions(callback)
     }
 
     @Test
@@ -80,7 +80,7 @@ class BaseConfigChooserTest {
             underTest.chooseConfig(egl, display)
         }
 
-        verifyZeroInteractions(callback)
+        verifyNoInteractions(callback)
     }
 
     @Test
@@ -95,7 +95,7 @@ class BaseConfigChooserTest {
             underTest.chooseConfig(egl, display)
         }
 
-        verifyZeroInteractions(callback)
+        verifyNoInteractions(callback)
     }
 
     @Test
@@ -114,7 +114,7 @@ class BaseConfigChooserTest {
             underTest.chooseConfig(egl, display)
         }
 
-        verifyZeroInteractions(callback)
+        verifyNoInteractions(callback)
     }
 
     @Test

@@ -43,7 +43,7 @@ class FrameAdvancerTest {
 
         verify(scene).density
         verifyNoMoreInteractions(scene)
-        verifyZeroInteractions(particleGenerator)
+        verifyNoInteractions(particleGenerator)
     }
 
     @Test
