@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'kotlin-android'
 
 android {
@@ -50,6 +51,64 @@ android {
     }
 }
 
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.javadocDeps
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+        }
+    }
+
+    publications {
+        mavenAar(MavenPublication) {
+            from components.android
+            artifact androidSourcesJar
+            artifact androidJavadocsJar
+            groupId = 'com.github.doctoror.particlesdrawable'
+            artifactId = 'library'
+            version = rootProject.extensions.getByName("ext")["androidVersionName"]
+
+            pom {
+                name = 'Particles Drawable'
+                description = 'Android Particles Drawable and View'
+                url = 'https://github.com/Doctoror/ParticlesDrawable'
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'Doctoror'
+                        name = 'Yaroslav Mytkalyk'
+                    }
+                }
+                scm {
+                    connection = 'scm:git@github.com:Doctoror/ParticlesDrawable.git'
+                    developerConnection = 'scm:git@github.com:Doctoror/ParticlesDrawable.git'
+                    url = 'https://github.com/Doctoror/ParticlesDrawable'
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     final def d = rootProject.ext.libraryDependencies
     final def td = rootProject.ext.libraryTestDependencies
@@ -67,5 +126,3 @@ dependencies {
 
     implementation d.annotations
 }
-
-apply from: './gradle-mvn-push.gradle'

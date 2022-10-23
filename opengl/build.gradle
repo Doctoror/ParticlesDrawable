@@ -77,4 +77,4 @@ dependencies {
     implementation project(':library')
 }
 
-apply from: './gradle-mvn-push.gradle'
+//apply from: './gradle-mvn-push.gradle'

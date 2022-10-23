@@ -1,13 +1,13 @@
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         maven { url 'https://maven.google.com' }
     }
 }
 
 ext {
     //Android
-    androidBuildToolsVersion = "28.0.3"
+    androidBuildToolsVersion = "33.0.0"
     androidMinSdkVersion = 9
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
