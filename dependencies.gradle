@@ -9,8 +9,8 @@ ext {
     //Android
     androidBuildToolsVersion = "33.0.0"
     androidMinSdkVersion = 9
-    androidTargetSdkVersion = 28
-    androidCompileSdkVersion = 28
+    androidTargetSdkVersion = 33
+    androidCompileSdkVersion = 33
     androidXVersion = '1.5.0'
 
     //Testing
