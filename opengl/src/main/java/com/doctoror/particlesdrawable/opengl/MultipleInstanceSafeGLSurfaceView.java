@@ -49,7 +49,7 @@ import javax.microedition.khronos.opengles.GL10;
  * Unlike {@link android.opengl.GLSurfaceView}, must set own {@link EGLConfigChooser} before
  * renderer.
  */
-public class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHolder.Callback2 {
+class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHolder.Callback2 {
 
     private final static String TAG = "MultipleInstanceSafeGLS";
     private final static boolean LOG_ATTACH_DETACH = false;

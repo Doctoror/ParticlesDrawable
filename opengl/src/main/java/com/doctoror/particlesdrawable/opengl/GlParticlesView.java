@@ -53,7 +53,7 @@ import androidx.annotation.VisibleForTesting;
  * Particles View that draws on {@link GLSurfaceView}.
  */
 @Keep
-public class GlParticlesView extends MultipleInstanceSafeGLSurfaceView implements
+public class GlParticlesView extends OnPauseFixAttemptGLSurfaceView implements
         Animatable,
         SceneController,
         SceneConfiguration,
