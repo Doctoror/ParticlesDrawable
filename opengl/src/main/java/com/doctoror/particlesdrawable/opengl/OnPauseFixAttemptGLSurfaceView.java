@@ -3,9 +3,12 @@ package com.doctoror.particlesdrawable.opengl;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.doctoror.particlesdrawable.KeepAsApi;
+
 /**
  * Source: https://issuetracker.google.com/issues/36909769#comment4
  */
+@KeepAsApi
 public class OnPauseFixAttemptGLSurfaceView extends MultipleInstanceSafeGLSurfaceView {
 
     private final NotifyPause notifyPause = new NotifyPause();
