@@ -1,3 +1,5 @@
+-keeppackagenames com.doctoror.particlesdrawable.**
+
 # @KeepAsApi annotation
 
 -keep class com.doctoror.particlesdrawable.KeepAsApi
