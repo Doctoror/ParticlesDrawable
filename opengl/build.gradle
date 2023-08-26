@@ -28,7 +28,7 @@ android {
         checkAllWarnings true
     }
 
-    flavorDimensions 'default'
+    flavorDimensions = ['default']
 
     productFlavors {
         exposed {

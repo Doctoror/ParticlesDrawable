@@ -37,7 +37,7 @@ android {
     }
 
     // Added only to be able to compile with library variants
-    flavorDimensions 'default'
+    flavorDimensions = ['default']
 
     productFlavors {
         exposed {
