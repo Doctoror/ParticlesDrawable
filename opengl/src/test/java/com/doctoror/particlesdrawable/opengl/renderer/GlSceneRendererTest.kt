@@ -17,7 +17,7 @@ package com.doctoror.particlesdrawable.opengl.renderer
 
 import android.graphics.Bitmap
 import com.doctoror.particlesdrawable.model.Scene
-import com.doctoror.particlesdrawable.opengl.util.overridePrivateFinalMember
+import com.doctoror.particlesdrawable.opengl.util.overridePrivateMember
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.*
@@ -33,17 +33,17 @@ class GlSceneRendererTest {
     private val lines: GlSceneRendererLines = mock()
 
     private val underTest = GlSceneRenderer().apply {
-        overridePrivateFinalMember(
+        overridePrivateMember(
             this,
             "background",
             background
         )
-        overridePrivateFinalMember(
+        overridePrivateMember(
             this,
             "particles",
             particles
         )
-        overridePrivateFinalMember(this, "lines", lines)
+        overridePrivateMember(this, "lines", lines)
     }
 
     @Test

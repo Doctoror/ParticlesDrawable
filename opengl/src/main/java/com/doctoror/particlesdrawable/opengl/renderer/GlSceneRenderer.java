@@ -20,23 +20,35 @@ import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.doctoror.particlesdrawable.KeepAsApi;
-import com.doctoror.particlesdrawable.contract.SceneRenderer;
-import com.doctoror.particlesdrawable.model.Scene;
-import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker;
-
-import java.util.Arrays;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.doctoror.particlesdrawable.KeepAsApi;
+import com.doctoror.particlesdrawable.contract.SceneRenderer;
+import com.doctoror.particlesdrawable.model.Scene;
+
+import java.util.Arrays;
+
 @KeepAsApi
 public class GlSceneRenderer implements SceneRenderer {
 
-    private final GlSceneRendererBackground background = new GlSceneRendererBackground();
-    private final GlSceneRendererParticles particles = new GlSceneRendererParticles();
-    private final GlSceneRendererLines lines = new GlSceneRendererLines();
+    // Fields below cannot be final because it would not allow replacing them with mocks for testing
+
+    /**
+     * @noinspection FieldMayBeFinal
+     */
+    private GlSceneRendererBackground background = new GlSceneRendererBackground();
+
+    /**
+     * @noinspection FieldMayBeFinal
+     */
+    private GlSceneRendererParticles particles = new GlSceneRendererParticles();
+
+    /**
+     * @noinspection FieldMayBeFinal
+     */
+    private GlSceneRendererLines lines = new GlSceneRendererLines();
 
     private final float[] mvpSourceMatrix = new float[16];
     private final float[] mvpTranslatedBackgroundMatrix = new float[16];

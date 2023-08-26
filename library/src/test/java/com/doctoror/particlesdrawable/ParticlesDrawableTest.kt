@@ -46,10 +46,10 @@ class ParticlesDrawableTest {
     private val engine: Engine = mock()
 
     private val underTest = spy(ParticlesDrawable().apply {
-        overridePrivateFinalMember(this, "canvasRenderer", canvasRenderer)
-        overridePrivateFinalMember(this, "scene", scene)
-        overridePrivateFinalMember(this, "sceneConfigurator", sceneConfigurator)
-        overridePrivateFinalMember(this, "engine", engine)
+        overridePrivateMember(this, "canvasRenderer", canvasRenderer)
+        overridePrivateMember(this, "scene", scene)
+        overridePrivateMember(this, "sceneConfigurator", sceneConfigurator)
+        overridePrivateMember(this, "engine", engine)
     })
 
     @Test

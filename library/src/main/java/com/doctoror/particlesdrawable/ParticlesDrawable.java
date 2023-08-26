@@ -24,6 +24,13 @@ import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
 import com.doctoror.particlesdrawable.contract.SceneRenderer;
@@ -39,13 +46,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.FloatRange;
-import androidx.annotation.IntRange;
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 /**
  * The Particles Drawable
  */
@@ -56,11 +56,32 @@ public class ParticlesDrawable extends Drawable implements
         SceneController,
         SceneScheduler {
 
-    private final CanvasSceneRenderer canvasRenderer = new CanvasSceneRenderer();
-    private final Scene scene = new Scene();
-    private final SceneConfigurator sceneConfigurator = new SceneConfigurator();
-    private final SceneRenderer renderer = new DefaultSceneRenderer(canvasRenderer);
-    private final Engine engine = new Engine(scene, this, renderer);
+    // Fields below cannot be final because it would not allow replacing them with mocks for testing
+
+    /**
+     * @noinspection FieldMayBeFinal
+     */
+    private CanvasSceneRenderer canvasRenderer = new CanvasSceneRenderer();
+
+    /**
+     * @noinspection FieldMayBeFinal
+     */
+    private Scene scene = new Scene();
+
+    /**
+     * @noinspection FieldMayBeFinal
+     */
+    private SceneConfigurator sceneConfigurator = new SceneConfigurator();
+
+    /**
+     * @noinspection FieldMayBeFinal
+     */
+    private SceneRenderer renderer = new DefaultSceneRenderer(canvasRenderer);
+
+    /**
+     * @noinspection FieldMayBeFinal
+     */
+    private Engine engine = new Engine(scene, this, renderer);
 
     @Override
     public void inflate(
