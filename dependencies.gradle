@@ -11,7 +11,7 @@ ext {
     androidMinSdkVersion = 9
     androidTargetSdkVersion = 33
     androidCompileSdkVersion = 33
-    androidXVersion = '1.5.0'
+    androidXAnnotationVersion = '1.6.0'
 
     //Testing
     androidxTestVersion = '1.5.0'
@@ -21,7 +21,7 @@ ext {
     robolectricVersion = '4.10.3'
 
     libraryDependencies = [
-            annotations: "androidx.annotation:annotation:$androidXVersion"
+            annotations: "androidx.annotation:annotation:$androidXAnnotationVersion"
     ]
 
     libraryTestDependencies = [
