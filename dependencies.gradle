@@ -14,7 +14,7 @@ ext {
     androidXVersion = '1.5.0'
 
     //Testing
-    androidxTestVersion = '1.4.0'
+    androidxTestVersion = '1.5.0'
     jUnitVersion = '5.10.0'
     mockitoVersion = '5.5.0'
     mockitoKotlinVersion = '5.1.0'
