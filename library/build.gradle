@@ -78,10 +78,13 @@ publishing {
                 maven {
                     url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
 
-//                    credentials {
-//                        username releaseRepositoryUsername
-//                        password releaseRepositoryPassword
-//                    }
+                    credentials {
+                        final Properties properties = new Properties()
+                        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+                        username properties.getProperty('releaseRepositoryUsername')
+                        password properties.getProperty('releaseRepositoryPassword')
+                    }
                 }
             }
 
