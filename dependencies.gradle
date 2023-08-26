@@ -17,8 +17,8 @@ ext {
     androidxTestVersion = '1.4.0'
     jUnit4Version = '4.13.2'
     jUnit5Version = '5.9.1'
-    mockitoVersion = '4.8.1'
-    mockitoKotlinVersion = '4.0.0'
+    mockitoVersion = '5.5.0'
+    mockitoKotlinVersion = '5.1.0'
     robolectricVersion = '4.10.3'
 
     libraryDependencies = [
