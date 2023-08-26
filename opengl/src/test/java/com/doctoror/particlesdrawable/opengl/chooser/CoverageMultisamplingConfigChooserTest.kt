@@ -15,7 +15,7 @@
  */
 package com.doctoror.particlesdrawable.opengl.chooser
 
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.mockito.kotlin.mock
 import javax.microedition.khronos.egl.EGL10
 

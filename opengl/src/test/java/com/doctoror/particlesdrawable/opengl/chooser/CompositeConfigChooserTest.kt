@@ -17,9 +17,9 @@ package com.doctoror.particlesdrawable.opengl.chooser
 
 import android.opengl.GLSurfaceView.EGLConfigChooser
 import com.doctoror.particlesdrawable.opengl.chooser.CompositeConfigChooser.log
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
+import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
+import org.junit.Test
 import org.mockito.kotlin.mock
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
@@ -32,14 +32,14 @@ class CompositeConfigChooserTest {
 
     @Test
     fun throwsWhenEmptyArgumentsPassed() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             CompositeConfigChooser()
         }
     }
 
     @Test
     fun throwsWhenChoosersFailedToChooseDueToNullValue() {
-        Assertions.assertThrows(NoMatchingConfigsException::class.java) {
+        assertThrows(NoMatchingConfigsException::class.java) {
             val underTest = CompositeConfigChooser(mock()).apply { log = false }
             underTest.chooseConfig(egl, display)
         }
@@ -47,7 +47,7 @@ class CompositeConfigChooserTest {
 
     @Test
     fun throwsWhenChoosersFailedToChooseDueToException() {
-        Assertions.assertThrows(NoMatchingConfigsException::class.java) {
+        assertThrows(NoMatchingConfigsException::class.java) {
             val underTest = CompositeConfigChooser(mock {
                 on { it.chooseConfig(egl, display) }.thenThrow(IllegalArgumentException())
             }).apply { log = false }

@@ -15,9 +15,9 @@
  */
 package com.doctoror.particlesdrawable.opengl.chooser
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
+import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
+import org.junit.Test
 import org.mockito.kotlin.*
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
@@ -34,7 +34,7 @@ class BaseConfigChooserTest {
 
     @Test
     fun throwsWhenChooseConfigFirstPassReturnsFalse() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             underTest.chooseConfig(egl, display)
         }
 
@@ -50,7 +50,7 @@ class BaseConfigChooserTest {
                 true
             }
 
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             underTest.chooseConfig(egl, display)
         }
 
@@ -65,7 +65,7 @@ class BaseConfigChooserTest {
                 true
             }
 
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             underTest.chooseConfig(egl, display)
         }
 
@@ -76,7 +76,7 @@ class BaseConfigChooserTest {
     fun throwsWhenChooseConfigSecondPassReturnsFalse() {
         givenFirstPassReturnsOneConfigAvailable()
 
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             underTest.chooseConfig(egl, display)
         }
 
@@ -91,7 +91,7 @@ class BaseConfigChooserTest {
         whenever(egl.eglChooseConfig(eq(display), eq(spec), any(), eq(0), any()))
             .thenReturn(true)
 
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             underTest.chooseConfig(egl, display)
         }
 
@@ -110,7 +110,7 @@ class BaseConfigChooserTest {
                 true
             }
 
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             underTest.chooseConfig(egl, display)
         }
 

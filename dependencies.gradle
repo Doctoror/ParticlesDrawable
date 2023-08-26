@@ -15,8 +15,7 @@ ext {
 
     //Testing
     androidxTestVersion = '1.4.0'
-    jUnit4Version = '4.13.2'
-    jUnit5Version = '5.9.1'
+    jUnitVersion = '5.10.0'
     mockitoVersion = '5.5.0'
     mockitoKotlinVersion = '5.1.0'
     robolectricVersion = '4.10.3'
@@ -28,9 +27,7 @@ ext {
     libraryTestDependencies = [
             androidxTestCore: "androidx.test:core:$androidxTestVersion",
 
-            junit4          : "junit:junit:$jUnit4Version",
-            junitJupiter    : "org.junit.jupiter:junit-jupiter-api:$jUnit5Version",
-            junitVintage    : "org.junit.vintage:junit-vintage-engine:$jUnit5Version",
+            junitVintage    : "org.junit.vintage:junit-vintage-engine:$jUnitVersion",
 
             kotlin          : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ext.kotlinVersion",
 

@@ -16,9 +16,9 @@
 package com.doctoror.particlesdrawable.opengl.chooser
 
 import android.opengl.GLSurfaceView
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.mockito.kotlin.*
 import java.util.*
 import javax.microedition.khronos.egl.EGL10
@@ -60,7 +60,7 @@ fun choosesConfigWithExpectedSpecAndNotifiesCallback(
     )
 
     val result = underTest.chooseConfig(egl, display)
-    Assertions.assertEquals(expectedConfig, result)
+    assertEquals(expectedConfig, result)
     verify(callback).onConfigChosen(expectedSpec)
 
     val specCaptor = argumentCaptor<IntArray>()

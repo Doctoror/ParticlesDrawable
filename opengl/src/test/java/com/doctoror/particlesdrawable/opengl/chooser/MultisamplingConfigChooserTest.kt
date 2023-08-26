@@ -15,8 +15,8 @@
  */
 package com.doctoror.particlesdrawable.opengl.chooser
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.Assert.assertThrows
+import org.junit.Test
 import org.mockito.kotlin.mock
 import javax.microedition.khronos.egl.EGL10
 
@@ -24,32 +24,32 @@ class MultisamplingConfigChooserTest {
 
     @Test
     fun throwsWhenNegativeValuePassed() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             MultisamplingConfigChooser(-1, null)
         }
     }
 
     @Test
     fun throwsWhenZeroPassed() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             MultisamplingConfigChooser(0, null)
         }
     }
 
     @Test
     fun throwsWhenOnePassed() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             MultisamplingConfigChooser(1, null)
         }
     }
 
     @Test
     fun throwsWhenNonPowerOfTwoPassed() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             MultisamplingConfigChooser(3, null)
         }
 
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             MultisamplingConfigChooser(6, null)
         }
     }
