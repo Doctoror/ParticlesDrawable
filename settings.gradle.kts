@@ -14,4 +14,4 @@ dependencyResolutionManagement {
     }
 }
 
-include ':library', ':demo', ':opengl'
+include(":library", ":demo", ":opengl")
