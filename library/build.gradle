@@ -7,16 +7,14 @@ android {
 
     namespace 'com.doctoror.particlesdrawable'
 
-    final def globalConfiguration = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
-    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+    compileSdk Integer.parseInt(libs.versions.androidCompileSdkVersion.get())
 
     defaultConfig {
 
-        minSdkVersion globalConfiguration["androidMinSdkVersion"]
-        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        minSdk Integer.parseInt(libs.versions.androidMinSdkVersion.get())
+        targetSdk Integer.parseInt(libs.versions.androidTargetSdkVersion.get())
 
+        final def globalConfiguration = rootProject.extensions.getByName("ext")
         versionCode globalConfiguration["androidVersionCode"]
         versionName globalConfiguration["androidVersionName"]
     }
@@ -62,19 +60,15 @@ android {
 }
 
 dependencies {
-    final def d = rootProject.ext.libraryDependencies
-    final def td = rootProject.ext.libraryTestDependencies
+    testImplementation libs.test.core
+    testImplementation libs.junit.vintage
+    testImplementation libs.kotlin.stdlib
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.robolectric
 
-    testImplementation td.androidxTestCore
-    testImplementation td.junitVintage
-    testImplementation td.kotlin
-    testImplementation td.mockitoCore
-    testImplementation td.mockitoKotlin
-    testImplementation td.robolectric
+    javadocDeps libs.annotations
 
-    javadocDeps d.annotations
-
-    implementation d.annotations
+    implementation libs.annotations
 }
 
 publishing {

@@ -4,17 +4,15 @@ android {
 
     namespace 'com.doctoror.particlesdrawable.demo'
 
-    final def globalConfiguration = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
-    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+    compileSdk Integer.parseInt(libs.versions.androidCompileSdkVersion.get())
 
     defaultConfig {
         applicationId "com.doctoror.particlesdrawable.demo"
 
-        minSdkVersion globalConfiguration["androidMinSdkVersion"]
-        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        minSdk Integer.parseInt(libs.versions.androidMinSdkVersion.get())
+        targetSdk Integer.parseInt(libs.versions.androidTargetSdkVersion.get())
 
+        final def globalConfiguration = rootProject.extensions.getByName("ext")
         versionCode globalConfiguration["androidVersionCode"]
         versionName globalConfiguration["androidVersionName"]
     }
@@ -45,12 +43,6 @@ android {
 
         production {
         }
-    }
-}
-
-repositories{
-    flatDir{
-        dirs 'libs'
     }
 }
 
