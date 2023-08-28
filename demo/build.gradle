@@ -4,13 +4,13 @@ android {
 
     namespace 'com.doctoror.particlesdrawable.demo'
 
-    compileSdk Integer.parseInt(libs.versions.androidCompileSdkVersion.get())
+    compileSdk Integer.parseInt(libs.versions.androidCompileSdk.get())
 
     defaultConfig {
         applicationId "com.doctoror.particlesdrawable.demo"
 
-        minSdk Integer.parseInt(libs.versions.androidMinSdkVersion.get())
-        targetSdk Integer.parseInt(libs.versions.androidTargetSdkVersion.get())
+        minSdk Integer.parseInt(libs.versions.androidMinSdk.get())
+        targetSdk Integer.parseInt(libs.versions.androidTargetSdk.get())
 
         final def globalConfiguration = rootProject.extensions.getByName("ext")
         versionCode globalConfiguration["androidVersionCode"]
