@@ -1,4 +1,5 @@
 [versions]
+agp = "8.0.2"
 androidCompileSdk = "33"
 androidMinSdk = "9"
 androidTargetSdk = "33"
@@ -16,9 +17,6 @@ openglAndroid = "gl1.1-android-2.1_r1"
 
 robolectric = "4.10.3"
 
-toolsGradle = "8.0.2"
-
-
 [libraries]
 
 annotations = { module = "androidx.annotation:annotation", version.ref = "annotations" }
@@ -35,4 +33,4 @@ opengl-android = { module = "org.khronos:opengl-api", version.ref = "openglAndro
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
-tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "toolsGradle" }
+tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
