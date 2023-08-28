@@ -1,7 +1,7 @@
 #Android Studio files
 *.iml
 .gradle
-gradle
+gradle-wrapper.jar
 gradlew*
 .idea
 .DS_Store

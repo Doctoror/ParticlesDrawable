@@ -1,0 +1,38 @@
+[versions]
+androidCompileSdk = "33"
+androidMinSdk = "9"
+androidTargetSdk = "33"
+androidTestCore = "1.5.0"
+
+annotations = "1.6.0"
+
+junit = "5.10.0"
+
+kotlin = "1.9.10"
+
+mockito = "5.1.0"
+
+openglAndroid = "gl1.1-android-2.1_r1"
+
+robolectric = "4.10.3"
+
+toolsGradle = "8.0.2"
+
+
+[libraries]
+
+annotations = { module = "androidx.annotation:annotation", version.ref = "annotations" }
+
+junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit" }
+
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
+
+opengl-android = { module = "org.khronos:opengl-api", version.ref = "openglAndroid" }
+
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+
+test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
+tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "toolsGradle" }
