@@ -23,7 +23,6 @@ annotations = { module = "androidx.annotation:annotation", version.ref = "annota
 
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit" }
 
-kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
@@ -33,4 +32,3 @@ opengl-android = { module = "org.khronos:opengl-api", version.ref = "openglAndro
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
-tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
