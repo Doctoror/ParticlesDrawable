@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 android {
 
@@ -57,6 +59,13 @@ android {
             res.srcDirs = ['src/androidTest/res']
         }
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -77,4 +86,72 @@ dependencies {
     implementation project(':library')
 }
 
-//apply from: './gradle-mvn-push.gradle'
+publishing {
+
+    publications {
+        release(MavenPublication) {
+            groupId = GROUP
+            artifactId = POM_ARTIFACT_ID
+            version = rootProject.extensions.getByName("ext")["androidVersionName"]
+
+            repositories {
+                maven {
+                    url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+
+                    credentials {
+                        final Properties properties = new Properties()
+                        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+                        username properties.getProperty('releaseRepositoryUsername')
+                        password properties.getProperty('releaseRepositoryPassword')
+                    }
+                }
+            }
+
+            pom {
+                name = POM_NAME
+                packaging = POM_PACKAGING
+                description = POM_DESCRIPTION
+                url = POM_URL
+
+                scm {
+                    url = POM_SCM_URL
+                    connection = POM_SCM_CONNECTION
+                    developerConnection = POM_SCM_DEV_CONNECTION
+                }
+
+                licenses {
+                    license {
+                        name = POM_LICENCE_NAME
+                        url = POM_LICENCE_URL
+                        distribution = POM_LICENCE_DIST
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = POM_DEVELOPER_ID
+                        name = POM_DEVELOPER_NAME
+                    }
+                }
+            }
+
+            artifacts {
+                artifact "${project.getLayout().getBuildDirectory().asFile.get().canonicalPath}/outputs/aar/opengl-production-release.aar"
+            }
+
+            afterEvaluate {
+                from components.find { it.name == 'release' }
+            }
+        }
+    }
+}
+
+signing {
+    useGpgCmd()
+    publishing.publications.forEach {
+        sign it
+    }
+}
+
+publishReleasePublicationToMavenRepository.mustRunAfter "bundleProductionReleaseAar"

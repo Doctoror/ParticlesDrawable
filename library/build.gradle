@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 android {
 
@@ -53,20 +54,30 @@ android {
     }
 
     publishing {
-
-        singleVariant('release') {
+        singleVariant("release") {
             withSourcesJar()
+            withJavadocJar()
         }
     }
 }
 
-publishing {
+dependencies {
+    final def d = rootProject.ext.libraryDependencies
+    final def td = rootProject.ext.libraryTestDependencies
 
-    repositories {
-        maven {
-            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-        }
-    }
+    testImplementation td.androidxTestCore
+    testImplementation td.junitVintage
+    testImplementation td.kotlin
+    testImplementation td.mockitoCore
+    testImplementation td.mockitoKotlin
+    testImplementation td.robolectric
+
+    javadocDeps d.annotations
+
+    implementation d.annotations
+}
+
+publishing {
 
     publications {
         release(MavenPublication) {
@@ -76,7 +87,7 @@ publishing {
 
             repositories {
                 maven {
-                    url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                    url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
 
                     credentials {
                         final Properties properties = new Properties()
@@ -116,6 +127,10 @@ publishing {
                 }
             }
 
+            artifacts {
+                artifact "$buildDir/outputs/aar/library-production-release.aar"
+            }
+
             afterEvaluate {
                 from components.find { it.name == 'release' }
             }
@@ -123,18 +138,12 @@ publishing {
     }
 }
 
-dependencies {
-    final def d = rootProject.ext.libraryDependencies
-    final def td = rootProject.ext.libraryTestDependencies
-
-    testImplementation td.androidxTestCore
-    testImplementation td.junitVintage
-    testImplementation td.kotlin
-    testImplementation td.mockitoCore
-    testImplementation td.mockitoKotlin
-    testImplementation td.robolectric
-
-    javadocDeps d.annotations
-
-    implementation d.annotations
+signing {
+    useGpgCmd()
+    publishing.publications.forEach {
+        sign it
+    }
 }
+
+publishReleasePublicationToMavenRepository.mustRunAfter "bundleProductionReleaseAar"
+
