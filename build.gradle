@@ -9,9 +9,4 @@ allprojects {
         androidVersionCode = 13
         androidVersionName = "2.0.2"
     }
-
-    repositories {
-        mavenCentral()
-        google()
-    }
 }
