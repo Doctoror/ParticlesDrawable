@@ -69,9 +69,9 @@ publishing {
 
     publications {
         register<MavenPublication>("release") {
-            groupId = project.properties["GROUP"].toString()
-            artifactId = project.properties["POM_ARTIFACT_ID"].toString()
-            version = project.properties["VERSION_NAME"].toString()
+            groupId = project.property("GROUP").toString()
+            artifactId = project.property("POM_ARTIFACT_ID").toString()
+            version = project.property("VERSION_NAME").toString()
 
             repositories {
                 maven {
@@ -89,29 +89,29 @@ publishing {
             }
 
             pom {
-                name = project.properties["POM_NAME"].toString()
-                packaging = project.properties["POM_PACKAGING"].toString()
-                description = project.properties["POM_DESCRIPTION"].toString()
-                url = project.properties["POM_URL"].toString()
+                name = project.property("POM_NAME").toString()
+                packaging = project.property("POM_PACKAGING").toString()
+                description = project.property("POM_DESCRIPTION").toString()
+                url = project.property("POM_URL").toString()
 
                 scm {
-                    url = project.properties["POM_SCM_URL"].toString()
-                    connection = project.properties["POM_SCM_CONNECTION"].toString()
-                    developerConnection = project.properties["POM_SCM_DEV_CONNECTION"].toString()
+                    url = project.property("POM_SCM_URL").toString()
+                    connection = project.property("POM_SCM_CONNECTION").toString()
+                    developerConnection = project.property("POM_SCM_DEV_CONNECTION").toString()
                 }
 
                 licenses {
                     license {
-                        name = project.properties["POM_LICENCE_NAME"].toString()
-                        url = project.properties["POM_LICENCE_URL"].toString()
-                        distribution = project.properties["POM_LICENCE_DIST"].toString()
+                        name = project.property("POM_LICENCE_NAME").toString()
+                        url = project.property("POM_LICENCE_URL").toString()
+                        distribution = project.property("POM_LICENCE_DIST").toString()
                     }
                 }
 
                 developers {
                     developer {
-                        id = project.properties["POM_DEVELOPER_ID"].toString()
-                        name = project.properties["POM_DEVELOPER_NAME"].toString()
+                        id = project.property("POM_DEVELOPER_ID").toString()
+                        name = project.property("POM_DEVELOPER_NAME").toString()
                     }
                 }
             }

@@ -14,8 +14,8 @@ android {
         minSdk = libs.versions.androidMinSdk.get().toInt()
         targetSdk = libs.versions.androidTargetSdk.get().toInt()
 
-        versionCode = project.properties["VERSION_CODE"].toString().toInt()
-        versionName = project.properties["VERSION_NAME"].toString()
+        versionCode = project.property("VERSION_CODE").toString().toInt()
+        versionName = project.property("VERSION_NAME").toString()
     }
 
     compileOptions {
