@@ -1,5 +1,5 @@
 # ParticlesDrawable
-Draws random flying particles in space forming constellations.
+Draws dynamic network patterns
 
 Min API level 9.
 
