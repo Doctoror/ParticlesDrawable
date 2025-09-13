@@ -80,7 +80,7 @@ class GlParticlesViewTest {
     }
 
     @Test
-    @Ignore // TODO Broken as part of Robolectric 4.10.3 -> 4.16 update
+    @Ignore(" Broken as part of Robolectric 4.10.3 -> 4.16 update") // TODO
     fun configuresSceneOnInit() {
         val attributeSet: AttributeSet = spy(Xml
             .asAttributeSet(XmlPullParserFactory.newInstance().newPullParser()))

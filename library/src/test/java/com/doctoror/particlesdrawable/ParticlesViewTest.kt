@@ -28,7 +28,12 @@ import org.junit.Assert.assertTrue
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.kotlin.*
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -176,14 +181,14 @@ class ParticlesViewTest {
     }
 
     @Test
-    @Ignore // TODO Broken as part of Robolectric 4.10.3 -> 4.16 update
+    @Ignore("Broken as part of Robolectric 4.10.3 -> 4.16 update") // TODO
     fun stopsEngineWhenNotVisible() {
         underTest.visibility = View.INVISIBLE
         verify(engine).stop()
     }
 
     @Test
-    @Ignore // TODO Broken as part of Robolectric 4.10.3 -> 4.16 update
+    @Ignore("Broken as part of Robolectric 4.10.3 -> 4.16 update") // TODO
     fun stopsEngineOnDetachFromWindow() {
         underTest.visibility = View.INVISIBLE
         verify(engine).stop()
