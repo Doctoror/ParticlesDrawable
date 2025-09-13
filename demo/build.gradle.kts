@@ -2,6 +2,12 @@ plugins {
     id("com.android.application")
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(libs.versions.jvmToolchain.get())
+    }
+}
+
 android {
 
     namespace = "com.doctoror.particlesdrawable.demo"
@@ -16,11 +22,6 @@ android {
 
         versionCode = project.property("VERSION_CODE").toString().toInt()
         versionName = project.property("VERSION_NAME").toString()
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildTypes {

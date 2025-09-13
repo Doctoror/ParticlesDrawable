@@ -8,6 +8,10 @@ plugins {
     id("signing")
 }
 
+kotlin {
+    jvmToolchain(libs.versions.jvmToolchain.get().toInt())
+}
+
 android {
 
     namespace = "com.doctoror.particlesdrawable.opengl"
@@ -17,11 +21,6 @@ android {
     defaultConfig {
 
         minSdk = libs.versions.androidMinSdk.get().toInt()
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 
     lint {
