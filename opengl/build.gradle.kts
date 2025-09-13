@@ -60,6 +60,7 @@ dependencies {
     testImplementation(libs.kotlin.stdlib)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.robolectric)
+    testImplementation(libs.robolectric.shadows)
     testImplementation(libs.opengl.android)
 
     implementation(libs.annotations)

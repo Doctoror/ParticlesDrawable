@@ -10,7 +10,7 @@ jvmToolchain = "21"
 kotlin = "2.2.20"
 mockito = "5.1.0"
 openglAndroid = "gl1.1-android-2.1_r1"
-robolectric = "4.10.3"
+robolectric = "4.16"
 
 [libraries]
 annotations = { module = "androidx.annotation:annotation", version.ref = "annotations" }
@@ -19,4 +19,5 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
 opengl-android = { module = "org.khronos:opengl-api", version.ref = "openglAndroid" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+robolectric-shadows = { module = "org.robolectric:shadows-framework", version.ref = "robolectric" }
 test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
