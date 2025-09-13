@@ -19,8 +19,11 @@ import android.opengl.GLSurfaceView
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
-import org.mockito.kotlin.*
-import java.util.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.egl.EGLDisplay
@@ -69,6 +72,6 @@ fun choosesConfigWithExpectedSpecAndNotifiesCallback(
     if (expectedSpec == null) {
         assertNull(specCaptor.firstValue)
     } else {
-        assertTrue(Arrays.equals(expectedSpec, specCaptor.firstValue))
+        assertTrue(expectedSpec.contentEquals(specCaptor.firstValue))
     }
 }

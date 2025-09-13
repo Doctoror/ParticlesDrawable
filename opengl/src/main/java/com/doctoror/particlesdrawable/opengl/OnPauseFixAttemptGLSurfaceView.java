@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import com.doctoror.particlesdrawable.KeepAsApi;
 
 /**
- * Source: https://issuetracker.google.com/issues/36909769#comment4
+ * Source: <a href="https://issuetracker.google.com/issues/36909769#comment4">issuetracker.google.com/issues/36909769#comment4</a>
  */
 @KeepAsApi
 public class OnPauseFixAttemptGLSurfaceView extends MultipleInstanceSafeGLSurfaceView {

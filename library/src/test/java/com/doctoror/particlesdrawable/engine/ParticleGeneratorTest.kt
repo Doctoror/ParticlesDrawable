@@ -23,7 +23,9 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import java.util.*
+import java.util.Random
+import kotlin.math.cos
+import kotlin.math.sin
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
@@ -87,8 +89,8 @@ class ParticleGeneratorTest {
         val expectedDirectionRadians = Math.toRadians(expectedDirectionDegrees.toDouble())
         whenever(random.nextInt(360)).thenReturn(expectedDirectionDegrees)
 
-        val expectedCos = Math.cos(expectedDirectionRadians).toFloat()
-        val expectedSin = Math.sin(expectedDirectionRadians).toFloat()
+        val expectedCos = cos(expectedDirectionRadians).toFloat()
+        val expectedSin = sin(expectedDirectionRadians).toFloat()
 
         // When
         underTest.applyFreshParticleOnScreen(scene, 0)
@@ -198,8 +200,8 @@ class ParticleGeneratorTest {
         val expectedRadius = scene.particleRadiusMin + expectedRadiusOffset
         val expectedSpeedFactor = 0.9f
 
-        val expectedCos = Math.cos(expectedDirection).toFloat()
-        val expectedSin = Math.sin(expectedDirection).toFloat()
+        val expectedCos = cos(expectedDirection).toFloat()
+        val expectedSin = sin(expectedDirection).toFloat()
 
         verify(scene).setParticleData(
             0,

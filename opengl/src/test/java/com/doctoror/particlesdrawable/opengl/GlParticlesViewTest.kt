@@ -33,13 +33,20 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.atLeastOnce
+import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.Implementation
 import org.robolectric.annotation.Implements
 import org.robolectric.shadows.ShadowResources
-import java.util.*
 import javax.microedition.khronos.opengles.GL10
 
 @Config(manifest = Config.NONE)
@@ -415,7 +422,7 @@ class WindowBackgroundShadowTheme : ShadowResources.ShadowTheme() {
     @Implementation
     fun obtainStyledAttributes(@StyleableRes attrs: IntArray): TypedArray {
         val typedArray: TypedArray = mock()
-        if (Arrays.equals(attrs, intArrayOf(android.R.attr.windowBackground))) {
+        if (attrs.contentEquals(intArrayOf(android.R.attr.windowBackground))) {
 
             whenever(typedArray.getColor(0, Color.DKGRAY))
                 .thenReturn(SHADOW_WINDOW_BACKROUND)

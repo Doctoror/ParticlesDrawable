@@ -15,27 +15,26 @@
  */
 package com.doctoror.particlesdrawable.util
 
-import org.junit.Test
-
 import org.junit.Assert.assertTrue
+import org.junit.Test
 
 class DistanceResolverTest {
 
     @Test
     fun distanceIsZeroForZeroCoordinates() {
         val result = DistanceResolver.distance(0f, 0f, 0f, 0f)
-        assertTrue(java.lang.Float.compare(result, 0f) == 0)
+        assertTrue(result.compareTo(0f) == 0)
     }
 
     @Test
     fun distanceIsZeroForEqualCoordinates() {
         val result = DistanceResolver.distance(13f, 666f, 13f, 666f)
-        assertTrue(java.lang.Float.compare(result, 0f) == 0)
+        assertTrue(result.compareTo(0f) == 0)
     }
 
     @Test
     fun calculatesDistance() {
         val result = DistanceResolver.distance(32f, 64f, 128f, 256f)
-        assertTrue(java.lang.Float.compare(result, 214.66252f) == 0)
+        assertTrue(result.compareTo(214.66252f) == 0)
     }
 }

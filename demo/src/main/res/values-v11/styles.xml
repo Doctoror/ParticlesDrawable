@@ -1,5 +1,0 @@
-<resources>
-
-    <style name="BaseAppTheme" parent="@android:style/Theme.Holo.NoActionBar"/>
-
-</resources>

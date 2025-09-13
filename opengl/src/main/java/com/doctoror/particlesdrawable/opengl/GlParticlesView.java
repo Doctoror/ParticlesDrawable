@@ -24,9 +24,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import com.doctoror.particlesdrawable.contract.SceneConfiguration;
 import com.doctoror.particlesdrawable.contract.SceneController;
@@ -40,14 +47,6 @@ import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.FloatRange;
-import androidx.annotation.IntRange;
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 
 /**
  * Particles View that draws on {@link GLSurfaceView}.
@@ -213,13 +212,12 @@ public class GlParticlesView extends OnPauseFixAttemptGLSurfaceView implements
             processAndSetBackgroundTexture(null);
         } else if (background instanceof BitmapDrawable) {
             processAndSetBackgroundTexture(((BitmapDrawable) background).getBitmap());
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-                && background instanceof ColorDrawable) {
+        } else if (background instanceof ColorDrawable) {
             processAndSetBackgroundTexture(null);
             setBackgroundColor(((ColorDrawable) background).getColor());
         } else {
             throw new IllegalArgumentException(
-                    "Only BitmapDrawable (sdk >= 9) or ColorDrawable (sdk >= 11) are supported");
+                    "Only BitmapDrawable or ColorDrawable are supported");
         }
     }
 

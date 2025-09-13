@@ -15,24 +15,12 @@
  */
 package com.doctoror.particlesdrawable;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Animatable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewParent;
-
-import com.doctoror.particlesdrawable.contract.SceneConfiguration;
-import com.doctoror.particlesdrawable.contract.SceneController;
-import com.doctoror.particlesdrawable.contract.SceneRenderer;
-import com.doctoror.particlesdrawable.contract.SceneScheduler;
-import com.doctoror.particlesdrawable.engine.Engine;
-import com.doctoror.particlesdrawable.engine.SceneConfigurator;
-import com.doctoror.particlesdrawable.model.Scene;
-import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
-import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
@@ -43,6 +31,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.annotation.VisibleForTesting;
+
+import com.doctoror.particlesdrawable.contract.SceneConfiguration;
+import com.doctoror.particlesdrawable.contract.SceneController;
+import com.doctoror.particlesdrawable.contract.SceneRenderer;
+import com.doctoror.particlesdrawable.contract.SceneScheduler;
+import com.doctoror.particlesdrawable.engine.Engine;
+import com.doctoror.particlesdrawable.engine.SceneConfigurator;
+import com.doctoror.particlesdrawable.model.Scene;
+import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer;
+import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer;
 
 /**
  * The Particles View.
@@ -101,7 +99,6 @@ public class ParticlesView extends View implements
         init(context, attrs);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ParticlesView(
             @NonNull final Context context,
             @Nullable final AttributeSet attrs,
@@ -112,9 +109,7 @@ public class ParticlesView extends View implements
     }
 
     private void init(@NonNull final Context context, @Nullable final AttributeSet attrs) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            setLayerType(LAYER_TYPE_HARDWARE, canvasSceneRenderer.getPaint());
-        }
+        setLayerType(LAYER_TYPE_HARDWARE, canvasSceneRenderer.getPaint());
         if (attrs != null) {
             sceneConfigurator.configureSceneFromAttributes(scene, context.getResources(), attrs);
         }
@@ -374,16 +369,12 @@ public class ParticlesView extends View implements
         mEmulateOnAttachToWindow = emulateOnAttachToWindow;
     }
 
-    @SuppressWarnings("SimplifiableIfStatement")
     private boolean isAttachedToWindowCompat() {
         if (mEmulateOnAttachToWindow) {
             return mAttachedToWindow;
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return isAttachedToWindow();
-        }
-        return mAttachedToWindow;
+        return isAttachedToWindow();
     }
 
     private boolean isVisibleWithAllParents(@NonNull final View view) {

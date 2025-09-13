@@ -1,7 +1,7 @@
 [versions]
 agp = "8.13.0"
 androidCompileSdk = "33"
-androidMinSdk = "9"
+androidMinSdk = "23"
 androidTargetSdk = "33"
 androidTestCore = "1.5.0"
 annotations = "1.6.0"

@@ -291,8 +291,6 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      * view will choose an EGLConfig that is compatible with the current
      * android.view.Surface, with a depth buffer depth of
      * at least 16 bits.
-     *
-     * @param configChooser
      */
     public void setEGLConfigChooser(EGLConfigChooser configChooser) {
         checkRenderThreadState();
@@ -499,7 +497,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
     // ----------------------------------------------------------------------
 
     private class DefaultContextFactory implements EGLContextFactory {
-        private int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
+        private final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
 
         public EGLContext createContext(EGL10 egl, EGLDisplay display, EGLConfig config) {
             int[] attrib_list = {EGL_CONTEXT_CLIENT_VERSION, mEGLContextClientVersion,
@@ -673,8 +671,6 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
 
         /**
          * Create a GL object for the current EGL context.
-         *
-         * @return
          */
         GL createGL() {
 
@@ -770,7 +766,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
             return function + " failed: " + new GLException(error).getMessage();
         }
 
-        private WeakReference<MultipleInstanceSafeGLSurfaceView> mEncapsulatedGLSurfaceViewWeakRef;
+        private final WeakReference<MultipleInstanceSafeGLSurfaceView> mEncapsulatedGLSurfaceViewWeakRef;
         EGL10 mEgl;
         EGLDisplay mEglDisplay;
         EGLSurface mEglSurface;
@@ -787,7 +783,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      * All potentially blocking synchronization is done through the
      * sGLThreadManager object. This avoids multiple-lock ordering issues.
      */
-    class GLThread extends Thread {
+    static class GLThread extends Thread {
 
         private final GLThreadManager mGLThreadManager = new GLThreadManager();
 
@@ -913,8 +909,8 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
                             // When pausing, optionally release the EGL Context:
                             if (pausing && mHaveEglContext) {
                                 final MultipleInstanceSafeGLSurfaceView view = mEncapsulatedGLSurfaceViewWeakRef.get();
-                                boolean preserveEglContextOnPause = view == null ?
-                                        false : view.getPreserveEGLContextOnPause();
+                                boolean preserveEglContextOnPause =
+                                        view != null && view.getPreserveEGLContextOnPause();
                                 if (!preserveEglContextOnPause) {
                                     stopEglContextLocked();
                                     if (LOG_SURFACE) {
@@ -1368,7 +1364,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
         private boolean mRequestRender;
         private boolean mWantRenderNotification;
         private boolean mRenderComplete;
-        private ArrayList<Runnable> mEventQueue = new ArrayList<Runnable>();
+        private final ArrayList<Runnable> mEventQueue = new ArrayList<Runnable>();
         private boolean mSizeChanged = true;
         private Runnable mFinishDrawingRunnable = null;
 
@@ -1381,7 +1377,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
          * called. This weak reference allows the EncapsulatedGLSurfaceView to be garbage collected while
          * the GLThread is still alive.
          */
-        private WeakReference<MultipleInstanceSafeGLSurfaceView> mEncapsulatedGLSurfaceViewWeakRef;
+        private final WeakReference<MultipleInstanceSafeGLSurfaceView> mEncapsulatedGLSurfaceViewWeakRef;
 
     }
 
@@ -1416,7 +1412,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
             }
         }
 
-        private StringBuilder mBuilder = new StringBuilder();
+        private final StringBuilder mBuilder = new StringBuilder();
     }
 
 
