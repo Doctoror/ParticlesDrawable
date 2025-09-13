@@ -21,3 +21,10 @@ opengl-android = { module = "org.khronos:opengl-api", version.ref = "openglAndro
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 robolectric-shadows = { module = "org.robolectric:shadows-framework", version.ref = "robolectric" }
 test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+maven-publish = { id = "maven-publish" }
+signing = { id = "signing" }
