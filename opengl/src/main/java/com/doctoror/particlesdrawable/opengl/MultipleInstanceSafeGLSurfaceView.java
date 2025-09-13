@@ -1406,7 +1406,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
         }
 
         private void flushBuilder() {
-            if (mBuilder.length() > 0) {
+            if (!mBuilder.isEmpty()) {
                 Log.v(TAG, mBuilder.toString());
                 mBuilder.delete(0, mBuilder.length());
             }
