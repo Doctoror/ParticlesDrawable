@@ -8,7 +8,7 @@ annotations = "1.9.1"
 junit = "5.13.4"
 jvmToolchain = "21"
 kotlin = "2.2.20"
-mockito = "5.1.0"
+mockito = "6.0.0"
 openglAndroid = "gl1.1-android-2.1_r1"
 robolectric = "4.16"
 
