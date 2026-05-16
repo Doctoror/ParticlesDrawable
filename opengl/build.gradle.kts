@@ -30,7 +30,8 @@ android {
 
     productFlavors {
         create("exposed") {
-            proguardFile("proguard-configurable-keep.pro")
+            // TODO no idea how this was configured. File lost.
+            // proguardFile("proguard-configurable-keep.pro")
         }
 
         create("production") {
