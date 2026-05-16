@@ -32,7 +32,7 @@ android {
 
         getByName("release") {
             isMinifyEnabled = false
-            proguardFile(getDefaultProguardFile("proguard-android.txt"))
+            proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
 
