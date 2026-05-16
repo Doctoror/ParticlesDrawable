@@ -379,7 +379,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      * This method is part of the SurfaceHolder.Callback interface, and is
      * not normally called or subclassed by clients of EncapsulatedGLSurfaceView.
      */
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void surfaceCreated(@NonNull SurfaceHolder holder) {
         mGLThread.surfaceCreated();
     }
 
@@ -387,7 +387,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      * This method is part of the SurfaceHolder.Callback interface, and is
      * not normally called or subclassed by clients of EncapsulatedGLSurfaceView.
      */
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
         // Surface will be destroyed when we return
         mGLThread.surfaceDestroyed();
     }
@@ -396,7 +396,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      * This method is part of the SurfaceHolder.Callback interface, and is
      * not normally called or subclassed by clients of EncapsulatedGLSurfaceView.
      */
-    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int w, int h) {
         mGLThread.onWindowResize(w, h);
     }
 
@@ -405,7 +405,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      * not normally called or subclassed by clients of EncapsulatedGLSurfaceView.
      */
     @Override
-    public void surfaceRedrawNeededAsync(SurfaceHolder holder, Runnable finishDrawing) {
+    public void surfaceRedrawNeededAsync(@NonNull SurfaceHolder holder, @NonNull Runnable finishDrawing) {
         if (mGLThread != null) {
             mGLThread.requestRenderAndNotify(finishDrawing);
         }
@@ -417,7 +417,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      */
     @Deprecated
     @Override
-    public void surfaceRedrawNeeded(SurfaceHolder holder) {
+    public void surfaceRedrawNeeded(@NonNull SurfaceHolder holder) {
         // Since we are part of the framework we know only surfaceRedrawNeededAsync
         // will be called.
     }
