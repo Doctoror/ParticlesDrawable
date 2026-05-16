@@ -4,13 +4,13 @@ androidCompileSdk = "37"
 androidMinSdk = "23"
 androidTargetSdk = "37"
 androidTestCore = "1.7.0"
-annotations = "1.9.1"
-junit = "5.13.4"
+annotations = "1.10.0"
+junit = "6.0.3"
 jvmToolchain = "21"
 kotlin = "2.3.20"
-mockito = "6.0.0"
+mockito = "6.3.0"
 openglAndroid = "gl1.1-android-2.1_r1"
-robolectric = "4.16"
+robolectric = "4.16.1"
 
 [libraries]
 annotations = { module = "androidx.annotation:annotation", version.ref = "annotations" }
