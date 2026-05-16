@@ -29,6 +29,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.io.Writer;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -99,7 +102,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      * Standard View constructor. In order to render something, you
      * must call {@link #setRenderer} to register a renderer.
      */
-    public MultipleInstanceSafeGLSurfaceView(Context context) {
+    public MultipleInstanceSafeGLSurfaceView(@NonNull Context context) {
         super(context);
         init();
     }
@@ -108,7 +111,7 @@ class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements SurfaceHo
      * Standard View constructor. In order to render something, you
      * must call {@link #setRenderer} to register a renderer.
      */
-    public MultipleInstanceSafeGLSurfaceView(Context context, AttributeSet attrs) {
+    public MultipleInstanceSafeGLSurfaceView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }

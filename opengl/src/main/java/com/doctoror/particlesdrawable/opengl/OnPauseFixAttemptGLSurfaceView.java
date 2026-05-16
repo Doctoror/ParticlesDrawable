@@ -3,6 +3,9 @@ package com.doctoror.particlesdrawable.opengl;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.doctoror.particlesdrawable.KeepAsApi;
 
 /**
@@ -14,11 +17,11 @@ public class OnPauseFixAttemptGLSurfaceView extends MultipleInstanceSafeGLSurfac
     private final NotifyPause notifyPause = new NotifyPause();
     final boolean[] pausing = new boolean[1];
 
-    public OnPauseFixAttemptGLSurfaceView(Context context) {
+    public OnPauseFixAttemptGLSurfaceView(@NonNull Context context) {
         super(context);
     }
 
-    public OnPauseFixAttemptGLSurfaceView(Context context, AttributeSet attrs) {
+    public OnPauseFixAttemptGLSurfaceView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
